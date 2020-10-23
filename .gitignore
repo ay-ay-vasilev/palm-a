@@ -7,3 +7,4 @@ proj.linux/
 proj.win32/
 win32-build/
 bin/
+adb
