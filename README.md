@@ -1,6 +1,6 @@
 # Beat Ruin
 
-[**Концепция**](https://drive.google.com/file/d/1K369a1_W55dCAUk7OgOjVFtkafpzTXT_/view?usp=sharing)
+[**Файл концепции**](https://docs.google.com/document/d/1K369a1_W55dCAUk7OgOjVFtkafpzTXT_/edit)
 
 
 ## Команда <palm.a>:
