@@ -1,4 +1,6 @@
 #include "MainMenuScene.h"
+#include "LevelScene.h"
+#include <cstring>
 
 USING_NS_CC;
 
@@ -36,44 +38,74 @@ bool MainMenu::init()
     {
         // make pixel art not look blurry
         startButton->getTexture()->setAliasTexParameters();
-        // make the startButton 4 times bigger
+        // make the startButton 10 times bigger
         startButton->setScale(10.0);
-        // make the center bottom of the startButton the anchor point
-        startButton->setAnchorPoint(Vec2(0.5, 0));
+        // make the center of the startButton the anchor point
+        startButton->setAnchorPoint(Vec2(0.5, 0.5));
         // position the startButton on the center of the screen
         startButton->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
         // add the startButton as a child to this layer
-        this->addChild(startButton, 0);
+        this->addChild(startButton, 1);
     }
 
-    auto rectNode = DrawNode::create();
-    Vec2 rectangle[4];
-    rectangle[0] = Vec2(-50, -50);
-    rectangle[1] = Vec2(50, -50);
-    rectangle[2] = Vec2(50, 50);
-    rectangle[3] = Vec2(-50, 50);
-
-    Color4F white(1, 1, 1, 1);
-    rectNode->drawPolygon(rectangle, 4, white, 1, white);
-    this->addChild(rectNode);
-
+    Vec2 startButtonPosition = startButton->getPosition();
+    auto startButtonHeight = startButton->getContentSize().height * 10;
+    auto startButtonWidth = startButton->getContentSize().width * 10;
+    
+    auto startButtonLeft = startButtonPosition.x - startButtonWidth / 2;
+    auto startButtonRight = startButtonPosition.x + startButtonWidth / 2;
+    auto startButtonTop = startButtonPosition.y - startButtonHeight / 2;
+    auto startButtonBottom = startButtonPosition.y + startButtonHeight / 2;
 
     // create touch listener
     auto listener1 = EventListenerTouchOneByOne::create();
     // trigger when you push down
-    listener1->onTouchBegan = [visibleSize, startButton](Touch* touch, Event* event) mutable {
+    listener1->onTouchBegan = [director, visibleSize, startButton,
+                               startButtonLeft, startButtonRight,
+                               startButtonTop, startButtonBottom](Touch* touch, Event* event) mutable {
         
-        if (touch->getLocation().x > visibleSize.width/2) {
-  
-        }
-        else {
-  
+        if ((touch->getLocation().x > startButtonLeft && touch->getLocation().x < startButtonRight) &&
+            (touch->getLocation().y > startButtonTop && touch->getLocation().y < startButtonBottom)
+        ) {
+            auto levelScene = Level::createScene();
+            director->replaceScene(levelScene);
         }
         return true; // if you are consuming it
     };
 
     // Add listener
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, startButton);
+
+
+        // DEBUG STUFF
+    // =====================================================================================================================
+    // auto rectNode = DrawNode::create();
+    // Vec2 rectangle[4];
+    // rectangle[0] = startButtonPosition + Vec2(-startButtonWidth / 2, -startButtonHeight / 2);
+    // rectangle[1] = startButtonPosition + Vec2(startButtonWidth / 2, -startButtonHeight / 2);
+    // rectangle[2] = startButtonPosition + Vec2(startButtonWidth / 2, startButtonHeight / 2);
+    // rectangle[3] = startButtonPosition + Vec2(-startButtonWidth / 2, startButtonHeight / 2);
+    // Color4F color(1, 0, 0, 1);
+    // rectNode->drawPolygon(rectangle, 4, color, 1, color);
+    // this->addChild(rectNode, 0);
+
+    // auto label = Label::createWithTTF("This is just a test", "fonts/Marker Felt.ttf", 24);
+    // if (label == nullptr)
+    // {
+    //     problemLoading("'fonts/Marker Felt.ttf'");
+    // }
+    // else
+    // {
+    //     // position the label on the center of the screen
+    //     label->setPosition(startButtonPosition + Vec2(0, 50));
+    //     label->setString("Button Size: " + std::to_string(startButtonWidth) + " " + std::to_string(startButtonHeight));
+    //     Color3B color(100, 0, 0);
+    //     label->setColor(color);
+    //     // add the label as a child to this layer
+    //     this->addChild(label, 1);
+    // }
+    // =====================================================================================================================
+
 
     return true;
 }
