@@ -1,5 +1,5 @@
 #include "MainMenuScene.h"
-#include "LevelScene.h"
+#include "CutsceneScene.h"
 #include <cstring>
 
 USING_NS_CC;
@@ -51,7 +51,7 @@ bool MainMenu::init()
     Vec2 startButtonPosition = startButton->getPosition();
     auto startButtonHeight = startButton->getContentSize().height * 10;
     auto startButtonWidth = startButton->getContentSize().width * 10;
-    
+    // button coordinates
     auto startButtonLeft = startButtonPosition.x - startButtonWidth / 2;
     auto startButtonRight = startButtonPosition.x + startButtonWidth / 2;
     auto startButtonTop = startButtonPosition.y - startButtonHeight / 2;
@@ -67,8 +67,8 @@ bool MainMenu::init()
         if ((touch->getLocation().x > startButtonLeft && touch->getLocation().x < startButtonRight) &&
             (touch->getLocation().y > startButtonTop && touch->getLocation().y < startButtonBottom)
         ) {
-            auto levelScene = Level::createScene();
-            director->replaceScene(levelScene);
+            auto cutsceneScene = Cutscene::createScene();
+            director->replaceScene(cutsceneScene);
         }
         return true; // if you are consuming it
     };
