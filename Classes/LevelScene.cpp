@@ -13,23 +13,21 @@ static void problemLoading(const char* filename)
     printf("Error while loading: %s\n", filename);
 }
 
-// on "init" you need to initialize your instance
 bool Level::init()
 {
     if ( !Scene::init() )
     {
         return false;
     }
+    // important variables
     auto director = cocos2d::Director::getInstance();
-    
     auto visibleSize = director->getVisibleSize();
     Vec2 origin = director->getVisibleOrigin();
-
+    // makes the game 2d
     director->setProjection(Director::Projection::_2D);
 
     // add player character sprite
     auto character = Sprite::create("res/character/idle/test_idle_right.png");
-    auto mysprite = Sprite::createWithSpriteFrameName("mysprite.png");
 
     if (character == nullptr)
     {
