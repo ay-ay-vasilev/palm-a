@@ -2,6 +2,7 @@
 #define __LEVEL_SCENE_H__
 
 #include "cocos2d.h"
+#include "Player.h"
 
 class Level : public cocos2d::Scene
 {
@@ -15,6 +16,14 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
+
+private:
+    Player * player;
+
+    void update(float dt);
+
+    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+    void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
 };
 
 #endif

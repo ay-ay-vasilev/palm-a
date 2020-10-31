@@ -61,6 +61,7 @@ list(APPEND GAME_SOURCE
      Classes/LevelScene.cpp
      Classes/MainMenuScene.cpp
      Classes/SplashScene.cpp
+     Classes/Player.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -68,6 +69,7 @@ list(APPEND GAME_HEADER
      Classes/LevelScene.h
      Classes/MainMenuScene.h
      Classes/SplashScene.h
+     Classes/Player.h
      )
 
 if(ANDROID)
