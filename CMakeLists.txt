@@ -60,12 +60,14 @@ list(APPEND GAME_SOURCE
      Classes/CutsceneScene.cpp
      Classes/LevelScene.cpp
      Classes/MainMenuScene.cpp
+     Classes/SplashScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/CutsceneScene.h
      Classes/LevelScene.h
      Classes/MainMenuScene.h
+     Classes/SplashScene.h
      )
 
 if(ANDROID)

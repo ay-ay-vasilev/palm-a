@@ -26,6 +26,7 @@
 #include "LevelScene.h"
 #include "MainMenuScene.h"
 #include "CutsceneScene.h"
+#include "SplashScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -110,7 +111,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = MainMenu::createScene();
+    auto scene = Splash::createScene();
 
     // run
     director->runWithScene(scene);
