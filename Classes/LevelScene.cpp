@@ -69,6 +69,31 @@ bool Level::init()
         return true; // if you are consuming it
     };
 
+
+    // REMOVE LATER, THIS IS CLOSE BUTTON =======================================================
+    auto closeItem = MenuItemImage::create("res/ui/close-test.png",
+                                           "res/ui/close-test.png",
+                                        CC_CALLBACK_1(Level::menuCloseCallback, this));
+
+    if (closeItem == nullptr ||
+        closeItem->getContentSize().width <= 0 ||
+        closeItem->getContentSize().height <= 0)
+    {
+        problemLoading("res/ui/close-test.png wasn't able to be loaded");
+    }
+    else
+    {
+        closeItem->setScale(2.0);
+        float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
+        float y = origin.y + visibleSize.height - closeItem->getContentSize().height;
+        closeItem->setPosition(Vec2(x,y));
+    }
+    auto menu = Menu::create(closeItem, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
+    // ===========================================================================================
+
+
     // trigger when you let up
     listener1->onTouchEnded = [character, direction](Touch* touch, Event* event){
         if (strncmp(direction, "left", 4)) {
@@ -88,4 +113,19 @@ bool Level::init()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, character);
 
     return true;
+}
+
+
+
+void Level::menuCloseCallback(Ref* pSender)
+{
+    //Close the cocos2d-x game scene and quit the application
+    Director::getInstance()->end();
+
+    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+
+    //EventCustom customEndEvent("game_scene_close_event");
+    //_eventDispatcher->dispatchEvent(&customEndEvent);
+
+
 }

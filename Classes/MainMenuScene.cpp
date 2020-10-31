@@ -28,6 +28,7 @@ bool MainMenu::init()
     director->setProjection(Director::Projection::_2D);
 
     // add start button sprite
+    auto title = Sprite::create("res/ui/main_title_test.png");
     auto startButton = Sprite::create("res/ui/start_button.png");
 
     if (startButton == nullptr)
@@ -43,10 +44,28 @@ bool MainMenu::init()
         // make the center of the startButton the anchor point
         startButton->setAnchorPoint(Vec2(0.5, 0.5));
         // position the startButton on the center of the screen
-        startButton->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
+        startButton->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/4));
         // add the startButton as a child to this layer
         this->addChild(startButton, 1);
     }
+
+    if (title == nullptr)
+    {
+        problemLoading("'title'");
+    }
+    else
+    {
+        title->getTexture()->setAliasTexParameters();
+        // make the title 10 times bigger
+        title->setScale(14.0);
+        // make the center of the title the anchor point
+        title->setAnchorPoint(Vec2(0.5, 0.5));
+        // position the title on the center of the screen
+        title->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/4*3));
+        // add the title as a child to this layer
+        this->addChild(title, 1);
+    }
+
 
     Vec2 startButtonPosition = startButton->getPosition();
     auto startButtonHeight = startButton->getContentSize().height * 10;
