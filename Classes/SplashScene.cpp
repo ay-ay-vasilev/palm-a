@@ -40,8 +40,9 @@ bool Splash::init()
     
     this->scheduleOnce(funPointer, DISPLAY_TIME_SPLASH_SCENE);
     
-    auto backgroundSprite = Sprite::create("res/ui/start_button.png");
-
+    auto backgroundSprite = Sprite::create("res/other/logo_original_test.png");
+    backgroundSprite->getTexture()->setAliasTexParameters();
+    backgroundSprite->setScale(8.0);
     backgroundSprite->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
 
     this->addChild(backgroundSprite);
