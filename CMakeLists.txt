@@ -62,6 +62,7 @@ list(APPEND GAME_SOURCE
      Classes/MainMenuScene.cpp
      Classes/SplashScene.cpp
      Classes/Player.cpp
+     Classes/Enemy.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -70,6 +71,7 @@ list(APPEND GAME_HEADER
      Classes/MainMenuScene.h
      Classes/SplashScene.h
      Classes/Player.h
+     Classes/Enemy.h
      )
 
 if(ANDROID)

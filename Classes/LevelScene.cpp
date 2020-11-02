@@ -1,4 +1,7 @@
 #include "LevelScene.h"
+#include "Definitions.h"
+#include <CCScheduler.h>
+
 
 USING_NS_CC;
 
@@ -84,6 +87,15 @@ bool Level::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
     // ===========================================================================================
+    
+    //====================================
+    //enemy spawn
+    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::SpawnEnemy);
+    
+    this->schedule(enemySpawnPointer, ENEMY_SPAWN_FREQUENCY);
+    
+    //====================================
+
 
     // OLD STUFF
 
@@ -152,8 +164,6 @@ void Level::onTouchEnded(Touch *touch, Event *event)
 	player->idle();
 }
 
-
-
 void Level::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
@@ -163,6 +173,8 @@ void Level::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
 
-
+void Level::SpawnEnemy(float dt){
+    enemy.SpawnEnemy( this );
 }

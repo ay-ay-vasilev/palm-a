@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class Level : public cocos2d::Scene
 {
@@ -19,11 +20,14 @@ public:
 
 private:
     Player * player;
+    Enemy enemy;
 
     void update(float dt);
 
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
     void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
+
+    void SpawnEnemy( float dt );
 };
 
 #endif
