@@ -7,8 +7,10 @@ USING_NS_CC;
 
 class Player : public cocos2d::Sprite {
 public:
-	Animate * idleAnimate;
-	Animate * runAnimate;
+	Animate * idleLeftAnimate;
+	Animate * idleRightAnimate;
+	Animate * runLeftAnimate;
+	Animate * runRightAnimate;
 
 	static Player * create(void);
 	void run(int directionParam);

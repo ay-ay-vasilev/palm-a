@@ -2,8 +2,11 @@
 
 Player::~Player()
 {
-	CC_SAFE_RELEASE(idleAnimate);
-	CC_SAFE_RELEASE(runAnimate);
+	CC_SAFE_RELEASE(idleLeftAnimate);
+	CC_SAFE_RELEASE(runLeftAnimate);
+
+	CC_SAFE_RELEASE(idleRightAnimate);
+	CC_SAFE_RELEASE(runRightAnimate);
 }
 
 Player * Player::create()
@@ -25,39 +28,66 @@ void Player::initPlayer()
 	moving = false;
 	char str[200] = {0};
 
-	Vector<SpriteFrame*> idleAnimFrames(5);
+	Vector<SpriteFrame*> idleLeftAnimFrames(5);
+	Vector<SpriteFrame*> idleRightAnimFrames(5);
 	for(int i = 1; i <= 5; i++) //Iterate for the number of images you have
 	{
 		sprintf(str, "res/character/idle/sprites/character_unarmed_idle_left_test_%i.png",i);
-		auto frame = SpriteFrame::create(str,Rect(0,0,112,112)); //The size of the images in an action should be the same
-        frame->getTexture()->setAliasTexParameters();
-		idleAnimFrames.pushBack(frame);
+		auto frameLeft = SpriteFrame::create(str,Rect(0,0,112,112)); //The size of the images in an action should be the same
+        frameLeft->getTexture()->setAliasTexParameters();
+		idleLeftAnimFrames.pushBack(frameLeft);
+
+		sprintf(str, "res/character/idle/sprites/character_unarmed_idle_right_test_%i.png",i);
+		auto frameRight = SpriteFrame::create(str,Rect(0,0,112,112));
+        frameRight->getTexture()->setAliasTexParameters();
+		idleRightAnimFrames.pushBack(frameRight);
 	}
+	auto idleLeftAnimation = Animation::createWithSpriteFrames(idleLeftAnimFrames, 0.1f);
+	idleLeftAnimate = Animate::create(idleLeftAnimation);
+	idleLeftAnimate->retain(); //Retain to use it later
+	
+	auto idleRightAnimation = Animation::createWithSpriteFrames(idleRightAnimFrames, 0.1f);
+	idleRightAnimate = Animate::create(idleRightAnimation);
+	idleRightAnimate->retain();
+	
+	this->runAction(RepeatForever::create(idleLeftAnimate)); //This will be the starting animation
 
-	auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, 0.1f);
-	idleAnimate = Animate::create(idleAnimation);
-	idleAnimate->retain(); //Retain to use it later
-	this->runAction(RepeatForever::create(idleAnimate)); //This will be the starting animation
-
-	Vector<SpriteFrame*> runAnimFrames(8);
+	Vector<SpriteFrame*> runLeftAnimFrames(8);
+	Vector<SpriteFrame*> runRightAnimFrames(8);
+	
 	for(int i = 1; i <= 8; i++)
 	{
 		sprintf(str, "res/character/run/sprites/character_unarmed_run_left_test_%i.png",i);
-		auto frame = SpriteFrame::create(str,Rect(0,0,112,112));
-		frame->getTexture()->setAliasTexParameters();
-		runAnimFrames.pushBack(frame);
+		auto frameLeft = SpriteFrame::create(str,Rect(0,0,112,112));
+		frameLeft->getTexture()->setAliasTexParameters();
+		runLeftAnimFrames.pushBack(frameLeft);
+
+		sprintf(str, "res/character/run/sprites/character_unarmed_run_right_test_%i.png",i);
+		auto frameRight = SpriteFrame::create(str,Rect(0,0,112,112));
+		frameRight->getTexture()->setAliasTexParameters();
+		runRightAnimFrames.pushBack(frameRight);
 	}
 
-	auto runAnimation = Animation::createWithSpriteFrames(runAnimFrames, 0.06f);
-	runAnimate = Animate::create(runAnimation);
-	runAnimate->retain();
+	auto runLeftAnimation = Animation::createWithSpriteFrames(runLeftAnimFrames, 0.06f);
+	runLeftAnimate = Animate::create(runLeftAnimation);
+	runLeftAnimate->retain();
+
+	auto runRightAnimation = Animation::createWithSpriteFrames(runRightAnimFrames, 0.06f);
+	runRightAnimate = Animate::create(runRightAnimation);
+	runRightAnimate->retain();
 }
 
 void Player::run(int directionParam)
 {
 	this->stopAllActions();
-	this->runAction(RepeatForever::create(runAnimate));
 
+	if (directionParam == 0) {
+		this->runAction(RepeatForever::create(runLeftAnimate));
+	}
+	else {
+		this->runAction(RepeatForever::create(runRightAnimate));
+	}
+	
 	direction = directionParam;
 	moving = true;
 }
@@ -66,7 +96,13 @@ void Player::idle()
 {
 	moving = false;
 	this->stopAllActions();
-	this->runAction(RepeatForever::create(idleAnimate));
+
+	if (direction == 0) {
+		this->runAction(RepeatForever::create(idleLeftAnimate));
+	}
+	else {
+		this->runAction(RepeatForever::create(idleRightAnimate));
+	}
 }
 
 void Player::update()
@@ -75,12 +111,12 @@ void Player::update()
 	{
 		if(direction == 0) //check if going left
 		{
-			this->setScaleX(1); //flip
+			//this->setScaleX(1); //flip
 			this->setPositionX(this->getPositionX() - 4);
 		}
 		else
 		{
-			this->setScaleX(-1); //flip
+			//this->setScaleX(-1); //flip
 			this->setPositionX(this->getPositionX() + 4);
 		}
 	}
