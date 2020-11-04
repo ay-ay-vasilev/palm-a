@@ -3,15 +3,22 @@
 
 #include "cocos2d.h"
 
-class Enemy
+class Enemy : public cocos2d::Sprite
 {
 public:
-    Enemy();
+    cocos2d::Animate * idleAnimate;
 
-    void SpawnEnemy(cocos2d::Scene *level);
+	static Enemy * create(void);
 private:
+    ~Enemy();
+
+    int direction;
+    int col;
+
     cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
+
+    void initEnemy();
 };
 
 #endif

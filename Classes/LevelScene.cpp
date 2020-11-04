@@ -90,7 +90,7 @@ bool Level::init()
     
     //====================================
     //enemy spawn
-    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::SpawnEnemy);
+    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemy);
     
     this->schedule(enemySpawnPointer, ENEMY_SPAWN_FREQUENCY);
     
@@ -153,7 +153,7 @@ bool Level::onTouchBegan(Touch *touch, Event *event)
 	}
 	if(touch->getLocation().x > Director::getInstance()->getVisibleSize().width/2)
 	{
-		player->run(1); // param '0' for right
+		player->run(1); // param '1' for right
 	}
 
 	return true;
@@ -175,6 +175,30 @@ void Level::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
-void Level::SpawnEnemy(float dt){
-    enemy.SpawnEnemy( this );
+void Level::spawnEnemy(float dt){
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    enemy = Enemy::create();
+    float enemyPos = Level::enemyPosition(112);
+	enemy->setPosition(Vec2(enemyPos, visibleSize.height + 112 + origin.y));
+	this->addChild(enemy, 4);
+
+    auto enemyAction = MoveBy::create(ENEMY_SPEED, Vec2(0, -1*visibleSize.height*1.2-origin.y));
+
+    enemy->runAction(enemyAction);
+}
+float Level::enemyPosition(float frameSize){
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float position;
+    auto random = CCRANDOM_0_1();
+    if (random<0.33){
+        random=0.25;
+    } else if (random<0.66) {
+        random=0.5;
+    }else{
+        random=0.75;
+    }
+    position = (random * visibleSize.width) + (frameSize / 2);
+    return position;
 }

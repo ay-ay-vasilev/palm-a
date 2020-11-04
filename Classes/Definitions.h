@@ -5,6 +5,6 @@
 #define TRANSITION_TIME 0.5
 
 #define ENEMY_SPAWN_FREQUENCY 1
-#define ENEMY_SPEED 10
+#define ENEMY_SPEED 2
 
 #endif
