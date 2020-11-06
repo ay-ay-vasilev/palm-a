@@ -37,10 +37,21 @@ bool Level::init()
     director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     player = Player::create();
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 20));
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y - 20));
 	this->addChild(player, 5);
 
 	this->scheduleUpdate();
+
+    auto floor = Sprite::create("res/level/test_floor.png");
+    floor->getTexture()->setAliasTexParameters();
+    // make the character 4 times bigger
+    floor->setScale(4.0);
+    // make the center bottom of the character the anchor point
+    floor->setAnchorPoint(Vec2(0, 0));
+    // position the character on the center of the screen
+    floor->setPosition(Vec2(origin.x, origin.y));
+    // add the character as a child to this layer
+    this->addChild(floor, 0);
 
     // // add player character sprite
     // auto character = Sprite::create("res/character/idle/test_idle_right.png");

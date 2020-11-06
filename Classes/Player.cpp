@@ -1,5 +1,9 @@
 #include "Player.h"
 
+auto director = cocos2d::Director::getInstance();
+auto visibleSize = director->getVisibleSize();
+Vec2 origin = director->getVisibleOrigin();
+
 Player::~Player()
 {
 	CC_SAFE_RELEASE(idleLeftAnimate);
@@ -109,15 +113,17 @@ void Player::update()
 {
 	if(moving) //check if moving
 	{
+		auto newPosX = this->getPositionX();
 		if(direction == 0) //check if going left
 		{
 			//this->setScaleX(1); //flip
-			this->setPositionX(this->getPositionX() - 4);
+			newPosX -= 4;
 		}
 		else
 		{
 			//this->setScaleX(-1); //flip
-			this->setPositionX(this->getPositionX() + 4);
+			newPosX += 4;
 		}
+		this->setPositionX(clampf(newPosX, origin.x +80, director->getVisibleSize().width + origin.x));
 	}
 }
