@@ -8,6 +8,10 @@ class Cutscene : public cocos2d::Scene
 public:
     static cocos2d::Scene* createScene();
 
+	void GoToLevelScene (cocos2d::Ref* pSender);
+	void GoToLevelScene2 (float dt);
+	cocos2d::Sprite* nextCadr(int i);
+
     virtual bool init();
     
     // implement the "static create()" method manually
