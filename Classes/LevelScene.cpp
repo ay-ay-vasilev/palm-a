@@ -193,6 +193,7 @@ void Level::spawnEnemy(float dt){
     enemy = Enemy::create();
     float enemyPos = Level::enemyPosition(112);
 	enemy->setPosition(Vec2(enemyPos, visibleSize.height + 112 + origin.y));
+    enemy->setScale(0.5);
 	this->addChild(enemy, 4);
 
     auto enemyAction = MoveBy::create(ENEMY_SPEED, Vec2(0, -1*visibleSize.height-origin.y-224));

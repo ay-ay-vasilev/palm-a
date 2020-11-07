@@ -4,6 +4,9 @@
 
 USING_NS_CC;
 
+auto TEST_TRANSITION_VARIABLE = 0.2f;
+auto TEST_FADE_LENGTH_VARIABLE  = 0.5f;
+
 Scene* Cutscene::createScene()
 {
     auto scene = Scene::create();   
@@ -28,9 +31,9 @@ bool Cutscene::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
 
-    auto fadeIn = FadeIn::create(3.0f);
-    auto fadeOut = FadeOut::create(3.0f);
-    cocos2d::DelayTime* delay = cocos2d::DelayTime::create(3);
+    auto fadeIn = FadeIn::create(TEST_FADE_LENGTH_VARIABLE);
+    auto fadeOut = FadeOut::create(TEST_FADE_LENGTH_VARIABLE);
+    cocos2d::DelayTime* delay = cocos2d::DelayTime::create(TEST_TRANSITION_VARIABLE);
     auto seq = Sequence::create(fadeIn, delay, fadeOut, nullptr);
 
     auto skipItem = MenuItemImage::create(
@@ -57,7 +60,7 @@ bool Cutscene::init()
     this->addChild(menu, 1);
 
     auto funPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Cutscene::GoToLevelScene2);
-    this->scheduleOnce(funPointer, (3+3+3)*6);
+    this->scheduleOnce(funPointer, (TEST_TRANSITION_VARIABLE + TEST_FADE_LENGTH_VARIABLE * 2)*6);
 
     Vector<Sprite*> cadres(6);
     for (int i = 6; i >= 1; i--){
@@ -71,7 +74,7 @@ bool Cutscene::init()
     auto cadr2 = cadres.back();
     cadres.popBack();
     this->addChild(cadr2);
-    cocos2d::DelayTime* delayC = cocos2d::DelayTime::create(3*3);
+    cocos2d::DelayTime* delayC = cocos2d::DelayTime::create(TEST_TRANSITION_VARIABLE + TEST_FADE_LENGTH_VARIABLE * 2);
     auto seq2 = Sequence::create(delayC, seq, nullptr);
     cadr2->runAction(seq2);
 
@@ -113,12 +116,12 @@ bool Cutscene::init()
 
 void Cutscene::GoToLevelScene (cocos2d::Ref* pSender){
     auto scene = Level::createScene();   
-    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+    Director::getInstance( )->replaceScene( TransitionFade::create(TEST_TRANSITION_VARIABLE, scene ) );
 }
 
 void Cutscene::GoToLevelScene2 (float dt){
     auto scene = Level::createScene();   
-    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+    Director::getInstance( )->replaceScene( TransitionFade::create(TEST_TRANSITION_VARIABLE, scene ) );
 }
 
 Sprite* Cutscene::nextCadr(int i){
@@ -129,7 +132,7 @@ Sprite* Cutscene::nextCadr(int i){
     sprintf(str, "res/cutscene/%i_test.png", i);
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
-    cadr->setScale(8.0);
+    cadr->setScale(4.0);
     cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
     cadr->setOpacity(0);
     return cadr;
