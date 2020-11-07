@@ -117,13 +117,13 @@ void Player::update()
 		if(direction == 0) //check if going left
 		{
 			//this->setScaleX(1); //flip
-			newPosX -= 4;
+			newPosX -= 6;
 		}
 		else
 		{
 			//this->setScaleX(-1); //flip
-			newPosX += 4;
+			newPosX += 6;
 		}
-		this->setPositionX(clampf(newPosX, origin.x +80, director->getVisibleSize().width + origin.x));
+		this->setPositionX(clampf(newPosX, origin.x +80, director->getVisibleSize().width + origin.x -80));
 	}
 }

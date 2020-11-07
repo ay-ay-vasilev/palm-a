@@ -40,7 +40,7 @@ bool MainMenu::init()
         // make pixel art not look blurry
         startButton->getTexture()->setAliasTexParameters();
         // make the startButton 10 times bigger
-        startButton->setScale(10.0);
+        startButton->setScale(5.0);
         // make the center of the startButton the anchor point
         startButton->setAnchorPoint(Vec2(0.5, 0.5));
         // position the startButton on the center of the screen
@@ -57,7 +57,7 @@ bool MainMenu::init()
     {
         title->getTexture()->setAliasTexParameters();
         // make the title 10 times bigger
-        title->setScale(14.0);
+        title->setScale(7.0);
         // make the center of the title the anchor point
         title->setAnchorPoint(Vec2(0.5, 0.5));
         // position the title on the center of the screen

@@ -37,7 +37,8 @@ bool Level::init()
     director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     player = Player::create();
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y - 20));
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 60));
+    player->setScale(0.5);
 	this->addChild(player, 5);
 
 	this->scheduleUpdate();
@@ -45,7 +46,7 @@ bool Level::init()
     auto floor = Sprite::create("res/level/test_floor.png");
     floor->getTexture()->setAliasTexParameters();
     // make the character 4 times bigger
-    floor->setScale(4.0);
+    floor->setScale(2.0);
     // make the center bottom of the character the anchor point
     floor->setAnchorPoint(Vec2(0, 0));
     // position the character on the center of the screen
