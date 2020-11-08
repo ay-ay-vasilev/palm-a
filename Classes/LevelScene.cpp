@@ -50,6 +50,7 @@ bool Level::init()
     director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     player = Player::create();
+    player->setPhysicsBody(player->getBody());
 	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 60));
     player->setScale(0.5);
 	this->addChild(player, 5);

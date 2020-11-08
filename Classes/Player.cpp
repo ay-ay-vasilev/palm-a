@@ -127,3 +127,14 @@ void Player::update()
 		this->setPositionX(clampf(newPosX, origin.x +80, director->getVisibleSize().width + origin.x -80));
 	}
 }
+cocos2d::PhysicsBody* Player::getBody()
+{
+	visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+
+	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+	
+	physicsBody->setDynamic(false);
+
+	return physicsBody;
+}

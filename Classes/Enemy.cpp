@@ -40,6 +40,9 @@ void Enemy::initEnemy(){
 }
 cocos2d::PhysicsBody* Enemy::getBody()
 {
+	visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
+
 	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 	
 	physicsBody->setDynamic(false);

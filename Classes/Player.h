@@ -18,6 +18,8 @@ public:
 
 	void update();
 
+	cocos2d::PhysicsBody* getBody();
+
 private:
 	~Player();
 
