@@ -1,5 +1,6 @@
 #include "LevelScene.h"
 #include "Definitions.h"
+#include "GameController.h"
 #include <CCScheduler.h>
 
 
@@ -7,7 +8,19 @@ USING_NS_CC;
 
 Scene* Level::createScene()
 {
-    return Level::create();
+    // 'scene' is an autorelease object
+    auto scene = Scene::createWithPhysics( );
+    scene->getPhysicsWorld( )->setDebugDrawMask( PhysicsWorld::DEBUGDRAW_ALL );
+    
+    // 'layer' is an autorelease object
+    auto layer = Level::create();
+    layer->setPhysicsWorld( scene->getPhysicsWorld( ) );
+
+    // add layer as a child to scene
+    scene->addChild(layer);
+
+    // return the scene
+    return scene;
 }
 
 // show error message
@@ -190,7 +203,14 @@ void Level::menuCloseCallback(Ref* pSender)
 void Level::spawnEnemy(float dt){
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    enemy = Enemy::create();
+
+    Enemy* enemy;
+    
+    //doesn't work for some reason
+    //enemy = GameController::spawnEnemy;
+
+    enemy=Enemy::create();
+    enemy->setPhysicsBody(enemy->getBody());
     float enemyPos = Level::enemyPosition(112);
 	enemy->setPosition(Vec2(enemyPos, visibleSize.height + 112 + origin.y));
     enemy->setScale(0.5);

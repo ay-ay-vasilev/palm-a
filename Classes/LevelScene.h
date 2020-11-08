@@ -19,8 +19,10 @@ public:
     CREATE_FUNC(Level);
 
 private:
+    cocos2d::PhysicsWorld *sceneWorld;
+    void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
+
     Player * player;
-    Enemy * enemy;
 
     void update(float dt);
 

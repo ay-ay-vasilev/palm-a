@@ -2,14 +2,14 @@
 #include "Enemy.h"
 
 USING_NS_CC;
-
+Enemy::Enemy(){}
 Enemy::~Enemy()
 {
 	CC_SAFE_RELEASE(idleAnimate);
 }
 Enemy * Enemy::create(){
     Enemy * enemy = new Enemy();
-	if(enemy && enemy->initWithFile("res/character/idle/sprites/character_unarmed_idle_left_test_1.png"))
+	if(enemy && enemy->initWithFile("res/enemies/variant/sprites/enemy_2_test_1.png"))
 	{
 		enemy->autorelease();
 		enemy->initEnemy();
@@ -36,4 +36,13 @@ void Enemy::initEnemy(){
 	idleAnimate = Animate::create(idleAnimation);
 	idleAnimate->retain(); //Retain to use it later
 	this->runAction(RepeatForever::create(idleAnimate));
+
+}
+cocos2d::PhysicsBody* Enemy::getBody()
+{
+	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+	
+	physicsBody->setDynamic(false);
+
+	return physicsBody;
 }

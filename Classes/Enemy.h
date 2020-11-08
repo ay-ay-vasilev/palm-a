@@ -9,8 +9,13 @@ public:
     cocos2d::Animate * idleAnimate;
 
 	static Enemy * create(void);
+
+    //virtual void shoot( float dt );
+
+    cocos2d::PhysicsBody* getBody();
 private:
     ~Enemy();
+    Enemy();
 
     int direction;
     int col;
