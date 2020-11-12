@@ -1,0 +1,29 @@
+#ifndef __PROJECTILE_H__
+#define __PROJECTILE_H__
+
+#include "cocos2d.h"
+
+USING_NS_CC;
+
+class EnemyProjectile : public cocos2d::Sprite
+{
+public:
+    EnemyProjectile();
+	~EnemyProjectile();
+	static EnemyProjectile * create(void);
+	virtual bool init();
+
+	Vec2 getTarget();
+	void setTarget( Vec2 target );
+	
+	Vec2 getSpeed();
+	void setSpeed( Vec2 speed );
+	
+	cocos2d::PhysicsBody* getBody();
+private:
+	Vec2 target;
+	Vec2 speed;
+    
+};
+
+#endif

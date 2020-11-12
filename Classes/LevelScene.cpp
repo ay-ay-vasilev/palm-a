@@ -2,9 +2,13 @@
 #include "Definitions.h"
 #include "GameController.h"
 #include <CCScheduler.h>
+#include <AudioEngine.h>
 
 
 USING_NS_CC;
+
+Vector<Enemy*> Level::enemies;
+Vector<EnemyProjectile*> Level::projectiles;
 
 Scene* Level::createScene()
 {
@@ -35,6 +39,9 @@ bool Level::init()
     {
         return false;
     }
+    //init the music
+	
+    
     // important variables
     auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
@@ -121,8 +128,10 @@ bool Level::init()
     this->schedule(enemySpawnPointer, ENEMY_SPAWN_FREQUENCY);
     
     //====================================
-
-
+    auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyProjectiles);
+    
+    this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
+    //====================================
     // OLD STUFF
 
     // // create touch listener
@@ -216,10 +225,13 @@ void Level::spawnEnemy(float dt){
 	enemy->setPosition(Vec2(enemyPos, visibleSize.height + 112 + origin.y));
     enemy->setScale(0.5);
 	this->addChild(enemy, 4);
+    Level::enemies.pushBack( enemy );
+    float distance = visibleSize.height+224;
 
-    auto enemyAction = MoveBy::create(ENEMY_SPEED, Vec2(0, -1*visibleSize.height-origin.y-224));
-
-    enemy->runAction(enemyAction);
+    auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height-224));
+    auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+    auto sequence = Sequence::create(enemyAction, callBack, NULL);
+    enemy->runAction(sequence);
 }
 float Level::enemyPosition(float frameSize){
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -235,4 +247,61 @@ float Level::enemyPosition(float frameSize){
     }
     position = (random * visibleSize.width) + (frameSize / 2);
     return position;
+}
+void Level::spawnEnemyProjectiles(float dt)
+{   
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto bulletSpeed = ENEMY_PROJECTILE_SPEED;
+    for(int i = Level::enemies.size()-1; i>=0; i--)
+    {
+        EnemyProjectile* projectile;
+        projectile = EnemyProjectile::create();
+        projectile->setPosition( enemies.at(i)->getPosition() );
+        projectile->setPhysicsBody(projectile->getBody());
+        this->addChild(projectile,5);
+        Vec2 tar = player->getPosition();
+        float distance = projectile->getPosition().x - origin.x;
+        auto moveAction = MoveTo::create(distance / bulletSpeed, tar);
+        auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
+        auto sequence = Sequence::create(moveAction, callBack, NULL);
+        projectile->runAction(sequence);
+    }
+}
+// void Level::bulletControl()
+// {
+//     Size visibleSize = Director::getInstance()->getVisibleSize();
+//     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+// 	    auto bulletSpeed = ENEMY_PROJECTILE_SPEED;
+
+//     EnemyProjectile* projectile;
+
+//     for(int i = GameController::enemyProjectiles.size()-1; i>=0; i++)
+//     {
+//         projectile = GameController::enemyProjectiles.at(i);
+//         auto parent = projectile->getParent();
+//         if (!parent)
+//         {
+//             addChild(projectile);
+//             float distance;
+//             if (projectile->getTarget() != projectile->getPosition())
+//             {
+//                 distance = projectile->getPosition().x - origin.x;
+//             }
+//             auto moveAction = MoveTo::create(distance / projectile->getSpeed().x, projectile->getTarget());
+//             auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
+//             auto sequence = Sequence::create(moveAction, callBack, NULL);
+//             projectile->runAction(sequence);
+//         }
+//     }
+// }
+void Level::removeProjectile(EnemyProjectile *projectile)
+{
+    projectile->cleanup();
+    removeChild(projectile,true);
+}
+void Level::removeEnemy(Enemy *enemy)
+{
+    enemy->cleanup();
+    removeChild(enemy,true);
 }

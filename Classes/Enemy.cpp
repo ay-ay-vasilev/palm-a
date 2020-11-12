@@ -1,5 +1,6 @@
 #include "Definitions.h"
 #include "Enemy.h"
+#include "GameController.h"
 
 USING_NS_CC;
 Enemy::Enemy(){}
@@ -49,3 +50,13 @@ cocos2d::PhysicsBody* Enemy::getBody()
 
 	return physicsBody;
 }
+/*
+void Enemy::shoot(float dt)
+{
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	auto tar = Vec2( origin.x, this->getPosition().y );
+
+    GameController::spawnEnemyProjectile( Vec2( this->getPosition().x - this->getContentSize().width, this->getPosition().y), tar );
+}
+*/

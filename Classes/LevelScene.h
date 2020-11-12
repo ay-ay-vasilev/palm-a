@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyProjectile.h"
 
 class Level : public cocos2d::Scene
 {
@@ -18,6 +19,15 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
 
+    static Vector<Enemy*> enemies;
+    static Vector<EnemyProjectile*> projectiles;
+
+    //implement in future
+    //void bulletControl();
+
+	void removeProjectile( EnemyProjectile *enemyProjectile ) ;
+    void removeEnemy(Enemy *enemy);
+
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
@@ -30,6 +40,7 @@ private:
     void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
 
     void spawnEnemy( float dt );
+    void spawnEnemyProjectiles(float dt);
     float enemyPosition(float frameSize);
 };
 
