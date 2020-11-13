@@ -4,20 +4,12 @@
 
 USING_NS_CC;
 
-auto TEST_TRANSITION_VARIABLE = 0.2f;
-auto TEST_FADE_LENGTH_VARIABLE  = 0.5f;
-
 Scene* Cutscene::createScene()
 {
     auto scene = Scene::create();   
     auto layer = Cutscene::create();
     scene->addChild(layer);
     return scene;
-}
-
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
 }
 
 bool Cutscene::init()
@@ -31,28 +23,17 @@ bool Cutscene::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
 
-    auto fadeIn = FadeIn::create(TEST_FADE_LENGTH_VARIABLE);
-    auto fadeOut = FadeOut::create(TEST_FADE_LENGTH_VARIABLE);
-    cocos2d::DelayTime* delay = cocos2d::DelayTime::create(TEST_TRANSITION_VARIABLE);
-    auto seq = Sequence::create(fadeIn, delay, fadeOut, nullptr);
+    auto fadeIn = FadeIn::create(FADE_LENGTH);
+    auto fadeOut = FadeOut::create(FADE_LENGTH);
+    cocos2d::DelayTime* delay = cocos2d::DelayTime::create(TRANSITION_TIME);
 
     auto skipItem = MenuItemImage::create(
                                            "res/cutscene/next-test.png",
                                            "res/cutscene/next-test.png",
                                            CC_CALLBACK_1(Cutscene::GoToLevelScene, this));
-
-    if (skipItem == nullptr ||
-        skipItem->getContentSize().width <= 0 ||
-        skipItem->getContentSize().height <= 0)
-    {
-        problemLoading("'res/cutscene/next-test.png'");
-    }
-    else
-    {
-        skipItem->setAnchorPoint({1, 0});
-        skipItem->setPosition(Vec2(origin.x + visibleSize.width,origin.y));
-        skipItem->setScale(2.0);
-    }
+    skipItem->setAnchorPoint({1, 0});
+    skipItem->setPosition(Vec2(origin.x + visibleSize.width,origin.y));
+    skipItem->setScale(2.0); // MAGIC NUMBER FIX LATER
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(skipItem, NULL);
@@ -60,12 +41,19 @@ bool Cutscene::init()
     this->addChild(menu, 1);
 
     auto funPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Cutscene::GoToLevelScene2);
-    this->scheduleOnce(funPointer, (TEST_TRANSITION_VARIABLE + TEST_FADE_LENGTH_VARIABLE * 2)*6);
+    
+    auto cadrTime = (TRANSITION_TIME + FADE_LENGTH * 2);
+    auto totalCutsceneTime = cadrTime * NUMBER_OF_CADRS;
+    this->scheduleOnce(funPointer, totalCutsceneTime);
 
-    Vector<Sprite*> cadres(6);
-    for (int i = 6; i >= 1; i--){
+    Vector<Sprite*> cadres(NUMBER_OF_CADRS);
+    for (int i = NUMBER_OF_CADRS; i >= 1; i--){
         cadres.pushBack(Cutscene::nextCadr(i));
     }
+
+    auto seq = Sequence::create(fadeIn, delay, fadeOut, nullptr);
+
+    // Maybe do a loop? 
     auto cadr = cadres.back();
     cadres.popBack();
     this->addChild(cadr);
@@ -74,7 +62,7 @@ bool Cutscene::init()
     auto cadr2 = cadres.back();
     cadres.popBack();
     this->addChild(cadr2);
-    cocos2d::DelayTime* delayC = cocos2d::DelayTime::create(TEST_TRANSITION_VARIABLE + TEST_FADE_LENGTH_VARIABLE * 2);
+    cocos2d::DelayTime* delayC = cocos2d::DelayTime::create(cadrTime);
     auto seq2 = Sequence::create(delayC, seq, nullptr);
     cadr2->runAction(seq2);
 
@@ -116,12 +104,12 @@ bool Cutscene::init()
 
 void Cutscene::GoToLevelScene (cocos2d::Ref* pSender){
     auto scene = Level::createScene();   
-    Director::getInstance( )->replaceScene( TransitionFade::create(TEST_TRANSITION_VARIABLE, scene ) );
+    Director::getInstance( )->replaceScene( TransitionFade::create(TRANSITION_TIME, scene ) );
 }
 
 void Cutscene::GoToLevelScene2 (float dt){
     auto scene = Level::createScene();   
-    Director::getInstance( )->replaceScene( TransitionFade::create(TEST_TRANSITION_VARIABLE, scene ) );
+    Director::getInstance( )->replaceScene( TransitionFade::create(TRANSITION_TIME, scene ) );
 }
 
 Sprite* Cutscene::nextCadr(int i){
