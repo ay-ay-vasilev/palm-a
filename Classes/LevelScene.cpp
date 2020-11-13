@@ -27,12 +27,6 @@ Scene* Level::createScene()
     return scene;
 }
 
-// show error message
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-}
-
 bool Level::init()
 {
     if ( !Scene::init() )
@@ -58,21 +52,17 @@ bool Level::init()
 
     player = Player::create();
     player->setPhysicsBody(player->getBody());
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + 60));
-    player->setScale(0.5);
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + FLOOR_HEIGHT));
+    player->setScale(0.5); // MAGIC NUMBER FIX LATER
 	this->addChild(player, 5);
 
 	this->scheduleUpdate();
 
     auto floor = Sprite::create("res/level/test_floor.png");
     floor->getTexture()->setAliasTexParameters();
-    // make the character 4 times bigger
-    floor->setScale(2.0);
-    // make the center bottom of the character the anchor point
+    floor->setScale(2.0); // MAGIC NUMBER FIX LATER
     floor->setAnchorPoint(Vec2(0, 0));
-    // position the character on the center of the screen
     floor->setPosition(Vec2(origin.x, origin.y));
-    // add the character as a child to this layer
     this->addChild(floor, 0);
 
     // // add player character sprite
@@ -103,19 +93,12 @@ bool Level::init()
                                            "res/ui/close-test.png",
                                         CC_CALLBACK_1(Level::menuCloseCallback, this));
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("res/ui/close-test.png wasn't able to be loaded");
-    }
-    else
-    {
-        closeItem->setScale(2.0);
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
-        float y = origin.y + visibleSize.height - closeItem->getContentSize().height;
-        closeItem->setPosition(Vec2(x,y));
-    }
+
+    closeItem->setScale(2.0); // MAGIC NUMBER FIX LATER
+    float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
+    float y = origin.y + visibleSize.height - closeItem->getContentSize().height;
+    closeItem->setPosition(Vec2(x,y));
+
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
@@ -132,45 +115,6 @@ bool Level::init()
     
     this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
     //====================================
-    // OLD STUFF
-
-    // // create touch listener
-    // auto listener1 = EventListenerTouchOneByOne::create();
-    // // trigger when you push down
-    // listener1->onTouchBegan = [visibleSize, character, direction](Touch* touch, Event* event) mutable {
-        
-    //     if (touch->getLocation().x > visibleSize.width/2) {
-    //         character->setTexture("res/character/run/test_right.png");
-    //         auto action = RepeatForever::create(MoveBy::create(1, Vec2(200, 0)));
-    //         character->runAction(action);
-    //         direction = "right";
-    //     }
-    //     else {
-    //         character->setTexture("res/character/run/test_left.png");
-    //         auto action = RepeatForever::create(MoveBy::create(1, Vec2(-200, 0)));
-    //         character->runAction(action);
-    //         direction = "left";
-    //     }
-    //     return true; // if you are consuming it
-    // };
-
-    // // trigger when you let up
-    // listener1->onTouchEnded = [character, direction](Touch* touch, Event* event){
-    //     if (strncmp(direction, "left", 4)) {
-    //         character->setTexture("res/character/idle/test_idle_left.png");
-    //     }
-    //     else if (strncmp(direction, "right", 5)) {
-    //         character->setTexture("res/character/idle/test_idle_right.png");
-    //     }
-    //     else {
-    //         character->setTexture("res/character/idle/test_idle_right.png");
-    //     }
-
-    //     character->stopAllActions();
-    // };
-
-    // // Add listener
-    // _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, character);
 
     return true;
 }
@@ -222,13 +166,13 @@ void Level::spawnEnemy(float dt){
     enemy=Enemy::create();
     enemy->setPhysicsBody(enemy->getBody());
     float enemyPos = Level::enemyPosition(112);
-	enemy->setPosition(Vec2(enemyPos, visibleSize.height + 112 + origin.y));
-    enemy->setScale(0.5);
+	enemy->setPosition(Vec2(enemyPos, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
+    enemy->setScale(0.5); // MAGIC NUMBER FIX LATER
 	this->addChild(enemy, 4);
     Level::enemies.pushBack( enemy );
-    float distance = visibleSize.height+224;
+    float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
 
-    auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height-224));
+    auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height- ENEMY_SPRITE_SIZE * 2));
     auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
     auto sequence = Sequence::create(enemyAction, callBack, NULL);
     enemy->runAction(sequence);

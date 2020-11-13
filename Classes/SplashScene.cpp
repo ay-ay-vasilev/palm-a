@@ -6,23 +6,10 @@ USING_NS_CC;
 
 Scene* Splash::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = Splash::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
-
-    // return the scene
     return scene;
-}
-
-// show error message
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
 }
 
 bool Splash::init()
@@ -42,7 +29,7 @@ bool Splash::init()
     
     auto backgroundSprite = Sprite::create("res/other/logo_original_test.png");
     backgroundSprite->getTexture()->setAliasTexParameters();
-    backgroundSprite->setScale(8.0);
+    backgroundSprite->setScale(8.0); // MAGIC NUMBER FIX LATER
     backgroundSprite->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
 
     this->addChild(backgroundSprite);

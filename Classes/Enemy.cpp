@@ -25,15 +25,15 @@ void Enemy::initEnemy(){
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     char str[200] = {0};
-    Vector<SpriteFrame*> idleAnimFrames(5);
-	for(int i = 1; i <= 5; i++) //Iterate for the number of images you have
+    Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
+	for(int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 	{
 		sprintf(str, "res/enemies/variant/sprites/enemy_2_test_%i.png",i);
-		auto frame = SpriteFrame::create(str,Rect(0,0,112,112)); //The size of the images in an action should be the same
+		auto frame = SpriteFrame::create(str,Rect(0,0, ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE)); //The size of the images in an action should be the same
         frame->getTexture()->setAliasTexParameters();
 		idleAnimFrames.pushBack(frame);
 	}
-    auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, 0.1f);
+    auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
 	idleAnimate = Animate::create(idleAnimation);
 	idleAnimate->retain(); //Retain to use it later
 	this->runAction(RepeatForever::create(idleAnimate));

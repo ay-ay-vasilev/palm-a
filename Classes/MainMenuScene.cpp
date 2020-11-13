@@ -9,12 +9,6 @@ Scene* MainMenu::createScene()
     return MainMenu::create();
 }
 
-// show error message
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-}
-
 bool MainMenu::init()
 {
     if ( !Scene::init() )
@@ -27,45 +21,20 @@ bool MainMenu::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
 
-    // add start button sprite
     auto title = Sprite::create("res/ui/main_title_test.png");
     auto startButton = Sprite::create("res/ui/start_button.png");
 
-    if (startButton == nullptr)
-    {
-        problemLoading("'start button sprite'");
-    }
-    else
-    {
-        // make pixel art not look blurry
-        startButton->getTexture()->setAliasTexParameters();
-        // make the startButton 10 times bigger
-        startButton->setScale(5.0);
-        // make the center of the startButton the anchor point
-        startButton->setAnchorPoint(Vec2(0.5, 0.5));
-        // position the startButton on the center of the screen
-        startButton->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/4));
-        // add the startButton as a child to this layer
-        this->addChild(startButton, 1);
-    }
+    title->getTexture()->setAliasTexParameters();
+    title->setScale(7.0); // MAGIC NUMBER FIX LATER
+    title->setAnchorPoint(Vec2(0.5, 0.5));
+    title->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height / 4 * 3));
+    this->addChild(title, 1);
 
-    if (title == nullptr)
-    {
-        problemLoading("'title'");
-    }
-    else
-    {
-        title->getTexture()->setAliasTexParameters();
-        // make the title 10 times bigger
-        title->setScale(7.0);
-        // make the center of the title the anchor point
-        title->setAnchorPoint(Vec2(0.5, 0.5));
-        // position the title on the center of the screen
-        title->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/4*3));
-        // add the title as a child to this layer
-        this->addChild(title, 1);
-    }
-
+    startButton->getTexture()->setAliasTexParameters();
+    startButton->setScale(5.0); // MAGIC NUMBER FIX LATER
+    startButton->setAnchorPoint(Vec2(0.5, 0.5));
+    startButton->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/4));
+    this->addChild(startButton, 1);
 
     Vec2 startButtonPosition = startButton->getPosition();
     auto startButtonHeight = startButton->getContentSize().height * 10;
@@ -77,6 +46,7 @@ bool MainMenu::init()
     auto startButtonBottom = startButtonPosition.y + startButtonHeight / 2;
 
     // create touch listener
+    // REDO AS A MENU ITEM LATER
     auto listener1 = EventListenerTouchOneByOne::create();
     // trigger when you push down
     listener1->onTouchBegan = [director, visibleSize, startButton,
