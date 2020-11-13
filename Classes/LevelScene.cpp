@@ -60,9 +60,9 @@ bool Level::init()
 
     auto floor = Sprite::create("res/level/test_floor.png");
     floor->getTexture()->setAliasTexParameters();
-    floor->setScale(2.0); // MAGIC NUMBER FIX LATER
-    floor->setAnchorPoint(Vec2(0, 0));
-    floor->setPosition(Vec2(origin.x, origin.y));
+    floor->setScale(1.0); // MAGIC NUMBER FIX LATER
+    floor->setAnchorPoint(Vec2(0.5, 0.5));
+    floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     this->addChild(floor, 0);
 
     // // add player character sprite
