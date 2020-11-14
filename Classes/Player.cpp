@@ -30,7 +30,7 @@ Player * Player::create()
 
 void Player::initPlayer()
 {
-	Player::hp=100;
+	Player::hp=200;
 	moving = false;
 	char str[200] = {0};
 

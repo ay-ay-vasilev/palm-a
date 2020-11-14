@@ -101,12 +101,13 @@ bool Level::init()
     
     //===================================
     //hp label
-    // __String *playerHPStr= __String::createWithFormat("%i",player->getHP()); 
+    char playerHP[5];
+    sprintf(playerHP,"%i",player->getHP());
 
-    // playerHPLabel = Label::createWithTTF(playerHPStr->getCString(),"res/fonts/arial.ttf",visibleSize.height * SCORE_FONT_SIZE*0.1);
-    // playerHPLabel->setColor( Color3B::WHITE );
-    // playerHPLabel->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height * 0.75 + origin.y ) );
-    // this->addChild( playerHPLabel, 10 );
+    playerHPLabel = Label::createWithTTF(playerHP,"fonts/arial.ttf",24);
+    playerHPLabel->setColor( Color3B::WHITE );
+    playerHPLabel->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height * 0.75 + origin.y ) );
+    this->addChild( playerHPLabel, 10 );
     //===================================
 
     //====================================
@@ -123,9 +124,9 @@ bool Level::init()
     //====================================
     //====================================
     //collision detector
-    //auto contactListener = EventListenerPhysicsContact::create();
-    //contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
-    //this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
+    auto contactListener = EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
 
     //====================================
     return true;
@@ -142,8 +143,19 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     //if player collided with enemy
     if ( ( 1 == a->getCollisionBitmask() && 2 == b->getCollisionBitmask() ) 
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
-    {
-        //
+    {   
+        player->updateHP(10);
+        char playerHP[5];
+        sprintf(playerHP,"%i",player->getHP());
+        playerHPLabel->setString(playerHP);
+    }
+    if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
+		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
+    {   
+        player->updateHP(2);
+        char playerHP[5];
+        sprintf(playerHP,"%i",player->getHP());
+        playerHPLabel->setString(playerHP);
     }
     return true;
 }
