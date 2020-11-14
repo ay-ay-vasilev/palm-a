@@ -4,11 +4,7 @@
 #include <CCScheduler.h>
 #include <AudioEngine.h>
 
-
 USING_NS_CC;
-
-Vector<Enemy*> Level::enemies;
-Vector<EnemyProjectile*> Level::projectiles;
 
 Scene* Level::createScene()
 {
@@ -154,98 +150,53 @@ void Level::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 }
 
-void Level::spawnEnemy(float dt){
+void Level::spawnEnemy(float dt)
+{
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
+    //creating
     Enemy* enemy;
-    
-    //doesn't work for some reason
-    //enemy = GameController::spawnEnemy;
-
-    enemy=Enemy::create();
-    enemy->setPhysicsBody(enemy->getBody());
-    float enemyPos = Level::enemyPosition(112);
-	enemy->setPosition(Vec2(enemyPos, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
+    enemy = GameController::spawnEnemy(1);
     enemy->setScale(0.5); // MAGIC NUMBER FIX LATER
 	this->addChild(enemy, 4);
-    Level::enemies.pushBack( enemy );
+    //moving and deleting
     float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
-
     auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height- ENEMY_SPRITE_SIZE * 2));
     auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
     auto sequence = Sequence::create(enemyAction, callBack, NULL);
     enemy->runAction(sequence);
 }
-float Level::enemyPosition(float frameSize){
-    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    float position;
-    auto random = CCRANDOM_0_1();
-    if (random<0.33){
-        random=0.25;
-    } else if (random<0.66) {
-        random=0.5;
-    }else{
-        random=0.75;
-    }
-    position = (random * visibleSize.width) + (frameSize / 2);
-    return position;
-}
 void Level::spawnEnemyProjectiles(float dt)
 {   
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    auto bulletSpeed = ENEMY_PROJECTILE_SPEED;
-    for(int i = Level::enemies.size()-1; i>=0; i--)
+
+    for(int i = GameController::enemies.size()-1; i>=0; i--)
     {
+        //creating
         EnemyProjectile* projectile;
-        projectile = EnemyProjectile::create();
-        projectile->setPosition( enemies.at(i)->getPosition() );
-        projectile->setPhysicsBody(projectile->getBody());
+        projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(i)->getPosition(),player->getPosition());
         this->addChild(projectile,5);
-        Vec2 tar = player->getPosition();
-        float distance = projectile->getPosition().x - origin.x;
-        auto moveAction = MoveTo::create(distance / bulletSpeed, tar);
+        //moving and deleting
+        Vec2 tar = projectile->getTarget();
+        float distanceX = projectile->getPosition().x - origin.x - tar.x;
+        float distanceY = projectile->getPosition().y - origin.y - tar.y;
+        float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
+        auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED, tar);
         auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
         auto sequence = Sequence::create(moveAction, callBack, NULL);
         projectile->runAction(sequence);
     }
 }
-// void Level::bulletControl()
-// {
-//     Size visibleSize = Director::getInstance()->getVisibleSize();
-//     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-// 	    auto bulletSpeed = ENEMY_PROJECTILE_SPEED;
-
-//     EnemyProjectile* projectile;
-
-//     for(int i = GameController::enemyProjectiles.size()-1; i>=0; i++)
-//     {
-//         projectile = GameController::enemyProjectiles.at(i);
-//         auto parent = projectile->getParent();
-//         if (!parent)
-//         {
-//             addChild(projectile);
-//             float distance;
-//             if (projectile->getTarget() != projectile->getPosition())
-//             {
-//                 distance = projectile->getPosition().x - origin.x;
-//             }
-//             auto moveAction = MoveTo::create(distance / projectile->getSpeed().x, projectile->getTarget());
-//             auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
-//             auto sequence = Sequence::create(moveAction, callBack, NULL);
-//             projectile->runAction(sequence);
-//         }
-//     }
-// }
 void Level::removeProjectile(EnemyProjectile *projectile)
 {
+    GameController::enemyProjectiles.eraseObject(projectile);
     projectile->cleanup();
     removeChild(projectile,true);
 }
 void Level::removeEnemy(Enemy *enemy)
 {
+    GameController::enemies.eraseObject(enemy);
     enemy->cleanup();
     removeChild(enemy,true);
 }

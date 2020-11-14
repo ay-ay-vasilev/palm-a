@@ -16,8 +16,10 @@ public:
     
     bool init();
 
-    static Enemy* spawnEnemy();
+    static Enemy* spawnEnemy(int type);
     static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
+
+    static float enemyPosition();
 private:
     
 

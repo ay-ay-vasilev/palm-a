@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "EnemyProjectile.h"
+#include "GameController.h"
 
 class Level : public cocos2d::Scene
 {
@@ -18,12 +19,6 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
-
-    static Vector<Enemy*> enemies;
-    static Vector<EnemyProjectile*> projectiles;
-
-    //implement in future
-    //void bulletControl();
 
 	void removeProjectile( EnemyProjectile *enemyProjectile ) ;
     void removeEnemy(Enemy *enemy);
@@ -41,7 +36,6 @@ private:
 
     void spawnEnemy( float dt );
     void spawnEnemyProjectiles(float dt);
-    float enemyPosition(float frameSize);
 };
 
 #endif
