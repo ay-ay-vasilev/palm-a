@@ -15,11 +15,13 @@ public:
 	static Player * create(void);
 	void run(int directionParam);
 	void idle();
-
 	void update();
 
 	cocos2d::PhysicsBody* getBody();
 
+	int hp;
+	int getHP();
+	void updateHP(int dmg);
 private:
 	~Player();
 
