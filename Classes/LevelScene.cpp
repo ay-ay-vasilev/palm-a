@@ -2,7 +2,7 @@
 #include "Definitions.h"
 #include "GameController.h"
 #include <CCScheduler.h>
-#include <AudioEngine.h>
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -30,8 +30,7 @@ bool Level::init()
         return false;
     }
     //init the music
-	
-    
+    AudioEngine::play2d("res/music/audio.mp3", true);
     // important variables
     auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
@@ -100,6 +99,16 @@ bool Level::init()
     this->addChild(menu, 1);
     // ===========================================================================================
     
+    //===================================
+    //hp label
+    // __String *playerHPStr= __String::createWithFormat("%i",player->getHP()); 
+
+    // playerHPLabel = Label::createWithTTF(playerHPStr->getCString(),"res/fonts/arial.ttf",visibleSize.height * SCORE_FONT_SIZE*0.1);
+    // playerHPLabel->setColor( Color3B::WHITE );
+    // playerHPLabel->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height * 0.75 + origin.y ) );
+    // this->addChild( playerHPLabel, 10 );
+    //===================================
+
     //====================================
     //enemy spawn
     auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemy);
@@ -107,14 +116,37 @@ bool Level::init()
     this->schedule(enemySpawnPointer, ENEMY_SPAWN_FREQUENCY);
     
     //====================================
+    //enemy shooting
     auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyProjectiles);
     
     this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
     //====================================
+    //====================================
+    //collision detector
+    //auto contactListener = EventListenerPhysicsContact::create();
+    //contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
+    //this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
 
+    //====================================
     return true;
 }
+bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
+{
+    //collision bit masks
+    //player = 1
+    //enemy = 2
+    //enemy projectile = 3
+    PhysicsBody *a = contact.getShapeA()->getBody();
+    PhysicsBody *b = contact.getShapeB()->getBody();
 
+    //if player collided with enemy
+    if ( ( 1 == a->getCollisionBitmask() && 2 == b->getCollisionBitmask() ) 
+		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
+    {
+        //
+    }
+    return true;
+}
 void Level::update(float dt)
 {
 	player->update();

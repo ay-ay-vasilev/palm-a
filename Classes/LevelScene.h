@@ -23,6 +23,7 @@ public:
 	void removeProjectile( EnemyProjectile *enemyProjectile ) ;
     void removeEnemy(Enemy *enemy);
 
+    bool onContactBegin ( cocos2d::PhysicsContact &contact );
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
@@ -36,6 +37,8 @@ private:
 
     void spawnEnemy( float dt );
     void spawnEnemyProjectiles(float dt);
+
+    cocos2d::Label *playerHPLabel;
 };
 
 #endif

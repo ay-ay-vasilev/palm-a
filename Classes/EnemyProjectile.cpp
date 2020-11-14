@@ -52,9 +52,10 @@ cocos2d::PhysicsBody* EnemyProjectile::getBody()
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-	physicsBody->setGravityEnable(true);
+	
 	physicsBody->setDynamic(false);
-	physicsBody->setEnabled(true);
+	physicsBody->setCollisionBitmask( 3 );
+	physicsBody->setContactTestBitmask( true );
 
 	return physicsBody;
 }

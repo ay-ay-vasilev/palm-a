@@ -47,7 +47,8 @@ cocos2d::PhysicsBody* Enemy::getBody()
 	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 	
 	physicsBody->setDynamic(false);
-
+	physicsBody->setCollisionBitmask( 2 );
+	physicsBody->setContactTestBitmask( true );
 	return physicsBody;
 }
 /*

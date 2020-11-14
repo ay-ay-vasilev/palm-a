@@ -30,6 +30,7 @@ Player * Player::create()
 
 void Player::initPlayer()
 {
+	Player::hp=100;
 	moving = false;
 	char str[200] = {0};
 
@@ -136,6 +137,16 @@ cocos2d::PhysicsBody* Player::getBody()
 	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 	
 	physicsBody->setDynamic(false);
+	physicsBody->setCollisionBitmask( 1 );
+	physicsBody->setContactTestBitmask( true );
 
 	return physicsBody;
+}
+int Player::getHP()
+{
+	return Player::hp;
+}
+void Player::updateHP(int dmg)
+{
+	Player::hp = Player::hp - dmg;
 }
