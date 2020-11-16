@@ -61,3 +61,11 @@ void Enemy::shoot(float dt)
     GameController::spawnEnemyProjectile( Vec2( this->getPosition().x - this->getContentSize().width, this->getPosition().y), tar );
 }
 */
+void Enemy::setSpawnPoint(int _spawnPoint)
+{
+	Enemy::spawnPoint = _spawnPoint;
+}
+int Enemy::getSpawnPoint()
+{
+	return Enemy::spawnPoint;
+}
