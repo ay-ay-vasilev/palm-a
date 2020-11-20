@@ -157,16 +157,6 @@ bool Level::init()
     //this->addChild(menu, 1);
     // ===========================================================================================
     
-    //===================================
-    //hp label
-    char playerHP[5];
-    sprintf(playerHP,"%i",player->getHP());
-
-    playerHPLabel = Label::createWithTTF(playerHP,"fonts/arial.ttf",24);
-    playerHPLabel->setColor( Color3B::WHITE );
-    playerHPLabel->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height * 0.75 + origin.y ) );
-    this->addChild( playerHPLabel, 10 );
-
     //====================================
     //enemy spawn
     auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemy);
