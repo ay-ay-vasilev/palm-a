@@ -17,8 +17,9 @@ Player::~Player()
 Player * Player::create()
 {
 	Player * player = new Player();
-	if(player && player->initWithFile("res/character/idle/sprites/character_unarmed_idle_left_test_1.png"))
+	if(player->init())
 	{
+		player->setContentSize(Size(PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SIZE));
 		player->autorelease();
 		player->initPlayer();
 		return player;
@@ -34,53 +35,48 @@ void Player::initPlayer()
 	moving = false;
 	char str[200] = {0};
 
+	auto spriteCache = SpriteFrameCache::getInstance();
+	spriteCache->addSpriteFramesWithFile("res/character/character_sheet.plist");
+
 	Vector<SpriteFrame*> idleLeftAnimFrames(PLAYER_ANIM_IDLE_NUM_OF_FRAMES);
 	Vector<SpriteFrame*> idleRightAnimFrames(PLAYER_ANIM_IDLE_NUM_OF_FRAMES);
-	for(int i = 1; i <= PLAYER_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
-	{
-		sprintf(str, "res/character/idle/sprites/character_unarmed_idle_left_test_%i.png",i);
-		auto frameLeft = SpriteFrame::create(str,Rect(0,0, PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SIZE)); //The size of the images in an action should be the same
-        frameLeft->getTexture()->setAliasTexParameters();
-		idleLeftAnimFrames.pushBack(frameLeft);
-
-		sprintf(str, "res/character/idle/sprites/character_unarmed_idle_right_test_%i.png",i);
-		auto frameRight = SpriteFrame::create(str,Rect(0,0, PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SIZE));
-        frameRight->getTexture()->setAliasTexParameters();
-		idleRightAnimFrames.pushBack(frameRight);
-	}
-	auto idleLeftAnimation = Animation::createWithSpriteFrames(idleLeftAnimFrames, PLAYER_ANIM_IDLE_SPEED);
-	idleLeftAnimate = Animate::create(idleLeftAnimation);
-	idleLeftAnimate->retain(); //Retain to use it later
-	
-	auto idleRightAnimation = Animation::createWithSpriteFrames(idleRightAnimFrames, PLAYER_ANIM_IDLE_SPEED);
-	idleRightAnimate = Animate::create(idleRightAnimation);
-	idleRightAnimate->retain();
-	
-	this->runAction(RepeatForever::create(idleLeftAnimate)); //This will be the starting animation
-
 	Vector<SpriteFrame*> runLeftAnimFrames(PLAYER_ANIM_RUN_NUM_OF_FRAMES);
 	Vector<SpriteFrame*> runRightAnimFrames(PLAYER_ANIM_RUN_NUM_OF_FRAMES);
 	
-	for(int i = 1; i <= PLAYER_ANIM_RUN_NUM_OF_FRAMES; i++)
+	for(int i = 1; i <= PLAYER_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 	{
-		sprintf(str, "res/character/run/sprites/character_unarmed_run_left_test_%i.png",i);
-		auto frameLeft = SpriteFrame::create(str,Rect(0,0, PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SIZE));
-		frameLeft->getTexture()->setAliasTexParameters();
-		runLeftAnimFrames.pushBack(frameLeft);
+		sprintf(str, "character_unarmed_idle_left_test_%i.png", i);
+		idleLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 
-		sprintf(str, "res/character/run/sprites/character_unarmed_run_right_test_%i.png",i);
-		auto frameRight = SpriteFrame::create(str,Rect(0,0, PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SIZE));
-		frameRight->getTexture()->setAliasTexParameters();
-		runRightAnimFrames.pushBack(frameRight);
+		sprintf(str, "character_unarmed_idle_right_test_%i.png", i);
+		idleRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 	}
 
-	auto runLeftAnimation = Animation::createWithSpriteFrames(runLeftAnimFrames, PLAYER_ANIM_RUN_SPEED);
-	runLeftAnimate = Animate::create(runLeftAnimation);
-	runLeftAnimate->retain();
+	for (int i = 1; i <= PLAYER_ANIM_RUN_NUM_OF_FRAMES; i++)
+	{
+		sprintf(str, "character_unarmed_run_left_test_%i.png", i);
+		runLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 
+		sprintf(str, "character_unarmed_run_right_test_%i.png", i);
+		runRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+	}
+
+	auto idleLeftAnimation = Animation::createWithSpriteFrames(idleLeftAnimFrames, PLAYER_ANIM_IDLE_SPEED);
+	auto idleRightAnimation = Animation::createWithSpriteFrames(idleRightAnimFrames, PLAYER_ANIM_IDLE_SPEED);
+	auto runLeftAnimation = Animation::createWithSpriteFrames(runLeftAnimFrames, PLAYER_ANIM_RUN_SPEED);
 	auto runRightAnimation = Animation::createWithSpriteFrames(runRightAnimFrames, PLAYER_ANIM_RUN_SPEED);
+	idleLeftAnimate = Animate::create(idleLeftAnimation);
+	idleRightAnimate = Animate::create(idleRightAnimation);
+	runLeftAnimate = Animate::create(runLeftAnimation);
 	runRightAnimate = Animate::create(runRightAnimation);
+
+	// Retain to use it later
+	idleLeftAnimate->retain(); 	
+	idleRightAnimate->retain();
+	runLeftAnimate->retain();
 	runRightAnimate->retain();
+
+	this->runAction(RepeatForever::create(idleLeftAnimate)); //This will be the starting animation
 }
 
 void Player::run(int directionParam)
@@ -135,7 +131,7 @@ cocos2d::PhysicsBody* Player::getBody()
     origin = Director::getInstance()->getVisibleOrigin();
 
 	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-	
+
 	physicsBody->setDynamic(false);
 	physicsBody->setCollisionBitmask( 1 );
 	physicsBody->setContactTestBitmask( true );
