@@ -1,5 +1,8 @@
 #ifndef __DEFINITIONS_H__
 #define __DEFINITIONS_H__
+// splash definitions
+#define LOGO_ANIM_NUM_OF_FRAMES 6
+#define LOGO_ANIM_SPEED 0.12f
 // cutscene definitions
 #define DISPLAY_TIME_SPLASH_SCENE 2
 #define TRANSITION_TIME 0.2f

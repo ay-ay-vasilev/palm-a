@@ -10,8 +10,9 @@ Enemy::~Enemy()
 }
 Enemy * Enemy::create(){
     Enemy * enemy = new Enemy();
-	if(enemy && enemy->initWithFile("res/enemies/variant/sprites/enemy_2_test_1.png"))
+	if(enemy->init())
 	{
+		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
 		enemy->autorelease();
 		enemy->initEnemy();
 		return enemy;
@@ -25,19 +26,20 @@ void Enemy::initEnemy(){
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
     char str[200] = {0};
+
+	auto spriteCache = SpriteFrameCache::getInstance();
+	spriteCache->addSpriteFramesWithFile("res/enemies/enemy_regular.plist");
+
     Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
 	for(int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 	{
-		sprintf(str, "res/enemies/variant/sprites/enemy_2_test_%i.png",i);
-		auto frame = SpriteFrame::create(str,Rect(0,0, ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE)); //The size of the images in an action should be the same
-        frame->getTexture()->setAliasTexParameters();
-		idleAnimFrames.pushBack(frame);
+		sprintf(str, "enemy_1_test_%i.png", i);
+		idleAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 	}
     auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
 	idleAnimate = Animate::create(idleAnimation);
 	idleAnimate->retain(); //Retain to use it later
 	this->runAction(RepeatForever::create(idleAnimate));
-
 }
 cocos2d::PhysicsBody* Enemy::getBody()
 {

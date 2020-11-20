@@ -27,11 +27,26 @@ bool Splash::init()
     
     this->scheduleOnce(funPointer, DISPLAY_TIME_SPLASH_SCENE);
     
-    auto backgroundSprite = Sprite::create("res/other/logo_original_test.png");
-    backgroundSprite->getTexture()->setAliasTexParameters();
-    backgroundSprite->setScale(8.0); // MAGIC NUMBER FIX LATER
+    auto backgroundSprite = Sprite::create();
     backgroundSprite->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
 
+    char str[200] = { 0 };
+    auto spriteCache = SpriteFrameCache::getInstance();
+    spriteCache->addSpriteFramesWithFile("res/logo/logo.plist");
+    Vector<SpriteFrame*> logoAnimFrames(LOGO_ANIM_NUM_OF_FRAMES);
+
+    for (int i = 1; i <= LOGO_ANIM_NUM_OF_FRAMES; i++)
+    {
+        sprintf(str, "logo%i.PNG", i);
+        auto frame = spriteCache->getSpriteFrameByName(str);
+        frame->getTexture()->setAliasTexParameters();
+        logoAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+    }
+    auto logoAnimation = Animation::createWithSpriteFrames(logoAnimFrames, LOGO_ANIM_SPEED);
+    Animate * logoAnimate = Animate::create(logoAnimation);
+
+    backgroundSprite->setScale(1.5);
+    backgroundSprite->runAction(RepeatForever::create(logoAnimate));
     this->addChild(backgroundSprite);
 
     return true;
