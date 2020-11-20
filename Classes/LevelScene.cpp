@@ -30,6 +30,7 @@ bool Level::init()
         return false;
     }
     isPaused = false;
+    score = 0;
     //init the music
     AudioEngine::play2d("res/music/audio.mp3", true);
     // important variables
@@ -83,6 +84,24 @@ bool Level::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 10);
     
+    char playerScore[100];
+    sprintf(playerScore, "Score: %i", score);
+
+    auto label = Label::createWithTTF(playerScore, "fonts/arial.ttf", 24);
+    // position the label on the center of the screen
+    label->setAnchorPoint(Vec2(0, 1));
+    label->setPosition(Vec2(origin.x + label->getContentSize().width / 4, origin.y + visibleSize.height - label->getContentSize().height / 2));
+    Color3B color(255, 255, 255);
+    label->setColor(color);
+    // add the label as a child to this layer
+    this->addChild(label, 1);
+
+    auto statusBar = Sprite::create("res/ui/status_bar.png");
+    statusBar->getTexture()->setAliasTexParameters();
+    statusBar->setScale(2.0); // MAGIC NUMBER FIX LATER
+    statusBar->setAnchorPoint(Vec2(0.5, 0.5));
+    statusBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - statusBar->getContentSize().height));
+    this->addChild(statusBar, 10);
 
     // // add player character sprite
     // auto character = Sprite::create("res/character/idle/test_idle_right.png");
@@ -178,6 +197,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP(2);
+        updateScore(1);
         char playerHP[5];
         sprintf(playerHP,"%i",player->getHP());
         playerHPLabel->setString(playerHP);
@@ -188,6 +208,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 void Level::update(float dt)
 {
 	player->update();
+    //this->updateScore(1);
+}
+
+//Doesn't work
+void Level::updateScore(int points)
+{
+    score = score + points;
 }
 
 bool Level::onTouchBegan(Touch *touch, Event *event)
