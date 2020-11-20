@@ -42,6 +42,8 @@ private:
     void spawnEnemyProjectiles(float dt);
 
     bool isPaused;
+    int score;
+    void updateScore(int points);
 
     cocos2d::Label *playerHPLabel;
     ui::LoadingBar *playerHPBar;
