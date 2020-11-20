@@ -22,7 +22,7 @@ Enemy* GameController::spawnEnemy(int type)
     enemy = Enemy::create();
     enemy->setPhysicsBody(enemy->getBody());
 
-    float enemyPosX = GameController::enemyPosition();
+    float enemyPosX = GameController::enemyPosition(enemy);
     enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
     
     if (enemy)
@@ -48,18 +48,15 @@ EnemyProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
     return projectile;
 }
 
-float GameController::enemyPosition(){
+float GameController::enemyPosition(Enemy* enemy){
+    int spawnPoints = 4;
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float position;
-    auto random = CCRANDOM_0_1();
-    if (random<0.33){
-        random=0.25;
-    } else if (random<0.66) {
-        random=0.5;
-    }else{
-        random=0.75;
-    }
-    position = (random * visibleSize.width) + (ENEMY_SPRITE_SIZE / 2);
+    auto random = CCRANDOM_0_1()*spawnPoints;
+    random = ceil(random);
+    enemy->setSpawnPoint(random);
+    random = random /  ((spawnPoints+1)/spawnPoints) / spawnPoints;
+    position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
     return position;
 }

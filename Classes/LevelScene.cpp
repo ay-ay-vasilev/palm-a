@@ -205,10 +205,45 @@ void Level::spawnEnemy(float dt)
 	this->addChild(enemy, 4);
     //moving and deleting
     float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
-    auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height- ENEMY_SPRITE_SIZE * 2));
-    auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
-    auto sequence = Sequence::create(enemyAction, callBack, NULL);
-    enemy->runAction(sequence);
+    switch(enemy->getSpawnPoint())
+    {
+        case 1:
+        {
+            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
+            enemy->runAction(sequence);
+            break;
+        }
+        case 2:
+        {
+            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
+            enemy->runAction(sequence);
+            break;
+        }
+        case 3:
+        {
+            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
+            enemy->runAction(sequence);
+            break;
+        }
+        case 4:
+        {
+            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
+            enemy->runAction(sequence);
+            break;
+        }
+    }
 }
 void Level::spawnEnemyProjectiles(float dt)
 {   

@@ -19,7 +19,7 @@ public:
     static Enemy* spawnEnemy(int type);
     static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
 
-    static float enemyPosition();
+    static float enemyPosition(Enemy* enemy);
 private:
     
 
