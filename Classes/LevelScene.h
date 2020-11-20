@@ -17,6 +17,7 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     void dashButtonCallback(cocos2d::Ref* pSender);
+    void pauseButtonCallback(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
@@ -38,6 +39,8 @@ private:
 
     void spawnEnemy( float dt );
     void spawnEnemyProjectiles(float dt);
+
+    bool isPaused;
 
     cocos2d::Label *playerHPLabel;
 };

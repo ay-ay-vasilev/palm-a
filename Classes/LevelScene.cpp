@@ -29,6 +29,7 @@ bool Level::init()
     {
         return false;
     }
+    isPaused = false;
     //init the music
     AudioEngine::play2d("res/music/audio.mp3", true);
     // important variables
@@ -60,25 +61,28 @@ bool Level::init()
     floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     this->addChild(floor, 0);
 
-    auto dashButton = Sprite::create("res/ui/dash_button.png");
-    dashButton->getTexture()->setAliasTexParameters();
+    auto dashButton = MenuItemImage::create(
+        "res/ui/dash_button.png",
+        "res/ui/dash_button.png",
+        CC_CALLBACK_1(Level::dashButtonCallback, this));
     dashButton->setScale(2.0);
+    dashButton->setOpacity(70);
     dashButton->setAnchorPoint(Vec2(1, 0));
     dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width, origin.y + dashButton->getContentSize().height));
-    this->addChild(dashButton, 1);
+
+    auto pauseButton = MenuItemImage::create(
+        "res/ui/pause_button.png",
+        "res/ui/pause_button.png",
+        CC_CALLBACK_1(Level::pauseButtonCallback, this));
+    pauseButton->setScale(2.0);
+    pauseButton->setOpacity(70);
+    pauseButton->setAnchorPoint(Vec2(1, 1));
+    pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2));
     
-    //auto pauseButton = Sprite::create();
-    //pauseButton->getTexture()->setAliasTexParameters();
-    //pauseButton->setScale(1.0);
-    //pauseButton->setAnchorPoint(Vec2(0.5, 0.5));
-    //pauseButton->setPosition();
-    //this->addChild(pauseButton, 1);
-
-    //auto pauseButton = MenuItemImage::create(
-    //    "res/cutscene/next-test.png",
-    //    "res/cutscene/next-test.png",
-    //    CC_CALLBACK_1(Cutscene::GoToLevelScene, this));
-
+    auto menu = Menu::create(pauseButton, dashButton, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 10);
+    
 
     // // add player character sprite
     // auto character = Sprite::create("res/character/idle/test_idle_right.png");
@@ -104,19 +108,19 @@ bool Level::init()
     // auto direction = "right";
 
     // REMOVE LATER, THIS IS CLOSE BUTTON =======================================================
-    auto closeItem = MenuItemImage::create("res/ui/close-test.png",
-                                           "res/ui/close-test.png",
-                                        CC_CALLBACK_1(Level::menuCloseCallback, this));
+    //auto closeItem = MenuItemImage::create("res/ui/close-test.png",
+    //                                       "res/ui/close-test.png",
+    //                                    CC_CALLBACK_1(Level::menuCloseCallback, this));
 
 
-    closeItem->setScale(2.0); // MAGIC NUMBER FIX LATER
-    float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
-    float y = origin.y + visibleSize.height - closeItem->getContentSize().height;
-    closeItem->setPosition(Vec2(x,y));
+    //closeItem->setScale(2.0); // MAGIC NUMBER FIX LATER
+    //float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
+    //float y = origin.y + visibleSize.height - closeItem->getContentSize().height;
+    //closeItem->setPosition(Vec2(x,y));
 
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    //auto menu = Menu::create(closeItem, NULL);
+    //menu->setPosition(Vec2::ZERO);
+    //this->addChild(menu, 1);
     // ===========================================================================================
     
     //===================================
@@ -151,6 +155,7 @@ bool Level::init()
     //====================================
     return true;
 }
+
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
     //collision bit masks
@@ -179,6 +184,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     }
     return true;
 }
+
 void Level::update(float dt)
 {
 	player->update();
@@ -217,6 +223,20 @@ void Level::menuCloseCallback(Ref* pSender)
 void Level::dashButtonCallback(Ref* pSender)
 {
     //To do dash
+}
+
+void Level::pauseButtonCallback(Ref* pSender)
+{
+    if (!isPaused) {
+        Director::getInstance()->stopAnimation();
+        AudioEngine::pauseAll();
+        isPaused = true;
+    }
+    else {
+        Director::getInstance()->startAnimation();
+        AudioEngine::resumeAll();
+        isPaused = false;
+    }
 }
 
 void Level::spawnEnemy(float dt)
@@ -270,6 +290,7 @@ void Level::spawnEnemy(float dt)
         }
     }
 }
+
 void Level::spawnEnemyProjectiles(float dt)
 {   
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -292,12 +313,14 @@ void Level::spawnEnemyProjectiles(float dt)
         projectile->runAction(sequence);
     }
 }
+
 void Level::removeProjectile(EnemyProjectile *projectile)
 {
     GameController::enemyProjectiles.eraseObject(projectile);
     projectile->cleanup();
     removeChild(projectile,true);
 }
+
 void Level::removeEnemy(Enemy *enemy)
 {
     GameController::enemies.eraseObject(enemy);
