@@ -60,6 +60,26 @@ bool Level::init()
     floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     this->addChild(floor, 0);
 
+    auto dashButton = Sprite::create("res/ui/dash_button.png");
+    dashButton->getTexture()->setAliasTexParameters();
+    dashButton->setScale(2.0);
+    dashButton->setAnchorPoint(Vec2(1, 0));
+    dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width, origin.y + dashButton->getContentSize().height));
+    this->addChild(dashButton, 1);
+    
+    //auto pauseButton = Sprite::create();
+    //pauseButton->getTexture()->setAliasTexParameters();
+    //pauseButton->setScale(1.0);
+    //pauseButton->setAnchorPoint(Vec2(0.5, 0.5));
+    //pauseButton->setPosition();
+    //this->addChild(pauseButton, 1);
+
+    //auto pauseButton = MenuItemImage::create(
+    //    "res/cutscene/next-test.png",
+    //    "res/cutscene/next-test.png",
+    //    CC_CALLBACK_1(Cutscene::GoToLevelScene, this));
+
+
     // // add player character sprite
     // auto character = Sprite::create("res/character/idle/test_idle_right.png");
 
@@ -192,6 +212,11 @@ void Level::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
+}
+
+void Level::dashButtonCallback(Ref* pSender)
+{
+    //To do dash
 }
 
 void Level::spawnEnemy(float dt)
