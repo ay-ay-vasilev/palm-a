@@ -3,6 +3,7 @@
 #include "GameController.h"
 #include <CCScheduler.h>
 #include "AudioEngine.h"
+#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
@@ -84,6 +85,18 @@ bool Level::init()
     this->addChild(menu, 10);
     
 
+    //===================================
+    //player hp bar
+    playerHPBar = ui::LoadingBar::create("res/ui/hp_bar_2.png");
+    playerHPBar->setPosition(Vec2(origin.x + playerHPBar->getContentSize().width, origin.y + visibleSize.height - playerHPBar->getContentSize().height));
+    playerHPBar->setPercent(100);
+    playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
+    this->addChild(playerHPBar,101);
+
+    cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create( "res/ui/hp_bar_1.png" );
+    playerHPBarUnder->setPosition(Vec2(origin.x + playerHPBarUnder->getContentSize().width, origin.y + visibleSize.height - playerHPBarUnder->getContentSize().height));
+    this->addChild(playerHPBarUnder,100);
+    //===================================
     // // add player character sprite
     // auto character = Sprite::create("res/character/idle/test_idle_right.png");
 
@@ -132,7 +145,6 @@ bool Level::init()
     playerHPLabel->setColor( Color3B::WHITE );
     playerHPLabel->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height * 0.75 + origin.y ) );
     this->addChild( playerHPLabel, 10 );
-    //===================================
 
     //====================================
     //enemy spawn
@@ -146,12 +158,12 @@ bool Level::init()
     
     this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
     //====================================
+
     //====================================
     //collision detector
     auto contactListener = EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
-
     //====================================
     return true;
 }
@@ -170,17 +182,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP(10);
-        char playerHP[5];
-        sprintf(playerHP,"%i",player->getHP());
-        playerHPLabel->setString(playerHP);
+        playerHPBar->setPercent(player->getHP()/2);
     }
     if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
 		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP(2);
-        char playerHP[5];
-        sprintf(playerHP,"%i",player->getHP());
-        playerHPLabel->setString(playerHP);
+        playerHPBar->setPercent(player->getHP()/2);
     }
     return true;
 }
@@ -250,6 +258,7 @@ void Level::spawnEnemy(float dt)
 	this->addChild(enemy, 4);
     //moving and deleting
     float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
+
     switch(enemy->getSpawnPoint())
     {
         case 1:
@@ -289,6 +298,12 @@ void Level::spawnEnemy(float dt)
             break;
         }
     }
+
+    //auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height- ENEMY_SPRITE_SIZE * 2));
+    //auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+    //auto sequence = Sequence::create(enemyAction, callBack, NULL);
+    //enemy->runAction(sequence);
+    
 }
 
 void Level::spawnEnemyProjectiles(float dt)
