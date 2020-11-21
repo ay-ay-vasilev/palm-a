@@ -22,79 +22,35 @@ bool MainMenu::init()
     director->setProjection(Director::Projection::_2D);
 
     auto title = Sprite::create("res/ui/main_title_test.png");
-    auto startButton = Sprite::create("res/ui/start_button.png");
-
     title->getTexture()->setAliasTexParameters();
     title->setScale(7.0); // MAGIC NUMBER FIX LATER
     title->setAnchorPoint(Vec2(0.5, 0.5));
     title->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height / 4 * 3));
-    this->addChild(title, 1);
-
+    this->addChild(title, 1);    
+    auto startButton = Sprite::create("res/ui/start_button.png");
     startButton->getTexture()->setAliasTexParameters();
-    startButton->setScale(5.0); // MAGIC NUMBER FIX LATER
-    startButton->setAnchorPoint(Vec2(0.5, 0.5));
-    startButton->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/4));
-    this->addChild(startButton, 1);
+    auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 36);
 
-    Vec2 startButtonPosition = startButton->getPosition();
-    auto startButtonHeight = startButton->getContentSize().height * 10;
-    auto startButtonWidth = startButton->getContentSize().width * 10;
-    // button coordinates
-    auto startButtonLeft = startButtonPosition.x - startButtonWidth / 2;
-    auto startButtonRight = startButtonPosition.x + startButtonWidth / 2;
-    auto startButtonTop = startButtonPosition.y - startButtonHeight / 2;
-    auto startButtonBottom = startButtonPosition.y + startButtonHeight / 2;
+    MenuItemSprite* startItem = MenuItemSprite::create(startButton, Sprite::create("res/ui/start_button.png"), Sprite::create("res/ui/start_button.png"), CC_CALLBACK_1(MainMenu::GoToCutscene, this));
+    startItem->setAnchorPoint(Vec2(0.5, 0.5));      
+    startItem->setScale(5.0); // MAGIC NUMBER FIX LATER
 
-    // create touch listener
-    // REDO AS A MENU ITEM LATER
-    auto listener1 = EventListenerTouchOneByOne::create();
-    // trigger when you push down
-    listener1->onTouchBegan = [director, visibleSize, startButton,
-                               startButtonLeft, startButtonRight,
-                               startButtonTop, startButtonBottom](Touch* touch, Event* event) mutable {
-        
-        if ((touch->getLocation().x > startButtonLeft && touch->getLocation().x < startButtonRight) &&
-            (touch->getLocation().y > startButtonTop && touch->getLocation().y < startButtonBottom)
-        ) {
-            auto cutsceneScene = Cutscene::createScene();
-            director->replaceScene(cutsceneScene);
-        }
-        return true; // if you are consuming it
-    };
+    MenuItemLabel* exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(MainMenu::CloseGame, this));
 
-    // Add listener
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, startButton);
-
-
-        // DEBUG STUFF
-    // =====================================================================================================================
-    // auto rectNode = DrawNode::create();
-    // Vec2 rectangle[4];
-    // rectangle[0] = startButtonPosition + Vec2(-startButtonWidth / 2, -startButtonHeight / 2);
-    // rectangle[1] = startButtonPosition + Vec2(startButtonWidth / 2, -startButtonHeight / 2);
-    // rectangle[2] = startButtonPosition + Vec2(startButtonWidth / 2, startButtonHeight / 2);
-    // rectangle[3] = startButtonPosition + Vec2(-startButtonWidth / 2, startButtonHeight / 2);
-    // Color4F color(1, 0, 0, 1);
-    // rectNode->drawPolygon(rectangle, 4, color, 1, color);
-    // this->addChild(rectNode, 0);
-
-    // auto label = Label::createWithTTF("This is just a test", "fonts/Marker Felt.ttf", 24);
-    // if (label == nullptr)
-    // {
-    //     problemLoading("'fonts/Marker Felt.ttf'");
-    // }
-    // else
-    // {
-    //     // position the label on the center of the screen
-    //     label->setPosition(startButtonPosition + Vec2(0, 50));
-    //     label->setString("Button Size: " + std::to_string(startButtonWidth) + " " + std::to_string(startButtonHeight));
-    //     Color3B color(100, 0, 0);
-    //     label->setColor(color);
-    //     // add the label as a child to this layer
-    //     this->addChild(label, 1);
-    // }
-    // =====================================================================================================================
-
+    auto menu = Menu::create(startItem, exitItem, NULL);
+    menu->setPosition(Vec2(origin.x + visibleSize.width / 2,
+        origin.y + visibleSize.height / 3));
+    menu->alignItemsVerticallyWithPadding(20);
+    this->addChild(menu, 1);
 
     return true;
+}
+
+void MainMenu::GoToCutscene(cocos2d::Ref* pSender) {
+    auto scene = Cutscene::createScene();
+    Director::getInstance()->replaceScene(scene);
+}
+
+void MainMenu::CloseGame(cocos2d::Ref* pSender) {
+    Director::getInstance()->end();
 }
