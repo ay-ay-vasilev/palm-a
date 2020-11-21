@@ -13,6 +13,7 @@ public:
 	Animate * runRightAnimate;
 
 	static Player * create(void);
+	void dash();
 	void run(int directionParam);
 	void idle();
 	void update();
@@ -26,6 +27,7 @@ private:
 	~Player();
 
 	bool moving;
+	bool dashed;
 	int direction;
 
 	void initPlayer();

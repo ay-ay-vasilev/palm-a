@@ -10,6 +10,7 @@
 #define NUMBER_OF_CADRS 6
 // player stats
 #define PLAYER_SPEED 6
+#define PLAYER_DASH_SPEED 120
 // player animation and sprites
 #define PLAYER_ANIM_IDLE_NUM_OF_FRAMES 5
 #define PLAYER_ANIM_RUN_NUM_OF_FRAMES 8

@@ -213,6 +213,9 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
         case EventKeyboard::KeyCode::KEY_D:
             player->run(1);
             break;
+        case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
+            player->dash();
+            break;
     }
 }
 void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
@@ -223,7 +226,7 @@ void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event*
 
 void Level::dashButtonCallback(Ref* pSender)
 {
-    //To do dash
+    player->dash();
 }
 
 void Level::pauseButtonCallback(Ref* pSender)

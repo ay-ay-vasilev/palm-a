@@ -79,6 +79,11 @@ void Player::initPlayer()
 	this->runAction(RepeatForever::create(idleLeftAnimate)); //This will be the starting animation
 }
 
+void Player::dash()
+{
+	dashed = true;
+}
+
 void Player::run(int directionParam)
 {
 	this->stopAllActions();
@@ -109,6 +114,22 @@ void Player::idle()
 
 void Player::update()
 {
+	if (dashed) {
+		auto newPosX = this->getPositionX();
+		if (direction == 0) //check if going left
+		{
+			//this->setScaleX(1); //flip
+			newPosX -= PLAYER_DASH_SPEED;
+		}
+		else
+		{
+			//this->setScaleX(-1); //flip
+			newPosX += PLAYER_DASH_SPEED;
+		}
+		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE, director->getVisibleSize().width + origin.x - WALL_DISTANCE));
+		dashed = false;
+	}
+
 	if(moving) //check if moving
 	{
 		auto newPosX = this->getPositionX();
