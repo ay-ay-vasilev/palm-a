@@ -33,7 +33,8 @@ bool Level::init()
     isPaused = false;
     score = 0;
     //init the music
-    AudioEngine::play2d("res/music/audio.mp3", true);
+    auto music = AudioEngine::play2d("res/music/audio.mp3", true);
+    AudioEngine::setVolume(music, 0.1);
     // important variables
     auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
@@ -45,7 +46,12 @@ bool Level::init()
 	listener->setSwallowTouches(true);
 	listener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
 	listener->onTouchEnded = CC_CALLBACK_2(Level::onTouchEnded, this);
-
+    
+    auto keyboardListener = EventListenerKeyboard::create();
+    keyboardListener->onKeyPressed = CC_CALLBACK_2(Level::keyPressed, this);
+    keyboardListener->onKeyReleased = CC_CALLBACK_2(Level::keyReleased, this);
+    
+    director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
     director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     player = Player::create();
@@ -58,9 +64,9 @@ bool Level::init()
 
     auto floor = Sprite::create("res/level/test_floor.png");
     floor->getTexture()->setAliasTexParameters();
-    floor->setScale(1.0); // MAGIC NUMBER FIX LATER
+    floor->setScale(1.8); // MAGIC NUMBER FIX LATER
     floor->setAnchorPoint(Vec2(0.5, 0.5));
-    floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 + 150)); // MAGIC NUMBER FIX LATER
     this->addChild(floor, 0);
 
     auto dashButton = MenuItemImage::create(
@@ -85,18 +91,17 @@ bool Level::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 10);
     
+    // player score
     char playerScore[100];
     sprintf(playerScore, "Score: %i", score);
-
     auto label = Label::createWithTTF(playerScore, "fonts/arial.ttf", 24);
-    // position the label on the center of the screen
     label->setAnchorPoint(Vec2(0, 1));
     label->setPosition(Vec2(origin.x + label->getContentSize().width / 4, origin.y + visibleSize.height - label->getContentSize().height / 2));
     Color3B color(255, 255, 255);
     label->setColor(color);
-    // add the label as a child to this layer
     this->addChild(label, 1);
 
+    // progress bar
     auto statusBar = Sprite::create("res/ui/status_bar.png");
     statusBar->getTexture()->setAliasTexParameters();
     statusBar->setScale(2.0); // MAGIC NUMBER FIX LATER
@@ -108,54 +113,16 @@ bool Level::init()
     //player hp bar
     playerHPBar = ui::LoadingBar::create("res/ui/hp_bar_2.png");
     playerHPBar->setAnchorPoint(Vec2(0, 0));
-    playerHPBar->setPosition(Vec2(origin.x + playerHPBar->getContentSize().height, origin.y + playerHPBar->getContentSize().height));
+    playerHPBar->setPosition(Vec2(origin.x, origin.y));
     playerHPBar->setPercent(100);
     playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
     this->addChild(playerHPBar,101);
 
     cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create( "res/ui/hp_bar_1.png" );
     playerHPBarUnder->setAnchorPoint(Vec2(0, 0));
-    playerHPBarUnder->setPosition(Vec2(origin.x + playerHPBar->getContentSize().height, origin.y + playerHPBar->getContentSize().height));
+    playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
     this->addChild(playerHPBarUnder,100);
     //===================================
-    // // add player character sprite
-    // auto character = Sprite::create("res/character/idle/test_idle_right.png");
-
-    // if (character == nullptr)
-    // {
-    //     problemLoading("'test idle sprite'");
-    // }
-    // else
-    // {
-    //     // make pixel art not look blurry
-    //     character->getTexture()->setAliasTexParameters();
-    //     // make the character 4 times bigger
-    //     character->setScale(4.0);
-    //     // make the center bottom of the character the anchor point
-    //     character->setAnchorPoint(Vec2(0.5, 0));
-    //     // position the character on the center of the screen
-    //     character->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + 20));
-    //     // add the character as a child to this layer
-    //     this->addChild(character, 0);
-    // }
-
-    // auto direction = "right";
-
-    // REMOVE LATER, THIS IS CLOSE BUTTON =======================================================
-    //auto closeItem = MenuItemImage::create("res/ui/close-test.png",
-    //                                       "res/ui/close-test.png",
-    //                                    CC_CALLBACK_1(Level::menuCloseCallback, this));
-
-
-    //closeItem->setScale(2.0); // MAGIC NUMBER FIX LATER
-    //float x = origin.x + visibleSize.width - closeItem->getContentSize().width;
-    //float y = origin.y + visibleSize.height - closeItem->getContentSize().height;
-    //closeItem->setPosition(Vec2(x,y));
-
-    //auto menu = Menu::create(closeItem, NULL);
-    //menu->setPosition(Vec2::ZERO);
-    //this->addChild(menu, 1);
-    // ===========================================================================================
     
     //====================================
     //enemy spawn
@@ -202,9 +169,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 
         playerHPBar->setPercent(player->getHP()/2);
         updateScore(1);
-        char playerHP[5];
-        sprintf(playerHP,"%i",player->getHP());
-        playerHPLabel->setString(playerHP);
     }
     return true;
 }
@@ -240,16 +204,22 @@ void Level::onTouchEnded(Touch *touch, Event *event)
 	player->idle();
 }
 
-void Level::menuCloseCallback(Ref* pSender)
+void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
+    switch (keyCode) {
+        case EventKeyboard::KeyCode::KEY_A:
+            player->run(0);
+            break;
+        case EventKeyboard::KeyCode::KEY_D:
+            player->run(1);
+            break;
+    }
 }
+void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+    player->idle();
+}
+
 
 void Level::dashButtonCallback(Ref* pSender)
 {
