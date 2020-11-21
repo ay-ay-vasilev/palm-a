@@ -220,7 +220,7 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
 }
 void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
-    player->idle();
+    //player->idle();
 }
 
 
