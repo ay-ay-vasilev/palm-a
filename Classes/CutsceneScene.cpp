@@ -56,33 +56,58 @@ bool Cutscene::init()
     // Maybe do a loop? 
     auto cadr = cadres.back();
     cadres.popBack();
+    auto label = Label::createWithTTF("Legends say, that long ago humans ascended to godhood, shining in the sky\nAnd everyone was blessed with music, pouring from the stars", "fonts/Marker Felt.ttf", 26);
+    label->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
+    label->setOpacity(0);
+    this->addChild(label);
     this->addChild(cadr);
     cadr->runAction(seq);
+    label->runAction(seq->clone());
 
     auto cadr2 = cadres.back();
     cadres.popBack();
+    auto label2 = Label::createWithTTF("But one day, they were punished, their great work destroyed in the ashes.\nAnd all the music was gone with them...", "fonts/Marker Felt.ttf", 26);
+    label2->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
+    label2->setOpacity(0);
+    this->addChild(label2);
     this->addChild(cadr2);
     cocos2d::DelayTime* delayC = cocos2d::DelayTime::create(cadrTime);
     auto seq2 = Sequence::create(delayC, seq, nullptr);
     cadr2->runAction(seq2);
+    label2->runAction(seq2->clone());
 
     auto cadr3 = cadres.back();
     cadres.popBack();
+    auto label3 = Label::createWithTTF("But somewhere, there is an ancient vault that survived the fire\nOur elders believe, that the music of our ancestors will unite the lands", "fonts/Marker Felt.ttf", 26);
+    label3->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
+    label3->setOpacity(0);
+    this->addChild(label3);
     this->addChild(cadr3);
     auto seq3 = Sequence::create(delayC, delayC, seq, nullptr);
     cadr3->runAction(seq3);
+    label3->runAction(seq3->clone());
 
     auto cadr4 = cadres.back();
     cadres.popBack();
+    auto label4 = Label::createWithTTF("Stealing music from gods won't be easy...", "fonts/Marker Felt.ttf", 26);
+    label4->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
+    label4->setOpacity(0);
+    this->addChild(label4);
     this->addChild(cadr4);
     auto seq4 = Sequence::create(delayC, delayC, delayC, seq, nullptr);
     cadr4->runAction(seq4);
+    label4->runAction(seq4->clone());
 
     auto cadr5 = cadres.back();
     cadres.popBack();
+    auto label5 = Label::createWithTTF("But I am ready", "fonts/Marker Felt.ttf", 26);
+    label5->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
+    label5->setOpacity(0);
+    this->addChild(label5);
     this->addChild(cadr5);
     auto seq5 = Sequence::create(delayC, delayC, delayC, delayC, seq, nullptr);
     cadr5->runAction(seq5);
+    label5->runAction(seq5->clone());
 
     auto cadr6 = cadres.back();
     cadres.popBack();
@@ -95,7 +120,6 @@ bool Cutscene::init()
     listener1->onTouchBegan = [director](Touch* touch, Event* event) mutable {
         return true; // if you are consuming it
     };
-
     // Add listener
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, menu);
 */
@@ -121,8 +145,7 @@ Sprite* Cutscene::nextCadr(int i){
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
     cadr->setScale(4.0);
-    cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height/2));
+    cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height*2/3));
     cadr->setOpacity(0);
     return cadr;
 }
-
