@@ -5,7 +5,7 @@
 #define LOGO_ANIM_SPEED 0.12f
 // cutscene definitions
 #define DISPLAY_TIME_SPLASH_SCENE 2
-#define TRANSITION_TIME 0.2f
+#define TRANSITION_TIME 0.8f
 #define FADE_LENGTH 0.5f
 #define NUMBER_OF_CADRS 6
 // player stats
