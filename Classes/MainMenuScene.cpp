@@ -1,5 +1,6 @@
 #include "MainMenuScene.h"
 #include "CutsceneScene.h"
+#include "Definitions.h"
 #include <cstring>
 
 USING_NS_CC;
@@ -23,24 +24,24 @@ bool MainMenu::init()
 
     auto title = Sprite::create("res/ui/main_title_test.png");
     title->getTexture()->setAliasTexParameters();
-    title->setScale(7.0); // MAGIC NUMBER FIX LATER
+    title->setScale(3.5*RESOLUTION_VARIABLE);
     title->setAnchorPoint(Vec2(0.5, 0.5));
     title->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height / 4 * 3));
     this->addChild(title, 1);    
     auto startButton = Sprite::create("res/ui/start_button.png");
     startButton->getTexture()->setAliasTexParameters();
-    auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 36);
+    auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 18*RESOLUTION_VARIABLE);
 
     MenuItemSprite* startItem = MenuItemSprite::create(startButton, Sprite::create("res/ui/start_button.png"), Sprite::create("res/ui/start_button.png"), CC_CALLBACK_1(MainMenu::GoToCutscene, this));
     startItem->setAnchorPoint(Vec2(0.5, 0.5));      
-    startItem->setScale(5.0); // MAGIC NUMBER FIX LATER
+    startItem->setScale(2.5*RESOLUTION_VARIABLE);
 
     MenuItemLabel* exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(MainMenu::CloseGame, this));
 
     auto menu = Menu::create(startItem, exitItem, NULL);
     menu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 3));
-    menu->alignItemsVerticallyWithPadding(20);
+    menu->alignItemsVerticallyWithPadding(10*RESOLUTION_VARIABLE);
     this->addChild(menu, 1);
 
     return true;

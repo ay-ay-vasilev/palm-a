@@ -119,14 +119,14 @@ void Player::update()
 		if (direction == 0) //check if going left
 		{
 			//this->setScaleX(1); //flip
-			newPosX -= PLAYER_DASH_SPEED;
+			newPosX -= PLAYER_DASH_SPEED * RESOLUTION_VARIABLE;
 		}
 		else
 		{
 			//this->setScaleX(-1); //flip
-			newPosX += PLAYER_DASH_SPEED;
+			newPosX += PLAYER_DASH_SPEED * RESOLUTION_VARIABLE;
 		}
-		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE, director->getVisibleSize().width + origin.x - WALL_DISTANCE));
+		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE * RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - WALL_DISTANCE * RESOLUTION_VARIABLE));
 		dashed = false;
 	}
 
@@ -136,14 +136,14 @@ void Player::update()
 		if(direction == 0) //check if going left
 		{
 			//this->setScaleX(1); //flip
-			newPosX -= PLAYER_SPEED;
+			newPosX -= PLAYER_SPEED * RESOLUTION_VARIABLE;
 		}
 		else
 		{
 			//this->setScaleX(-1); //flip
-			newPosX += PLAYER_SPEED;
+			newPosX += PLAYER_SPEED * RESOLUTION_VARIABLE;
 		}
-		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE, director->getVisibleSize().width + origin.x - WALL_DISTANCE));
+		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - WALL_DISTANCE * RESOLUTION_VARIABLE));
 	}
 }
 cocos2d::PhysicsBody* Player::getBody()

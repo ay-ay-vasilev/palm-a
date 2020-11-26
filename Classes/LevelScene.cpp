@@ -56,36 +56,36 @@ bool Level::init()
 
     player = Player::create();
     player->setPhysicsBody(player->getBody());
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + FLOOR_HEIGHT));
-    player->setScale(0.5); // MAGIC NUMBER FIX LATER
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + FLOOR_HEIGHT*RESOLUTION_VARIABLE));
+    player->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(player, 5);
 
 	this->scheduleUpdate();
 
     auto floor = Sprite::create("res/level/test_floor.png");
     floor->getTexture()->setAliasTexParameters();
-    floor->setScale(1.8); // MAGIC NUMBER FIX LATER
+    floor->setScale(0.9*RESOLUTION_VARIABLE); // FIX BACKGROUND
     floor->setAnchorPoint(Vec2(0.5, 0.5));
-    floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 + 150)); // MAGIC NUMBER FIX LATER
+    floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 + 75*RESOLUTION_VARIABLE)); // FIX BACKGROUND
     this->addChild(floor, 0);
 
     auto dashButton = MenuItemImage::create(
         "res/ui/dash_button.png",
         "res/ui/dash_button.png",
         CC_CALLBACK_1(Level::dashButtonCallback, this));
-    dashButton->setScale(2.0);
+    dashButton->setScale(RESOLUTION_VARIABLE);
     dashButton->setOpacity(70);
     dashButton->setAnchorPoint(Vec2(1, 0));
-    dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width, origin.y + dashButton->getContentSize().height));
+    dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + dashButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
 
     auto pauseButton = MenuItemImage::create(
         "res/ui/pause_button.png",
         "res/ui/pause_button.png",
         CC_CALLBACK_1(Level::pauseButtonCallback, this));
-    pauseButton->setScale(2.0);
+    pauseButton->setScale(RESOLUTION_VARIABLE);
     pauseButton->setOpacity(70);
     pauseButton->setAnchorPoint(Vec2(1, 1));
-    pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2));
+    pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     
     auto menu = Menu::create(pauseButton, dashButton, NULL);
     menu->setPosition(Vec2::ZERO);
@@ -94,9 +94,9 @@ bool Level::init()
     // player score
     char playerScore[100];
     sprintf(playerScore, "Score: %i", score);
-    auto label = Label::createWithTTF(playerScore, "fonts/arial.ttf", 24);
+    auto label = Label::createWithTTF(playerScore, "fonts/arial.ttf", 12*RESOLUTION_VARIABLE);
     label->setAnchorPoint(Vec2(0, 1));
-    label->setPosition(Vec2(origin.x + label->getContentSize().width / 4, origin.y + visibleSize.height - label->getContentSize().height / 2));
+    label->setPosition(Vec2(origin.x + label->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - label->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     Color3B color(255, 255, 255);
     label->setColor(color);
     this->addChild(label, 1);
@@ -104,9 +104,9 @@ bool Level::init()
     // progress bar
     auto statusBar = Sprite::create("res/ui/status_bar.png");
     statusBar->getTexture()->setAliasTexParameters();
-    statusBar->setScale(2.0); // MAGIC NUMBER FIX LATER
+    statusBar->setScale(RESOLUTION_VARIABLE);
     statusBar->setAnchorPoint(Vec2(0.5, 0.5));
-    statusBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - statusBar->getContentSize().height));
+    statusBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - statusBar->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     this->addChild(statusBar, 10);
 
     //===================================
@@ -114,6 +114,7 @@ bool Level::init()
     playerHPBar = ui::LoadingBar::create("res/ui/hp_bar_2.png");
     playerHPBar->setAnchorPoint(Vec2(0, 0));
     playerHPBar->setPosition(Vec2(origin.x, origin.y));
+    playerHPBar->setScale(0.5*RESOLUTION_VARIABLE);
     playerHPBar->setPercent(100);
     playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
     this->addChild(playerHPBar,101);
@@ -121,6 +122,7 @@ bool Level::init()
     cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create( "res/ui/hp_bar_1.png" );
     playerHPBarUnder->setAnchorPoint(Vec2(0, 0));
     playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
+    playerHPBarUnder->setScale(0.5*RESOLUTION_VARIABLE);
     this->addChild(playerHPBarUnder,100);
     //===================================
     
@@ -159,13 +161,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ( ( 1 == a->getCollisionBitmask() && 2 == b->getCollisionBitmask() ) 
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
-        player->updateHP(10);
+        player->updateHP(ENEMY_COLLIDE_DMG);
         playerHPBar->setPercent(player->getHP()/2);
     }
     if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
 		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
-        player->updateHP(2);
+        player->updateHP(ENEMY_PROJECTILE_DMG);
 
         playerHPBar->setPercent(player->getHP()/2);
         updateScore(1);
@@ -250,17 +252,20 @@ void Level::spawnEnemy(float dt)
     //creating
     Enemy* enemy;
     enemy = GameController::spawnEnemy(1);
-    enemy->setScale(0.5); // MAGIC NUMBER FIX LATER
+    enemy->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(enemy, 4);
     //moving and deleting
     float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
 
+    auto enemySpeed = ENEMY_SPEED * RESOLUTION_VARIABLE;
+
     switch(enemy->getSpawnPoint())
     {
+        
         case 1:
         {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
             auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
             auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
             enemy->runAction(sequence);
@@ -268,8 +273,8 @@ void Level::spawnEnemy(float dt)
         }
         case 2:
         {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
             auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
             auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
             enemy->runAction(sequence);
@@ -277,8 +282,8 @@ void Level::spawnEnemy(float dt)
         }
         case 3:
         {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
             auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
             auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
             enemy->runAction(sequence);
@@ -286,8 +291,8 @@ void Level::spawnEnemy(float dt)
         }
         case 4:
         {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / ENEMY_SPEED, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
             auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
             auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
             enemy->runAction(sequence);
@@ -312,13 +317,14 @@ void Level::spawnEnemyProjectiles(float dt)
         //creating
         EnemyProjectile* projectile;
         projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(i)->getPosition(),player->getPosition());
+        projectile->setScale(0.5*RESOLUTION_VARIABLE);
         this->addChild(projectile,5);
         //moving and deleting
         Vec2 tar = projectile->getTarget();
         float distanceX = projectile->getPosition().x - origin.x - tar.x;
         float distanceY = projectile->getPosition().y - origin.y - tar.y;
         float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
-        auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED, tar);
+        auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
         auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
         auto sequence = Sequence::create(moveAction, callBack, NULL);
         projectile->runAction(sequence);

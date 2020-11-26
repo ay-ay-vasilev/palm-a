@@ -33,7 +33,7 @@ bool Cutscene::init()
                                            CC_CALLBACK_1(Cutscene::GoToLevelScene, this));
     skipItem->setAnchorPoint({1, 0});
     skipItem->setPosition(Vec2(origin.x + visibleSize.width,origin.y));
-    skipItem->setScale(2.0); // MAGIC NUMBER FIX LATER
+    skipItem->setScale(RESOLUTION_VARIABLE);
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(skipItem, NULL);
@@ -44,6 +44,8 @@ bool Cutscene::init()
     
     auto cadrTime = (TRANSITION_TIME + FADE_LENGTH * 2);
     auto totalCutsceneTime = cadrTime * NUMBER_OF_CADRS;
+    auto fontSize = 13 * RESOLUTION_VARIABLE;
+
     this->scheduleOnce(funPointer, totalCutsceneTime);
 
     Vector<Sprite*> cadres(NUMBER_OF_CADRS);
@@ -56,7 +58,7 @@ bool Cutscene::init()
     // Maybe do a loop? 
     auto cadr = cadres.back();
     cadres.popBack();
-    auto label = Label::createWithTTF("Legends say, that long ago humans ascended to godhood, shining in the sky\nAnd everyone was blessed with music, pouring from the stars", "fonts/Marker Felt.ttf", 26);
+    auto label = Label::createWithTTF("Legends say, that long ago humans ascended to godhood, shining in the sky\nAnd everyone was blessed with music, pouring from the stars", "fonts/Marker Felt.ttf", fontSize);
     label->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
     label->setOpacity(0);
     this->addChild(label);
@@ -66,7 +68,7 @@ bool Cutscene::init()
 
     auto cadr2 = cadres.back();
     cadres.popBack();
-    auto label2 = Label::createWithTTF("But one day, they were punished, their great work destroyed in the ashes.\nAnd all the music was gone with them...", "fonts/Marker Felt.ttf", 26);
+    auto label2 = Label::createWithTTF("But one day, they were punished, their great work destroyed in the ashes.\nAnd all the music was gone with them...", "fonts/Marker Felt.ttf", fontSize);
     label2->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
     label2->setOpacity(0);
     this->addChild(label2);
@@ -78,7 +80,7 @@ bool Cutscene::init()
 
     auto cadr3 = cadres.back();
     cadres.popBack();
-    auto label3 = Label::createWithTTF("But somewhere, there is an ancient vault that survived the fire\nOur elders believe, that the music of our ancestors will unite the lands", "fonts/Marker Felt.ttf", 26);
+    auto label3 = Label::createWithTTF("But somewhere, there is an ancient vault that survived the fire\nOur elders believe, that the music of our ancestors will unite the lands", "fonts/Marker Felt.ttf", fontSize);
     label3->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
     label3->setOpacity(0);
     this->addChild(label3);
@@ -89,7 +91,7 @@ bool Cutscene::init()
 
     auto cadr4 = cadres.back();
     cadres.popBack();
-    auto label4 = Label::createWithTTF("Stealing music from gods won't be easy...", "fonts/Marker Felt.ttf", 26);
+    auto label4 = Label::createWithTTF("Stealing music from gods won't be easy...", "fonts/Marker Felt.ttf", fontSize);
     label4->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
     label4->setOpacity(0);
     this->addChild(label4);
@@ -100,7 +102,7 @@ bool Cutscene::init()
 
     auto cadr5 = cadres.back();
     cadres.popBack();
-    auto label5 = Label::createWithTTF("But I am ready", "fonts/Marker Felt.ttf", 26);
+    auto label5 = Label::createWithTTF("But I am ready", "fonts/Marker Felt.ttf", fontSize);
     label5->setPosition(Vec2(visibleSize.width / 2, origin.y + visibleSize.height / 5));
     label5->setOpacity(0);
     this->addChild(label5);
@@ -144,7 +146,7 @@ Sprite* Cutscene::nextCadr(int i){
     sprintf(str, "res/cutscene/%i_test.png", i);
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
-    cadr->setScale(4.0);
+    cadr->setScale(2.0*RESOLUTION_VARIABLE);
     cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height*2/3));
     cadr->setOpacity(0);
     return cadr;

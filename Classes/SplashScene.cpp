@@ -45,7 +45,7 @@ bool Splash::init()
     auto logoAnimation = Animation::createWithSpriteFrames(logoAnimFrames, LOGO_ANIM_SPEED);
     Animate * logoAnimate = Animate::create(logoAnimation);
 
-    backgroundSprite->setScale(1.5);
+    backgroundSprite->setScale(0.75*RESOLUTION_VARIABLE);
     backgroundSprite->runAction(RepeatForever::create(logoAnimate));
     this->addChild(backgroundSprite);
 

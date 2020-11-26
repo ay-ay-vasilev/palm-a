@@ -27,6 +27,7 @@
 #include "MainMenuScene.h"
 #include "CutsceneScene.h"
 #include "SplashScene.h"
+#include "Definitions.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -41,7 +42,7 @@ static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(960, 640);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(1440, 960);
 
-static cocos2d::Size designResolutionSize = mediumResolutionSize;
+static cocos2d::Size designResolutionSize = cocos2d::Size(480*RESOLUTION_VARIABLE, 320*RESOLUTION_VARIABLE);
 
 AppDelegate::AppDelegate()
 {
