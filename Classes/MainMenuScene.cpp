@@ -1,6 +1,9 @@
 #include "MainMenuScene.h"
-#include "CutsceneScene.h"
+//#include "CutsceneScene.h"
+#include "NewGameScene.h"
 #include "Definitions.h"
+#include "RecordsScene.h"
+#include "LevelScene.h"
 #include <cstring>
 
 USING_NS_CC;
@@ -12,42 +15,68 @@ Scene* MainMenu::createScene()
 
 bool MainMenu::init()
 {
-    if ( !Scene::init() )
+    if (!Scene::init())
     {
         return false;
     }
     auto director = cocos2d::Director::getInstance();
-    
+
     auto visibleSize = director->getVisibleSize();
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
 
     auto title = Sprite::create("res/ui/main_title_test.png");
     title->getTexture()->setAliasTexParameters();
-    title->setScale(3.5*RESOLUTION_VARIABLE);
+    title->setScale(3.5 * RESOLUTION_VARIABLE);
     title->setAnchorPoint(Vec2(0.5, 0.5));
     title->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height / 4 * 3));
-    this->addChild(title, 1);    
-    auto startButton = Sprite::create("res/ui/start_button.png");
-    startButton->getTexture()->setAliasTexParameters();
-    MenuItemSprite* startItem = MenuItemSprite::create(startButton, Sprite::create("res/ui/start_button.png"), Sprite::create("res/ui/start_button.png"), CC_CALLBACK_1(MainMenu::GoToCutscene, this));
-    startItem->setAnchorPoint(Vec2(0.5, 0.5));      
-    startItem->setScale(2.5*RESOLUTION_VARIABLE);
 
-    auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 18 * RESOLUTION_VARIABLE);
+    this->addChild(title, 1);
+
+    //auto startButton = Sprite::create("res/ui/start_button.png");
+    //startButton->getTexture()->setAliasTexParameters();
+
+    auto continueLabel = Label::createWithTTF("CONTINUE", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto startLabel = Label::createWithTTF("START NEW GAME", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto recordsLabel = Label::createWithTTF("RECORDS", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto exitLabel = Label::createWithTTF("EXIT", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+
+    //MenuItemSprite* startItem = MenuItemSprite::create(startButton, Sprite::create("res/ui/start_button.png"), Sprite::create("res/ui/start_button.png"), CC_CALLBACK_1(MainMenu::GoToCutscene, this));
+    //startItem->setAnchorPoint(Vec2(0.5, 0.5));      
+    //startItem->setScale(2.5*RESOLUTION_VARIABLE);
+
+    MenuItemLabel* continueItem = MenuItemLabel::create(continueLabel, CC_CALLBACK_1(MainMenu::ContinueGame, this));
+    MenuItemLabel* startItem = MenuItemLabel::create(startLabel, CC_CALLBACK_1(MainMenu::GoToNewGameScene, this));
+    MenuItemLabel* recordsItem = MenuItemLabel::create(recordsLabel, CC_CALLBACK_1(MainMenu::GoToRecordsScene, this));
+
     MenuItemLabel* exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(MainMenu::CloseGame, this));
 
-    auto menu = Menu::create(startItem, exitItem, NULL);
+    auto menu = Menu::create(continueItem, startItem, recordsItem, exitItem, NULL);
     menu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 3));
-    menu->alignItemsVerticallyWithPadding(10*RESOLUTION_VARIABLE);
+    menu->alignItemsVerticallyWithPadding(10 * RESOLUTION_VARIABLE);
     this->addChild(menu, 1);
 
     return true;
 }
 
-void MainMenu::GoToCutscene(cocos2d::Ref* pSender) {
-    auto scene = Cutscene::createScene();
+//void MainMenu::GoToCutscene(cocos2d::Ref* pSender) {
+//    auto scene = Cutscene::createScene();
+//    Director::getInstance()->replaceScene(scene);
+//}
+
+void MainMenu::GoToNewGameScene(cocos2d::Ref* pSender) {
+    auto scene = NewGame::createScene();
+    Director::getInstance()->replaceScene(scene);
+}
+
+void MainMenu::ContinueGame(cocos2d::Ref* pSender) {
+    auto scene = Level::createScene();
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+}
+
+void MainMenu::GoToRecordsScene(cocos2d::Ref* pSender) {
+    auto scene = RecordsScene::createScene();
     Director::getInstance()->replaceScene(scene);
 }
 
