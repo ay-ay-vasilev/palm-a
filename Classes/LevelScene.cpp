@@ -101,11 +101,11 @@ bool Level::init()
     pauseBackground->setContentSize(this->getContentSize());
     this->addChild(pauseBackground, 12);
 
-    auto resumeLabel = Label::createWithTTF("Resume", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
     MenuItemLabel *resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
     resumeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3 * 2));
 
-    auto mainMenuLabel = Label::createWithTTF("Main Menu", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto mainMenuLabel = Label::createWithTTF("MAIN MENU", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
     MenuItemLabel *mainMenuItem = MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(Level::goToMainMenu, this));
     mainMenuItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3));
 
@@ -119,12 +119,12 @@ bool Level::init()
     // player score
     char playerScore[100];
     sprintf(playerScore, "Score: %i", score);
-    auto label = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12*RESOLUTION_VARIABLE);
-    label->setAnchorPoint(Vec2(0, 1));
-    label->setPosition(Vec2(origin.x + label->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - label->getContentSize().height / 2 * RESOLUTION_VARIABLE));
+    scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12*RESOLUTION_VARIABLE);
+    scoreLabel->setAnchorPoint(Vec2(0, 1));
+    scoreLabel->setPosition(Vec2(origin.x + scoreLabel->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - scoreLabel->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     Color3B color(255, 255, 255);
-    label->setColor(color);
-    this->addChild(label, 1);
+    scoreLabel->setColor(color);
+    this->addChild(scoreLabel, 1);
 
     // progress bar
     auto statusBar = Sprite::create("res/ui/status_bar.png");
@@ -170,6 +170,10 @@ bool Level::init()
     contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
     //====================================
+
+    auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
+    this->schedule(updateScorePointer, 1.0f);
+
     return true;
 }
 
@@ -195,7 +199,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->updateHP(ENEMY_PROJECTILE_DMG);
 
         playerHPBar->setPercent(player->getHP()/2);
-        updateScore(1);
     }
     return true;
 }
@@ -203,19 +206,22 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 void Level::update(float dt)
 {
 	player->update();
-    //this->updateScore(1);
+
+    char playerScore[100];
+    sprintf(playerScore, "Score: %i", score);
+    scoreLabel->setString(playerScore);
 }
 
 //Doesn't work
-void Level::updateScore(int points)
+void Level::updateScore(float dt)
 {
-    score = score + points;
+    score = score + 1;
 }
 
 void Level::goToMainMenu(Ref* pSender)
 {
     Scene* scene = MainMenu::createScene();
-    TransitionFade* transition = TransitionFade::create(1.0f, scene);
+    TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
 
     Director::getInstance()->replaceScene(scene);
     Director::getInstance()->startAnimation();

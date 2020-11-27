@@ -50,12 +50,14 @@ private:
 
     bool isPaused;
     int score;
-    void updateScore(int points);
+    void updateScore(float points);
+
 
     cocos2d::Menu *pauseMenu;
-    cocos2d::Menu* gameUI;
+    cocos2d::Menu *gameUI;
     cocos2d::Sprite *pauseBackground;
 
+    cocos2d::Label *scoreLabel;
     cocos2d::Label *playerHPLabel;
     ui::LoadingBar *playerHPBar;
 };
