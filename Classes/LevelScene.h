@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "EnemyProjectile.h"
 #include "GameController.h"
+#include "MainMenuScene.h"
 
 class Level : public cocos2d::Scene
 {
@@ -19,6 +20,7 @@ public:
     // a selector callback
     void dashButtonCallback(cocos2d::Ref* pSender);
     void pauseButtonCallback(cocos2d::Ref* pSender);
+    void goToMainMenu(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
@@ -49,6 +51,10 @@ private:
     bool isPaused;
     int score;
     void updateScore(int points);
+
+    cocos2d::Menu *pauseMenu;
+    cocos2d::Menu* gameUI;
+    cocos2d::Sprite *pauseBackground;
 
     cocos2d::Label *playerHPLabel;
     ui::LoadingBar *playerHPBar;

@@ -90,14 +90,36 @@ bool Level::init()
     pauseButton->setAnchorPoint(Vec2(1, 1));
     pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     
-    auto menu = Menu::create(pauseButton, dashButton, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 10);
-    
+    gameUI = Menu::create(pauseButton, dashButton, NULL);
+    gameUI->setPosition(Vec2::ZERO);
+    this->addChild(gameUI, 10);
+
+    pauseBackground = Sprite::create("res/ui/black.png");
+    pauseBackground->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    pauseBackground->setOpacity(0);
+    pauseBackground->setAnchorPoint(Vec2(0.5, 0.5));
+    pauseBackground->setContentSize(this->getContentSize());
+    this->addChild(pauseBackground, 12);
+
+    auto resumeLabel = Label::createWithTTF("Resume", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    MenuItemLabel *resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
+    resumeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3 * 2));
+
+    auto mainMenuLabel = Label::createWithTTF("Main Menu", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    MenuItemLabel *mainMenuItem = MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(Level::goToMainMenu, this));
+    mainMenuItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3));
+
+    pauseMenu = Menu::create(resumeItem, mainMenuItem, NULL);
+    pauseMenu->setEnabled(false);
+    pauseMenu->setVisible(false);
+    pauseMenu->setContentSize(this->getContentSize());
+    pauseMenu->setPosition(Vec2::ZERO);
+    this->addChild(pauseMenu, 13);
+
     // player score
     char playerScore[100];
     sprintf(playerScore, "Score: %i", score);
-    auto label = Label::createWithTTF(playerScore, "fonts/arial.ttf", 12*RESOLUTION_VARIABLE);
+    auto label = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12*RESOLUTION_VARIABLE);
     label->setAnchorPoint(Vec2(0, 1));
     label->setPosition(Vec2(origin.x + label->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - label->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     Color3B color(255, 255, 255);
@@ -120,13 +142,13 @@ bool Level::init()
     playerHPBar->setScale(0.5*RESOLUTION_VARIABLE);
     playerHPBar->setPercent(100);
     playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
-    this->addChild(playerHPBar,101);
+    this->addChild(playerHPBar,11);
 
     cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create( "res/ui/hp_bar_1.png" );
     playerHPBarUnder->setAnchorPoint(Vec2(0, 0));
     playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
     playerHPBarUnder->setScale(0.5*RESOLUTION_VARIABLE);
-    this->addChild(playerHPBarUnder,100);
+    this->addChild(playerHPBarUnder,10);
     //===================================
     
     //====================================
@@ -189,6 +211,18 @@ void Level::updateScore(int points)
 {
     score = score + points;
 }
+
+void Level::goToMainMenu(Ref* pSender)
+{
+    Scene* scene = MainMenu::createScene();
+    TransitionFade* transition = TransitionFade::create(1.0f, scene);
+
+    Director::getInstance()->replaceScene(scene);
+    Director::getInstance()->startAnimation();
+    AudioEngine::stopAll();
+    AudioEngine::end();
+}
+
 
 bool Level::onTouchBegan(Touch *touch, Event *event)
 {
@@ -256,13 +290,24 @@ void Level::pauseButtonCallback(Ref* pSender)
     if (!isPaused) {
         Director::getInstance()->stopAnimation();
         AudioEngine::pauseAll();
-        isPaused = true;
+        //isPaused = true;
+
+        pauseBackground->setOpacity(200);
+        pauseMenu->setEnabled(true);
+        pauseMenu->setVisible(true);
+        gameUI->setEnabled(false);
     }
     else {
         Director::getInstance()->startAnimation();
         AudioEngine::resumeAll();
-        isPaused = false;
+        //isPaused = false;
+
+        pauseBackground->setOpacity(0);
+        pauseMenu->setEnabled(false);
+        pauseMenu->setVisible(false);
+        gameUI->setEnabled(true);
     }
+    isPaused = !isPaused;
 }
 
 void Level::spawnEnemy(float dt)
