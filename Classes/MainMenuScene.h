@@ -7,8 +7,11 @@ class MainMenu : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
-    void GoToCutscene(cocos2d::Ref* pSender);
+    //void GoToCutscene(cocos2d::Ref* pSender);
     void CloseGame(cocos2d::Ref* pSender);
+    void GoToNewGameScene(cocos2d::Ref* pSender);
+    void ContinueGame(cocos2d::Ref* pSender);
+    void GoToRecordsScene(cocos2d::Ref* pSender);
 
     virtual bool init();
     
