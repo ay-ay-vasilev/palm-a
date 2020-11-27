@@ -1,3 +1,4 @@
+//#include <deque>
 #include "LevelScene.h"
 #include "Definitions.h"
 #include "GameController.h"
@@ -191,38 +192,53 @@ bool Level::onTouchBegan(Touch *touch, Event *event)
 {
 	if(touch->getLocation().x < Director::getInstance()->getVisibleSize().width/2)
 	{
-		player->run(0); // param '0' for left
+        keyMovementDeque.push_front(DIRECTION_LEFT);
 	}
 	if(touch->getLocation().x > Director::getInstance()->getVisibleSize().width/2)
 	{
-		player->run(1); // param '1' for right
+        keyMovementDeque.push_front(DIRECTION_RIGHT);
 	}
-
+    if (!keyMovementDeque.empty()) player->run(keyMovementDeque.front());
 	return true;
 }
 
 void Level::onTouchEnded(Touch *touch, Event *event)
 {
-	player->idle();
+    keyMovementDeque.pop_front();
+    if (keyMovementDeque.empty()) player->idle();
 }
 
 void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     switch (keyCode) {
         case EventKeyboard::KeyCode::KEY_A:
-            player->run(0);
+            keyMovementDeque.push_front(DIRECTION_LEFT);
+            //player->run(DIRECTION_LEFT);
             break;
         case EventKeyboard::KeyCode::KEY_D:
-            player->run(1);
+            keyMovementDeque.push_front(DIRECTION_RIGHT);
+            //player->run(DIRECTION_RIGHT);
             break;
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
             player->dash();
             break;
     }
+    if (!keyMovementDeque.empty()) player->run(keyMovementDeque.front());
 }
 void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     //player->idle();
+    switch (keyCode) {
+    case EventKeyboard::KeyCode::KEY_A:
+        if (keyMovementDeque.front() == DIRECTION_LEFT) keyMovementDeque.pop_front();
+        else keyMovementDeque.pop_back();
+        break;
+    case EventKeyboard::KeyCode::KEY_D:
+        if (keyMovementDeque.front() == DIRECTION_RIGHT) keyMovementDeque.pop_front();
+        else keyMovementDeque.pop_back();
+        break;
+    }
+    if (keyMovementDeque.empty()) player->idle();
 }
 
 

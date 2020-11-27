@@ -133,7 +133,7 @@ void Player::update()
 	if(moving) //check if moving
 	{
 		auto newPosX = this->getPositionX();
-		if(direction == 0) //check if going left
+		if(direction == DIRECTION_LEFT) //check if going left
 		{
 			//this->setScaleX(1); //flip
 			newPosX -= PLAYER_SPEED * RESOLUTION_VARIABLE;

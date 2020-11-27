@@ -1,7 +1,10 @@
 #ifndef __DEFINITIONS_H__
 #define __DEFINITIONS_H__
 // resolution
-#define RESOLUTION_VARIABLE 1 // EITHER 1, 2 or 3
+#define RESOLUTION_VARIABLE 2 // EITHER 1, 2 or 3
+// magic number solvers
+#define DIRECTION_LEFT 0
+#define DIRECTION_RIGHT 1
 // splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6
 #define LOGO_ANIM_SPEED 0.12f
@@ -25,7 +28,7 @@
 // enemy stats
 #define ENEMY_SPAWN_FREQUENCY 1
 #define ENEMY_SPEED 100.0f
-#define ENEMY_PROJECTILE_SPEED 50.0f
+#define ENEMY_PROJECTILE_SPEED 200.0f
 #define ENEMY_PROJECTILE_FREQUENCY 3.0f
 // enemy animation and sprites
 #define ENEMY_ANIM_IDLE_NUM_OF_FRAMES 5

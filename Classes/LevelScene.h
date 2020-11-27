@@ -1,6 +1,7 @@
 #ifndef __LEVEL_SCENE_H__
 #define __LEVEL_SCENE_H__
 
+#include <deque>
 #include "ui/CocosGUI.h"
 #include "cocos2d.h"
 #include "Player.h"
@@ -39,6 +40,8 @@ private:
     
     void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+
+    std::deque<int> keyMovementDeque;
 
     void spawnEnemy( float dt );
     void spawnEnemyProjectiles(float dt);
