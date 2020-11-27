@@ -33,6 +33,8 @@ bool Level::init()
     }
     isPaused = false;
     score = 0;
+    movementInputDeck.clear();
+
     //init the music
     auto music = AudioEngine::play2d("res/music/audio.mp3", true);
     AudioEngine::setVolume(music, 0.1);
@@ -192,53 +194,55 @@ bool Level::onTouchBegan(Touch *touch, Event *event)
 {
 	if(touch->getLocation().x < Director::getInstance()->getVisibleSize().width/2)
 	{
-        keyMovementDeque.push_front(DIRECTION_LEFT);
+        movementInputDeck.push_front(DIRECTION_LEFT);
 	}
 	if(touch->getLocation().x > Director::getInstance()->getVisibleSize().width/2)
 	{
-        keyMovementDeque.push_front(DIRECTION_RIGHT);
+        movementInputDeck.push_front(DIRECTION_RIGHT);
 	}
-    if (!keyMovementDeque.empty()) player->run(keyMovementDeque.front());
+    if (!movementInputDeck.empty()) player->run(movementInputDeck.front());
 	return true;
 }
 
 void Level::onTouchEnded(Touch *touch, Event *event)
 {
-    keyMovementDeque.pop_front();
-    if (keyMovementDeque.empty()) player->idle();
+    movementInputDeck.pop_front();
+    if (movementInputDeck.empty()) player->idle();
+    else player->run(movementInputDeck.front());
 }
 
 void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     switch (keyCode) {
         case EventKeyboard::KeyCode::KEY_A:
-            keyMovementDeque.push_front(DIRECTION_LEFT);
+            movementInputDeck.push_front(DIRECTION_LEFT);
             //player->run(DIRECTION_LEFT);
             break;
         case EventKeyboard::KeyCode::KEY_D:
-            keyMovementDeque.push_front(DIRECTION_RIGHT);
+            movementInputDeck.push_front(DIRECTION_RIGHT);
             //player->run(DIRECTION_RIGHT);
             break;
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
             player->dash();
             break;
     }
-    if (!keyMovementDeque.empty()) player->run(keyMovementDeque.front());
+    if (!movementInputDeck.empty()) player->run(movementInputDeck.front());
 }
 void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     //player->idle();
     switch (keyCode) {
     case EventKeyboard::KeyCode::KEY_A:
-        if (keyMovementDeque.front() == DIRECTION_LEFT) keyMovementDeque.pop_front();
-        else keyMovementDeque.pop_back();
+        if (movementInputDeck.front() == DIRECTION_LEFT) movementInputDeck.pop_front();
+        else movementInputDeck.pop_back();
         break;
     case EventKeyboard::KeyCode::KEY_D:
-        if (keyMovementDeque.front() == DIRECTION_RIGHT) keyMovementDeque.pop_front();
-        else keyMovementDeque.pop_back();
+        if (movementInputDeck.front() == DIRECTION_RIGHT) movementInputDeck.pop_front();
+        else movementInputDeck.pop_back();
         break;
     }
-    if (keyMovementDeque.empty()) player->idle();
+    if (movementInputDeck.empty()) player->idle();
+    else player->run(movementInputDeck.front());
 }
 
 

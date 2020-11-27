@@ -41,7 +41,7 @@ private:
     void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-    std::deque<int> keyMovementDeque;
+    std::deque<int> movementInputDeck;
 
     void spawnEnemy( float dt );
     void spawnEnemyProjectiles(float dt);
