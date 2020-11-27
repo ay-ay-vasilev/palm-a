@@ -30,12 +30,11 @@ bool MainMenu::init()
     this->addChild(title, 1);    
     auto startButton = Sprite::create("res/ui/start_button.png");
     startButton->getTexture()->setAliasTexParameters();
-    auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 18*RESOLUTION_VARIABLE);
-
     MenuItemSprite* startItem = MenuItemSprite::create(startButton, Sprite::create("res/ui/start_button.png"), Sprite::create("res/ui/start_button.png"), CC_CALLBACK_1(MainMenu::GoToCutscene, this));
     startItem->setAnchorPoint(Vec2(0.5, 0.5));      
     startItem->setScale(2.5*RESOLUTION_VARIABLE);
 
+    auto exitLabel = Label::createWithTTF("Exit", "fonts/Marker Felt.ttf", 18 * RESOLUTION_VARIABLE);
     MenuItemLabel* exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(MainMenu::CloseGame, this));
 
     auto menu = Menu::create(startItem, exitItem, NULL);

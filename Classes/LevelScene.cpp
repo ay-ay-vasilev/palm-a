@@ -1,4 +1,4 @@
-//#include <deque>
+#include <deque>
 #include "LevelScene.h"
 #include "Definitions.h"
 #include "GameController.h"
