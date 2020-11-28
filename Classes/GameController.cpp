@@ -60,3 +60,26 @@ float GameController::enemyPosition(Enemy* enemy){
     position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
     return position;
 }
+int GameController::findClosestEnemy(Vec2 playerPos){
+    int n = GameController::enemies.size()-1;
+    int closestEnemy = n;
+    if (n>0){
+        float s = findDistance(GameController::enemies.at(n)->getPosition(), playerPos);
+        for (int i = n; i>=0; i--)
+        {
+            if (s > findDistance(GameController::enemies.at(i)->getPosition(), playerPos))
+            {
+                s = findDistance(GameController::enemies.at(i)->getPosition(), playerPos);
+                closestEnemy = i;
+            }
+        }
+    }
+    return closestEnemy;
+}
+float GameController::findDistance(Vec2 enemyPos, Vec2 playerPos)
+{
+    float distanceX = enemyPos.x - playerPos.x;
+    float distanceY = enemyPos.y - playerPos.y;
+    float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
+    return distance;
+}

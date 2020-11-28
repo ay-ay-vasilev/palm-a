@@ -185,6 +185,17 @@ bool Level::init()
     return true;
 }
 
+void Level::update(float dt)
+{
+	player->update();
+
+    char playerScore[100];
+    sprintf(playerScore, "Score: %i", score);
+    scoreLabel->setString(playerScore);
+    progressBar->setPercent(100 - score);
+
+    closestEnemy = GameController::findClosestEnemy(player->getPosition());
+}
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
     //collision bit masks
@@ -200,7 +211,9 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {   
         player->updateHP(ENEMY_COLLIDE_DMG);
         playerHPBar->setPercent(player->getHP()/2);
+        removeEnemy(GameController::enemies.at(closestEnemy));
     }
+    //if player collided with projectile
     if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
 		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
@@ -211,15 +224,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     return true;
 }
 
-void Level::update(float dt)
-{
-	player->update();
-
-    char playerScore[100];
-    sprintf(playerScore, "Score: %i", score);
-    scoreLabel->setString(playerScore);
-    progressBar->setPercent(100 - score);
-}
 
 //Doesn't work
 void Level::updateScore(float dt)
@@ -338,7 +342,7 @@ void Level::spawnEnemy(float dt)
     enemy->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(enemy, 4);
     //moving and deleting
-    float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
+    float distance = visibleSize.height + ENEMY_SPRITE_SIZE * 2;
 
     auto enemySpeed = ENEMY_SPEED * RESOLUTION_VARIABLE;
 
