@@ -49,7 +49,7 @@ private:
     void spawnEnemyProjectiles(float dt);
 
     bool isPaused;
-    int score;
+    int remainingTime;
     void updateScore(float points);
 
     void levelFinished();

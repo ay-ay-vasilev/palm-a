@@ -88,7 +88,7 @@ void Player::dash()
 
 void Player::jump()
 {
-	if (this->getPositionY() <= origin.y + FLOOR_HEIGHT*RESOLUTION_VARIABLE) vertForce = PLAYER_JUMP_FORCE;
+	if (this->getPositionY() <= origin.y + LEVEL_FLOOR_HEIGHT*RESOLUTION_VARIABLE) vertForce = PLAYER_JUMP_FORCE;
 }
 
 void Player::run(int directionParam)
@@ -133,7 +133,7 @@ void Player::update()
 			//this->setScaleX(-1); //flip
 			newPosX += PLAYER_DASH_SPEED * RESOLUTION_VARIABLE;
 		}
-		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE * RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - WALL_DISTANCE * RESOLUTION_VARIABLE));
+		this->setPositionX(clampf(newPosX, origin.x + LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
 		dashed = false;
 	}
 
@@ -150,12 +150,12 @@ void Player::update()
 			//this->setScaleX(-1); //flip
 			newPosX += PLAYER_SPEED * RESOLUTION_VARIABLE;
 		}
-		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - WALL_DISTANCE * RESOLUTION_VARIABLE));
+		this->setPositionX(clampf(newPosX, origin.x + LEVEL_WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
 	}
 
 	vertForce = clampf(vertForce - PLAYER_GRAVITY, -100, 100);
 	auto newPosY = this->getPositionY() + vertForce;
-	this->setPositionY(clampf(newPosY, origin.y + FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
+	this->setPositionY(clampf(newPosY, origin.y + LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
 
 }
 cocos2d::PhysicsBody* Player::getBody()

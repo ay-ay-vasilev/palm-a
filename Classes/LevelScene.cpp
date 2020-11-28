@@ -32,7 +32,7 @@ bool Level::init()
         return false;
     }
     isPaused = false;
-    score = 100;
+    remainingTime = 0;
     movementInputDeck.clear();
     GameController::enemies.clear();
     GameController::enemyProjectiles.clear();
@@ -61,9 +61,9 @@ bool Level::init()
 
     player = Player::create();
     player->setPhysicsBody(player->getBody());
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + FLOOR_HEIGHT*RESOLUTION_VARIABLE));
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + LEVEL_FLOOR_HEIGHT*RESOLUTION_VARIABLE));
     player->setScale(0.25*RESOLUTION_VARIABLE);
-	this->addChild(player, 5);
+	
 
 	this->scheduleUpdate();
 
@@ -72,8 +72,7 @@ bool Level::init()
     floor->setScale(0.9*RESOLUTION_VARIABLE); // FIX BACKGROUND
     floor->setAnchorPoint(Vec2(0.5, 0.5));
     floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 + 75*RESOLUTION_VARIABLE)); // FIX BACKGROUND
-    this->addChild(floor, 0);
-
+    
     auto dashButton = MenuItemImage::create(
         "res/ui/dash_button.png",
         "res/ui/dash_button.png",
@@ -94,14 +93,12 @@ bool Level::init()
     
     gameUI = Menu::create(pauseButton, dashButton, NULL);
     gameUI->setPosition(Vec2::ZERO);
-    this->addChild(gameUI, 10);
 
     pauseBackground = Sprite::create("res/ui/black.png");
     pauseBackground->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     pauseBackground->setOpacity(0);
     pauseBackground->setAnchorPoint(Vec2(0.5, 0.5));
     pauseBackground->setContentSize(this->getContentSize());
-    this->addChild(pauseBackground, 12);
 
     auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
     MenuItemLabel *resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
@@ -116,17 +113,15 @@ bool Level::init()
     pauseMenu->setVisible(false);
     pauseMenu->setContentSize(this->getContentSize());
     pauseMenu->setPosition(Vec2::ZERO);
-    this->addChild(pauseMenu, 13);
 
     // player score
     char playerScore[100];
-    sprintf(playerScore, "Score: %i", score);
+    sprintf(playerScore, "Score: %i", remainingTime);
     scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12*RESOLUTION_VARIABLE);
     scoreLabel->setAnchorPoint(Vec2(0, 1));
     scoreLabel->setPosition(Vec2(origin.x + scoreLabel->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - scoreLabel->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     Color3B color(255, 255, 255);
     scoreLabel->setColor(color);
-    this->addChild(scoreLabel, 1);
 
 
     auto progressBarOver = Sprite::create("res/ui/status_bar_over.png");
@@ -134,7 +129,6 @@ bool Level::init()
     progressBarOver->setScale(RESOLUTION_VARIABLE);
     progressBarOver->setAnchorPoint(Vec2(0.5, 0.5));
     progressBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBarOver->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-    this->addChild(progressBarOver, 11);
 
     // progress bar
     progressBar = ui::LoadingBar::create("res/ui/status_bar.png");
@@ -143,7 +137,6 @@ bool Level::init()
     progressBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBarOver->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     progressBar->setPercent(0);
     progressBar->setDirection(ui::LoadingBar::Direction::LEFT);
-    this->addChild(progressBar, 10);
 
     //===================================
     //player hp bar
@@ -153,13 +146,12 @@ bool Level::init()
     playerHPBar->setScale(0.5*RESOLUTION_VARIABLE);
     playerHPBar->setPercent(100);
     playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
-    this->addChild(playerHPBar,11);
 
     cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create( "res/ui/hp_bar_1.png" );
     playerHPBarUnder->setAnchorPoint(Vec2(0, 0));
     playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
     playerHPBarUnder->setScale(0.5*RESOLUTION_VARIABLE);
-    this->addChild(playerHPBarUnder,10);
+
     //===================================
     
     //====================================
@@ -185,6 +177,18 @@ bool Level::init()
     auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
     this->schedule(updateScorePointer, 1.0f);
 
+    this->addChild(playerHPBarUnder, 10);
+    this->addChild(playerHPBar, 11);
+    this->addChild(progressBar, 10);
+    this->addChild(progressBarOver, 11);
+    this->addChild(scoreLabel, 1);
+    this->addChild(pauseMenu, 13);
+    this->addChild(pauseBackground, 12);
+    this->addChild(gameUI, 10);
+    this->addChild(floor, 0);
+    this->addChild(player, 5);
+
+
     return true;
 }
 
@@ -209,7 +213,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {   
         player->updateHP(ENEMY_PROJECTILE_DMG);
 
-        playerHPBar->setPercent(player->getHP());
+        playerHPBar->setPercent(player->getHP()/PLAYER_START_HP*100.0);
     }
     return true;
 }
@@ -219,17 +223,17 @@ void Level::update(float dt)
 	player->update();
 
     char playerScore[100];
-    sprintf(playerScore, "Score: %i", score);
+    sprintf(playerScore, "Score: %i", remainingTime);
     scoreLabel->setString(playerScore);
-    progressBar->setPercent(100 - score);
+    progressBar->setPercent(remainingTime/LEVEL_DURATION*100.0);
 
-    if (score <= 0) levelFinished();
-    if (player->getHP() <= 0) gameOver();
+    if (remainingTime > LEVEL_DURATION) levelFinished();
+    if (player->getHP() < 0) gameOver();
 }
 
 void Level::updateScore(float dt)
 {
-    score = score - 1;
+    remainingTime = remainingTime + 1;
 }
 
 void Level::levelFinished()
