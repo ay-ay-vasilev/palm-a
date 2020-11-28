@@ -33,6 +33,7 @@ void Player::initPlayer()
 {
 	Player::hp=200;
 	moving = false;
+	vertForce = 0;
 	char str[200] = {0};
 
 	auto spriteCache = SpriteFrameCache::getInstance();
@@ -82,6 +83,11 @@ void Player::initPlayer()
 void Player::dash()
 {
 	dashed = true;
+}
+
+void Player::jump()
+{
+	vertForce = PLAYER_JUMP_FORCE;
 }
 
 void Player::run(int directionParam)
@@ -145,6 +151,11 @@ void Player::update()
 		}
 		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - WALL_DISTANCE * RESOLUTION_VARIABLE));
 	}
+
+	vertForce = clampf(vertForce - PLAYER_GRAVITY, -10, 100);
+	auto newPosY = this->getPositionY() + vertForce;
+	this->setPositionY(clampf(newPosY, origin.y + FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
+
 }
 cocos2d::PhysicsBody* Player::getBody()
 {

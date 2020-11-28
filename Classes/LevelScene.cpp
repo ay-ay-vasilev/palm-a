@@ -265,6 +265,9 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
             player->dash();
             break;
+        case EventKeyboard::KeyCode:: KEY_SPACE:
+            player->jump();
+            break;
     }
     if (!movementInputDeck.empty()) player->run(movementInputDeck.front());
 }

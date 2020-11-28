@@ -16,6 +16,8 @@
 // player stats
 #define PLAYER_SPEED 3
 #define PLAYER_DASH_SPEED 60
+#define PLAYER_JUMP_FORCE 20
+#define PLAYER_GRAVITY 1
 // player animation and sprites
 #define PLAYER_ANIM_IDLE_NUM_OF_FRAMES 5
 #define PLAYER_ANIM_RUN_NUM_OF_FRAMES 8
