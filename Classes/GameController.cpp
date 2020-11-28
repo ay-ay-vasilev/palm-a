@@ -11,6 +11,8 @@ GameController::~GameController(void){}
 
 bool GameController::init()
 {
+    enemies.clear();
+    enemyProjectiles.clear();
 	return true;
 };
 

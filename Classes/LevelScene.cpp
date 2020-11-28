@@ -34,6 +34,8 @@ bool Level::init()
     isPaused = false;
     score = 100;
     movementInputDeck.clear();
+    GameController::enemies.clear();
+    GameController::enemyProjectiles.clear();
 
     //init the music
     auto music = AudioEngine::play2d("res/music/audio.mp3", true);
@@ -199,14 +201,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP(ENEMY_COLLIDE_DMG);
-        playerHPBar->setPercent(player->getHP()/2);
+        playerHPBar->setPercent(player->getHP());
     }
     if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
 		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP(ENEMY_PROJECTILE_DMG);
 
-        playerHPBar->setPercent(player->getHP()/2);
+        playerHPBar->setPercent(player->getHP());
     }
     return true;
 }
