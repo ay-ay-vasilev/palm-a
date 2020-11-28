@@ -420,20 +420,23 @@ void Level::spawnEnemyProjectiles(float dt)
 
     for(int i = GameController::enemies.size()-1; i>=0; i--)
     {
-        //creating
-        EnemyProjectile* projectile;
-        projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(i)->getPosition(),player->getPosition());
-        projectile->setScale(0.5*RESOLUTION_VARIABLE);
-        this->addChild(projectile,5);
-        //moving and deleting
-        Vec2 tar = projectile->getTarget();
-        float distanceX = projectile->getPosition().x - origin.x - tar.x;
-        float distanceY = projectile->getPosition().y - origin.y - tar.y;
-        float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
-        auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
-        auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
-        auto sequence = Sequence::create(moveAction, callBack, NULL);
-        projectile->runAction(sequence);
+        //create if enemy is above player
+        if (GameController::enemies.at(i)->getPosition().y >= player->getPosition().y){ 
+            //creating
+            EnemyProjectile* projectile;
+            projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(i)->getPosition(),player->getPosition());
+            projectile->setScale(0.5*RESOLUTION_VARIABLE);
+            this->addChild(projectile,5);
+            //moving and deleting
+            Vec2 tar = projectile->getTarget();
+            float distanceX = projectile->getPosition().x - origin.x - tar.x;
+            float distanceY = projectile->getPosition().y - origin.y - tar.y;
+            float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
+            auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
+            auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
+            auto sequence = Sequence::create(moveAction, callBack, NULL);
+            projectile->runAction(sequence);
+        }
     }
 }
 

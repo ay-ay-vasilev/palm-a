@@ -65,6 +65,9 @@ list(APPEND GAME_SOURCE
      Classes/Enemy.cpp
      Classes/EnemyProjectile.cpp
      Classes/GameController.cpp
+     Classes/LevelFinishScene.cpp
+     Classes/NewGameScene.cpp
+     Classes/RecordsScene.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -77,6 +80,9 @@ list(APPEND GAME_HEADER
      Classes/EnemyProjectile.h
      Classes/GameController.h
      Classes/Definitions.h
+     Classes/LevelFinishScene.h
+     Classes/NewGameScene.h
+     Classes/RecordsScene.h
      )
 
 if(ANDROID)
