@@ -53,6 +53,7 @@ private:
     void updateScore(float points);
 
     void levelFinished();
+    void gameOver();
 
     cocos2d::Menu *pauseMenu;
     cocos2d::Menu *gameUI;

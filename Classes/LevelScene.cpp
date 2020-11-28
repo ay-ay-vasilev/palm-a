@@ -224,6 +224,7 @@ void Level::update(float dt)
     progressBar->setPercent(100 - score);
 
     if (score <= 0) levelFinished();
+    if (player->getHP() <= 0) gameOver();
 }
 
 void Level::updateScore(float dt)
@@ -239,8 +240,18 @@ void Level::levelFinished()
     AudioEngine::stopAll();
     AudioEngine::end();
     Director::getInstance()->replaceScene(scene);
-
 }
+
+void Level::gameOver()
+{
+    Scene* scene = MainMenu::createScene();
+    TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
+
+    AudioEngine::stopAll();
+    AudioEngine::end();
+    Director::getInstance()->replaceScene(scene);
+}
+
 
 void Level::goToMainMenu(Ref* pSender)
 {
