@@ -128,21 +128,22 @@ bool Level::init()
     scoreLabel->setColor(color);
     this->addChild(scoreLabel, 1);
 
+
+    auto progressBarOver = Sprite::create("res/ui/status_bar_over.png");
+    progressBarOver->getTexture()->setAliasTexParameters();
+    progressBarOver->setScale(RESOLUTION_VARIABLE);
+    progressBarOver->setAnchorPoint(Vec2(0.5, 0.5));
+    progressBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBarOver->getContentSize().height / 2 * RESOLUTION_VARIABLE));
+    this->addChild(progressBarOver, 11);
+
     // progress bar
     progressBar = ui::LoadingBar::create("res/ui/status_bar.png");
     progressBar->setScale(RESOLUTION_VARIABLE);
     progressBar->setAnchorPoint(Vec2(0.5, 0.5));
-    progressBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBar->getContentSize().height / 2 * RESOLUTION_VARIABLE));
+    progressBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBarOver->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     progressBar->setPercent(0);
     progressBar->setDirection(ui::LoadingBar::Direction::LEFT);
     this->addChild(progressBar, 10);
-
-    auto statusBarOver = Sprite::create("res/ui/status_bar_over.png");
-    statusBarOver->getTexture()->setAliasTexParameters();
-    statusBarOver->setScale(RESOLUTION_VARIABLE);
-    statusBarOver->setAnchorPoint(Vec2(0.5, 0.5));
-    statusBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBar->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-    this->addChild(statusBarOver, 11);
 
     //===================================
     //player hp bar

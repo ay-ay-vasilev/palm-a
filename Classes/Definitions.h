@@ -38,7 +38,7 @@
 #define ENEMY_ANIM_IDLE_SPEED 0.1f
 #define ENEMY_SPRITE_SIZE 112
 // damage values
-#define ENEMY_PROJECTILE_DMG 2
+#define ENEMY_PROJECTILE_DMG 5
 #define ENEMY_COLLIDE_DMG 10
 
 #endif
