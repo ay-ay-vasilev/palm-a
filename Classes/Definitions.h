@@ -14,10 +14,11 @@
 #define FADE_LENGTH 0.5f
 #define NUMBER_OF_CADRS 6
 // player stats
-#define PLAYER_SPEED 3
+#define PLAYER_SPEED 4
 #define PLAYER_DASH_SPEED 60
-#define PLAYER_JUMP_FORCE 20
+#define PLAYER_JUMP_FORCE 15
 #define PLAYER_GRAVITY 1
+#define PLAYER_START_HP 100
 // player animation and sprites
 #define PLAYER_ANIM_IDLE_NUM_OF_FRAMES 5
 #define PLAYER_ANIM_RUN_NUM_OF_FRAMES 8

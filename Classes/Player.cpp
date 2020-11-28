@@ -31,7 +31,7 @@ Player * Player::create()
 
 void Player::initPlayer()
 {
-	Player::hp=200;
+	Player::hp=PLAYER_START_HP;
 	moving = false;
 	vertForce = 0;
 	char str[200] = {0};
@@ -82,12 +82,13 @@ void Player::initPlayer()
 
 void Player::dash()
 {
+	vertForce = 0;
 	dashed = true;
 }
 
 void Player::jump()
 {
-	vertForce = PLAYER_JUMP_FORCE;
+	if (this->getPositionY() <= origin.y + FLOOR_HEIGHT*RESOLUTION_VARIABLE) vertForce = PLAYER_JUMP_FORCE;
 }
 
 void Player::run(int directionParam)
@@ -152,7 +153,7 @@ void Player::update()
 		this->setPositionX(clampf(newPosX, origin.x + WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - WALL_DISTANCE * RESOLUTION_VARIABLE));
 	}
 
-	vertForce = clampf(vertForce - PLAYER_GRAVITY, -10, 100);
+	vertForce = clampf(vertForce - PLAYER_GRAVITY, -100, 100);
 	auto newPosY = this->getPositionY() + vertForce;
 	this->setPositionY(clampf(newPosY, origin.y + FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
 
