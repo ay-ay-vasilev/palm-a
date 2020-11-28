@@ -1,6 +1,6 @@
 #include <deque>
-#include "LevelScene.h"
 #include "Definitions.h"
+#include "LevelScene.h"
 #include "GameController.h"
 #include <CCScheduler.h>
 #include "AudioEngine.h"
@@ -222,12 +222,24 @@ void Level::update(float dt)
     sprintf(playerScore, "Score: %i", score);
     scoreLabel->setString(playerScore);
     progressBar->setPercent(100 - score);
+
+    if (score <= 0) levelFinished();
 }
 
-//Doesn't work
 void Level::updateScore(float dt)
 {
     score = score - 1;
+}
+
+void Level::levelFinished()
+{
+    Scene* scene = LevelFinish::createScene();
+    TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
+    
+    AudioEngine::stopAll();
+    AudioEngine::end();
+    Director::getInstance()->replaceScene(scene);
+
 }
 
 void Level::goToMainMenu(Ref* pSender)
@@ -235,10 +247,11 @@ void Level::goToMainMenu(Ref* pSender)
     Scene* scene = MainMenu::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
 
-    Director::getInstance()->replaceScene(scene);
-    Director::getInstance()->startAnimation();
     AudioEngine::stopAll();
     AudioEngine::end();
+    Director::getInstance()->startAnimation();
+
+    Director::getInstance()->replaceScene(scene);
 }
 
 
@@ -311,7 +324,6 @@ void Level::pauseButtonCallback(Ref* pSender)
     if (!isPaused) {
         Director::getInstance()->stopAnimation();
         AudioEngine::pauseAll();
-        //isPaused = true;
 
         pauseBackground->setOpacity(200);
         pauseMenu->setEnabled(true);
@@ -321,7 +333,6 @@ void Level::pauseButtonCallback(Ref* pSender)
     else {
         Director::getInstance()->startAnimation();
         AudioEngine::resumeAll();
-        //isPaused = false;
 
         pauseBackground->setOpacity(0);
         pauseMenu->setEnabled(false);
@@ -335,12 +346,10 @@ void Level::spawnEnemy(float dt)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    //creating
     Enemy* enemy;
     enemy = GameController::spawnEnemy(1);
     enemy->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(enemy, 4);
-    //moving and deleting
     float distance = visibleSize.height+ ENEMY_SPRITE_SIZE * 2;
 
     auto enemySpeed = ENEMY_SPEED * RESOLUTION_VARIABLE;

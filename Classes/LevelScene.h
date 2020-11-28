@@ -9,6 +9,7 @@
 #include "EnemyProjectile.h"
 #include "GameController.h"
 #include "MainMenuScene.h"
+#include "LevelFinishScene.h"
 
 class Level : public cocos2d::Scene
 {
@@ -37,13 +38,12 @@ private:
 
     void update(float dt);
 
-    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
-    void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
-    
-    void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-    void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
     std::deque<int> movementInputDeck;
+    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+    void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
+    void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+    void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
     void spawnEnemy( float dt );
     void spawnEnemyProjectiles(float dt);
@@ -52,6 +52,7 @@ private:
     int score;
     void updateScore(float points);
 
+    void levelFinished();
 
     cocos2d::Menu *pauseMenu;
     cocos2d::Menu *gameUI;
