@@ -32,7 +32,7 @@ bool Level::init()
         return false;
     }
     isPaused = false;
-    score = 0;
+    score = 100;
     movementInputDeck.clear();
 
     //init the music
@@ -127,12 +127,20 @@ bool Level::init()
     this->addChild(scoreLabel, 1);
 
     // progress bar
-    auto statusBar = Sprite::create("res/ui/status_bar.png");
-    statusBar->getTexture()->setAliasTexParameters();
-    statusBar->setScale(RESOLUTION_VARIABLE);
-    statusBar->setAnchorPoint(Vec2(0.5, 0.5));
-    statusBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - statusBar->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-    this->addChild(statusBar, 10);
+    progressBar = ui::LoadingBar::create("res/ui/status_bar.png");
+    progressBar->setScale(RESOLUTION_VARIABLE);
+    progressBar->setAnchorPoint(Vec2(0.5, 0.5));
+    progressBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBar->getContentSize().height / 2 * RESOLUTION_VARIABLE));
+    progressBar->setPercent(0);
+    progressBar->setDirection(ui::LoadingBar::Direction::LEFT);
+    this->addChild(progressBar, 10);
+
+    auto statusBarOver = Sprite::create("res/ui/status_bar_over.png");
+    statusBarOver->getTexture()->setAliasTexParameters();
+    statusBarOver->setScale(RESOLUTION_VARIABLE);
+    statusBarOver->setAnchorPoint(Vec2(0.5, 0.5));
+    statusBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBar->getContentSize().height / 2 * RESOLUTION_VARIABLE));
+    this->addChild(statusBarOver, 11);
 
     //===================================
     //player hp bar
@@ -210,12 +218,13 @@ void Level::update(float dt)
     char playerScore[100];
     sprintf(playerScore, "Score: %i", score);
     scoreLabel->setString(playerScore);
+    progressBar->setPercent(100 - score);
 }
 
 //Doesn't work
 void Level::updateScore(float dt)
 {
-    score = score + 1;
+    score = score - 1;
 }
 
 void Level::goToMainMenu(Ref* pSender)

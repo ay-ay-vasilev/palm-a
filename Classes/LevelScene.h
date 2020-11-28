@@ -56,6 +56,7 @@ private:
     cocos2d::Menu *pauseMenu;
     cocos2d::Menu *gameUI;
     cocos2d::Sprite *pauseBackground;
+    ui::LoadingBar* progressBar;
 
     cocos2d::Label *scoreLabel;
     cocos2d::Label *playerHPLabel;
