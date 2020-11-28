@@ -20,6 +20,10 @@ public:
     static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
 
     static float enemyPosition(Enemy* enemy);
+
+    static int findClosestEnemy(Vec2 playerPos);
+
+    static float findDistance(Vec2 enemyPos, Vec2 playerPos);
 private:
     
 
