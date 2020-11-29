@@ -24,6 +24,8 @@ public:
     static int findClosestEnemy(Vec2 playerPos);
 
     static float findDistance(Vec2 enemyPos, Vec2 playerPos);
+
+    static Vec2 calcTarget(Vec2 enemyPos,Vec2 playerPos);
 private:
     
 
