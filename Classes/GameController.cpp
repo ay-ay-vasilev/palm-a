@@ -85,3 +85,15 @@ float GameController::findDistance(Vec2 enemyPos, Vec2 playerPos)
     float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
     return distance;
 }
+Vec2 GameController::calcTarget(Vec2 enemyPos, Vec2 playerPos)
+{
+    // enemypos = 1
+    // playerpos = 2
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 offset = playerPos - enemyPos;
+    offset.normalize();
+    //на 2 умножил, чтобы наверняка :)
+    Vec2 shootAmount = offset * visibleSize.width * 2;
+    Vec2 target = shootAmount + enemyPos;
+    return target;
+}
