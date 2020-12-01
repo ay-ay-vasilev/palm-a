@@ -5,6 +5,8 @@ USING_NS_CC;
 
 Vector<Enemy*> GameController::enemies;
 Vector<EnemyProjectile*> GameController::enemyProjectiles;
+Vector<EnemyType2*> GameController::type2Enemies;
+Vector<Laser*> GameController::laserArr;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}
@@ -16,23 +18,45 @@ bool GameController::init()
 	return true;
 };
 
-Enemy* GameController::spawnEnemy(int type)
+Enemy* GameController::spawnEnemy()
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    Enemy* enemy;
+    
+    Enemy * enemy;
     enemy = Enemy::create();
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
     enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
-    
+
     if (enemy)
     {
-        GameController::enemies.pushBack( enemy );
+        GameController::enemies.pushBack(enemy);
         return enemy;
     }
     return enemy;
+        
+    
+}
+EnemyType2 *GameController::spawnEnemyType2()
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    EnemyType2* enemy_type2;
+    enemy_type2 = EnemyType2::create();
+    enemy_type2->setPhysicsBody(enemy_type2->getBody());
+
+    float enemyPosX = GameController::enemyPosition(enemy_type2);
+    enemy_type2->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
+
+    if (enemy_type2)
+    {
+        GameController::type2Enemies.pushBack(enemy_type2);
+        return enemy_type2;
+    }
+    return enemy_type2;
 }
 EnemyProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
 {
@@ -49,6 +73,21 @@ EnemyProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
+Laser* GameController::spawnLaser(Vec2 pos, Vec2 tar)
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Laser* projectile;
+    projectile = Laser::create();
+    projectile->setPosition(pos);
+    projectile->setTarget(tar);
+    projectile->setPhysicsBody(projectile->getBody());
+    if (projectile)
+    {
+        GameController::laserArr.pushBack(projectile);
+        return projectile;
+    }
+    return projectile;
+}
 
 float GameController::enemyPosition(Enemy* enemy){
     int spawnPoints = 4;
@@ -59,6 +98,18 @@ float GameController::enemyPosition(Enemy* enemy){
     random = ceil(random);
     enemy->setSpawnPoint(random);
     random = random /  ((spawnPoints+1)/spawnPoints) / spawnPoints;
+    position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
+    return position;
+}
+float GameController::enemyPosition(EnemyType2* enemy) {
+    int spawnPoints = 4;
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float position;
+    auto random = CCRANDOM_0_1() * spawnPoints;
+    random = ceil(random);
+    enemy->setSpawnPoint(random);
+    random = random / ((spawnPoints + 1) / spawnPoints) / spawnPoints;
     position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
     return position;
 }
@@ -92,8 +143,30 @@ Vec2 GameController::calcTarget(Vec2 enemyPos, Vec2 playerPos)
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 offset = playerPos - enemyPos;
     offset.normalize();
-    //на 2 умножил, чтобы наверняка :)
+    //multiplied by 2 because sometimes it doesn't reach
     Vec2 shootAmount = offset * visibleSize.width * 2;
     Vec2 target = shootAmount + enemyPos;
     return target;
+}
+float GameController::movementFunc(int spawnPoint, int movementInt)
+{
+    float moveArr[4][2];
+    moveArr[0][0] = -0.1;
+    moveArr[0][1] = 0.1;
+    moveArr[1][0] = 0.2;
+    moveArr[1][1] = -0.2;
+    moveArr[2][0] = -0.2;
+    moveArr[2][1] = 0.2;
+    moveArr[3][0] = 0.1;
+    moveArr[3][1] = -0.1;
+
+    return moveArr[spawnPoint][movementInt];
+}
+float GameController::calcAngle(Vec2 enemyPos, Vec2 playerPos)
+{
+    float distanceX = enemyPos.x - playerPos.x;
+    float distance = findDistance(enemyPos, playerPos);
+
+    auto angle = 90 + asin(distanceX / distance) * 180 / PI;
+    return angle;
 }

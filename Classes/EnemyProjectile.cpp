@@ -59,3 +59,62 @@ cocos2d::PhysicsBody* EnemyProjectile::getBody()
 
 	return physicsBody;
 }
+//==================================================
+//Laser
+Laser::Laser(void)
+{
+}
+Laser::~Laser(void)
+{
+}
+Laser* Laser::create() {
+	Laser* projectile = new Laser();
+	if (projectile && projectile->initWithFile("res/projectiles/laser.png"))
+	{
+		projectile->autorelease();
+		projectile->init();
+		return projectile;
+	}
+
+	CC_SAFE_DELETE(projectile);
+	return NULL;
+}
+bool Laser::init()
+{
+	Sprite* model = Sprite::create("res/projectiles/laser.png");
+	if (model)
+	{
+		addChild(model);
+		return true;
+	}
+	return false;
+}
+void Laser::setTarget(Vec2 target)
+{
+	Laser::target = target;
+}
+Vec2 Laser::getTarget()
+{
+	return Laser::target;
+}
+void Laser::setSpeed(Vec2 speed)
+{
+	Laser::speed = speed;
+}
+Vec2 Laser::getSpeed()
+{
+	return Laser::speed;
+}
+cocos2d::PhysicsBody* Laser::getBody()
+{
+	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+	cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+
+	physicsBody->setDynamic(false);
+	physicsBody->setCollisionBitmask(4);
+	physicsBody->setContactTestBitmask(true);
+
+	return physicsBody;
+}

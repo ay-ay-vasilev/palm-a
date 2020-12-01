@@ -41,5 +41,7 @@
 // damage values
 #define ENEMY_PROJECTILE_DMG 1
 #define ENEMY_COLLIDE_DMG 1
+#define LASER_DMG 1
 
+#define PI 3.14159265 
 #endif

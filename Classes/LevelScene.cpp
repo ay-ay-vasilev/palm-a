@@ -36,6 +36,8 @@ bool Level::init()
     movementInputDeck.clear();
     GameController::enemies.clear();
     GameController::enemyProjectiles.clear();
+    GameController::type2Enemies.clear();
+    GameController::laserArr.clear();
 
     //init the music
     auto music = AudioEngine::play2d("res/music/audio.mp3", true);
@@ -156,7 +158,7 @@ bool Level::init()
     
     //====================================
     //enemy spawn
-    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemy);
+    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType2);
     
     this->schedule(enemySpawnPointer, ENEMY_SPAWN_FREQUENCY);
     
@@ -213,6 +215,8 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     //player = 1
     //enemy = 2
     //enemy projectile = 3
+    //laser = 4
+    //enemy type 2 = 5
     PhysicsBody *a = contact.getShapeA()->getBody();
     PhysicsBody *b = contact.getShapeB()->getBody();
 
@@ -233,6 +237,23 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 
         playerHPBar->setPercent(player->getHP()/PLAYER_START_HP*100.0);
     }
+    //if player collided with laser
+    if ((1 == a->getCollisionBitmask() && 4 == b->getCollisionBitmask())
+        || (4 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
+    {
+        player->updateHP(LASER_DMG);
+
+        playerHPBar->setPercent(player->getHP() / PLAYER_START_HP * 100.0);
+    }
+    //if player collided with enemy type 2
+    if ((1 == a->getCollisionBitmask() && 5 == b->getCollisionBitmask())
+        || (5 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
+    {
+        player->updateHP(ENEMY_COLLIDE_DMG);
+
+        playerHPBar->setPercent(player->getHP() / PLAYER_START_HP * 100.0);
+    }
+
     return true;
 }
 
@@ -367,7 +388,7 @@ void Level::spawnEnemy(float dt)
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Enemy* enemy;
-    enemy = GameController::spawnEnemy(1);
+    enemy = GameController::spawnEnemy();
     enemy->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(enemy, 4);
 
@@ -376,54 +397,36 @@ void Level::spawnEnemy(float dt)
 
     auto enemySpeed = ENEMY_SPEED * RESOLUTION_VARIABLE;
 
-    switch(enemy->getSpawnPoint())
-    {
-        
-        case 1:
-        {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
-            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
-            enemy->runAction(sequence);
-            break;
-        }
-        case 2:
-        {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
-            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
-            enemy->runAction(sequence);
-            break;
-        }
-        case 3:
-        {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.2, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
-            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
-            enemy->runAction(sequence);
-            break;
-        }
-        case 4:
-        {
-            auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * 0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * -0.1, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-            auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
-            auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
-            enemy->runAction(sequence);
-            break;
-        }
-    }
-
-    //auto enemyAction = MoveBy::create(distance / ENEMY_SPEED, Vec2(0, -1*visibleSize.height- ENEMY_SPRITE_SIZE * 2));
-    //auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
-    //auto sequence = Sequence::create(enemyAction, callBack, NULL);
-    //enemy->runAction(sequence);
-    
+    auto randA = GameController::movementFunc(enemy->getSpawnPoint()-1,0);
+    auto randB = GameController::movementFunc(enemy->getSpawnPoint()-1,1);
+    auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+    auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+    auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
+    auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
+    enemy->runAction(sequence);
 }
+void Level::spawnEnemyType2(float dt)
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    EnemyType2* enemy;
+    enemy = GameController::spawnEnemyType2();
+    enemy->setScale(0.25 * RESOLUTION_VARIABLE);
+    this->addChild(enemy, 4);
 
+    //moving and deleting
+    float distance = visibleSize.height + ENEMY_SPRITE_SIZE * 2;
+
+    auto enemySpeed = ENEMY_SPEED * RESOLUTION_VARIABLE;
+
+    auto randA = GameController::movementFunc(enemy->getSpawnPoint() - 1, 0);
+    auto randB = GameController::movementFunc(enemy->getSpawnPoint() - 1, 1);
+    auto enemyAction1 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5 * visibleSize.height - ENEMY_SPRITE_SIZE));
+    auto enemyAction2 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5 * visibleSize.height - ENEMY_SPRITE_SIZE));
+    auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType2(enemy); });
+    auto sequence = Sequence::create(enemyAction1, enemyAction2, callBack, NULL);
+    enemy->runAction(sequence);
+}
 void Level::spawnEnemyProjectiles(float dt)
 {   
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -440,12 +443,32 @@ void Level::spawnEnemyProjectiles(float dt)
             this->addChild(projectile,5);
             //moving and deleting
             Vec2 tar = GameController::calcTarget(GameController::enemies.at(i)->getPosition(),player->getPosition());
-            //Vec2 tar = player->getPosition();
             float distance = GameController::findDistance(GameController::enemies.at(i)->getPosition(), tar);
             auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
             auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
             auto sequence = Sequence::create(moveAction, callBack, NULL);
             projectile->runAction(sequence);
+        }
+    }
+    for (int i = GameController::type2Enemies.size() - 1; i >= 0; i--)
+    {
+        //create if enemy is above player
+        if (GameController::type2Enemies.at(i)->getPosition().y > player->getPosition().y) {
+            //creating
+            Laser* projectile;
+            projectile = GameController::spawnLaser(GameController::type2Enemies.at(i)->getPosition(), player->getPosition());
+            projectile->setScale(0.5 * RESOLUTION_VARIABLE);
+            projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(i)->getPosition(), player->getPosition()));
+            this->addChild(projectile, 5);
+            //moving and deleting
+            Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(i)->getPosition(), player->getPosition());
+            float distance = GameController::findDistance(GameController::type2Enemies.at(i)->getPosition(), tar);
+            auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
+            auto callBack = CallFunc::create([this, projectile]() {this->removeLaser(projectile); });
+            auto sequence = Sequence::create(moveAction, callBack, NULL);
+            
+            projectile->runAction(sequence);
+            
         }
     }
 }
@@ -462,4 +485,16 @@ void Level::removeEnemy(Enemy *enemy)
     GameController::enemies.eraseObject(enemy);
     enemy->cleanup();
     removeChild(enemy,true);
+}
+void Level::removeEnemyType2(EnemyType2 *enemy) 
+{
+    GameController::type2Enemies.eraseObject(enemy);
+    enemy->cleanup();
+    removeChild(enemy,true);
+}
+void Level::removeLaser(Laser* laser)
+{
+    GameController::laserArr.eraseObject(laser);
+    laser->cleanup();
+    removeChild(laser, true);
 }

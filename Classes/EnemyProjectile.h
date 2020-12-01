@@ -25,5 +25,23 @@ private:
 	Vec2 speed;
     
 };
+class Laser : public cocos2d::Sprite
+{
+public:
+	Laser();
+	~Laser();
+	static Laser* create(void);
+	virtual bool init();
 
+	Vec2 getTarget();
+	void setTarget(Vec2 target);
+
+	Vec2 getSpeed();
+	void setSpeed(Vec2 speed);
+
+	cocos2d::PhysicsBody* getBody();
+private:
+	Vec2 target;
+	Vec2 speed;
+};
 #endif

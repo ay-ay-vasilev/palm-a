@@ -28,6 +28,8 @@ public:
 
 	void removeProjectile( EnemyProjectile *enemyProjectile ) ;
     void removeEnemy(Enemy *enemy);
+    void removeLaser(Laser *laser);
+    void removeEnemyType2(EnemyType2 *enemy);
 
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
@@ -48,6 +50,7 @@ private:
     void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
     void spawnEnemy( float dt );
+    void spawnEnemyType2(float dt);
     void spawnEnemyProjectiles(float dt);
 
     bool isPaused;

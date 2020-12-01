@@ -10,8 +10,6 @@ public:
 
 	static Enemy * create(void);
 
-    //virtual void shoot( float dt );
-
     cocos2d::PhysicsBody* getBody();
 
     void setSpawnPoint(int _spawnPoint);
@@ -28,5 +26,24 @@ private:
 
     void initEnemy();
 };
+class EnemyType2 : public cocos2d::Sprite
+{
+public:
+    cocos2d::Animate* idleAnimate_2;
+    
+    static EnemyType2* create(void);
 
+    cocos2d::PhysicsBody* getBody();
+
+    void setSpawnPoint(int _spawnPoint);
+    int getSpawnPoint();
+private:
+    ~EnemyType2();
+    EnemyType2();
+    int spawnPoint;
+    void initEnemy();
+
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
+};
 #endif
