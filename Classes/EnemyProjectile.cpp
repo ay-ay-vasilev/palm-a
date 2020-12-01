@@ -22,12 +22,12 @@ EnemyProjectile * EnemyProjectile::create(){
 }
 bool EnemyProjectile::init()
 {
-	Sprite* model = Sprite::create( "res/projectiles/projectile.png" );
-	if( model )
-	{
-		addChild( model );
-		return true;
-	}
+	//Sprite* model = Sprite::create( "res/projectiles/projectile.png" );
+	//if( model )
+	//{
+	//	addChild( model );
+	//	return true;
+	//}
 	return false;
 }
 void EnemyProjectile::setTarget( Vec2 target )
@@ -81,12 +81,12 @@ Laser* Laser::create() {
 }
 bool Laser::init()
 {
-	Sprite* model = Sprite::create("res/projectiles/laser.png");
+	/*Sprite* model = Sprite::create("res/projectiles/laser.png");
 	if (model)
 	{
 		addChild(model);
 		return true;
-	}
+	}*/
 	return false;
 }
 void Laser::setTarget(Vec2 target)
