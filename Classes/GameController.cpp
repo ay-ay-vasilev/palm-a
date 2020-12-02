@@ -4,9 +4,9 @@
 USING_NS_CC;
 
 Vector<Enemy*> GameController::enemies;
-Vector<EnemyProjectile*> GameController::enemyProjectiles;
+Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
-Vector<Laser*> GameController::laserArr;
+Vector<Node*> GameController::laserArr;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}

@@ -235,6 +235,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {   
         player->updateHP(ENEMY_PROJECTILE_DMG);
 
+        if (a->getCollisionBitmask() == 3) {
+            this->removeProjectile(a->getNode());
+        }
+        if (b->getCollisionBitmask() == 3) {
+            this->removeProjectile(b->getNode());
+        }
+
         playerHPBar->setPercent(player->getHP()/PLAYER_START_HP*100.0);
     }
     //if player collided with laser
@@ -242,6 +249,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         || (4 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
     {
         player->updateHP(LASER_DMG);
+        
+        if (a->getCollisionBitmask() == 4) {
+            this->removeLaser(a->getNode());
+        }
+        if (b->getCollisionBitmask() == 4) {
+            this->removeLaser(b->getNode());
+        }
 
         playerHPBar->setPercent(player->getHP() / PLAYER_START_HP * 100.0);
     }
@@ -473,7 +487,7 @@ void Level::spawnEnemyProjectiles(float dt)
     }
 }
 
-void Level::removeProjectile(EnemyProjectile *projectile)
+void Level::removeProjectile(Node* projectile)
 {
     GameController::enemyProjectiles.eraseObject(projectile);
     projectile->cleanup();
@@ -492,7 +506,7 @@ void Level::removeEnemyType2(EnemyType2 *enemy)
     enemy->cleanup();
     removeChild(enemy,true);
 }
-void Level::removeLaser(Laser* laser)
+void Level::removeLaser(Node* laser)
 {
     GameController::laserArr.eraseObject(laser);
     laser->cleanup();

@@ -26,9 +26,9 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
 
-	void removeProjectile( EnemyProjectile *enemyProjectile ) ;
+	void removeProjectile(Node *projectile) ;
     void removeEnemy(Enemy *enemy);
-    void removeLaser(Laser *laser);
+    void removeLaser(Node *laser);
     void removeEnemyType2(EnemyType2 *enemy);
 
     bool onContactBegin ( cocos2d::PhysicsContact &contact );

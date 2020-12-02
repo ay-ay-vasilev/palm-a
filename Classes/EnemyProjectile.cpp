@@ -9,9 +9,18 @@ EnemyProjectile::~EnemyProjectile(void)
 {
 }
 EnemyProjectile * EnemyProjectile::create(){
-    EnemyProjectile * projectile = new EnemyProjectile();
-	if(projectile && projectile->initWithFile("res/projectiles/projectile.png"))
+	EnemyProjectile * projectile = new EnemyProjectile();
+	if(projectile)
 	{
+		Sprite* model = Sprite::create("res/projectiles/projectile.png");
+		if (model)
+		{
+			model->setAnchorPoint(Vec2(0, 0));
+			model->setPosition(0, 0);
+			projectile->addChild(model);
+			projectile->setContentSize(model->getContentSize());
+		}
+
 		projectile->autorelease();
 		projectile->init();
 		return projectile;
@@ -22,12 +31,7 @@ EnemyProjectile * EnemyProjectile::create(){
 }
 bool EnemyProjectile::init()
 {
-	//Sprite* model = Sprite::create( "res/projectiles/projectile.png" );
-	//if( model )
-	//{
-	//	addChild( model );
-	//	return true;
-	//}
+	// ANIMATION WILL BE HERE
 	return false;
 }
 void EnemyProjectile::setTarget( Vec2 target )
@@ -69,24 +73,26 @@ Laser::~Laser(void)
 }
 Laser* Laser::create() {
 	Laser* projectile = new Laser();
-	if (projectile && projectile->initWithFile("res/projectiles/laser.png"))
+	if (projectile)
 	{
+		Sprite* model = Sprite::create("res/projectiles/laser.png");
+		if (model)
+		{
+			model->setAnchorPoint(Vec2(0, 0));
+			model->setPosition(0, 0);
+			projectile->addChild(model);
+			projectile->setContentSize(model->getContentSize());
+		}
 		projectile->autorelease();
 		projectile->init();
 		return projectile;
 	}
-
 	CC_SAFE_DELETE(projectile);
 	return NULL;
 }
 bool Laser::init()
 {
-	/*Sprite* model = Sprite::create("res/projectiles/laser.png");
-	if (model)
-	{
-		addChild(model);
-		return true;
-	}*/
+	// ANIMATION WILL BE HERE
 	return false;
 }
 void Laser::setTarget(Vec2 target)
