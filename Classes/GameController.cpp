@@ -1,12 +1,14 @@
 #include "GameController.h"
 #include "Definitions.h"
-
+#include "fstream"
 USING_NS_CC;
 
 Vector<Enemy*> GameController::enemies;
 Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
+std::vector<int> GameController::shootingTimings;
+nlohmann::json GameController::level_1_data;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}
@@ -15,7 +17,7 @@ bool GameController::init()
 {
     enemies.clear();
     enemyProjectiles.clear();
-	return true;
+    return true;
 };
 
 Enemy* GameController::spawnEnemy()
@@ -169,4 +171,16 @@ float GameController::calcAngle(Vec2 enemyPos, Vec2 playerPos)
 
     auto angle = 90 + asin(distanceX / distance) * 180 / PI;
     return angle;
+}
+void GameController::getJsonData()
+{
+    level_1_data = JsonInstance::GetInstance()->GetData("level1");
+    std::ifstream fin((std::string) level_1_data["maindata"]["timings"]);
+    auto s = 0;
+    fin >> s;
+    while (s!=0)
+    {
+        shootingTimings.push_back(s);
+        fin >> s;
+    }
 }

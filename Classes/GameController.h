@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 #include "Enemy.h"
 #include <EnemyProjectile.h>
+#include "json.hpp"
+#include "JsonInstance.h"
 
 class GameController
 {
@@ -35,6 +37,10 @@ public:
     static float calcAngle(Vec2 enemyPos, Vec2 playerPos);
 
     static float movementFunc(int spawnPoint, int movementInt);
+
+    static void getJsonData();
+    static nlohmann::json level_1_data;
+    static std::vector<int> shootingTimings;
 private:
     
 

@@ -10,6 +10,7 @@
 #include "GameController.h"
 #include "MainMenuScene.h"
 #include "LevelFinishScene.h"
+#include "JsonInstance.h"
 
 class Level : public cocos2d::Scene
 {
@@ -26,7 +27,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
 
-	void removeProjectile(Node *projectile) ;
+	void removeProjectile(Node *projectile);
     void removeEnemy(Enemy *enemy);
     void removeLaser(Node *laser);
     void removeEnemyType2(EnemyType2 *enemy);
