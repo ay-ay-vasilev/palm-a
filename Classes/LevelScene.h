@@ -35,6 +35,8 @@ public:
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
     int closestEnemy;
+    int currentTiming;
+    int musicID;
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
@@ -53,6 +55,7 @@ private:
     void spawnEnemy( float dt );
     void spawnEnemyType2(float dt);
     void spawnEnemyProjectiles(float dt);
+    void spawnRandomEnemy(float dt);
 
     bool isPaused;
     int remainingTime;

@@ -41,6 +41,8 @@ public:
     static void getJsonData();
     static nlohmann::json level_1_data;
     static std::vector<int> shootingTimings;
+
+    static int randomTypeOfEnemy();
 private:
     
 

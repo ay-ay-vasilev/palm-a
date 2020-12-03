@@ -184,3 +184,14 @@ void GameController::getJsonData()
         fin >> s;
     }
 }
+int GameController::randomTypeOfEnemy()
+{
+    auto random = CCRANDOM_0_1();
+    if (random < 0.2)
+    {
+        return 2;
+    }
+    else {
+        return 1;
+    }
+}
