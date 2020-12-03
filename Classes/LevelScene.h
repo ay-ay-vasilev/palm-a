@@ -10,6 +10,7 @@
 #include "GameController.h"
 #include "MainMenuScene.h"
 #include "LevelFinishScene.h"
+#include "JsonInstance.h"
 
 class Level : public cocos2d::Scene
 {

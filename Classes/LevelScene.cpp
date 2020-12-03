@@ -5,7 +5,7 @@
 #include <CCScheduler.h>
 #include "AudioEngine.h"
 #include "ui/CocosGUI.h"
-
+#include "json.hpp"
 USING_NS_CC;
 
 Scene* Level::createScene()
@@ -38,7 +38,7 @@ bool Level::init()
     GameController::enemyProjectiles.clear();
     GameController::type2Enemies.clear();
     GameController::laserArr.clear();
-
+    GameController::getJsonData();
     //init the music
     auto music = AudioEngine::play2d("res/music/audio.mp3", true);
     AudioEngine::setVolume(music, 0.1);
@@ -447,6 +447,7 @@ void Level::spawnEnemyProjectiles(float dt)
             auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
             auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
             auto sequence = Sequence::create(moveAction, callBack, NULL);
+            sequence->setTag(1);
             projectile->runAction(sequence);
         }
     }
@@ -468,7 +469,17 @@ void Level::spawnEnemyProjectiles(float dt)
             auto sequence = Sequence::create(moveAction, callBack, NULL);
             
             projectile->runAction(sequence);
+            //pausing and resuming movement of enemy
             
+            auto  pauseCallback = CallFunc::create([i]() {
+                GameController::type2Enemies.at(i)->stopActionByTag(1);
+                });
+            float delay = LASER_SPAWNING_TIME;
+            auto delayAction = DelayTime::create(delay);
+            auto resumeCallback = CallFunc::create([i]() {
+                GameController::type2Enemies.at(i)->resume();
+                });
+            GameController::type2Enemies.at(i)->runAction(Sequence::create(pauseCallback, delayAction, resumeCallback, NULL));
         }
     }
 }
