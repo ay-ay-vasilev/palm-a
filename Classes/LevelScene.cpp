@@ -40,8 +40,8 @@ bool Level::init()
     GameController::laserArr.clear();
     GameController::getJsonData();
     //init the music
-    auto music = AudioEngine::play2d("res/music/audio.mp3", true);
-    AudioEngine::setVolume(music, 0.1);
+    musicID = AudioEngine::play2d("res/music/audio.mp3", false);
+    AudioEngine::setVolume(musicID, 0.1);
     // important variables
     auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
@@ -164,9 +164,9 @@ bool Level::init()
     
     //====================================
     //enemy shooting
-    auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyProjectiles);
+    //auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyProjectiles);
     
-    this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
+    //this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
     //====================================
 
     //====================================
@@ -208,6 +208,11 @@ void Level::update(float dt)
     if (player->getHP() < 0) gameOver();
 
     closestEnemy = GameController::findClosestEnemy(player->getPosition());
+    if (GameController::shootingTimings[currentTiming] < AudioEngine::getCurrentTime(musicID) * 1000)
+    {
+        Level::spawnEnemyProjectiles(dt);
+        currentTiming += 1;
+    }
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
@@ -235,6 +240,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {   
         player->updateHP(ENEMY_PROJECTILE_DMG);
 
+        if (a->getCollisionBitmask() == 3) {
+            this->removeProjectile(a->getNode());
+        }
+        if (b->getCollisionBitmask() == 3) {
+            this->removeProjectile(b->getNode());
+        }
+
         playerHPBar->setPercent(player->getHP()/PLAYER_START_HP*100.0);
     }
     //if player collided with laser
@@ -242,6 +254,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         || (4 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
     {
         player->updateHP(LASER_DMG);
+        
+        if (a->getCollisionBitmask() == 4) {
+            this->removeLaser(a->getNode());
+        }
+        if (b->getCollisionBitmask() == 4) {
+            this->removeLaser(b->getNode());
+        }
 
         playerHPBar->setPercent(player->getHP() / PLAYER_START_HP * 100.0);
     }
@@ -428,49 +447,64 @@ void Level::spawnEnemyType2(float dt)
     enemy->runAction(sequence);
 }
 void Level::spawnEnemyProjectiles(float dt)
-{   
+{
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    if (GameController::enemies.size() > 0) {
+        long min = 0;
+        long max = GameController::enemies.size() - 1;
+        long n = cocos2d::RandomHelper::random_int(min, max);
+        while (GameController::enemies.at(n)->getPosition().y < player->getPosition().y)
+        {
+            n = cocos2d::RandomHelper::random_int(min, max);
+        }
 
-    for(int i = GameController::enemies.size()-1; i>=0; i--)
-    {
         //create if enemy is above player
-        if (GameController::enemies.at(i)->getPosition().y > player->getPosition().y){ 
+        if (GameController::enemies.at(n)->getPosition().y > player->getPosition().y) {
             //creating
             EnemyProjectile* projectile;
-            projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(i)->getPosition(),player->getPosition());
-            projectile->setScale(0.5*RESOLUTION_VARIABLE);
-            this->addChild(projectile,5);
+            projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(n)->getPosition(), player->getPosition());
+            projectile->setScale(0.5 * RESOLUTION_VARIABLE);
+            this->addChild(projectile, 5);
             //moving and deleting
-            Vec2 tar = GameController::calcTarget(GameController::enemies.at(i)->getPosition(),player->getPosition());
-            float distance = GameController::findDistance(GameController::enemies.at(i)->getPosition(), tar);
+            Vec2 tar = GameController::calcTarget(GameController::enemies.at(n)->getPosition(), player->getPosition());
+            float distance = GameController::findDistance(GameController::enemies.at(n)->getPosition(), tar);
             auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
-            auto callBack = CallFunc::create([this,projectile](){this->removeProjectile(projectile);});
+            auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
             auto sequence = Sequence::create(moveAction, callBack, NULL);
             sequence->setTag(1);
             projectile->runAction(sequence);
         }
     }
-    for (int i = GameController::type2Enemies.size() - 1; i >= 0; i--)
-    {
+    if (GameController::type2Enemies.size() > 0) {
+        long min = 0;
+        long max = GameController::type2Enemies.size() - 1;
+        long n = cocos2d::RandomHelper::random_int(min, max);
+        while (GameController::type2Enemies.at(n)->getPosition().y < player->getPosition().y)
+        {
+            n = cocos2d::RandomHelper::random_int(min, max);
+        }
         //create if enemy is above player
-        if (GameController::type2Enemies.at(i)->getPosition().y > player->getPosition().y) {
+        if (GameController::type2Enemies.at(n)->getPosition().y > player->getPosition().y) {
             //creating
             Laser* projectile;
-            projectile = GameController::spawnLaser(GameController::type2Enemies.at(i)->getPosition(), player->getPosition());
+            projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
             projectile->setScale(0.5 * RESOLUTION_VARIABLE);
-            projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(i)->getPosition(), player->getPosition()));
+            projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
             this->addChild(projectile, 5);
             //moving and deleting
-            Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(i)->getPosition(), player->getPosition());
-            float distance = GameController::findDistance(GameController::type2Enemies.at(i)->getPosition(), tar);
+            Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
+            float distance = GameController::findDistance(GameController::type2Enemies.at(n)->getPosition(), tar);
             auto moveAction = MoveTo::create(distance / ENEMY_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
             auto callBack = CallFunc::create([this, projectile]() {this->removeLaser(projectile); });
             auto sequence = Sequence::create(moveAction, callBack, NULL);
-            
+
             projectile->runAction(sequence);
+            //SFX
+            auto laserSFX = AudioEngine::play2d("res/music/laserSFX.mp3", false);
+            AudioEngine::setVolume(laserSFX, 0.01);
             //pausing and resuming movement of enemy
-            
+            /*
             auto  pauseCallback = CallFunc::create([i]() {
                 GameController::type2Enemies.at(i)->stopActionByTag(1);
                 });
@@ -480,11 +514,13 @@ void Level::spawnEnemyProjectiles(float dt)
                 GameController::type2Enemies.at(i)->resume();
                 });
             GameController::type2Enemies.at(i)->runAction(Sequence::create(pauseCallback, delayAction, resumeCallback, NULL));
+            */
+
         }
     }
 }
 
-void Level::removeProjectile(EnemyProjectile *projectile)
+void Level::removeProjectile(Node* projectile)
 {
     GameController::enemyProjectiles.eraseObject(projectile);
     projectile->cleanup();
@@ -503,7 +539,7 @@ void Level::removeEnemyType2(EnemyType2 *enemy)
     enemy->cleanup();
     removeChild(enemy,true);
 }
-void Level::removeLaser(Laser* laser)
+void Level::removeLaser(Node* laser)
 {
     GameController::laserArr.eraseObject(laser);
     laser->cleanup();

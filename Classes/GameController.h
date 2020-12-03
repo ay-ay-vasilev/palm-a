@@ -16,8 +16,8 @@ public:
     static Vector<Enemy*> enemies;
     static Vector<EnemyType2*> type2Enemies;
     
-    static Vector<EnemyProjectile*> enemyProjectiles;
-    static Vector<Laser*> laserArr;
+    static Vector<Node*> enemyProjectiles;
+    static Vector<Node*> laserArr;
     bool init();
 
     static Enemy* spawnEnemy();

@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-class EnemyProjectile : public cocos2d::Sprite
+class EnemyProjectile : public cocos2d::Node
 {
 public:
     EnemyProjectile();
@@ -25,7 +25,7 @@ private:
 	Vec2 speed;
     
 };
-class Laser : public cocos2d::Sprite
+class Laser : public cocos2d::Node
 {
 public:
 	Laser();

@@ -27,14 +27,16 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
 
-	void removeProjectile( EnemyProjectile *enemyProjectile ) ;
+	void removeProjectile(Node *projectile);
     void removeEnemy(Enemy *enemy);
-    void removeLaser(Laser *laser);
+    void removeLaser(Node *laser);
     void removeEnemyType2(EnemyType2 *enemy);
 
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
     int closestEnemy;
+    int currentTiming;
+    int musicID;
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
