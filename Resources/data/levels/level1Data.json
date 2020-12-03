@@ -1,0 +1,25 @@
+{
+	"maindata" : {
+		"timings": "../Resources/data/levels/timingsLevel1.txt"
+	},
+	"metadata" :{
+		"levelDuration": 40,
+		"wallDistance":40,
+		"floorHeight":30,
+		"cutsceneData":{
+			"splashTime":2,
+			"transitionTime":0.8,
+			"fadeLength":0.5,
+			"numberOfFrames":6
+		},
+		"splashSceneData":{
+			"numberOfFrames":6,
+			"logoAnimSpeed":0.12
+		},
+		"magicNumbers":{
+			"left":0,
+			"right":1
+		},
+		"resolution" : 2
+	}
+}

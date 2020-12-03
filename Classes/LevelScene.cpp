@@ -202,9 +202,9 @@ void Level::update(float dt)
     char playerScore[100];
     sprintf(playerScore, "Score: %i", remainingTime);
     scoreLabel->setString(playerScore);
-    progressBar->setPercent(remainingTime / LEVEL_DURATION * 100.0);
+    progressBar->setPercent(remainingTime / (float)LEVEL_DURATION * 100.0);
 
-    if (remainingTime > LEVEL_DURATION) levelFinished();
+    if (remainingTime > (float)LEVEL_DURATION) levelFinished();
     if (player->getHP() < 0) gameOver();
 
     closestEnemy = GameController::findClosestEnemy(player->getPosition());
@@ -230,7 +230,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP(ENEMY_COLLIDE_DMG);
-        playerHPBar->setPercent(player->getHP()/PLAYER_START_HP*100.0);
+        playerHPBar->setPercent(player->getHP()/(float)PLAYER_START_HP*100.0);
         removeEnemy(GameController::enemies.at(closestEnemy));
     }
 
@@ -247,7 +247,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             this->removeProjectile(b->getNode());
         }
 
-        playerHPBar->setPercent(player->getHP()/PLAYER_START_HP*100.0);
+        playerHPBar->setPercent(player->getHP()/ (float)PLAYER_START_HP*100.0);
     }
     //if player collided with laser
     if ((1 == a->getCollisionBitmask() && 4 == b->getCollisionBitmask())
@@ -262,7 +262,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             this->removeLaser(b->getNode());
         }
 
-        playerHPBar->setPercent(player->getHP() / PLAYER_START_HP * 100.0);
+        playerHPBar->setPercent(player->getHP() / (float)PLAYER_START_HP * 100.0);
     }
     //if player collided with enemy type 2
     if ((1 == a->getCollisionBitmask() && 5 == b->getCollisionBitmask())
@@ -270,7 +270,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         player->updateHP(ENEMY_COLLIDE_DMG);
 
-        playerHPBar->setPercent(player->getHP() / PLAYER_START_HP * 100.0);
+        playerHPBar->setPercent(player->getHP() / (float)PLAYER_START_HP * 100.0);
     }
 
     return true;

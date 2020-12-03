@@ -9,6 +9,7 @@ Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
 std::vector<int> GameController::shootingTimings;
 nlohmann::json GameController::level_1_data;
+nlohmann::json GameController::enemiesData;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}
@@ -174,6 +175,7 @@ float GameController::calcAngle(Vec2 enemyPos, Vec2 playerPos)
 }
 void GameController::getJsonData()
 {
+    //timings data
     level_1_data = JsonInstance::GetInstance()->GetData("level1");
     std::ifstream fin((std::string) level_1_data["maindata"]["timings"]);
     auto s = 0;

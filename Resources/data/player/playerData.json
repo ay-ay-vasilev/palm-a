@@ -1,0 +1,17 @@
+{
+    "stats": {
+        "speed": 4,
+        "dashSpeed": 60,
+        "jumpForce": 15,
+        "gravity": 1,
+        "hp": 150
+
+    },
+    "animationData": {
+        "idleFrames": 5,
+        "runFrames": 8,
+        "idleAnimSpeed": 0.1,
+        "runAnimSpeed": 0.06,
+        "spriteSize": 112        
+    }
+}
