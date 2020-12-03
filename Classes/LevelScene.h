@@ -55,6 +55,7 @@ private:
     void spawnEnemy( float dt );
     void spawnEnemyType2(float dt);
     void spawnEnemyProjectiles(float dt);
+    void spawnRandomEnemy(float dt);
 
     bool isPaused;
     int remainingTime;
