@@ -6,9 +6,9 @@
 class Enemy : public cocos2d::Sprite
 {
 public:
-    cocos2d::Animate * idleAnimate;
+    cocos2d::Animate* idleAnimate;
 
-	static Enemy * create(void);
+    static Enemy* create(void);
 
     cocos2d::PhysicsBody* getBody();
 
@@ -30,7 +30,7 @@ class EnemyType2 : public cocos2d::Sprite
 {
 public:
     cocos2d::Animate* idleAnimate_2;
-    
+
     static EnemyType2* create(void);
 
     cocos2d::PhysicsBody* getBody();

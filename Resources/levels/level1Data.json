@@ -1,8 +1,0 @@
-{
-	"maindata" : {
-		"timings": "../Resources/levels/level1.txt"
-		},
-	"metadata" :{
-		"length": 120
-		}
-}

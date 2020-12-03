@@ -3,14 +3,14 @@
 #include "GameController.h"
 USING_NS_CC;
 
-Enemy::Enemy(){}
+Enemy::Enemy() {}
 Enemy::~Enemy()
 {
 	CC_SAFE_RELEASE(idleAnimate);
 }
-Enemy * Enemy::create(){
-    Enemy * enemy = new Enemy();
-	if(enemy->init())
+Enemy* Enemy::create() {
+	Enemy* enemy = new Enemy();
+	if (enemy->init())
 	{
 		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
 		enemy->autorelease();
@@ -22,21 +22,21 @@ Enemy * Enemy::create(){
 	return NULL;
 }
 
-void Enemy::initEnemy(){
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
-    char str[200] = {0};
+void Enemy::initEnemy() {
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
+	char str[200] = { 0 };
 
 	auto spriteCache = SpriteFrameCache::getInstance();
 	spriteCache->addSpriteFramesWithFile("res/enemies/enemy_regular.plist");
 
-    Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
-	for(int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+	Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
+	for (int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 	{
 		sprintf(str, "enemy_1_test_%i.png", i);
 		idleAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 	}
-    auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
+	auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
 	idleAnimate = Animate::create(idleAnimation);
 	idleAnimate->retain(); //Retain to use it later
 	this->runAction(RepeatForever::create(idleAnimate));
@@ -44,13 +44,13 @@ void Enemy::initEnemy(){
 cocos2d::PhysicsBody* Enemy::getBody()
 {
 	visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+	origin = Director::getInstance()->getVisibleOrigin();
 
-	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-	
+	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask( 2 );
-	physicsBody->setContactTestBitmask( true );
+	physicsBody->setCollisionBitmask(2);
+	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }
 void Enemy::setSpawnPoint(int _spawnPoint)

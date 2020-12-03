@@ -1,0 +1,28 @@
+{
+	"enemyData":
+	{
+		"spawnFrequency":1,
+		"speed":100,
+		"collideDamage": 1,
+		"animationData":{
+			"animationFramesNumber":5,
+			"animationSpeed":0.1,
+			"spriteSize":112
+		}
+		
+	},
+	"enemyProjectileData":
+	{
+		"speed":200,
+		"laser":{
+			"damage":1,
+			"spawningTime":0.2
+		},
+		"default":{
+			"damage":1
+		}
+
+	}
+	
+
+}
