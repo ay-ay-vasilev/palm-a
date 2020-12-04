@@ -8,12 +8,12 @@ JsonInstance::JsonInstance() {
 	level_1_Data = nlohmann::json::parse(fin);
 	fin.close();
 
-	fin.open("../Resources/data/enemies/enemiesData.json");
-	enemies_Data = nlohmann::json::parse(fin);
+	fin.open("../Resources/data/balance.json");
+	balance_Data = nlohmann::json::parse(fin);
 	fin.close();
 
-	fin.open("../Resources/data/player/playerData.json");
-	player_Data = nlohmann::json::parse(fin);
+	fin.open("../Resources/data/animations.json");
+	animations_Data = nlohmann::json::parse(fin);
 	fin.close();
 }
 
@@ -28,11 +28,11 @@ nlohmann::json JsonInstance::GetData(std::string nameOfData) {
 	if (nameOfData._Equal("level1")) {
 		return level_1_Data;
 	}else
-	if (nameOfData._Equal("enemies")) {
-		return enemies_Data;
+	if (nameOfData._Equal("balance")) {
+		return balance_Data;
 	}else
-	if (nameOfData._Equal("player")) {
-		return player_Data;
+	if (nameOfData._Equal("animations")) {
+		return animations_Data;
 	}
 
 	else return nullptr;

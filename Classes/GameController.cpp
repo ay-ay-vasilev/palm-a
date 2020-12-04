@@ -9,7 +9,6 @@ Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
 std::vector<int> GameController::shootingTimings;
 nlohmann::json GameController::level_1_data;
-nlohmann::json GameController::enemiesData;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}

@@ -6,8 +6,8 @@ class JsonInstance {
 
 private:
 	nlohmann::json level_1_Data;
-	nlohmann::json enemies_Data;
-	nlohmann::json player_Data;
+	nlohmann::json balance_Data;
+	nlohmann::json animations_Data;
 
 	static JsonInstance* singleton;
 public:

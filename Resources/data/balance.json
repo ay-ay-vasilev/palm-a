@@ -1,0 +1,35 @@
+{
+    "player": {
+        "speed": 4,
+        "dashSpeed": 60,
+        "jumpForce": 15,
+        "gravity": 1,
+        "hp": 150
+    },
+    "enemy": {
+        "default": {
+            "speed": 100,
+            "collideDamage": 0,
+            "spawnFrequency": 1,
+            "projectileDamage": 1,
+            "projectileSpeed": 200
+        },
+        "laser": {
+            "speed": 100,
+            "collideDamage": 0,
+            "spawnFrequency": 0.2,
+            "projectileDamage": 1,
+            "projectileSpeed": 200
+        }
+    },
+    "level": {
+        "levelDuration": 40,
+		"wallDistance":40,
+        "floorHeight":30,
+        "timings": "../Resources/data/levels/timingsLevel1.txt"
+    },
+    "debug": {
+        "mask": false,
+        "resolution": 3
+    }
+}
