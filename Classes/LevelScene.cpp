@@ -471,7 +471,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 //creating
                 EnemyProjectile* projectile;
                 projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(n)->getPosition(), player->getPosition());
-                projectile->setScale(0.5 * RESOLUTION_VARIABLE);
+                projectile->setScale(RESOLUTION_VARIABLE);
                 this->addChild(projectile, 5);
                 //moving and deleting
                 Vec2 tar = GameController::calcTarget(GameController::enemies.at(n)->getPosition(), player->getPosition());
@@ -502,7 +502,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 //creating
                 Laser* projectile;
                 projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
-                projectile->setScale(0.5 * RESOLUTION_VARIABLE);
+                projectile->setScale(RESOLUTION_VARIABLE);
                 projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
                 this->addChild(projectile, 5);
                 //moving and deleting

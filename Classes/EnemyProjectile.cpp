@@ -1,4 +1,5 @@
 #include "EnemyProjectile.h"
+#include "Definitions.h"
 
 USING_NS_CC;
 
@@ -10,28 +11,47 @@ EnemyProjectile::~EnemyProjectile(void)
 }
 EnemyProjectile * EnemyProjectile::create(){
 	EnemyProjectile * projectile = new EnemyProjectile();
+	cocos2d::Animate* projectileAnimate;
 	if(projectile)
 	{
-		Sprite* model = Sprite::create("res/projectiles/projectile.png");
+		projectile->setContentSize(Size(ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE, ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE));
+		projectile->autorelease();
+		char str[200] = { 0 };
+
+		auto spriteCache = SpriteFrameCache::getInstance();
+		spriteCache->addSpriteFramesWithFile("res/projectiles/default_projectile.plist");
+		Vector<SpriteFrame*> projectileAnimFrames(ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES);
+		
+		for (int i = 1; i <= ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+		{
+			sprintf(str, "default%i.png", i);
+			projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+		}
+
+		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("default1.png"));
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
+
+			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_DEFAULT_PROJECTILE_ANIM_SPEED);
+			projectileAnimate = Animate::create(projectileAnimation);
+			projectileAnimate->retain(); //Retain to use it later
+			model->runAction(RepeatForever::create(projectileAnimate));
+
 			projectile->addChild(model);
 			projectile->setContentSize(model->getContentSize());
 		}
 
-		projectile->autorelease();
 		projectile->init();
 		return projectile;
 	}	
-
 	CC_SAFE_DELETE(projectile);
+	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
 bool EnemyProjectile::init()
 {
-	// ANIMATION WILL BE HERE
 	return false;
 }
 void EnemyProjectile::setTarget( Vec2 target )
@@ -73,21 +93,43 @@ Laser::~Laser(void)
 }
 Laser* Laser::create() {
 	Laser* projectile = new Laser();
+	cocos2d::Animate* projectileAnimate;
 	if (projectile)
 	{
-		Sprite* model = Sprite::create("res/projectiles/laser.png");
+		projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
+		projectile->autorelease();
+		char str[200] = { 0 };
+
+		auto spriteCache = SpriteFrameCache::getInstance();
+		spriteCache->addSpriteFramesWithFile("res/projectiles/laser_projectile.plist");
+		Vector<SpriteFrame*> projectileAnimFrames(ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES);
+
+		for (int i = 1; i <= ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+		{
+			sprintf(str, "laser%i.png", i);
+			projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+		}
+
+		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("laser1.png"));
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
+
+			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_LASER_PROJECTILE_ANIM_SPEED);
+			projectileAnimate = Animate::create(projectileAnimation);
+			projectileAnimate->retain(); //Retain to use it later
+			model->runAction(RepeatForever::create(projectileAnimate));
+
 			projectile->addChild(model);
 			projectile->setContentSize(model->getContentSize());
 		}
-		projectile->autorelease();
+
 		projectile->init();
 		return projectile;
 	}
 	CC_SAFE_DELETE(projectile);
+	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
 bool Laser::init()
