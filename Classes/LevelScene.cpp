@@ -91,6 +91,15 @@ bool Level::init()
     dashButton->setAnchorPoint(Vec2(1, 0));
     dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + dashButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
 
+    auto jumpButton = MenuItemImage::create(
+        "res/ui/dash_button.png",
+        "res/ui/dash_button.png",
+        CC_CALLBACK_1(Level::jumpButtonCallback, this));
+    jumpButton->setScale(RESOLUTION_VARIABLE);
+    jumpButton->setOpacity(70);
+    jumpButton->setAnchorPoint(Vec2(1, 0));
+    jumpButton->setPosition(Vec2(origin.x + visibleSize.width - jumpButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + jumpButton->getContentSize().height / 2 * RESOLUTION_VARIABLE + dashButton->getContentSize().height * RESOLUTION_VARIABLE + 5 * RESOLUTION_VARIABLE));
+
     auto pauseButton = MenuItemImage::create(
         "res/ui/pause_button.png",
         "res/ui/pause_button.png",
@@ -100,7 +109,7 @@ bool Level::init()
     pauseButton->setAnchorPoint(Vec2(1, 1));
     pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     
-    gameUI = Menu::create(pauseButton, dashButton, NULL);
+    gameUI = Menu::create(pauseButton, dashButton, jumpButton, NULL);
     gameUI->setPosition(Vec2::ZERO);
 
     pauseBackground = Sprite::create("res/ui/black.png");
@@ -384,6 +393,11 @@ void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event*
 void Level::dashButtonCallback(Ref* pSender)
 {
     player->dash();
+}
+
+void Level::jumpButtonCallback(Ref* pSender)
+{
+    player->jump();
 }
 
 void Level::pauseButtonCallback(Ref* pSender)

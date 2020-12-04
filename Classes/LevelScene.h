@@ -21,6 +21,7 @@ public:
 
     // a selector callback
     void dashButtonCallback(cocos2d::Ref* pSender);
+    void jumpButtonCallback(cocos2d::Ref* pSender);
     void pauseButtonCallback(cocos2d::Ref* pSender);
     void goToMainMenu(cocos2d::Ref* pSender);
     
