@@ -26,6 +26,9 @@
 #define PLAYER_JUMP_FORCE JsonInstance::GetInstance()->GetData("balance")["player"]["jumpForce"]
 #define PLAYER_GRAVITY JsonInstance::GetInstance()->GetData("balance")["player"]["gravity"]
 #define PLAYER_START_HP JsonInstance::GetInstance()->GetData("balance")["player"]["hp"]
+#define PLAYER_JUMPS JsonInstance::GetInstance()->GetData("balance")["player"]["jumps"]
+#define PLAYER_JUMP_KILL_FORCE JsonInstance::GetInstance()->GetData("balance")["player"]["jumpKillForce"]
+#define PLAYER_REFILL_JUMPS_ON_KILL JsonInstance::GetInstance()->GetData("balance")["player"]["refillJumpsOnKill"]
 //Enemy stats
 // Default
 #define ENEMY_DEFAULT_SPEED JsonInstance::GetInstance()->GetData("balance")["enemy"]["default"]["speed"]
