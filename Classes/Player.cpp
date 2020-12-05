@@ -91,13 +91,13 @@ void Player::jump()
 {
 	if (jumps > 0) {
 		jumps--;
-		vertForce = (float)PLAYER_JUMP_FORCE;
+		vertForce = (float)PLAYER_JUMP_FORCE*RESOLUTION_VARIABLE;
 	}
 }
 
 void Player::jumpKill()
 {
-	vertForce = (float)PLAYER_JUMP_FORCE;
+	vertForce = (float)PLAYER_JUMP_FORCE* RESOLUTION_VARIABLE;
 	if (PLAYER_REFILL_JUMPS_ON_KILL) jumps = (float)PLAYER_JUMPS;
 }
 

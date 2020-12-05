@@ -2,11 +2,11 @@
     "player": {
         "speed": 4,
         "dashSpeed": 60,
-        "jumpForce": 15,
+        "jumpForce": 5,
         "gravity": 1,
         "hp": 150,
         "jumps": 2,
-        "jumpKillForce": 45,
+        "jumpKillForce": 15,
         "refillJumpsOnKill": true
     },
     "enemy": {
