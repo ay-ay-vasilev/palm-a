@@ -247,7 +247,9 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {   
         player->updateHP((float)ENEMY_DEFAULT_COLLIDE_DMG);
         playerHPBar->setPercent(player->getHP()/(float)PLAYER_START_HP*100.0);
+        
         removeEnemy(GameController::enemies.at(closestEnemy));
+        player->jumpKill();
     }
 
     //if player collided with projectile

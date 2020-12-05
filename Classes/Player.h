@@ -15,6 +15,7 @@ public:
 	static Player * create(void);
 	void dash();
 	void jump();
+	void jumpKill();
 	void run(int directionParam);
 	void idle();
 	void update();
@@ -31,6 +32,7 @@ private:
 	bool dashed;
 	int direction;
 	int vertForce;
+	int jumps;
 
 	void initPlayer();
 };
