@@ -87,16 +87,16 @@ bool Level::init()
         "res/ui/dash_button.png",
         CC_CALLBACK_1(Level::dashButtonCallback, this));
     dashButton->setScale(RESOLUTION_VARIABLE);
-    dashButton->setOpacity(70);
+    dashButton->setOpacity(180);
     dashButton->setAnchorPoint(Vec2(1, 0));
     dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + dashButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
 
     auto jumpButton = MenuItemImage::create(
-        "res/ui/dash_button.png",
-        "res/ui/dash_button.png",
+        "res/ui/jump_button.png",
+        "res/ui/jump_button.png",
         CC_CALLBACK_1(Level::jumpButtonCallback, this));
     jumpButton->setScale(RESOLUTION_VARIABLE);
-    jumpButton->setOpacity(70);
+    jumpButton->setOpacity(180);
     jumpButton->setAnchorPoint(Vec2(1, 0));
     jumpButton->setPosition(Vec2(origin.x + visibleSize.width - jumpButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + jumpButton->getContentSize().height / 2 * RESOLUTION_VARIABLE + dashButton->getContentSize().height * RESOLUTION_VARIABLE + 5 * RESOLUTION_VARIABLE));
 
@@ -105,7 +105,7 @@ bool Level::init()
         "res/ui/pause_button.png",
         CC_CALLBACK_1(Level::pauseButtonCallback, this));
     pauseButton->setScale(RESOLUTION_VARIABLE);
-    pauseButton->setOpacity(70);
+    pauseButton->setOpacity(180);
     pauseButton->setAnchorPoint(Vec2(1, 1));
     pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     
