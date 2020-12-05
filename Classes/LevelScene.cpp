@@ -76,11 +76,11 @@ bool Level::init()
 
 	this->scheduleUpdate();
 
-    auto floor = Sprite::create("res/level/test_floor.png");
+    auto floor = Sprite::create("res/level/test_full_background.png");
     floor->getTexture()->setAliasTexParameters();
-    floor->setScale(0.9*RESOLUTION_VARIABLE); // FIX BACKGROUND
-    floor->setAnchorPoint(Vec2(0.5, 0.5));
-    floor->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 + 75*RESOLUTION_VARIABLE)); // FIX BACKGROUND
+    floor->setScale(RESOLUTION_VARIABLE);
+    floor->setAnchorPoint(Vec2(0, 0));
+    floor->setPosition(Vec2(origin.x, origin.y));
     
     auto dashButton = MenuItemImage::create(
         "res/ui/dash_button.png",
@@ -134,7 +134,7 @@ bool Level::init()
 
     // player score
     char playerScore[100];
-    sprintf(playerScore, "Score: %i", remainingTime);
+    sprintf(playerScore, "Time: %i", remainingTime);
     scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12*RESOLUTION_VARIABLE);
     scoreLabel->setAnchorPoint(Vec2(0, 1));
     scoreLabel->setPosition(Vec2(origin.x + scoreLabel->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - scoreLabel->getContentSize().height / 2 * RESOLUTION_VARIABLE));
