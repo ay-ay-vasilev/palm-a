@@ -79,7 +79,7 @@ Label* Cutscene::label(int i) {
         break;
     }
     auto label = Label::createWithTTF(str, "fonts/PixelForce.ttf", fontSize);
-    label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 5));
+    label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 8));
     label->setOpacity(0);
     return label;
 }
@@ -92,8 +92,9 @@ Sprite* Cutscene::Cadr(int i){
     sprintf(str, "res/cutscene/%i_test.png", i);
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
-    cadr->setScale(2.0*RESOLUTION_VARIABLE);
-    cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height*2/3));
+    cadr->setScale(1.7*RESOLUTION_VARIABLE);
+    cadr->setAnchorPoint({ 0.5, 1 });
+    cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height));
     cadr->setOpacity(0);
     return cadr;
 }
