@@ -47,7 +47,7 @@ bool Level::init()
     GameController::laserArr.clear();
     GameController::getJsonData();
     //init the music
-    musicID = AudioEngine::play2d("res/music/audio.mp3", false);
+    musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
     AudioEngine::setVolume(musicID, 0.1);
     // important variables
     auto director = cocos2d::Director::getInstance();
@@ -498,7 +498,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 sequence->setTag(1);
                 projectile->runAction(sequence);
                 //SFX
-                auto projectileSFX = AudioEngine::play2d("res/music/projectileSFX.mp3", false);
+                auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
                 AudioEngine::setVolume(projectileSFX, 0.1);
             }
         }
@@ -530,7 +530,7 @@ void Level::spawnEnemyProjectiles(float dt)
 
                 projectile->runAction(sequence);
                 //SFX
-                auto laserSFX = AudioEngine::play2d("res/music/laserSFX.mp3", false);
+                auto laserSFX = AudioEngine::play2d("audio/sfx/laserSFX.mp3", false);
                 AudioEngine::setVolume(laserSFX, 0.01);
                 //pausing and resuming movement of enemy
                 /*
