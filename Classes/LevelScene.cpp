@@ -191,6 +191,12 @@ bool Level::init()
     contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
     //====================================
+    currentTime = 0;
+    //====================================
+    auto audioUpdatePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::audioUpdate);
+
+    this->schedule(audioUpdatePointer, 0.001f);
+    //====================================
 
     auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
     this->schedule(updateScorePointer, 1.0f);
@@ -588,4 +594,16 @@ void Level::removeLaser(Node* laser)
     GameController::laserArr.eraseObject(laser);
     laser->cleanup();
     removeChild(laser, true);
+}
+
+void Level::audioUpdate(float dt)
+{
+    //if (GameController::shootingTimings[currentTiming] < AudioEngine::getCurrentTime(musicID) * 1000)
+    currentTime++;
+    if (GameController::shootingTimings[currentTiming] < currentTime)
+    {
+        Level::spawnEnemyProjectiles(dt);
+        currentTiming += 5;
+    }
+    CCLOG("CT = %i , ST = %i", currentTime, GameController::shootingTimings[currentTiming]);
 }
