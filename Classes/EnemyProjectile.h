@@ -44,4 +44,19 @@ private:
 	Vec2 target;
 	Vec2 speed;
 };
+class LaserRay : public cocos2d::Node
+{
+public:
+	LaserRay();
+	~LaserRay();
+	static LaserRay* create(void);
+	virtual bool init();
+
+	Vec2 getTarget();
+	void setTarget(Vec2 target);
+
+	cocos2d::PhysicsBody* getBody();
+private:
+	Vec2 target;
+};
 #endif

@@ -8,6 +8,7 @@ Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
 Vector<EnemyType3*> GameController::type3Enemies;
+Vector<LaserRay*> GameController::laserRays;
 
 std::vector<int> GameController::shootingTimings;
 nlohmann::json GameController::level_1_data;
@@ -108,7 +109,21 @@ Laser* GameController::spawnLaser(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
-
+LaserRay* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    LaserRay* projectile;
+    projectile = LaserRay::create();
+    projectile->setPosition(pos);
+    projectile->setTarget(tar);
+    projectile->setPhysicsBody(projectile->getBody());
+    if (projectile)
+    {
+        GameController::laserRays.pushBack(projectile);
+        return projectile;
+    }
+    return projectile;
+}
 float GameController::enemyPosition(Enemy* enemy){
     int spawnPoints = 4;
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();

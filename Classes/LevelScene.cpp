@@ -174,15 +174,15 @@ bool Level::init()
     
     //====================================
     //enemy spawn
-    //auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
+    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
     
-    //this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);
+    this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);
     
     //====================================
     //enemy type 3
     auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
     
-    this->schedule(enemyProjectileSpawnPointer, 1);
+    this->schedule(enemyProjectileSpawnPointer, 5);
     //====================================
 
     //====================================
@@ -582,6 +582,10 @@ void Level::spawnEnemyProjectiles(float dt)
             }
         }
     }
+}
+void Level::spawnLaserRay(float dt)
+{
+
 }
 void Level::spawnRandomEnemy(float dt) 
 {

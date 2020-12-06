@@ -22,6 +22,7 @@ public:
 
     static Vector<Node*> enemyProjectiles;
     static Vector<Node*> laserArr;
+    static Vector<LaserRay*> laserRays;
     bool init();
 
     static Enemy* spawnEnemy();
@@ -30,6 +31,7 @@ public:
 
     static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
     static Laser* spawnLaser(Vec2 pos, Vec2 tar);
+    static LaserRay* spawnLaserRay(Vec2 pos, Vec2 tar);
 
     static float enemyPosition(Enemy* enemy);
     static float enemyPosition(EnemyType2* enemy);
