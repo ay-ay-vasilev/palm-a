@@ -3,11 +3,9 @@
 
 #include "cocos2d.h"
 
-class Enemy : public cocos2d::Sprite
+class Enemy : public cocos2d::Node
 {
 public:
-    cocos2d::Animate* idleAnimate;
-
     static Enemy* create(void);
 
     cocos2d::PhysicsBody* getBody();
@@ -21,15 +19,12 @@ private:
     int direction;
     int col;
     int spawnPoint;
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
 
-    void initEnemy();
 };
-class EnemyType2 : public cocos2d::Sprite
+class EnemyType2 : public cocos2d::Node
 {
 public:
-    cocos2d::Animate* idleAnimate_2;
+
 
     static EnemyType2* create(void);
 
@@ -41,9 +36,5 @@ private:
     ~EnemyType2();
     EnemyType2();
     int spawnPoint;
-    void initEnemy();
-
-    cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
 };
 #endif

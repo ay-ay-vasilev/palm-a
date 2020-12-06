@@ -35,7 +35,6 @@ public:
 
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
-    int closestEnemy;
     int currentTiming;
     int musicID;
 private:

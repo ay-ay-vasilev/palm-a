@@ -6,6 +6,9 @@
 #include <EnemyProjectile.h>
 #include "json.hpp"
 #include "JsonInstance.h"
+#include "LevelScene.h"
+#include "AudioEngine.h"
+#include "Player.h"
 
 class GameController
 {
@@ -28,8 +31,6 @@ public:
 
     static float enemyPosition(Enemy* enemy);
     static float enemyPosition(EnemyType2* enemy);
-
-    static int findClosestEnemy(Vec2 playerPos);
 
     static float findDistance(Vec2 enemyPos, Vec2 playerPos);
 

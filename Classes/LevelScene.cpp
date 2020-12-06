@@ -195,7 +195,7 @@ bool Level::init()
     //====================================
     auto audioUpdatePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::audioUpdate);
 
-    this->schedule(audioUpdatePointer, 0.001f);
+    this->schedule(audioUpdatePointer, 0.005f);
     //====================================
 
     auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
@@ -228,13 +228,6 @@ void Level::update(float dt)
 
     if (remainingTime > (float)LEVEL_DURATION) levelFinished();
     if (player->getHP() < 0) gameOver();
-
-    closestEnemy = GameController::findClosestEnemy(player->getPosition());
-    if (GameController::shootingTimings[currentTiming] < AudioEngine::getCurrentTime(musicID) * 1000)
-    {
-        Level::spawnEnemyProjectiles(dt);
-        currentTiming += 1;
-    }
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
@@ -254,8 +247,16 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->updateHP((float)ENEMY_DEFAULT_COLLIDE_DMG);
         playerHPBar->setPercent(player->getHP()/(float)PLAYER_START_HP*100.0);
         
-        removeEnemy(GameController::enemies.at(closestEnemy));
-        player->jumpKill();
+        //removeEnemy(GameController::enemies.at(closestEnemy));
+
+        if (a->getCollisionBitmask() == 2) {
+            this->removeEnemy(dynamic_cast<Enemy*>(a->getNode()));
+            player->jumpKill();
+        }
+        if (b->getCollisionBitmask() == 2) {
+            this->removeEnemy(dynamic_cast<Enemy*>(b->getNode()));
+            player->jumpKill();
+        }
     }
 
     //if player collided with projectile
@@ -295,6 +296,15 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->updateHP((float)ENEMY_LASER_COLLIDE_DMG);
 
         playerHPBar->setPercent(player->getHP() / (float)PLAYER_START_HP * 100.0);
+
+        if (a->getCollisionBitmask() == 5) {
+            this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
+            player->jumpKill();
+        }
+        if (b->getCollisionBitmask() == 5) {
+            this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
+            player->jumpKill();
+        }
     }
 
     return true;
@@ -501,7 +511,6 @@ void Level::spawnEnemyProjectiles(float dt)
                 auto moveAction = MoveTo::create(distance / ENEMY_DEFAULT_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
                 auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
                 auto sequence = Sequence::create(moveAction, callBack, NULL);
-                sequence->setTag(1);
                 projectile->runAction(sequence);
                 //SFX
                 auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
@@ -599,11 +608,10 @@ void Level::removeLaser(Node* laser)
 void Level::audioUpdate(float dt)
 {
     //if (GameController::shootingTimings[currentTiming] < AudioEngine::getCurrentTime(musicID) * 1000)
-    currentTime++;
+    currentTime += 5;
     if (GameController::shootingTimings[currentTiming] < currentTime)
     {
         Level::spawnEnemyProjectiles(dt);
-        currentTiming += 5;
+        currentTiming++;
     }
-    CCLOG("CT = %i , ST = %i", currentTime, GameController::shootingTimings[currentTiming]);
 }
