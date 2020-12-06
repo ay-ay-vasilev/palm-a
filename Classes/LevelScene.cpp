@@ -174,12 +174,12 @@ bool Level::init()
     
     //====================================
     //enemy spawn
-    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
+    //auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
     
-    this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);
+    //this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);
     
     //====================================
-    //enemy shooting
+    //enemy type 3
     auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
     
     this->schedule(enemyProjectileSpawnPointer, 1);
@@ -228,6 +228,8 @@ void Level::update(float dt)
 
     if (remainingTime > (float)LEVEL_DURATION) levelFinished();
     if (player->getHP() < 0) gameOver();
+
+    GameController::updateRotationType3(player->getPosition());
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {

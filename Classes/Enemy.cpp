@@ -139,12 +139,14 @@ EnemyType3* EnemyType3::create()
 
 		Sprite* model = Sprite::create("res/enemies/enemy_turret.png");
 		if (model) {
-			model->setAnchorPoint(Vec2(0, 0));
+			model->setAnchorPoint(Vec2(0,0));
 			model->setPosition(0, 0);
 
 			enemy->addChild(model);
 			enemy->setContentSize(model->getContentSize());
 		}
+		Vec2 anchor = Vec2(1, 0.5);
+		enemy->setAnchorPoint(anchor);
 		enemy->init();
 		return enemy;
 	}

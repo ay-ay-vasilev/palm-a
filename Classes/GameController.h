@@ -34,6 +34,7 @@ public:
     static float enemyPosition(Enemy* enemy);
     static float enemyPosition(EnemyType2* enemy);
     static float enemyPosition(EnemyType3* enemy);
+    static void updateRotationType3(Vec2 playerPos);
 
     static float findDistance(Vec2 enemyPos, Vec2 playerPos);
 

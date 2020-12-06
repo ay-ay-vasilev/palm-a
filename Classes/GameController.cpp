@@ -143,13 +143,13 @@ float GameController::enemyPosition(EnemyType3* enemy) {
     if (random == 1)
     {
         enemy->setScale(-0.25 * RESOLUTION_VARIABLE);
-        position = enemy->getContentSize().width * 0.25 * RESOLUTION_VARIABLE + LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
+        position = LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
         return position;
     }
     else 
     {
         enemy->setScale(0.25 * RESOLUTION_VARIABLE);
-        position = visibleSize.width - enemy->getContentSize().width * 0.25 * RESOLUTION_VARIABLE - LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
+        position = visibleSize.width - LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
         return position;
     }
 }
@@ -216,5 +216,17 @@ int GameController::randomTypeOfEnemy()
     }
     else {
         return 1;
+    }
+}
+void GameController::updateRotationType3(Vec2 playerPos)
+{
+    for (int i = type3Enemies.size() - 1; i >= 0; i--){
+        auto angle = calcAngle(type3Enemies.at(i)->getPosition(), playerPos);
+        if (type3Enemies.at(i)->getSpawnPoint() == 2)
+        {
+            angle += 180;
+            
+        }
+        type3Enemies.at(i)->setRotation(angle);
     }
 }
