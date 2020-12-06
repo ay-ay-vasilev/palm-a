@@ -87,6 +87,9 @@ EnemyType2* EnemyType2::create()
 		}
 		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("enemy_2_test_1.png"));
 		if (model) {
+			model->setAnchorPoint(Vec2(0, 0));
+			model->setPosition(0, 0);
+
 			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
 			idleAnimate_2 = Animate::create(idleAnimation);
 			idleAnimate_2->retain(); //Retain to use it later

@@ -31,7 +31,7 @@ private:
 	bool moving;
 	bool dashed;
 	int direction;
-	int vertForce;
+	float vertForce;
 	int jumps;
 
 	void initPlayer();

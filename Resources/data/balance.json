@@ -2,8 +2,8 @@
     "player": {
         "speed": 4,
         "dashSpeed": 60,
-        "jumpForce": 5,
-        "gravity": 1,
+        "jumpForce": 7,
+        "gravity": 0.5,
         "hp": 150,
         "jumps": 2,
         "jumpKillForce": 15,
@@ -32,7 +32,7 @@
         "timings": "../Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": false,
-        "resolution": 2
+        "mask": true,
+        "resolution": 3
     }
 }

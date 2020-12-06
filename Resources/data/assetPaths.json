@@ -1,26 +1,14 @@
 {
     "player": {
-        "spritesheet": "res/character/character_sheet.plist",
+        "spriteSheet": "res/character/character_sheet.plist",
         "idleUnarmedLeft": "character_unarmed_idle_left_test_%i.png",
         "idleUnarmedRight": "character_unarmed_idle_right_test_%i.png",
         "runUnarmedLeft": "character_unarmed_run_left_test_%i.png",
         "runUnarmedRight": "character_unarmed_run_right_test_%i.png"
     },
     "enemy": {
-        "default": {
-            "speed": 100,
-            "collideDamage": 0,
-            "spawnFrequency": 1,
-            "projectileDamage": 1,
-            "projectileSpeed": 200
-        },
-        "laser": {
-            "speed": 100,
-            "collideDamage": 0,
-            "spawnFrequency": 0.2,
-            "projectileDamage": 1,
-            "projectileSpeed": 200
-        }
+        "spriteSheet": "res/enemies/enemy_regular.plist",
+        "main": "enemy_1_test_%i.png"
     },
     "level": {
         "levelDuration": 116,
