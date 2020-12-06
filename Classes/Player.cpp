@@ -163,7 +163,8 @@ void Player::update()
 		this->setPositionX(clampf(newPosX, origin.x + (float)LEVEL_WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
 	}
 	if (this->getPositionY() <= origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE && vertForce < (float)PLAYER_JUMP_FORCE) jumps = (float)PLAYER_JUMPS;
-	vertForce = clampf(vertForce - (float)PLAYER_GRAVITY* RESOLUTION_VARIABLE, -100, 100);
+	if (this->getPositionY() >= director->getVisibleSize().height) vertForce = 0;
+	vertForce = clampf(vertForce - (float)PLAYER_GRAVITY* RESOLUTION_VARIABLE, (float)PLAYER_MAX_FALL_SPEED * RESOLUTION_VARIABLE, (float)PLAYER_MAX_JUMP_SPEED * RESOLUTION_VARIABLE);
 	auto newPosY = this->getPositionY() + vertForce;
 	this->setPositionY(clampf(newPosY, origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
 

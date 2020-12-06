@@ -132,15 +132,31 @@ EnemyType3::~EnemyType3()
 EnemyType3* EnemyType3::create()
 {
 	EnemyType3* enemy = new EnemyType3();
+	cocos2d::Animate* idleAnimate_3;
 	if (enemy)
 	{
 		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
 		enemy->autorelease();
 
-		Sprite* model = Sprite::create("res/enemies/enemy_turret.png");
+		char str[200] = { 0 };
+
+		auto spriteCache = SpriteFrameCache::getInstance();
+		spriteCache->addSpriteFramesWithFile("res/enemies/enemy_turret.plist");
+		Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
+		for (int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+		{
+			sprintf(str, "enemy_turret%i.png", i);
+			idleAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+		}
+		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("enemy_turret1.png"));
 		if (model) {
-			model->setAnchorPoint(Vec2(0,0));
+			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
+
+			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
+			idleAnimate_3 = Animate::create(idleAnimation);
+			idleAnimate_3->retain(); //Retain to use it later
+			model->runAction(RepeatForever::create(idleAnimate_3));
 
 			enemy->addChild(model);
 			enemy->setContentSize(model->getContentSize());
@@ -151,8 +167,8 @@ EnemyType3* EnemyType3::create()
 		enemy->init();
 		return enemy;
 	}
-
 	CC_SAFE_DELETE(enemy);
+	CC_SAFE_RELEASE(idleAnimate_3);
 	return NULL;
 }
 cocos2d::PhysicsBody* EnemyType3::getBody()

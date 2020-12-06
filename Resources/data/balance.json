@@ -4,6 +4,8 @@
         "dashSpeed": 60,
         "jumpForce": 7,
         "gravity": 0.5,
+        "maxFallSpeed": -10,
+        "maxJumpSpeed": 10,
         "hp": 150,
         "jumps": 2,
         "jumpKillForce": 15,
@@ -32,7 +34,7 @@
         "timings": "../Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": false,
+        "mask": true,
         "resolution": 2
     }
 }

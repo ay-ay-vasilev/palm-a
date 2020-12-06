@@ -25,6 +25,8 @@
 #define PLAYER_DASH_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["dashSpeed"]
 #define PLAYER_JUMP_FORCE JsonInstance::GetInstance()->GetData("balance")["player"]["jumpForce"]
 #define PLAYER_GRAVITY JsonInstance::GetInstance()->GetData("balance")["player"]["gravity"]
+#define PLAYER_MAX_FALL_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["maxFallSpeed"]
+#define PLAYER_MAX_JUMP_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["maxJumpSpeed"]
 #define PLAYER_START_HP JsonInstance::GetInstance()->GetData("balance")["player"]["hp"]
 #define PLAYER_JUMPS JsonInstance::GetInstance()->GetData("balance")["player"]["jumps"]
 #define PLAYER_JUMP_KILL_FORCE JsonInstance::GetInstance()->GetData("balance")["player"]["jumpKillForce"]
