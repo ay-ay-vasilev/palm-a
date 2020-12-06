@@ -180,9 +180,9 @@ bool Level::init()
     
     //====================================
     //enemy shooting
-    //auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyProjectiles);
+    auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
     
-    //this->schedule(enemyProjectileSpawnPointer, ENEMY_PROJECTILE_FREQUENCY);
+    this->schedule(enemyProjectileSpawnPointer, 1);
     //====================================
 
     //====================================
@@ -237,6 +237,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     //enemy projectile = 3
     //laser = 4
     //enemy type 2 = 5
+    //enemy type 3 = 6
     PhysicsBody *a = contact.getShapeA()->getBody();
     PhysicsBody *b = contact.getShapeB()->getBody();
 
@@ -473,7 +474,7 @@ void Level::spawnEnemyType2(float dt)
     //moving and deleting
     float distance = visibleSize.height + (float)ENEMY_SPRITE_SIZE * 2;
 
-    auto enemySpeed = (float)ENEMY_LASER_SPEED * RESOLUTION_VARIABLE;
+    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint() - 1, 0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint() - 1, 1);
@@ -481,6 +482,22 @@ void Level::spawnEnemyType2(float dt)
     auto enemyAction2 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5 * visibleSize.height - ENEMY_SPRITE_SIZE));
     auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType2(enemy); });
     auto sequence = Sequence::create(enemyAction1, enemyAction2, callBack, NULL);
+    enemy->runAction(sequence);
+}
+void Level::spawnEnemyType3(float dt) 
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    EnemyType3* enemy;
+    enemy = GameController::spawnEnemyType3();
+    this->addChild(enemy, 3);
+
+    //moving and deleting
+    float distance = visibleSize.height + (float)ENEMY_SPRITE_SIZE * 2;
+    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
+    auto enemyAction1 = MoveBy::create(distance / enemySpeed, Vec2(0, visibleSize.height + ENEMY_SPRITE_SIZE*2));
+    auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType3(enemy); });
+    auto sequence = Sequence::create(enemyAction1, callBack, NULL);
     enemy->runAction(sequence);
 }
 void Level::spawnEnemyProjectiles(float dt)
@@ -597,6 +614,12 @@ void Level::removeEnemyType2(EnemyType2 *enemy)
     GameController::type2Enemies.eraseObject(enemy);
     enemy->cleanup();
     removeChild(enemy,true);
+}
+void Level::removeEnemyType3(EnemyType3* enemy)
+{
+    GameController::type3Enemies.eraseObject(enemy);
+    enemy->cleanup();
+    removeChild(enemy, true);
 }
 void Level::removeLaser(Node* laser)
 {

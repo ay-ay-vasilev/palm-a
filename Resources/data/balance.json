@@ -33,6 +33,6 @@
     },
     "debug": {
         "mask": true,
-        "resolution": 3
+        "resolution": 2
     }
 }

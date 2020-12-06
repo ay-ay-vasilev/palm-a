@@ -37,4 +37,18 @@ private:
     EnemyType2();
     int spawnPoint;
 };
+class EnemyType3 : public cocos2d::Node
+{
+public:
+    static EnemyType3* create(void);
+
+    cocos2d::PhysicsBody* getBody();
+
+    void setSpawnPoint(int _spawnPoint);
+    int getSpawnPoint();
+private:
+    ~EnemyType3();
+    EnemyType3();
+    int spawnPoint;
+};
 #endif

@@ -18,19 +18,22 @@ public:
 
     static Vector<Enemy*> enemies;
     static Vector<EnemyType2*> type2Enemies;
-    
+    static Vector<EnemyType3*> type3Enemies;
+
     static Vector<Node*> enemyProjectiles;
     static Vector<Node*> laserArr;
     bool init();
 
     static Enemy* spawnEnemy();
     static EnemyType2* spawnEnemyType2();
+    static EnemyType3* spawnEnemyType3();
 
     static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
     static Laser* spawnLaser(Vec2 pos, Vec2 tar);
 
     static float enemyPosition(Enemy* enemy);
     static float enemyPosition(EnemyType2* enemy);
+    static float enemyPosition(EnemyType3* enemy);
 
     static float findDistance(Vec2 enemyPos, Vec2 playerPos);
 
