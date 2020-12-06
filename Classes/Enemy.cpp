@@ -147,6 +147,7 @@ EnemyType3* EnemyType3::create()
 		}
 		Vec2 anchor = Vec2(1, 0.5);
 		enemy->setAnchorPoint(anchor);
+		enemy->setBoolRotate(true);
 		enemy->init();
 		return enemy;
 	}
@@ -170,4 +171,21 @@ void EnemyType3::setSpawnPoint(int _spawnPoint)
 int EnemyType3::getSpawnPoint()
 {
 	return EnemyType3::spawnPoint;
+}
+
+void EnemyType3::setBoolRotate(bool b)
+{
+	rotation = b;
+}
+bool EnemyType3::canRotate()
+{
+	return rotation;
+}
+float EnemyType3::getRotationAngle()
+{
+	return angle;
+}
+void EnemyType3::setRotationAngle(float _angle)
+{
+	angle = _angle;
 }

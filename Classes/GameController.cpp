@@ -236,12 +236,20 @@ int GameController::randomTypeOfEnemy()
 void GameController::updateRotationType3(Vec2 playerPos)
 {
     for (int i = type3Enemies.size() - 1; i >= 0; i--){
-        auto angle = calcAngle(type3Enemies.at(i)->getPosition(), playerPos);
-        if (type3Enemies.at(i)->getSpawnPoint() == 2)
+        if (type3Enemies.at(i)->canRotate())
         {
-            angle += 180;
-            
+            auto angle = calcAngle(type3Enemies.at(i)->getPosition(), playerPos);
+            if (type3Enemies.at(i)->getSpawnPoint() == 2)
+            {
+                angle += 180;
+
+            }
+            if (type3Enemies.at(i)->getPosition().y < playerPos.y)
+            {
+                angle = 360 - angle;
+            }
+            type3Enemies.at(i)->setRotationAngle(angle);
+            type3Enemies.at(i)->setRotation(angle);
         }
-        type3Enemies.at(i)->setRotation(angle);
     }
 }

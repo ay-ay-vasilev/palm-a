@@ -52,8 +52,10 @@ public:
 	static LaserRay* create(void);
 	virtual bool init();
 
+
 	Vec2 getTarget();
 	void setTarget(Vec2 target);
+
 
 	cocos2d::PhysicsBody* getBody();
 private:

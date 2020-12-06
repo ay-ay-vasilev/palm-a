@@ -186,11 +186,10 @@ LaserRay* LaserRay::create() {
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			
 			projectile->addChild(model);
 			projectile->setContentSize(model->getContentSize());
 		}
-		projectile->setAnchorPoint(Vec2(1, 0.5));
+		projectile->setAnchorPoint(Vec2(0, 0.5));
 		projectile->init();
 		return projectile;
 	}

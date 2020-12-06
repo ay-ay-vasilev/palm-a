@@ -493,19 +493,21 @@ void Level::spawnEnemyType3(float dt)
     EnemyType3* enemy;
     enemy = GameController::spawnEnemyType3();
     this->addChild(enemy, 3);
-    auto randA = RandomHelper::random_int(3,7)/10.0;
-    auto randB = 1 - randA;
+    auto way1 = RandomHelper::random_int(4, 6) / 10.0 ;
+    auto way2 = 0.15;
+    auto way3 = 2;
     //moving and deleting
-    float distance = visibleSize.height + (float)ENEMY_SPRITE_SIZE * 2;
+    float distance = visibleSize.height;
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
-    auto enemyAction1 = MoveBy::create(distance / enemySpeed, Vec2(0, visibleSize.height * randA + ENEMY_SPRITE_SIZE * 2));
-    auto enemyAction2 = MoveBy::create(distance / enemySpeed, Vec2(0, visibleSize.height * randB + ENEMY_SPRITE_SIZE * 2));
-    auto delay = DelayTime::create(0.5);
+    auto enemyAction1 = MoveBy::create(distance * way1 / enemySpeed, Vec2(0, visibleSize.height * way1));
+    auto enemyAction2 = MoveBy::create(distance * way2 / enemySpeed, Vec2(0, visibleSize.height * way2));
+    auto enemyAction3 = MoveBy::create(distance * way3 / enemySpeed, Vec2(0, visibleSize.height * way3));
     auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType3(enemy); });
     auto laserRayPointer = CallFunc::create([this, dt, enemy]() {this->spawnLaserRay(dt, enemy); });
+    auto stopRotation = CallFunc::create([enemy]() {enemy->setBoolRotate(false); });
 
-    auto sequence = Sequence::create(enemyAction1,delay,laserRayPointer,delay,enemyAction2, callBack, NULL);
+    auto sequence = Sequence::create(enemyAction1, stopRotation, enemyAction2, laserRayPointer,enemyAction3, callBack, NULL);
     enemy->runAction(sequence);
 }
 void Level::spawnEnemyProjectiles(float dt)
@@ -589,17 +591,23 @@ void Level::spawnEnemyProjectiles(float dt)
         }
     }
 }
-void Level::spawnLaserRay(float dt,EnemyType3* ray)
+void Level::spawnLaserRay(float dt,EnemyType3* enemy)
 {
+    cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
     LaserRay* projectile;
-    projectile = GameController::spawnLaserRay(ray->getPosition(), player->getPosition());
+    projectile = GameController::spawnLaserRay(enemy->getPosition(), player->getPosition());
     projectile->setScale(RESOLUTION_VARIABLE);
-    projectile->setRotation(180 + GameController::calcAngle(ray->getPosition(), player->getPosition()));
-    this->addChild(projectile, 5);
 
-    auto delay = DelayTime::create(0.5);
+    auto angle = enemy->getRotationAngle();
+    if (enemy->getSpawnPoint() == 2) angle += 180;
+    projectile->setRotation(angle);
+    this->addChild(projectile, 5);
+    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
+
+    float distance = visibleSize.height * 2;
+    auto moveAction = MoveBy::create(1,Vec2(0,enemySpeed));
     auto remove = CallFunc::create([this, projectile]() {this->removeLaserRay(projectile); });
-    auto sequence = Sequence::create(delay,remove,NULL);
+    auto sequence = Sequence::create(moveAction,remove,NULL);
 
     projectile->runAction(sequence);
 }

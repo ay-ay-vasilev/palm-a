@@ -44,11 +44,19 @@ public:
 
     cocos2d::PhysicsBody* getBody();
 
+    bool canRotate();
+    void setBoolRotate(bool b);
     void setSpawnPoint(int _spawnPoint);
     int getSpawnPoint();
+
+    float getRotationAngle();
+    void setRotationAngle(float _angle);
 private:
     ~EnemyType3();
     EnemyType3();
     int spawnPoint;
+    bool rotation;
+
+    float angle;
 };
 #endif
