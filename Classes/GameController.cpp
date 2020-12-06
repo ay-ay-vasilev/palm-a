@@ -7,6 +7,9 @@ Vector<Enemy*> GameController::enemies;
 Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
+Vector<EnemyType3*> GameController::type3Enemies;
+Vector<LaserRay*> GameController::laserRays;
+
 std::vector<int> GameController::shootingTimings;
 nlohmann::json GameController::level_1_data;
 
@@ -41,7 +44,7 @@ Enemy* GameController::spawnEnemy()
         
     
 }
-EnemyType2 *GameController::spawnEnemyType2()
+EnemyType2* GameController::spawnEnemyType2()
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -59,6 +62,22 @@ EnemyType2 *GameController::spawnEnemyType2()
         return enemy_type2;
     }
     return enemy_type2;
+}
+EnemyType3* GameController::spawnEnemyType3()
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    EnemyType3* enemy = EnemyType3::create();
+    enemy->setPhysicsBody(enemy->getBody());
+
+    float enemyPosX = GameController::enemyPosition(enemy);
+    enemy->setPosition(Vec2(enemyPosX, -1*ENEMY_SPRITE_SIZE));
+    if (enemy) {
+        GameController::type3Enemies.pushBack(enemy);
+        return enemy;
+    }
+    return enemy;
 }
 EnemyProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
 {
@@ -90,7 +109,21 @@ Laser* GameController::spawnLaser(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
-
+LaserRay* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    LaserRay* projectile;
+    projectile = LaserRay::create();
+    projectile->setPosition(pos);
+    projectile->setTarget(tar);
+    projectile->setPhysicsBody(projectile->getBody());
+    if (projectile)
+    {
+        GameController::laserRays.pushBack(projectile);
+        return projectile;
+    }
+    return projectile;
+}
 float GameController::enemyPosition(Enemy* enemy){
     int spawnPoints = 4;
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -114,6 +147,26 @@ float GameController::enemyPosition(EnemyType2* enemy) {
     random = random / ((spawnPoints + 1) / spawnPoints) / spawnPoints;
     position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
     return position;
+}
+float GameController::enemyPosition(EnemyType3* enemy) {
+    int spawnPoints = 2;
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    float position;
+    auto random = RandomHelper::random_int(1,2);
+    enemy->setSpawnPoint(random);
+    if (random == 1)
+    {
+        enemy->setScale(-0.25 * RESOLUTION_VARIABLE);
+        position = LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
+        return position;
+    }
+    else 
+    {
+        enemy->setScale(0.25 * RESOLUTION_VARIABLE);
+        position = visibleSize.width - LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
+        return position;
+    }
 }
 float GameController::findDistance(Vec2 enemyPos, Vec2 playerPos)
 {
@@ -178,5 +231,25 @@ int GameController::randomTypeOfEnemy()
     }
     else {
         return 1;
+    }
+}
+void GameController::updateRotationType3(Vec2 playerPos)
+{
+    for (int i = type3Enemies.size() - 1; i >= 0; i--){
+        if (type3Enemies.at(i)->canRotate())
+        {
+            auto angle = calcAngle(type3Enemies.at(i)->getPosition(), playerPos);
+            if (type3Enemies.at(i)->getSpawnPoint() == 2)
+            {
+                angle += 180;
+
+            }
+            if (type3Enemies.at(i)->getPosition().y < playerPos.y)
+            {
+                angle = 360 - angle;
+            }
+            type3Enemies.at(i)->setRotationAngle(angle);
+            type3Enemies.at(i)->setRotation(angle);
+        }
     }
 }

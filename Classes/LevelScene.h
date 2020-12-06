@@ -31,7 +31,9 @@ public:
 	void removeProjectile(Node *projectile);
     void removeEnemy(Enemy *enemy);
     void removeLaser(Node *laser);
+    void removeLaserRay(LaserRay *ray);
     void removeEnemyType2(EnemyType2 *enemy);
+    void removeEnemyType3(EnemyType3* enemy);
 
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
@@ -54,8 +56,10 @@ private:
 
     void spawnEnemy( float dt );
     void spawnEnemyType2(float dt);
+    void spawnEnemyType3(float dt);
     void spawnEnemyProjectiles(float dt);
     void spawnRandomEnemy(float dt);
+    void spawnLaserRay(float dt,EnemyType3 *ray);
 
     bool isPaused;
     int remainingTime;

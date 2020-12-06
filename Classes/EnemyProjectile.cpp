@@ -166,3 +166,56 @@ cocos2d::PhysicsBody* Laser::getBody()
 
 	return physicsBody;
 }
+//=========================================
+LaserRay::LaserRay(void)
+{
+}
+LaserRay::~LaserRay(void)
+{
+}
+LaserRay* LaserRay::create() {
+	LaserRay* projectile = new LaserRay();
+	if (projectile)
+	{
+		projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
+		projectile->autorelease();
+		
+		Sprite* model = Sprite::create("res/projectiles/laser_ray.png");
+		if (model)
+		{
+			model->setAnchorPoint(Vec2(0, 0));
+			model->setPosition(0, 0);
+
+			projectile->addChild(model);
+			projectile->setContentSize(model->getContentSize());
+		}
+		projectile->setAnchorPoint(Vec2(0, 0.5));
+		projectile->init();
+		return projectile;
+	}
+	CC_SAFE_DELETE(projectile);
+	return NULL;
+}
+bool LaserRay::init()
+{
+	// ANIMATION WILL BE HERE
+	return false;
+}
+void LaserRay::setTarget(Vec2 target)
+{
+	LaserRay::target = target;
+}
+Vec2 LaserRay::getTarget()
+{
+	return LaserRay::target;
+}
+cocos2d::PhysicsBody* LaserRay::getBody()
+{
+	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+
+	physicsBody->setDynamic(false);
+	physicsBody->setCollisionBitmask(7);
+	physicsBody->setContactTestBitmask(true);
+
+	return physicsBody;
+}

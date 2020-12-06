@@ -122,3 +122,70 @@ int EnemyType2::getSpawnPoint()
 {
 	return EnemyType2::spawnPoint;
 }
+//==========================================
+EnemyType3::EnemyType3()
+{
+}
+EnemyType3::~EnemyType3()
+{
+}
+EnemyType3* EnemyType3::create()
+{
+	EnemyType3* enemy = new EnemyType3();
+	if (enemy)
+	{
+		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
+		enemy->autorelease();
+
+		Sprite* model = Sprite::create("res/enemies/enemy_turret.png");
+		if (model) {
+			model->setAnchorPoint(Vec2(0,0));
+			model->setPosition(0, 0);
+
+			enemy->addChild(model);
+			enemy->setContentSize(model->getContentSize());
+		}
+		Vec2 anchor = Vec2(1, 0.5);
+		enemy->setAnchorPoint(anchor);
+		enemy->setBoolRotate(true);
+		enemy->init();
+		return enemy;
+	}
+
+	CC_SAFE_DELETE(enemy);
+	return NULL;
+}
+cocos2d::PhysicsBody* EnemyType3::getBody()
+{
+	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+
+	physicsBody->setDynamic(false);
+	physicsBody->setCollisionBitmask(6);
+	physicsBody->setContactTestBitmask(true);
+	return physicsBody;
+}
+void EnemyType3::setSpawnPoint(int _spawnPoint)
+{
+	EnemyType3::spawnPoint = _spawnPoint;
+}
+int EnemyType3::getSpawnPoint()
+{
+	return EnemyType3::spawnPoint;
+}
+
+void EnemyType3::setBoolRotate(bool b)
+{
+	rotation = b;
+}
+bool EnemyType3::canRotate()
+{
+	return rotation;
+}
+float EnemyType3::getRotationAngle()
+{
+	return angle;
+}
+void EnemyType3::setRotationAngle(float _angle)
+{
+	angle = _angle;
+}
