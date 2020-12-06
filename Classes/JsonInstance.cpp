@@ -4,17 +4,22 @@
 JsonInstance* JsonInstance::singleton = 0;
 
 JsonInstance::JsonInstance() {
-	std::ifstream fin("../Resources/data/levels/level1Data.json");
-	level_1_Data = nlohmann::json::parse(fin);
-	fin.close();
+	
+	level_1_Data = OpenFile("Resources/data/levels/level1Data.json");
+	balance_Data = OpenFile("Resources/data/balance.json");
+	animations_Data = OpenFile("Resources/data/animations.json");
 
-	fin.open("../Resources/data/balance.json");
-	balance_Data = nlohmann::json::parse(fin);
-	fin.close();
+}
 
-	fin.open("../Resources/data/animations.json");
-	animations_Data = nlohmann::json::parse(fin);
+nlohmann::json JsonInstance::OpenFile(std::string path) {
+	std::ifstream fin;
+	fin.open(path);
+	if (fin.fail()) {
+		fin.open("../" + path);
+	}
+	auto result = nlohmann::json::parse(fin);
 	fin.close();
+	return result;
 }
 
 JsonInstance* JsonInstance::GetInstance() {

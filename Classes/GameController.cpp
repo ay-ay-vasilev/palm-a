@@ -11,7 +11,6 @@ Vector<EnemyType3*> GameController::type3Enemies;
 Vector<LaserRay*> GameController::laserRays;
 
 std::vector<int> GameController::shootingTimings;
-nlohmann::json GameController::level_1_data;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}
@@ -33,7 +32,7 @@ Enemy* GameController::spawnEnemy()
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
-    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
+    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_DEFAULT_SPRITE_SIZE + origin.y));
 
     if (enemy)
     {
@@ -54,7 +53,7 @@ EnemyType2* GameController::spawnEnemyType2()
     enemy_type2->setPhysicsBody(enemy_type2->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy_type2);
-    enemy_type2->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_SPRITE_SIZE + origin.y));
+    enemy_type2->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_LASER_SPRITE_SIZE + origin.y));
 
     if (enemy_type2)
     {
@@ -72,7 +71,7 @@ EnemyType3* GameController::spawnEnemyType3()
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
-    enemy->setPosition(Vec2(enemyPosX, -1*ENEMY_SPRITE_SIZE));
+    enemy->setPosition(Vec2(enemyPosX, -1* ENEMY_TURRET_SPRITE_SIZE));
     if (enemy) {
         GameController::type3Enemies.pushBack(enemy);
         return enemy;
@@ -133,7 +132,7 @@ float GameController::enemyPosition(Enemy* enemy){
     random = ceil(random);
     enemy->setSpawnPoint(random);
     random = random /  ((spawnPoints+1)/spawnPoints) / spawnPoints;
-    position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
+    position = (random * visibleSize.width) - ENEMY_DEFAULT_SPRITE_SIZE - origin.x;
     return position;
 }
 float GameController::enemyPosition(EnemyType2* enemy) {
@@ -145,7 +144,7 @@ float GameController::enemyPosition(EnemyType2* enemy) {
     random = ceil(random);
     enemy->setSpawnPoint(random);
     random = random / ((spawnPoints + 1) / spawnPoints) / spawnPoints;
-    position = (random * visibleSize.width) - ENEMY_SPRITE_SIZE - origin.x;
+    position = (random * visibleSize.width) - ENEMY_LASER_SPRITE_SIZE - origin.x;
     return position;
 }
 float GameController::enemyPosition(EnemyType3* enemy) {
@@ -212,8 +211,12 @@ float GameController::calcAngle(Vec2 enemyPos, Vec2 playerPos)
 void GameController::getJsonData()
 {
     //timings data
-    level_1_data = JsonInstance::GetInstance()->GetData("level1");
-    std::ifstream fin((std::string) level_1_data["maindata"]["timings"]);
+    std::ifstream fin;
+    fin.open((std::string) LEVEL_1_DATA);
+    if (fin.fail()) {
+        fin.open("../" + (std::string) LEVEL_1_DATA);
+    }
+    
     auto s = 0;
     fin >> s;
     while (s!=0)

@@ -12,14 +12,14 @@ Enemy* Enemy::create() {
 	cocos2d::Animate* idleAnimate;
 	if (enemy)
 	{
-		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
+		enemy->setContentSize(Size(ENEMY_DEFAULT_SPRITE_SIZE, ENEMY_DEFAULT_SPRITE_SIZE));
 		enemy->autorelease();
 		char str[200] = { 0 };
 		auto spriteCache = SpriteFrameCache::getInstance();
 		spriteCache->addSpriteFramesWithFile("res/enemies/enemy_regular.plist");
 
-		Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
-		for (int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+		Vector<SpriteFrame*> idleAnimFrames(ENEMY_DEFAULT_ANIM_IDLE_NUM_OF_FRAMES);
+		for (int i = 1; i <= ENEMY_DEFAULT_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 		{
 			sprintf(str, "enemy_1_test_%i.png", i);
 			idleAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
@@ -29,7 +29,7 @@ Enemy* Enemy::create() {
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
+			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_DEFAULT_ANIM_IDLE_SPEED);
 			idleAnimate = Animate::create(idleAnimation);
 			idleAnimate->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(idleAnimate));
@@ -72,15 +72,15 @@ EnemyType2* EnemyType2::create()
 	cocos2d::Animate* idleAnimate_2;
 	if (enemy)
 	{
-		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
+		enemy->setContentSize(Size(ENEMY_LASER_SPRITE_SIZE, ENEMY_LASER_SPRITE_SIZE));
 		enemy->autorelease();
 
 		char str[200] = { 0 };
 
 		auto spriteCache = SpriteFrameCache::getInstance();
 		spriteCache->addSpriteFramesWithFile("res/enemies/enemy_variant.plist");
-		Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
-		for (int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+		Vector<SpriteFrame*> idleAnimFrames(ENEMY_LASER_ANIM_IDLE_NUM_OF_FRAMES);
+		for (int i = 1; i <= ENEMY_LASER_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 		{
 			sprintf(str, "enemy_2_test_%i.png", i);
 			idleAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
@@ -90,7 +90,7 @@ EnemyType2* EnemyType2::create()
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
+			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_LASER_ANIM_IDLE_SPEED);
 			idleAnimate_2 = Animate::create(idleAnimation);
 			idleAnimate_2->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(idleAnimate_2));
@@ -135,15 +135,15 @@ EnemyType3* EnemyType3::create()
 	cocos2d::Animate* idleAnimate_3;
 	if (enemy)
 	{
-		enemy->setContentSize(Size(ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
+		enemy->setContentSize(Size(ENEMY_TURRET_SPRITE_SIZE, ENEMY_TURRET_SPRITE_SIZE));
 		enemy->autorelease();
 
 		char str[200] = { 0 };
 
 		auto spriteCache = SpriteFrameCache::getInstance();
 		spriteCache->addSpriteFramesWithFile("res/enemies/enemy_turret.plist");
-		Vector<SpriteFrame*> idleAnimFrames(ENEMY_ANIM_IDLE_NUM_OF_FRAMES);
-		for (int i = 1; i <= ENEMY_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+		Vector<SpriteFrame*> idleAnimFrames(ENEMY_TURRET_ANIM_IDLE_NUM_OF_FRAMES);
+		for (int i = 1; i <= ENEMY_TURRET_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
 		{
 			sprintf(str, "enemy_turret%i.png", i);
 			idleAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
@@ -153,7 +153,7 @@ EnemyType3* EnemyType3::create()
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_ANIM_IDLE_SPEED);
+			auto idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, ENEMY_TURRET_ANIM_IDLE_SPEED);
 			idleAnimate_3 = Animate::create(idleAnimation);
 			idleAnimate_3->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(idleAnimate_3));

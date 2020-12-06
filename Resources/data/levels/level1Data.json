@@ -1,7 +1,4 @@
 {
-	"maindata" : {
-		"timings": "../Resources/data/levels/timingsLevel1.txt"
-	},
 	"metadata" :{
 		"cutsceneData":{
 			"splashTime":2,

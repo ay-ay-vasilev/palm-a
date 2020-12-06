@@ -452,14 +452,14 @@ void Level::spawnEnemy(float dt)
 	this->addChild(enemy, 4);
 
     //moving and deleting
-    float distance = visibleSize.height + (float)ENEMY_SPRITE_SIZE * 2;
+    float distance = visibleSize.height + (float)ENEMY_DEFAULT_SPRITE_SIZE * 2;
 
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint()-1,0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint()-1,1);
-    auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
-    auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5*visibleSize.height - ENEMY_SPRITE_SIZE));
+    auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5*visibleSize.height - ENEMY_DEFAULT_SPRITE_SIZE));
+    auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5*visibleSize.height - ENEMY_DEFAULT_SPRITE_SIZE));
     auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
     auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
     enemy->runAction(sequence);
@@ -474,14 +474,14 @@ void Level::spawnEnemyType2(float dt)
     this->addChild(enemy, 4);
 
     //moving and deleting
-    float distance = visibleSize.height + (float)ENEMY_SPRITE_SIZE * 2;
+    float distance = visibleSize.height + (float)ENEMY_LASER_SPRITE_SIZE * 2;
 
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint() - 1, 0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint() - 1, 1);
-    auto enemyAction1 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5 * visibleSize.height - ENEMY_SPRITE_SIZE));
-    auto enemyAction2 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5 * visibleSize.height - ENEMY_SPRITE_SIZE));
+    auto enemyAction1 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5 * visibleSize.height - ENEMY_LASER_SPRITE_SIZE));
+    auto enemyAction2 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5 * visibleSize.height - ENEMY_LASER_SPRITE_SIZE));
     auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType2(enemy); });
     auto sequence = Sequence::create(enemyAction1, enemyAction2, callBack, NULL);
     enemy->runAction(sequence);

@@ -4,8 +4,6 @@
 #include "cocos2d.h"
 #include "Enemy.h"
 #include <EnemyProjectile.h>
-#include "json.hpp"
-#include "JsonInstance.h"
 #include "LevelScene.h"
 #include "AudioEngine.h"
 #include "Player.h"
@@ -46,7 +44,6 @@ public:
     static float movementFunc(int spawnPoint, int movementInt);
 
     static void getJsonData();
-    static nlohmann::json level_1_data;
     static std::vector<int> shootingTimings;
 
     static int randomTypeOfEnemy();

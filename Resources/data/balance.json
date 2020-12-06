@@ -31,10 +31,10 @@
         "levelDuration": 116,
         "wallDistance": 40,
         "floorHeight": 30,
-        "timings": "../Resources/data/levels/timingsLevel1.txt"
+        "timings": "Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": true,
+        "mask": false,
         "resolution": 2
     }
 }
