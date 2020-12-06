@@ -31,6 +31,7 @@ public:
 	void removeProjectile(Node *projectile);
     void removeEnemy(Enemy *enemy);
     void removeLaser(Node *laser);
+    void removeLaserRay(LaserRay *ray);
     void removeEnemyType2(EnemyType2 *enemy);
     void removeEnemyType3(EnemyType3* enemy);
 
@@ -58,7 +59,7 @@ private:
     void spawnEnemyType3(float dt);
     void spawnEnemyProjectiles(float dt);
     void spawnRandomEnemy(float dt);
-    void spawnLaserRay(float dt);
+    void spawnLaserRay(float dt,EnemyType3 *ray);
 
     bool isPaused;
     int remainingTime;

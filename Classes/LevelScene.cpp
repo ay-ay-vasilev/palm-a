@@ -493,13 +493,19 @@ void Level::spawnEnemyType3(float dt)
     EnemyType3* enemy;
     enemy = GameController::spawnEnemyType3();
     this->addChild(enemy, 3);
-
+    auto randA = RandomHelper::random_int(3,7)/10.0;
+    auto randB = 1 - randA;
     //moving and deleting
     float distance = visibleSize.height + (float)ENEMY_SPRITE_SIZE * 2;
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
-    auto enemyAction1 = MoveBy::create(distance / enemySpeed, Vec2(0, visibleSize.height + ENEMY_SPRITE_SIZE*2));
+
+    auto enemyAction1 = MoveBy::create(distance / enemySpeed, Vec2(0, visibleSize.height * randA + ENEMY_SPRITE_SIZE * 2));
+    auto enemyAction2 = MoveBy::create(distance / enemySpeed, Vec2(0, visibleSize.height * randB + ENEMY_SPRITE_SIZE * 2));
+    auto delay = DelayTime::create(0.5);
     auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType3(enemy); });
-    auto sequence = Sequence::create(enemyAction1, callBack, NULL);
+    auto laserRayPointer = CallFunc::create([this, dt, enemy]() {this->spawnLaserRay(dt, enemy); });
+
+    auto sequence = Sequence::create(enemyAction1,delay,laserRayPointer,delay,enemyAction2, callBack, NULL);
     enemy->runAction(sequence);
 }
 void Level::spawnEnemyProjectiles(float dt)
@@ -583,9 +589,19 @@ void Level::spawnEnemyProjectiles(float dt)
         }
     }
 }
-void Level::spawnLaserRay(float dt)
+void Level::spawnLaserRay(float dt,EnemyType3* ray)
 {
+    LaserRay* projectile;
+    projectile = GameController::spawnLaserRay(ray->getPosition(), player->getPosition());
+    projectile->setScale(RESOLUTION_VARIABLE);
+    projectile->setRotation(180 + GameController::calcAngle(ray->getPosition(), player->getPosition()));
+    this->addChild(projectile, 5);
 
+    auto delay = DelayTime::create(0.5);
+    auto remove = CallFunc::create([this, projectile]() {this->removeLaserRay(projectile); });
+    auto sequence = Sequence::create(delay,remove,NULL);
+
+    projectile->runAction(sequence);
 }
 void Level::spawnRandomEnemy(float dt) 
 {
@@ -633,7 +649,12 @@ void Level::removeLaser(Node* laser)
     laser->cleanup();
     removeChild(laser, true);
 }
-
+void Level::removeLaserRay(LaserRay* ray)
+{
+    GameController::laserRays.eraseObject(ray);
+    ray->cleanup();
+    removeChild(ray,true);
+}
 void Level::audioUpdate(float dt)
 {
     //if (GameController::shootingTimings[currentTiming] < AudioEngine::getCurrentTime(musicID) * 1000)

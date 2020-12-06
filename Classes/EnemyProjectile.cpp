@@ -180,7 +180,7 @@ LaserRay* LaserRay::create() {
 		projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
 		projectile->autorelease();
 		
-		Sprite* model = Sprite::create("laser_ray.png");
+		Sprite* model = Sprite::create("res/projectiles/laser_ray.png");
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
@@ -190,7 +190,7 @@ LaserRay* LaserRay::create() {
 			projectile->addChild(model);
 			projectile->setContentSize(model->getContentSize());
 		}
-
+		projectile->setAnchorPoint(Vec2(1, 0.5));
 		projectile->init();
 		return projectile;
 	}
