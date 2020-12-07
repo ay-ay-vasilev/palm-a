@@ -77,12 +77,31 @@ bool Level::init()
 
 	this->scheduleUpdate();
 
-    auto floor = Sprite::create("res/level/test_full_background.png");
+    char str[200] = { 0 };
+    auto spriteCache = SpriteFrameCache::getInstance();
+    spriteCache->addSpriteFramesWithFile("res/level/test/level_1_test_full_background.plist");
+    Vector<SpriteFrame*> backgroundAnimFrames(3);
+
+    for (int i = 1; i <= 3; i++)
+    {
+        sprintf(str, "test_full_background%i.png", i);
+        auto frame = spriteCache->getSpriteFrameByName(str);
+        frame->getTexture()->setAliasTexParameters();
+        backgroundAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+    }
+    auto backgroundAnimation = Animation::createWithSpriteFrames(backgroundAnimFrames, 0.1);
+    Animate* backgroundAnimate = Animate::create(backgroundAnimation);
+
+    auto floor = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("test_full_background1.png"));
     floor->getTexture()->setAliasTexParameters();
     floor->setScale(RESOLUTION_VARIABLE);
     floor->setAnchorPoint(Vec2(0, 0));
     floor->setPosition(Vec2(origin.x, origin.y));
     
+    floor->runAction(RepeatForever::create(backgroundAnimate));
+    this->addChild(floor);
+
+
     auto dashButton = MenuItemImage::create(
         "res/ui/dash_button.png",
         "res/ui/dash_button.png",
