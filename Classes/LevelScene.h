@@ -38,6 +38,7 @@ public:
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
     int currentTiming;
+    int currentEnemy = 0;
     int musicID;
 private:
     cocos2d::PhysicsWorld *sceneWorld;
@@ -54,11 +55,11 @@ private:
     void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-    void spawnEnemy( float dt );
-    void spawnEnemyType2(float dt);
+    void spawnEnemy( float dt , int enemyPos);
+    void spawnEnemyType2(float dt, int enemyPos);
     void spawnEnemyType3(float dt);
     void spawnEnemyProjectiles(float dt);
-    void spawnRandomEnemy(float dt);
+    void spawnEnemyOnTiming(float dt);
     void spawnLaserRay(float dt,EnemyType3 *ray);
 
     bool isPaused;

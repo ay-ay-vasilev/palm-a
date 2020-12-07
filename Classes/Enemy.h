@@ -12,8 +12,8 @@ public:
     cocos2d::Animate* idleAnimateRight;
     cocos2d::PhysicsBody* getBody();
 
-    void setSpawnPoint(int _spawnPoint);
-    int getSpawnPoint();
+    void setSpawnPoint(float _spawnPoint);
+    float getSpawnPoint();
     void facePlayer(int dir);
 
 private:
@@ -21,7 +21,7 @@ private:
     Enemy();
 
     int direction;
-    int spawnPoint;
+    float spawnPoint;
 };
 class EnemyType2 : public cocos2d::Node
 {
@@ -32,15 +32,15 @@ public:
     cocos2d::Animate* idleAnimateRight;
     cocos2d::PhysicsBody* getBody();
 
-    void setSpawnPoint(int _spawnPoint);
-    int getSpawnPoint();
+    void setSpawnPoint(float _spawnPoint);
+    float getSpawnPoint();
     void facePlayer(int dir);
 private:
     ~EnemyType2();
     EnemyType2();
 
     int direction;
-    int spawnPoint;
+    float spawnPoint;
 };
 class EnemyType3 : public cocos2d::Node
 {

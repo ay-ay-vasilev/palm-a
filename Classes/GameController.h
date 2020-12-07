@@ -23,8 +23,8 @@ public:
     static Vector<LaserRay*> laserRays;
     bool init();
 
-    static Enemy* spawnEnemy();
-    static EnemyType2* spawnEnemyType2();
+    static Enemy* spawnEnemy(int pos);
+    static EnemyType2* spawnEnemyType2(int pos);
     static EnemyType3* spawnEnemyType3();
 
     static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
@@ -46,8 +46,9 @@ public:
 
     static void getJsonData();
     static std::vector<int> shootingTimings;
-
-    static int randomTypeOfEnemy();
+    static std::vector<int> enemySpawnTimings;
+    static std::vector<int> enemyTypeArr;
+    static std::vector<int> spawnPointArr;
 private:
     
 

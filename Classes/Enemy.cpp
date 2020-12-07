@@ -64,11 +64,11 @@ cocos2d::PhysicsBody* Enemy::getBody()
 	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }
-void Enemy::setSpawnPoint(int _spawnPoint)
+void Enemy::setSpawnPoint(float _spawnPoint)
 {
 	Enemy::spawnPoint = _spawnPoint;
 }
-int Enemy::getSpawnPoint()
+float Enemy::getSpawnPoint()
 {
 	return Enemy::spawnPoint;
 }
@@ -151,11 +151,11 @@ cocos2d::PhysicsBody* EnemyType2::getBody()
 	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }
-void EnemyType2::setSpawnPoint(int _spawnPoint)
+void EnemyType2::setSpawnPoint(float _spawnPoint)
 {
 	EnemyType2::spawnPoint = _spawnPoint;
 }
-int EnemyType2::getSpawnPoint()
+float EnemyType2::getSpawnPoint()
 {
 	return EnemyType2::spawnPoint;
 }

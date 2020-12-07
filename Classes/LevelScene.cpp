@@ -46,6 +46,7 @@ bool Level::init()
     GameController::type2Enemies.clear();
     GameController::laserArr.clear();
     GameController::getJsonData();
+    currentEnemy = 0;
     //init the music
     musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
     AudioEngine::setVolume(musicID, 0.1);
@@ -174,9 +175,9 @@ bool Level::init()
     
     //====================================
     //enemy spawn
-    auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
+    /*auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
     
-    this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);
+    this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);*/
     
     //====================================
     //enemy type 3
@@ -231,6 +232,7 @@ void Level::update(float dt)
     if (player->getHP() < 0) gameOver();
 
     GameController::updateRotationType3(player->getPosition());
+    spawnEnemyOnTiming(dt);
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
@@ -443,12 +445,12 @@ void Level::pauseButtonCallback(Ref* pSender)
     isPaused = !isPaused;
 }
 
-void Level::spawnEnemy(float dt)
+void Level::spawnEnemy(float dt, int enemyPos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     Enemy* enemy;
-    enemy = GameController::spawnEnemy();
+    enemy = GameController::spawnEnemy(enemyPos);
     enemy->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(enemy, 4);
 
@@ -465,12 +467,12 @@ void Level::spawnEnemy(float dt)
     auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
     enemy->runAction(sequence);
 }
-void Level::spawnEnemyType2(float dt)
+void Level::spawnEnemyType2(float dt, int enemyPos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     EnemyType2* enemy;
-    enemy = GameController::spawnEnemyType2();
+    enemy = GameController::spawnEnemyType2(enemyPos);
     enemy->setScale(0.25 * RESOLUTION_VARIABLE);
     this->addChild(enemy, 4);
 
@@ -612,18 +614,23 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
 
     projectile->runAction(sequence);
 }
-void Level::spawnRandomEnemy(float dt) 
+void Level::spawnEnemyOnTiming(float dt)
 {
-    int type = GameController::randomTypeOfEnemy();
-    switch (type)
+    if (currentTime > GameController::enemySpawnTimings[currentEnemy]*1000)
     {
-    case 1:
-        Level::spawnEnemy(dt);
-        break;
-    case 2:
-        Level::spawnEnemyType2(dt);
-        break;
+        int type = GameController::enemyTypeArr[currentEnemy];
+        switch (type)
+        {
+        case 1:
+            Level::spawnEnemy(dt , GameController::spawnPointArr[currentEnemy]);
+            break;
+        case 2:
+            Level::spawnEnemyType2(dt, GameController::spawnPointArr[currentEnemy]);
+            break;
+        }
+        currentEnemy++;
     }
+    
     
 }
 
