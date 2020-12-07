@@ -41,7 +41,7 @@ bool Level::init()
     isPaused = false;
     remainingTime = 0;
     movementInputDeck.clear();
-    GameController::enemies.clear();
+    GameController::type1Enemies.clear();
     GameController::enemyProjectiles.clear();
     GameController::type2Enemies.clear();
     GameController::laserArr.clear();
@@ -220,6 +220,7 @@ void Level::update(float dt)
 {
 
     player->update();
+    GameController::updateEnemyFacing(player->getPosition());
 
     char playerScore[100];
     sprintf(playerScore, "Score: %i", remainingTime);
@@ -516,9 +517,9 @@ void Level::spawnEnemyProjectiles(float dt)
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     auto randomType = cocos2d::RandomHelper::random_int(1, 2);
     if (randomType == 1) {
-        if (GameController::enemies.size() > 0) {
+        if (GameController::type1Enemies.size() > 0) {
             long min = 0;
-            long max = GameController::enemies.size() - 1;
+            long max = GameController::type1Enemies.size() - 1;
             long n = cocos2d::RandomHelper::random_int(min, max);
             /*while (GameController::enemies.at(n)->getPosition().y < player->getPosition().y)
             {
@@ -526,15 +527,15 @@ void Level::spawnEnemyProjectiles(float dt)
             }*/
 
             //create if enemy is above player
-            if (GameController::enemies.at(n)->getPosition().y > player->getPosition().y) {
+            if (GameController::type1Enemies.at(n)->getPosition().y > player->getPosition().y) {
                 //creating
                 EnemyProjectile* projectile;
-                projectile = GameController::spawnEnemyProjectile(GameController::enemies.at(n)->getPosition(), player->getPosition());
+                projectile = GameController::spawnEnemyProjectile(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
                 projectile->setScale(RESOLUTION_VARIABLE);
                 this->addChild(projectile, 5);
                 //moving and deleting
-                Vec2 tar = GameController::calcTarget(GameController::enemies.at(n)->getPosition(), player->getPosition());
-                float distance = GameController::findDistance(GameController::enemies.at(n)->getPosition(), tar);
+                Vec2 tar = GameController::calcTarget(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
+                float distance = GameController::findDistance(GameController::type1Enemies.at(n)->getPosition(), tar);
                 auto moveAction = MoveTo::create(distance / ENEMY_DEFAULT_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
                 auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
                 auto sequence = Sequence::create(moveAction, callBack, NULL);
@@ -635,7 +636,7 @@ void Level::removeProjectile(Node* projectile)
 
 void Level::removeEnemy(Enemy *enemy)
 {
-    GameController::enemies.eraseObject(enemy);
+    GameController::type1Enemies.eraseObject(enemy);
     enemy->cleanup();
     removeChild(enemy,true);
 }

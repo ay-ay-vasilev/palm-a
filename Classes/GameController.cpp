@@ -3,7 +3,7 @@
 #include "fstream"
 USING_NS_CC;
 
-Vector<Enemy*> GameController::enemies;
+Vector<Enemy*> GameController::type1Enemies;
 Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
@@ -17,7 +17,7 @@ GameController::~GameController(void){}
 
 bool GameController::init()
 {
-    enemies.clear();
+    type1Enemies.clear();
     enemyProjectiles.clear();
     return true;
 };
@@ -36,7 +36,7 @@ Enemy* GameController::spawnEnemy()
 
     if (enemy)
     {
-        GameController::enemies.pushBack(enemy);
+        GameController::type1Enemies.pushBack(enemy);
         return enemy;
     }
     return enemy;
@@ -132,7 +132,7 @@ float GameController::enemyPosition(Enemy* enemy){
     random = ceil(random);
     enemy->setSpawnPoint(random);
     random = random /  ((spawnPoints+1)/spawnPoints) / spawnPoints;
-    position = (random * visibleSize.width) - ENEMY_DEFAULT_SPRITE_SIZE - origin.x;
+    position = (random * visibleSize.width) - (float)ENEMY_DEFAULT_SPRITE_SIZE - origin.x;
     return position;
 }
 float GameController::enemyPosition(EnemyType2* enemy) {
@@ -144,7 +144,7 @@ float GameController::enemyPosition(EnemyType2* enemy) {
     random = ceil(random);
     enemy->setSpawnPoint(random);
     random = random / ((spawnPoints + 1) / spawnPoints) / spawnPoints;
-    position = (random * visibleSize.width) - ENEMY_LASER_SPRITE_SIZE - origin.x;
+    position = (random * visibleSize.width) - (float)ENEMY_LASER_SPRITE_SIZE - origin.x;
     return position;
 }
 float GameController::enemyPosition(EnemyType3* enemy) {
@@ -253,6 +253,27 @@ void GameController::updateRotationType3(Vec2 playerPos)
             }
             type3Enemies.at(i)->setRotationAngle(angle);
             type3Enemies.at(i)->setRotation(angle);
+        }
+    }
+}
+
+void GameController::updateEnemyFacing(Vec2 playerPos)
+{
+    for (int i = type1Enemies.size() - 1; i >= 0; i--) {
+        if (type1Enemies.at(i)->getPosition().x < playerPos.x) {
+            type1Enemies.at(i)->facePlayer(DIRECTION_RIGHT);
+        }
+        else if (type1Enemies.at(i)->getPosition().x > playerPos.x) {
+            type1Enemies.at(i)->facePlayer(DIRECTION_LEFT);
+        }
+    }
+
+    for (int i = type2Enemies.size() - 1; i >= 0; i--) {
+        if (type2Enemies.at(i)->getPosition().x < playerPos.x) {
+            type2Enemies.at(i)->facePlayer(DIRECTION_RIGHT);
+        }
+        else if (type2Enemies.at(i)->getPosition().x > playerPos.x) {
+            type2Enemies.at(i)->facePlayer(DIRECTION_LEFT);
         }
     }
 }

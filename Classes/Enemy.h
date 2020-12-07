@@ -7,34 +7,39 @@ class Enemy : public cocos2d::Node
 {
 public:
     static Enemy* create(void);
-
+    cocos2d::Sprite* model;
+    cocos2d::Animate* idleAnimateLeft;
+    cocos2d::Animate* idleAnimateRight;
     cocos2d::PhysicsBody* getBody();
 
     void setSpawnPoint(int _spawnPoint);
     int getSpawnPoint();
+    void facePlayer(int dir);
+
 private:
     ~Enemy();
     Enemy();
 
     int direction;
-    int col;
     int spawnPoint;
-
 };
 class EnemyType2 : public cocos2d::Node
 {
 public:
-
-
     static EnemyType2* create(void);
-
+    cocos2d::Sprite* model;
+    cocos2d::Animate* idleAnimateLeft;
+    cocos2d::Animate* idleAnimateRight;
     cocos2d::PhysicsBody* getBody();
 
     void setSpawnPoint(int _spawnPoint);
     int getSpawnPoint();
+    void facePlayer(int dir);
 private:
     ~EnemyType2();
     EnemyType2();
+
+    int direction;
     int spawnPoint;
 };
 class EnemyType3 : public cocos2d::Node

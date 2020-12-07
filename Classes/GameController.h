@@ -14,7 +14,7 @@ public:
     GameController();
 	~GameController();
 
-    static Vector<Enemy*> enemies;
+    static Vector<Enemy*> type1Enemies;
     static Vector<EnemyType2*> type2Enemies;
     static Vector<EnemyType3*> type3Enemies;
 
@@ -35,6 +35,7 @@ public:
     static float enemyPosition(EnemyType2* enemy);
     static float enemyPosition(EnemyType3* enemy);
     static void updateRotationType3(Vec2 playerPos);
+    static void updateEnemyFacing(Vec2 playerPos);
 
     static float findDistance(Vec2 enemyPos, Vec2 playerPos);
 

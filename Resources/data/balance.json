@@ -35,6 +35,6 @@
     },
     "debug": {
         "mask": false,
-        "resolution": 2
+        "resolution": 3
     }
 }
