@@ -37,7 +37,7 @@ bool Cutscene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    Cutscene::NextCadr(i);
+    Cutscene::NextCadr(i, 1);
     i++; 
 
     return true;
@@ -98,21 +98,62 @@ Sprite* Cutscene::Cadr(int i){
     cadr->setOpacity(0);
     return cadr;
 }
+
+Sprite* Cutscene::AnimatedCadr(int i, int numOfFrames) {
+    char str[200] = { 0 };
+
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    auto spriteCache = SpriteFrameCache::getInstance();
+    sprintf(str, "res/cutscene/%i.plist", i);
+    spriteCache->addSpriteFramesWithFile(str);
+
+    auto animatedCadr = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("1.png"));
+    Vector<SpriteFrame*> cadrAnimFrames(numOfFrames);
+
+    for (int j = 1; j <= numOfFrames; j++)
+    {
+        sprintf(str, "%i.png", j);
+        auto frame = spriteCache->getSpriteFrameByName(str);
+        frame->getTexture()->setAliasTexParameters();
+        cadrAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+    }
+    auto cadrAnimation = Animation::createWithSpriteFrames(cadrAnimFrames, 0.1f);
+    Animate* cadrAnimate = Animate::create(cadrAnimation);
+
+    animatedCadr->getTexture()->setAliasTexParameters();
+    animatedCadr->setScale(1.7 * RESOLUTION_VARIABLE);
+    animatedCadr->setAnchorPoint({ 0.5, 1 });
+    animatedCadr->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height));
+    animatedCadr->setOpacity(0);
+    animatedCadr->runAction(RepeatForever::create(cadrAnimate));
+    return animatedCadr;
+
+}
+
+
 void Cutscene::Next(cocos2d::Ref* pSender) {
     Cutscene::deleteCadr(1, 2);
     if (i > 6) {
         auto scene = Level::createScene();
         Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
     }
+    else if (i == 6) {
+        Cutscene::NextCadr(i, 16);
+        i++;
+    }
     else{
-        Cutscene::NextCadr(i);
+        Cutscene::NextCadr(i, 1);
         i++;
     }
 }
 
-void Cutscene::NextCadr(int i) {
+void Cutscene::NextCadr(int i, int numOfFrames) {
     auto fadeIn = FadeIn::create(FADE_LENGTH);
-    auto cadr = Cadr(i);
+    cocos2d::Sprite* cadr;
+    if (numOfFrames > 1) cadr = AnimatedCadr(i, numOfFrames);
+    else cadr = Cadr(i);
     auto label = Cutscene::label(i);
     this->addChild(cadr, 1, 2);
     this->addChild(label, 1, 1);

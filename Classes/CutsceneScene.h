@@ -11,12 +11,13 @@ public:
 	void GoToLevelScene (cocos2d::Ref* pSender);
 	void GoToLevelScene2 (float dt);
     void Next(cocos2d::Ref* pSender);
-    void NextCadr(int i);
+    void NextCadr(int i, int numOfFrames);
     void deleteCadr(int tagL, int tagC);
     cocos2d::Label* label(int i);
     //cocos2d::Vector<cocos2d::Sprite*> cadres;
     //cocos2d::Vector<cocos2d::Label*> labels;
 	cocos2d::Sprite* Cadr(int i);
+    cocos2d::Sprite* AnimatedCadr(int i, int numOfFrames);
     int i;
 
     virtual bool init();
