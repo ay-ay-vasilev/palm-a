@@ -11,6 +11,9 @@ Vector<EnemyType3*> GameController::type3Enemies;
 Vector<LaserRay*> GameController::laserRays;
 
 std::vector<int> GameController::shootingTimings;
+std::vector<int> GameController::enemySpawnTimings;
+std::vector<int> GameController::enemyTypeArr;
+std::vector<int> GameController::spawnPointArr;
 
 GameController::GameController(void){}
 GameController::~GameController(void){}
@@ -22,13 +25,14 @@ bool GameController::init()
     return true;
 };
 
-Enemy* GameController::spawnEnemy()
+Enemy* GameController::spawnEnemy(int pos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     Enemy * enemy;
     enemy = Enemy::create();
+    enemy->setSpawnPoint(pos);
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
@@ -43,24 +47,25 @@ Enemy* GameController::spawnEnemy()
         
     
 }
-EnemyType2* GameController::spawnEnemyType2()
+EnemyType2* GameController::spawnEnemyType2(int pos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    EnemyType2* enemy_type2;
-    enemy_type2 = EnemyType2::create();
-    enemy_type2->setPhysicsBody(enemy_type2->getBody());
+    EnemyType2* enemy;
+    enemy = EnemyType2::create();
+    enemy->setSpawnPoint(pos);
+    enemy->setPhysicsBody(enemy->getBody());
 
-    float enemyPosX = GameController::enemyPosition(enemy_type2);
-    enemy_type2->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_LASER_SPRITE_SIZE + origin.y));
+    float enemyPosX = GameController::enemyPosition(enemy);
+    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_DEFAULT_SPRITE_SIZE + origin.y));
 
-    if (enemy_type2)
+    if (enemy)
     {
-        GameController::type2Enemies.pushBack(enemy_type2);
-        return enemy_type2;
+        GameController::type2Enemies.pushBack(enemy);
+        return enemy;
     }
-    return enemy_type2;
+    return enemy;
 }
 EnemyType3* GameController::spawnEnemyType3()
 {
@@ -124,27 +129,23 @@ LaserRay* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
     return projectile;
 }
 float GameController::enemyPosition(Enemy* enemy){
-    int spawnPoints = 4;
+    float spawnPoints = 4.0;
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float position;
-    auto random = CCRANDOM_0_1()*spawnPoints;
-    random = ceil(random);
-    enemy->setSpawnPoint(random);
-    random = random /  ((spawnPoints+1)/spawnPoints) / spawnPoints;
-    position = (random * visibleSize.width) - (float)ENEMY_DEFAULT_SPRITE_SIZE - origin.x;
+    auto spawnPoint = enemy->getSpawnPoint();
+    spawnPoint = spawnPoint*1.0 /  (spawnPoints+1);
+    position = (spawnPoint * visibleSize.width) - (float)ENEMY_DEFAULT_SPRITE_SIZE / 2 * RESOLUTION_VARIABLE;
     return position;
 }
 float GameController::enemyPosition(EnemyType2* enemy) {
-    int spawnPoints = 4;
+    float spawnPoints = 4.0;
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float position;
-    auto random = CCRANDOM_0_1() * spawnPoints;
-    random = ceil(random);
-    enemy->setSpawnPoint(random);
-    random = random / ((spawnPoints + 1) / spawnPoints) / spawnPoints;
-    position = (random * visibleSize.width) - (float)ENEMY_LASER_SPRITE_SIZE - origin.x;
+    auto spawnPoint = enemy->getSpawnPoint();
+    spawnPoint = spawnPoint / (spawnPoints + 1);
+    position = (spawnPoint * visibleSize.width) - (float)ENEMY_DEFAULT_SPRITE_SIZE / 2 * RESOLUTION_VARIABLE;
     return position;
 }
 float GameController::enemyPosition(EnemyType3* enemy) {
@@ -224,17 +225,50 @@ void GameController::getJsonData()
         shootingTimings.push_back(s);
         fin >> s;
     }
-}
-int GameController::randomTypeOfEnemy()
-{
-    auto random = CCRANDOM_0_1();
-    if (random < 0.2)
+    fin.close();
+    //enemies timings 
+    fin.open((std::string)ENEMIES_SPAWN_TIMINGS);
+    if (fin.fail()) {
+        fin.open("../" + (std::string)ENEMIES_SPAWN_TIMINGS);
+    }
+
+    s = 0;
+    fin >> s;
+    while (s != 0)
     {
-        return 2;
+        enemySpawnTimings.push_back(s);
+        fin >> s;
     }
-    else {
-        return 1;
+    fin.close();
+    //enemies types
+    fin.open((std::string)ENEMIES_SPAWN_TYPES);
+    if (fin.fail()) {
+        fin.open("../" + (std::string)ENEMIES_SPAWN_TYPES);
     }
+
+    s = 0;
+    fin >> s;
+    while (s != 0)
+    {
+        enemyTypeArr.push_back(s);
+        fin >> s;
+    }
+    fin.close();
+    //enemies spawn points
+    fin.open((std::string)ENEMIES_SPAWN_POINTS);
+    if (fin.fail()) {
+        fin.open("../" + (std::string)ENEMIES_SPAWN_POINTS);
+    }
+
+    s = 0;
+    fin >> s;
+    while (s != 0)
+    {
+        spawnPointArr.push_back(s);
+        fin >> s;
+    }
+    fin.close();
+
 }
 void GameController::updateRotationType3(Vec2 playerPos)
 {

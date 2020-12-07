@@ -1,10 +1,15 @@
 {
 	"metadata" :{
-		"cutsceneData":{
-			"splashTime":2,
-			"transitionTime":0.8,
-			"fadeLength":0.5,
-			"numberOfFrames":6
+		"cutsceneData": {
+			"splashTime": 2,
+			"transitionTime": 0.8,
+			"fadeLength": 0.5,
+			"numberOfFrames": 6
 		}
-	}
+	},
+	"enemySpawnTimings": {
+			"timingsPath": "Resources/data/levels/timings.txt",
+			"typesPath": "Resources/data/levels/types.txt",
+			"pointsPath": "Resources/data/levels/points.txt"
+		}
 }
