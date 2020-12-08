@@ -1,6 +1,7 @@
 #include "LevelFinishScene.h"
 #include "Definitions.h"
 #include "MainMenuScene.h"
+#include "LevelScene.h"
 
 USING_NS_CC;
 
@@ -25,11 +26,13 @@ bool LevelFinish::init() {
     Label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 2 / 3));
     this->addChild(Label);
 
+    auto continueLabel = Label::createWithTTF("NEXT LEVEL", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
     auto backLabel = Label::createWithTTF("BACK TO MAIN MENU", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
     auto exitLabel = Label::createWithTTF("EXIT", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    MenuItemLabel* continueItem = MenuItemLabel::create(continueLabel, CC_CALLBACK_1(LevelFinish::GoToNextLevel, this));
     MenuItemLabel* backItem = MenuItemLabel::create(backLabel, CC_CALLBACK_1(LevelFinish::GoToMainMenu, this));
     MenuItemLabel* exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(LevelFinish::CloseGame, this));
-    auto menu = Menu::create(backItem, exitItem, NULL);
+    auto menu = Menu::create(continueItem, backItem, exitItem, NULL);
     menu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 3));
     menu->alignItemsVerticallyWithPadding(10 * RESOLUTION_VARIABLE);
@@ -37,6 +40,11 @@ bool LevelFinish::init() {
 
     return true;
 }
+void LevelFinish::GoToNextLevel(cocos2d::Ref* pSender) {
+    auto scene = Level::createScene();
+    Director::getInstance()->replaceScene(scene);
+}
+
 void LevelFinish::GoToMainMenu(cocos2d::Ref* pSender) {
     auto scene = MainMenu::createScene();
     Director::getInstance()->replaceScene(scene);

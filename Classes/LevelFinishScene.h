@@ -7,6 +7,7 @@ class LevelFinish : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
+    void GoToNextLevel(cocos2d::Ref* pSender);
     void GoToMainMenu(cocos2d::Ref* pSender);
     void CloseGame(cocos2d::Ref* pSender);
 
