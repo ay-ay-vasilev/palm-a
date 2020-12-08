@@ -99,7 +99,6 @@ bool Level::init()
     floor->setPosition(Vec2(origin.x, origin.y));
     
     floor->runAction(RepeatForever::create(backgroundAnimate));
-    this->addChild(floor);
 
 
     auto dashButton = MenuItemImage::create(
