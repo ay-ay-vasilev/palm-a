@@ -627,11 +627,14 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
     float distance = visibleSize.height * 2;
-    auto moveAction = MoveBy::create(1,Vec2(0,enemySpeed));
+    auto moveAction = MoveBy::create(1.5f,Vec2(0,enemySpeed*1.5f)); // MAGIC NUMBER
     auto remove = CallFunc::create([this, projectile]() {this->removeLaserRay(projectile); });
     auto sequence = Sequence::create(moveAction,remove,NULL);
 
     projectile->runAction(sequence);
+
+    auto raySFX = AudioEngine::play2d("audio/sfx/raySFX.mp3", false);
+    AudioEngine::setVolume(raySFX, 0.2);
 }
 void Level::spawnEnemyOnTiming(float dt)
 {
