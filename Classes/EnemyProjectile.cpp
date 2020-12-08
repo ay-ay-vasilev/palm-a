@@ -14,7 +14,6 @@ EnemyProjectile * EnemyProjectile::create(){
 	cocos2d::Animate* projectileAnimate;
 	if(projectile)
 	{
-		projectile->setContentSize(Size(ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE, ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE));
 		projectile->autorelease();
 		char str[200] = { 0 };
 
@@ -96,7 +95,6 @@ Laser* Laser::create() {
 	cocos2d::Animate* projectileAnimate;
 	if (projectile)
 	{
-		projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
 		projectile->autorelease();
 		char str[200] = { 0 };
 
@@ -134,7 +132,6 @@ Laser* Laser::create() {
 }
 bool Laser::init()
 {
-	// ANIMATION WILL BE HERE
 	return false;
 }
 void Laser::setTarget(Vec2 target)
@@ -175,16 +172,32 @@ LaserRay::~LaserRay(void)
 }
 LaserRay* LaserRay::create() {
 	LaserRay* projectile = new LaserRay();
+	cocos2d::Animate* projectileAnimate;
 	if (projectile)
 	{
-		projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
 		projectile->autorelease();
-		
-		Sprite* model = Sprite::create("res/projectiles/laser_ray.png");
+		char str[200] = { 0 };
+
+		auto spriteCache = SpriteFrameCache::getInstance();
+		spriteCache->addSpriteFramesWithFile("res/projectiles/ray_projectile.plist");
+		Vector<SpriteFrame*> projectileAnimFrames(5);
+
+		for (int i = 1; i <= 5; i++)
+		{
+			sprintf(str, "ray%i.png", i);
+			projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+		}
+
+		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("ray1.png"));
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
+
+			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, 0.01f);
+			projectileAnimate = Animate::create(projectileAnimation);
+			projectileAnimate->retain();
+			model->runAction(RepeatForever::create(projectileAnimate));
 
 			projectile->addChild(model);
 			projectile->setContentSize(model->getContentSize());
@@ -194,11 +207,11 @@ LaserRay* LaserRay::create() {
 		return projectile;
 	}
 	CC_SAFE_DELETE(projectile);
+	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
 bool LaserRay::init()
 {
-	// ANIMATION WILL BE HERE
 	return false;
 }
 void LaserRay::setTarget(Vec2 target)
