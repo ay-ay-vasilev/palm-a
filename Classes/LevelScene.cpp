@@ -79,12 +79,12 @@ bool Level::init()
 
     char str[200] = { 0 };
     auto spriteCache = SpriteFrameCache::getInstance();
-    spriteCache->addSpriteFramesWithFile("res/level/test/level_1_test_full_background.plist");
+    spriteCache->addSpriteFramesWithFile("res/level/parallax_layers/level_1_static_layer.plist");
     Vector<SpriteFrame*> backgroundAnimFrames(3);
 
     for (int i = 1; i <= 3; i++)
     {
-        sprintf(str, "test_full_background%i.png", i);
+        sprintf(str, "level_1_static_layer%i.png", i);
         auto frame = spriteCache->getSpriteFrameByName(str);
         frame->getTexture()->setAliasTexParameters();
         backgroundAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
@@ -92,14 +92,63 @@ bool Level::init()
     auto backgroundAnimation = Animation::createWithSpriteFrames(backgroundAnimFrames, 0.1);
     Animate* backgroundAnimate = Animate::create(backgroundAnimation);
 
-    auto floor = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("test_full_background1.png"));
+    auto floor = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("level_1_static_layer1.png"));
     floor->getTexture()->setAliasTexParameters();
     floor->setScale(RESOLUTION_VARIABLE);
     floor->setAnchorPoint(Vec2(0, 0));
     floor->setPosition(Vec2(origin.x, origin.y));
     
     floor->runAction(RepeatForever::create(backgroundAnimate));
+    
+    //PARALLAX
+    closeSpeed = 8;
+    midSpeed = 4;
+    farSpeed = 2;
 
+    auto parallaxClose1 = Sprite::create("res/level/parallax_layers/close_background.png");
+    auto parallaxClose2 = Sprite::create("res/level/parallax_layers/close_background.png");
+    auto parallaxMid1 = Sprite::create("res/level/parallax_layers/mid_background.png");
+    auto parallaxMid2 = Sprite::create("res/level/parallax_layers/mid_background.png");
+    auto parallaxFar1 = Sprite::create("res/level/parallax_layers/far_background.png");
+    auto parallaxFar2 = Sprite::create("res/level/parallax_layers/far_background.png");
+
+    parallaxClose1->getTexture()->setAliasTexParameters();
+    parallaxClose1->setScale(RESOLUTION_VARIABLE);
+    parallaxClose1->setAnchorPoint(Vec2(0, 0));
+    parallaxClose2->getTexture()->setAliasTexParameters();
+    parallaxClose2->setScale(RESOLUTION_VARIABLE);
+    parallaxClose2->setAnchorPoint(Vec2(0, 0));
+    parallaxMid1->getTexture()->setAliasTexParameters();
+    parallaxMid1->setScale(RESOLUTION_VARIABLE);
+    parallaxMid1->setAnchorPoint(Vec2(0, 0));
+    parallaxMid2->getTexture()->setAliasTexParameters();
+    parallaxMid2->setScale(RESOLUTION_VARIABLE);
+    parallaxMid2->setAnchorPoint(Vec2(0, 0));
+    parallaxFar1->getTexture()->setAliasTexParameters();
+    parallaxFar1->setScale(RESOLUTION_VARIABLE);
+    parallaxFar1->setAnchorPoint(Vec2(0, 0));
+    parallaxFar2->getTexture()->setAliasTexParameters();
+    parallaxFar2->setScale(RESOLUTION_VARIABLE);
+    parallaxFar2->setAnchorPoint(Vec2(0, 0));
+
+    paraNodeClose = ParallaxNode::create();
+    paraNodeMid = ParallaxNode::create();
+    paraNodeFar = ParallaxNode::create();
+
+    paraNodeClose->addChild(parallaxClose1, -1, Vec2(0, closeSpeed), Vec2::ZERO);
+    paraNodeClose->addChild(parallaxClose2, -1, Vec2(0, closeSpeed), Vec2(0, -visibleSize.height));
+    paraNodeMid->addChild(parallaxMid1, -2, Vec2(0, midSpeed), Vec2::ZERO);
+    paraNodeMid->addChild(parallaxMid2, -2, Vec2(0, midSpeed), Vec2(0, -visibleSize.height));
+    paraNodeFar->addChild(parallaxFar1, -3, Vec2(0, farSpeed), Vec2::ZERO);
+    paraNodeFar->addChild(parallaxFar2, -3, Vec2(0, farSpeed), Vec2(0, -visibleSize.height));
+
+    paraNodeClose->runAction(MoveBy::create(20 / closeSpeed, Vec2(0, visibleSize.height / closeSpeed)));
+    paraNodeMid->runAction(MoveBy::create(20 / midSpeed, Vec2(0, visibleSize.height / midSpeed)));
+    paraNodeFar->runAction(MoveBy::create(20 / farSpeed, Vec2(0, visibleSize.height / farSpeed)));
+
+    this->addChild(paraNodeClose, -1);
+    this->addChild(paraNodeMid, -2);
+    this->addChild(paraNodeFar, -3);
 
     auto dashButton = MenuItemImage::create(
         "res/ui/dash_button.png",
@@ -251,6 +300,20 @@ void Level::update(float dt)
 
     GameController::updateRotationType3(player->getPosition());
     spawnEnemyOnTiming(dt);
+
+    if (paraNodeClose->getPosition().y == this->getContentSize().height / closeSpeed) {
+        paraNodeClose->setPosition(0, 0);
+        paraNodeClose->runAction(MoveBy::create(20 / closeSpeed, Vec2(0, this->getContentSize().height / closeSpeed)));
+    }
+    if (paraNodeMid->getPosition().y == this->getContentSize().height / midSpeed) {
+        paraNodeMid->setPosition(0, 0);
+        paraNodeMid->runAction(MoveBy::create(20 / midSpeed, Vec2(0, this->getContentSize().height / midSpeed)));
+    }
+    if (paraNodeFar->getPosition().y == this->getContentSize().height / farSpeed) {
+        paraNodeFar->setPosition(0, 0);
+        paraNodeFar->runAction(MoveBy::create(20 / farSpeed, Vec2(0, this->getContentSize().height / farSpeed)));
+    }
+
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {

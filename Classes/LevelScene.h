@@ -48,6 +48,12 @@ private:
 
     void update(float dt);
 
+    cocos2d::ParallaxNode* paraNodeClose;
+    cocos2d::ParallaxNode* paraNodeMid;
+    cocos2d::ParallaxNode* paraNodeFar;
+    float closeSpeed;
+    float midSpeed;
+    float farSpeed;
 
     std::deque<int> movementInputDeck;
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
