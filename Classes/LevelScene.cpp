@@ -73,7 +73,6 @@ bool Level::init()
     player->setPhysicsBody(player->getBody());
 	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + (float)LEVEL_FLOOR_HEIGHT*RESOLUTION_VARIABLE));
     player->setScale(0.25*RESOLUTION_VARIABLE);
-	
 
 	this->scheduleUpdate();
 
@@ -337,12 +336,17 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         //removeEnemy(GameController::enemies.at(closestEnemy));
 
         if (a->getCollisionBitmask() == 2) {
-            this->removeEnemy(dynamic_cast<Enemy*>(a->getNode()));
-            player->jumpKill();
+            if (player->jumpKill(dynamic_cast<Enemy*>(a->getNode())->getPositionY()))
+            {
+                this->removeEnemy(dynamic_cast<Enemy*>(a->getNode()));
+            }
         }
         if (b->getCollisionBitmask() == 2) {
-            this->removeEnemy(dynamic_cast<Enemy*>(b->getNode()));
-            player->jumpKill();
+            if (player->jumpKill(dynamic_cast<Enemy*>(b->getNode())->getPositionY()))
+            {
+                this->removeEnemy(dynamic_cast<Enemy*>(b->getNode()));
+
+            }
         }
     }
 
@@ -385,12 +389,16 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         playerHPBar->setPercent(player->getHP() / (float)PLAYER_START_HP * 100.0);
 
         if (a->getCollisionBitmask() == 5) {
-            this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
-            player->jumpKill();
+            if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
+            {
+                this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
+            }
         }
         if (b->getCollisionBitmask() == 5) {
-            this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
-            player->jumpKill();
+            if (player->jumpKill(dynamic_cast<EnemyType2*>(b->getNode())->getPositionY()))
+            {
+                this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
+            }
         }
     }
 

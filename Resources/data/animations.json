@@ -2,8 +2,12 @@
     "playerAnim": {
         "idleFrames": 5,
         "runFrames": 8,
+        "jumpFrames": 1,
+        "fallFrames": 4,
         "idleAnimSpeed": 0.1,
         "runAnimSpeed": 0.06,
+        "jumpAnimSpeed": 0.1,
+        "fallAnimSpeed": 0.1,
         "spriteSize": 112
     },
     "enemyAnim":{

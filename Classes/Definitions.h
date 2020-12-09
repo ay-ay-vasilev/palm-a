@@ -52,8 +52,12 @@
 // player animation and sprites
 #define PLAYER_ANIM_IDLE_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["idleFrames"]
 #define PLAYER_ANIM_RUN_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["runFrames"]
+#define PLAYER_ANIM_JUMP_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["jumpFrames"]
+#define PLAYER_ANIM_FALL_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["fallFrames"]
 #define PLAYER_ANIM_IDLE_SPEED JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["idleAnimSpeed"]
 #define PLAYER_ANIM_RUN_SPEED JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["runAnimSpeed"]
+#define PLAYER_ANIM_JUMP_SPEED JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["jumpAnimSpeed"]
+#define PLAYER_ANIM_FALL_SPEED JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["fallAnimSpeed"]
 #define PLAYER_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["playerAnim"]["spriteSize"]
 // enemy animation and sprites
 #define ENEMY_DEFAULT_ANIM_IDLE_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["animationFramesNumber"]

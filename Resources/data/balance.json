@@ -3,7 +3,7 @@
         "speed": 4,
         "dashSpeed": 60,
         "jumpForce": 7,
-        "gravity": 0.5,
+        "gravity": 0.4,
         "maxFallSpeed": -10,
         "maxJumpSpeed": 10,
         "hp": 150,
@@ -35,6 +35,6 @@
     },
     "debug": {
         "mask": false,
-        "resolution": 2
+        "resolution": 3
     }
 }

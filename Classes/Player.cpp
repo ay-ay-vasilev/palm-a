@@ -8,10 +8,13 @@ Vec2 origin = director->getVisibleOrigin();
 Player::~Player()
 {
 	CC_SAFE_RELEASE(idleLeftAnimate);
-	CC_SAFE_RELEASE(runLeftAnimate);
-
 	CC_SAFE_RELEASE(idleRightAnimate);
+	
+	CC_SAFE_RELEASE(runLeftAnimate);
 	CC_SAFE_RELEASE(runRightAnimate);
+
+	CC_SAFE_RELEASE(jumpLeftAnimate);
+	CC_SAFE_RELEASE(jumpRightAnimate);
 }
 
 Player * Player::create()
@@ -35,6 +38,8 @@ void Player::initPlayer()
 	moving = false;
 	vertForce = 0;
 	jumps = (float)PLAYER_JUMPS;
+	direction = DIRECTION_LEFT;
+	isOnGround = true;
 	char str[200] = {0};
 
 	auto spriteCache = SpriteFrameCache::getInstance();
@@ -45,38 +50,73 @@ void Player::initPlayer()
 	Vector<SpriteFrame*> runLeftAnimFrames(PLAYER_ANIM_RUN_NUM_OF_FRAMES);
 	Vector<SpriteFrame*> runRightAnimFrames(PLAYER_ANIM_RUN_NUM_OF_FRAMES);
 	
-	for(int i = 1; i <= PLAYER_ANIM_IDLE_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+	Vector<SpriteFrame*> jumpLeftAnimFrames(PLAYER_ANIM_JUMP_NUM_OF_FRAMES);
+	Vector<SpriteFrame*> jumpRightAnimFrames(PLAYER_ANIM_JUMP_NUM_OF_FRAMES);
+	Vector<SpriteFrame*> fallLeftAnimFrames(PLAYER_ANIM_FALL_NUM_OF_FRAMES);
+	Vector<SpriteFrame*> fallRightAnimFrames(PLAYER_ANIM_FALL_NUM_OF_FRAMES);
+
+	for(int i = 1; i <= PLAYER_ANIM_IDLE_NUM_OF_FRAMES; i++)
 	{
-		sprintf(str, "character_unarmed_idle_left_test_%i.png", i);
+		sprintf(str, "character_unarmed_idle_left_%i.png", i);
 		idleLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 
-		sprintf(str, "character_unarmed_idle_right_test_%i.png", i);
+		sprintf(str, "character_unarmed_idle_right_%i.png", i);
 		idleRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 	}
 
 	for (int i = 1; i <= PLAYER_ANIM_RUN_NUM_OF_FRAMES; i++)
 	{
-		sprintf(str, "character_unarmed_run_left_test_%i.png", i);
+		sprintf(str, "character_unarmed_run_left_%i.png", i);
 		runLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 
-		sprintf(str, "character_unarmed_run_right_test_%i.png", i);
+		sprintf(str, "character_unarmed_run_right_%i.png", i);
 		runRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+	}
+
+	for (int i = 1; i <= PLAYER_ANIM_JUMP_NUM_OF_FRAMES; i++)
+	{
+		sprintf(str, "character_unarmed_jump_left_%i.png", i);
+		jumpLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+
+		sprintf(str, "character_unarmed_jump_right_%i.png", i);
+		jumpRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+	}
+
+	for (int i = 1; i <= PLAYER_ANIM_FALL_NUM_OF_FRAMES; i++)
+	{
+		sprintf(str, "character_unarmed_fall_left_%i.png", i);
+		fallLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+
+		sprintf(str, "character_unarmed_fall_right_%i.png", i);
+		fallRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
 	}
 
 	auto idleLeftAnimation = Animation::createWithSpriteFrames(idleLeftAnimFrames, PLAYER_ANIM_IDLE_SPEED);
 	auto idleRightAnimation = Animation::createWithSpriteFrames(idleRightAnimFrames, PLAYER_ANIM_IDLE_SPEED);
 	auto runLeftAnimation = Animation::createWithSpriteFrames(runLeftAnimFrames, PLAYER_ANIM_RUN_SPEED);
 	auto runRightAnimation = Animation::createWithSpriteFrames(runRightAnimFrames, PLAYER_ANIM_RUN_SPEED);
+	auto jumpLeftAnimation = Animation::createWithSpriteFrames(jumpLeftAnimFrames, PLAYER_ANIM_JUMP_SPEED);
+	auto jumpRightAnimation = Animation::createWithSpriteFrames(jumpRightAnimFrames, PLAYER_ANIM_JUMP_SPEED);
+	auto fallLeftAnimation = Animation::createWithSpriteFrames(fallLeftAnimFrames, PLAYER_ANIM_FALL_SPEED);
+	auto fallRightAnimation = Animation::createWithSpriteFrames(fallRightAnimFrames, PLAYER_ANIM_FALL_SPEED);
 	idleLeftAnimate = Animate::create(idleLeftAnimation);
 	idleRightAnimate = Animate::create(idleRightAnimation);
 	runLeftAnimate = Animate::create(runLeftAnimation);
 	runRightAnimate = Animate::create(runRightAnimation);
+	jumpLeftAnimate = Animate::create(jumpLeftAnimation);
+	jumpRightAnimate = Animate::create(jumpRightAnimation);
+	fallLeftAnimate = Animate::create(fallLeftAnimation);
+	fallRightAnimate = Animate::create(fallRightAnimation);
 
 	// Retain to use it later
 	idleLeftAnimate->retain(); 	
 	idleRightAnimate->retain();
 	runLeftAnimate->retain();
 	runRightAnimate->retain();
+	jumpLeftAnimate->retain();
+	jumpRightAnimate->retain();
+	fallLeftAnimate->retain();
+	fallRightAnimate->retain();
 
 	this->runAction(RepeatForever::create(idleLeftAnimate)); //This will be the starting animation
 }
@@ -91,81 +131,108 @@ void Player::jump()
 {
 	if (jumps > 0) {
 		jumps--;
+		isOnGround = false;
 		vertForce = (float)PLAYER_JUMP_FORCE*RESOLUTION_VARIABLE;
+		playAnimation(jumpLeftAnimate, jumpRightAnimate);
 	}
 }
 
-void Player::jumpKill()
+bool Player::jumpKill(float enemyPosY)
 {
-	vertForce = (float)PLAYER_JUMP_FORCE* RESOLUTION_VARIABLE;
-	if (PLAYER_REFILL_JUMPS_ON_KILL) jumps = (float)PLAYER_JUMPS;
+	if (enemyPosY <= this->getPositionY() && !isOnGround && vertForce < 0) {
+		isOnGround = false;
+		vertForce = (float)PLAYER_JUMP_FORCE * RESOLUTION_VARIABLE;
+		if (PLAYER_REFILL_JUMPS_ON_KILL) jumps = (float)PLAYER_JUMPS;
+		playAnimation(jumpLeftAnimate, jumpRightAnimate);
+		return true;
+	}
+	return false;
+}
+
+void Player::fall()
+{
+	playAnimation(fallLeftAnimate, fallRightAnimate);
 }
 
 void Player::run(int directionParam)
 {
-	this->stopAllActions();
-
-	if (directionParam == 0) {
-		this->runAction(RepeatForever::create(runLeftAnimate));
-	}
-	else {
-		this->runAction(RepeatForever::create(runRightAnimate));
-	}
-	
 	direction = directionParam;
 	moving = true;
+
+	// run animation if character on ground
+	if (isOnGround && vertForce <= 0) {
+		playAnimation(runLeftAnimate, runRightAnimate);
+	}
+	// update fall animation if character is in air and falling
+	else if (!isOnGround && vertForce <= 0) {
+		playAnimation(fallLeftAnimate, fallRightAnimate);
+	}
+	// update jump animation if character is in air and rising
+	else {
+		playAnimation(jumpLeftAnimate, jumpRightAnimate);
+	}
 }
 
 void Player::idle()
 {
 	moving = false;
-	this->stopAllActions();
-
-	if (direction == 0) {
-		this->runAction(RepeatForever::create(idleLeftAnimate));
-	}
-	else {
-		this->runAction(RepeatForever::create(idleRightAnimate));
-	}
+	if (isOnGround) playAnimation(idleLeftAnimate, idleRightAnimate);
+	else playAnimation(fallLeftAnimate, fallRightAnimate);
 }
 
 void Player::update()
 {
-	if (dashed) {
+	if (dashed)
+	{
 		auto newPosX = this->getPositionX();
-		if (direction == 0) //check if going left
+		if (direction == DIRECTION_LEFT)
 		{
-			//this->setScaleX(1); //flip
 			newPosX -= (float)PLAYER_DASH_SPEED * RESOLUTION_VARIABLE;
 		}
 		else
 		{
-			//this->setScaleX(-1); //flip
 			newPosX += (float)PLAYER_DASH_SPEED * RESOLUTION_VARIABLE;
 		}
 		this->setPositionX(clampf(newPosX, origin.x + (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
 		dashed = false;
 	}
 
-	if(moving) //check if moving
+	if(moving)
 	{
 		auto newPosX = this->getPositionX();
-		if(direction == DIRECTION_LEFT) //check if going left
+		if(direction == DIRECTION_LEFT)
 		{
-			//this->setScaleX(1); //flip
 			newPosX -= (float)PLAYER_SPEED * RESOLUTION_VARIABLE;
 		}
 		else
 		{
-			//this->setScaleX(-1); //flip
 			newPosX += (float)PLAYER_SPEED * RESOLUTION_VARIABLE;
 		}
 		this->setPositionX(clampf(newPosX, origin.x + (float)LEVEL_WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
 	}
-	if (this->getPositionY() <= origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE && vertForce < (float)PLAYER_JUMP_FORCE) jumps = (float)PLAYER_JUMPS;
+	// remove vertical force if hit ceiling
 	if (this->getPositionY() >= director->getVisibleSize().height) vertForce = 0;
+	// check if player on ground
+	if (this->getPositionY() <= origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE && vertForce <= 0 && !isOnGround)
+	{
+		isOnGround = true;
+		// refill jumps on ground
+		jumps = (float)PLAYER_JUMPS;
+
+		if (moving) {
+			playAnimation(runLeftAnimate, runRightAnimate);
+		}
+		else {
+			playAnimation(idleLeftAnimate, idleRightAnimate);
+		}
+	}
+	// check if player started falling to change animation
+	if (vertForce > 0 && vertForce - (float)PLAYER_GRAVITY * RESOLUTION_VARIABLE <= 0 && !isOnGround) fall();
+	// apply gravity to vertforce (also set min and max for vert force)
 	vertForce = clampf(vertForce - (float)PLAYER_GRAVITY* RESOLUTION_VARIABLE, (float)PLAYER_MAX_FALL_SPEED * RESOLUTION_VARIABLE, (float)PLAYER_MAX_JUMP_SPEED * RESOLUTION_VARIABLE);
+	// change y position using vert force
 	auto newPosY = this->getPositionY() + vertForce;
+	// apply y position
 	this->setPositionY(clampf(newPosY, origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
 
 }
@@ -189,4 +256,15 @@ int Player::getHP()
 void Player::updateHP(int dmg)
 {
 	Player::hp = Player::hp - dmg;
+}
+
+void Player::playAnimation(Animate* leftAnimation, Animate* rightAnimation)
+{
+	this->stopAllActions();
+	if (direction == DIRECTION_LEFT) {
+		this->runAction(RepeatForever::create(leftAnimation));
+	}
+	else {
+		this->runAction(RepeatForever::create(rightAnimation));
+	}
 }

@@ -11,11 +11,16 @@ public:
 	Animate * idleRightAnimate;
 	Animate * runLeftAnimate;
 	Animate * runRightAnimate;
+	Animate * jumpLeftAnimate;
+	Animate * jumpRightAnimate;
+	Animate * fallLeftAnimate;
+	Animate * fallRightAnimate;
 
 	static Player * create(void);
 	void dash();
 	void jump();
-	void jumpKill();
+	bool jumpKill(float enemyPosY);
+	void fall();
 	void run(int directionParam);
 	void idle();
 	void update();
@@ -32,7 +37,10 @@ private:
 	bool dashed;
 	int direction;
 	float vertForce;
+	bool isOnGround;
 	int jumps;
+
+	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);
 
 	void initPlayer();
 };
