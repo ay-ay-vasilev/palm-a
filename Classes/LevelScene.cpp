@@ -101,9 +101,9 @@ bool Level::init()
     floor->runAction(RepeatForever::create(backgroundAnimate));
     
     //PARALLAX
-    closeSpeed = 8;
-    midSpeed = 4;
-    farSpeed = 2;
+    closeSpeed = 100*RESOLUTION_VARIABLE;
+    midSpeed = closeSpeed/2;
+    farSpeed = midSpeed/2;
 
     auto parallaxClose1 = Sprite::create("res/level/parallax_layers/close_background.png");
     auto parallaxClose2 = Sprite::create("res/level/parallax_layers/close_background.png");
@@ -142,9 +142,9 @@ bool Level::init()
     paraNodeFar->addChild(parallaxFar1, -3, Vec2(0, farSpeed), Vec2::ZERO);
     paraNodeFar->addChild(parallaxFar2, -3, Vec2(0, farSpeed), Vec2(0, -visibleSize.height));
 
-    paraNodeClose->runAction(MoveBy::create(20 / closeSpeed, Vec2(0, visibleSize.height / closeSpeed)));
-    paraNodeMid->runAction(MoveBy::create(20 / midSpeed, Vec2(0, visibleSize.height / midSpeed)));
-    paraNodeFar->runAction(MoveBy::create(20 / farSpeed, Vec2(0, visibleSize.height / farSpeed)));
+    paraNodeClose->runAction(MoveTo::create(visibleSize.height / closeSpeed, Vec2(0, visibleSize.height / closeSpeed)));
+    paraNodeMid->runAction(MoveTo::create(visibleSize.height / midSpeed, Vec2(0, visibleSize.height / midSpeed)));
+    paraNodeFar->runAction(MoveTo::create(visibleSize.height / farSpeed, Vec2(0, visibleSize.height / farSpeed)));
 
     this->addChild(paraNodeClose, -1);
     this->addChild(paraNodeMid, -2);
@@ -302,16 +302,16 @@ void Level::update(float dt)
     spawnEnemyOnTiming(dt);
 
     if (paraNodeClose->getPosition().y == this->getContentSize().height / closeSpeed) {
-        paraNodeClose->setPosition(0, 0);
-        paraNodeClose->runAction(MoveBy::create(20 / closeSpeed, Vec2(0, this->getContentSize().height / closeSpeed)));
+        paraNodeClose->setPosition(0, 1.0f/closeSpeed);
+        paraNodeClose->runAction(MoveTo::create(this->getContentSize().height / closeSpeed, Vec2(0, this->getContentSize().height / closeSpeed)));
     }
     if (paraNodeMid->getPosition().y == this->getContentSize().height / midSpeed) {
-        paraNodeMid->setPosition(0, 0);
-        paraNodeMid->runAction(MoveBy::create(20 / midSpeed, Vec2(0, this->getContentSize().height / midSpeed)));
+        paraNodeMid->setPosition(0, 1.0f/midSpeed);
+        paraNodeMid->runAction(MoveTo::create(this->getContentSize().height / midSpeed, Vec2(0, this->getContentSize().height / midSpeed)));
     }
     if (paraNodeFar->getPosition().y == this->getContentSize().height / farSpeed) {
-        paraNodeFar->setPosition(0, 0);
-        paraNodeFar->runAction(MoveBy::create(20 / farSpeed, Vec2(0, this->getContentSize().height / farSpeed)));
+        paraNodeFar->setPosition(0, 1.0f/farSpeed);
+        paraNodeFar->runAction(MoveTo::create(this->getContentSize().height / farSpeed, Vec2(0, this->getContentSize().height / farSpeed)));
     }
 
 }
@@ -582,7 +582,7 @@ void Level::spawnEnemyType3(float dt)
     auto way3 = 2;
     //moving and deleting
     float distance = visibleSize.height;
-    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
+    auto enemySpeed = (float)100 * RESOLUTION_VARIABLE;
 
     auto enemyAction1 = MoveBy::create(distance * way1 / enemySpeed, Vec2(0, visibleSize.height * way1));
     auto enemyAction2 = MoveBy::create(distance * way2 / enemySpeed, Vec2(0, visibleSize.height * way2));
@@ -686,7 +686,7 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
     if (enemy->getSpawnPoint() == 2) angle += 180;
     projectile->setRotation(angle);
     this->addChild(projectile, 5);
-    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
+    auto enemySpeed = (float)100 * RESOLUTION_VARIABLE;
 
     float distance = visibleSize.height * 2;
     auto moveAction = MoveBy::create(1.5f,Vec2(0,enemySpeed*1.5f)); // MAGIC NUMBER
