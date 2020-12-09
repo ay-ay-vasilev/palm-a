@@ -7,7 +7,7 @@
         "maxFallSpeed": -10,
         "maxJumpSpeed": 10,
         "hp": 150,
-        "jumps": 2,
+        "additionalJumps": 1,
         "jumpKillForce": 15,
         "refillJumpsOnKill": true
     },

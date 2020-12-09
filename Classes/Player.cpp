@@ -37,7 +37,7 @@ void Player::initPlayer()
 	Player::hp=(float)PLAYER_START_HP;
 	moving = false;
 	vertForce = 0;
-	jumps = (float)PLAYER_JUMPS;
+	additionalJumps = (float)PLAYER_ADDITIONAL_JUMPS;
 	direction = DIRECTION_LEFT;
 	isOnGround = true;
 	char str[200] = {0};
@@ -129,10 +129,14 @@ void Player::dash()
 
 void Player::jump()
 {
-	if (jumps > 0) {
-		jumps--;
+	if (isOnGround) {
 		isOnGround = false;
-		vertForce = (float)PLAYER_JUMP_FORCE*RESOLUTION_VARIABLE;
+		vertForce = (float)PLAYER_JUMP_FORCE * RESOLUTION_VARIABLE;
+		playAnimation(jumpLeftAnimate, jumpRightAnimate);
+	}
+	else if (additionalJumps > 0 && !isOnGround) {
+		additionalJumps--;
+		vertForce = (float)PLAYER_JUMP_FORCE * RESOLUTION_VARIABLE;
 		playAnimation(jumpLeftAnimate, jumpRightAnimate);
 	}
 }
@@ -142,7 +146,7 @@ bool Player::jumpKill(float enemyPosY)
 	if (enemyPosY <= this->getPositionY() && !isOnGround && vertForce < 0) {
 		isOnGround = false;
 		vertForce = (float)PLAYER_JUMP_FORCE * RESOLUTION_VARIABLE;
-		if (PLAYER_REFILL_JUMPS_ON_KILL) jumps = (float)PLAYER_JUMPS;
+		if (PLAYER_REFILL_JUMPS_ON_KILL) additionalJumps = (float)PLAYER_ADDITIONAL_JUMPS;
 		playAnimation(jumpLeftAnimate, jumpRightAnimate);
 		return true;
 	}
@@ -217,7 +221,7 @@ void Player::update()
 	{
 		isOnGround = true;
 		// refill jumps on ground
-		jumps = (float)PLAYER_JUMPS;
+		additionalJumps = (float)PLAYER_ADDITIONAL_JUMPS;
 
 		if (moving) {
 			playAnimation(runLeftAnimate, runRightAnimate);

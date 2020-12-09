@@ -38,7 +38,7 @@ private:
 	int direction;
 	float vertForce;
 	bool isOnGround;
-	int jumps;
+	int additionalJumps;
 
 	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);
 
