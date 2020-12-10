@@ -68,7 +68,8 @@ private:
     void spawnEnemyType3(float dt);
     void spawnEnemyProjectiles(float dt);
     void spawnEnemyOnTiming(float dt);
-    void spawnLaserRay(float dt,EnemyType3 *ray);
+    void spawnLaserRay(float dt, EnemyType3* ray);
+    void spawnLaserRay(Level1Boss* boss);
     void spawnBoss();
 
     bool isPaused;

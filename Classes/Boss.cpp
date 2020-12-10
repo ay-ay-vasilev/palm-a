@@ -44,3 +44,11 @@ void Level1Boss::setState(int _state)
 {
 	state = _state;
 }
+LaserRay* Level1Boss::getRay()
+{
+	return ray;
+}
+void Level1Boss::setRay(LaserRay* _ray)
+{
+	ray = _ray;
+}

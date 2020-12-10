@@ -333,6 +333,8 @@ void GameController::bossMovement()
     //state 3 = moving right to left
 
     auto bossSpeed = 1;
+
+    
     if (boss->getState() == 2)
     {
         boss->setPosition(Vec2(boss->getPosition().x + bossSpeed,boss->getPosition().y));
@@ -340,6 +342,7 @@ void GameController::bossMovement()
         {
             boss->setState(3);
         }
+        boss->getRay()->setPosition(boss->getPosition());
     }
     if (boss->getState() == 3)
     {
@@ -348,5 +351,6 @@ void GameController::bossMovement()
         {
             boss->setState(2);
         }
+        boss->getRay()->setPosition(boss->getPosition());
     }
 }

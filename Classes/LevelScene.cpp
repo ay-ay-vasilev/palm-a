@@ -791,6 +791,23 @@ void Level::spawnBoss()
 
     auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height*0.25 * RESOLUTION_VARIABLE));
     auto changeState = CallFunc::create([boss]() {boss->setState(2); });
-    auto sequence = Sequence::create(moveDown, changeState, NULL);
+    auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
+    auto sequence = Sequence::create(moveDown, changeState, spawnRay, NULL);
     boss->runAction(sequence);
+}
+void Level::spawnLaserRay(Level1Boss* boss) 
+{
+    cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    LaserRay* projectile;
+    projectile = GameController::spawnLaserRay(boss->getPosition(), player->getPosition());
+    projectile->setScale(RESOLUTION_VARIABLE);
+
+    auto angle = 90;
+    projectile->setRotation(angle);
+    projectile->setAnchorPoint(Vec2(0.1, 0.5));
+    this->addChild(projectile,6);
+    boss->setRay(projectile);
+
+    //auto raySFX = AudioEngine::play2d("audio/sfx/raySFX.mp3", true);
+    //AudioEngine::setVolume(raySFX, 0.2);
 }
