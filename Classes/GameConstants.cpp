@@ -4,6 +4,7 @@
 std::map<std::string, std::string> GameConstants::playerAssetPaths = {};
 std::map<std::string, float> GameConstants::playerAnimationData = {};
 std::map<std::string, float> GameConstants::playerStats = {};
+std::map<std::string, float> GameConstants::levelStats = {};
 
 float GameConstants::resolution = 2;
 
@@ -43,6 +44,11 @@ void GameConstants::initConstants(std::string levelName)
 		setPlayerStats("START_HP", "hp", NOT_MULT_BY_RESOLUTION);
 		setPlayerStats("ADDITIONAL_JUMPS", "additionalJumps", NOT_MULT_BY_RESOLUTION);
 		setPlayerStats("JUMP_KILL_FORCE", "jumpKillForce", MULT_BY_RESOLUTION);
+
+		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
+		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);
+		setLevelStats("DURATION", "levelDuration", NOT_MULT_BY_RESOLUTION);
+
 	}
 }
 
@@ -57,6 +63,10 @@ float GameConstants::getPlayerAnimationData(const std::string& key)
 float GameConstants::getPlayerStats(const std::string& key)
 {
 	return playerStats[key];
+}
+float GameConstants::getLevelStats(const std::string& key)
+{
+	return levelStats[key];
 }
 
 
@@ -77,5 +87,13 @@ void GameConstants::setPlayerStats(const std::string& key, const std::string& da
 	if (multByResolution)
 	{
 		playerStats[key] *= GameConstants::resolution;
+	}
+}
+void GameConstants::setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution)
+{
+	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["level"][dataName];
+	if (multByResolution)
+	{
+		levelStats[key] *= GameConstants::resolution;
 	}
 }

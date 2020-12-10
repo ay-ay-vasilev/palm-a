@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include "GameConstants.h"
 #include "Definitions.h"
 #include "fstream"
 USING_NS_CC;
@@ -158,13 +159,13 @@ float GameController::enemyPosition(EnemyType3* enemy) {
     if (random == 1)
     {
         enemy->setScale(-0.25 * RESOLUTION_VARIABLE);
-        position = LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
+        position = GameConstants::getLevelStats("WALL_DISTANCE") / 2;
         return position;
     }
     else 
     {
         enemy->setScale(0.25 * RESOLUTION_VARIABLE);
-        position = visibleSize.width - LEVEL_WALL_DISTANCE * (float)RESOLUTION_VARIABLE / 2;
+        position = visibleSize.width - GameConstants::getLevelStats("WALL_DISTANCE") / 2;
         return position;
     }
 }

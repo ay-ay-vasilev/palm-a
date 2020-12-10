@@ -75,7 +75,7 @@ bool Level::init()
 
     player = Player::create();
     player->setPhysicsBody(player->getBody());
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + (float)LEVEL_FLOOR_HEIGHT*RESOLUTION_VARIABLE));
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + GameConstants::getLevelStats("FLOOR_HEIGHT")));
     player->setScale(0.25*RESOLUTION_VARIABLE);
 
 	this->scheduleUpdate();
@@ -296,9 +296,9 @@ void Level::update(float dt)
     char playerScore[100];
     sprintf(playerScore, "Score: %i", remainingTime);
     scoreLabel->setString(playerScore);
-    progressBar->setPercent(remainingTime / (float)LEVEL_DURATION * 100.0);
+    progressBar->setPercent(remainingTime / GameConstants::getLevelStats("DURATION") * 100.0);
 
-    if (remainingTime > (float)LEVEL_DURATION) levelFinished();
+    if (remainingTime > GameConstants::getLevelStats("DURATION")) levelFinished();
     if (player->getHP() < 0) gameOver();
 
     GameController::updateRotationType3(player->getPosition());

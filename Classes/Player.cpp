@@ -3,7 +3,6 @@
 #include "GameConstants.h"
 
 auto director = cocos2d::Director::getInstance();
-auto visibleSize = director->getVisibleSize();
 Vec2 origin = director->getVisibleOrigin();
 
 Player::~Player()
@@ -108,18 +107,31 @@ void Player::idle()
 
 void Player::update()
 {
+	auto visibleSize = director->getVisibleSize();
+
+	float speed = GameConstants::getPlayerStats("SPEED");
+	float dashSpeed = GameConstants::getPlayerStats("DASH_SPEED");
+	float maxAdditionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");
+	float gravity = GameConstants::getPlayerStats("GRAVITY");
+	float maxFallSpeed = GameConstants::getPlayerStats("MAX_FALL_SPEED");
+	float maxJumpSpeed = GameConstants::getPlayerStats("MAX_JUMP_SPEED");
+	
+	float wallDistance = GameConstants::getLevelStats("WALL_DISTANCE");
+	float floorHeight = GameConstants::getLevelStats("FLOOR_HEIGHT");
+
+
 	if (dashed)
 	{
 		auto newPosX = this->getPositionX();
 		if (direction == DIRECTION_LEFT)
 		{
-			newPosX -= GameConstants::getPlayerStats("DASH_SPEED");
+			newPosX -= dashSpeed;
 		}
 		else
 		{
-			newPosX += GameConstants::getPlayerStats("DASH_SPEED");
+			newPosX += dashSpeed;
 		}
-		this->setPositionX(clampf(newPosX, origin.x + (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
+		this->setPositionX(clampf(newPosX, origin.x + wallDistance, visibleSize.width + origin.x - wallDistance));
 		dashed = false;
 	}
 
@@ -128,22 +140,22 @@ void Player::update()
 		auto newPosX = this->getPositionX();
 		if(direction == DIRECTION_LEFT)
 		{
-			newPosX -= GameConstants::getPlayerStats("SPEED");
+			newPosX -= speed;
 		}
 		else
 		{
-			newPosX += GameConstants::getPlayerStats("SPEED");
+			newPosX += speed;
 		}
-		this->setPositionX(clampf(newPosX, origin.x + (float)LEVEL_WALL_DISTANCE*RESOLUTION_VARIABLE, director->getVisibleSize().width + origin.x - (float)LEVEL_WALL_DISTANCE * RESOLUTION_VARIABLE));
+		this->setPositionX(clampf(newPosX, origin.x + wallDistance, visibleSize.width + origin.x - wallDistance));
 	}
 	// remove vertical force if hit ceiling
-	if (this->getPositionY() >= director->getVisibleSize().height) vertForce = 0;
+	if (this->getPositionY() >= visibleSize.height) vertForce = 0;
 	// check if player on ground
-	if (this->getPositionY() <= origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE && vertForce <= 0 && !isOnGround)
+	if (this->getPositionY() <= origin.y + floorHeight && vertForce <= 0 && !isOnGround)
 	{
 		isOnGround = true;
 		// refill jumps on ground
-		additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");;
+		additionalJumps = maxAdditionalJumps;
 
 		if (moving) {
 			playAnimation(runLeftAnimate, runRightAnimate);
@@ -153,19 +165,19 @@ void Player::update()
 		}
 	}
 	// check if player started falling to change animation
-	if (vertForce > 0 && vertForce - GameConstants::getPlayerStats("GRAVITY") <= 0 && !isOnGround) fall();
+	if (vertForce > 0 && vertForce - gravity <= 0 && !isOnGround) fall();
 	// apply gravity to vertforce (also set min and max for vert force)
-	vertForce = clampf(vertForce - GameConstants::getPlayerStats("GRAVITY"), GameConstants::getPlayerStats("MAX_FALL_SPEED"), GameConstants::getPlayerStats("MAX_JUMP_SPEED"));
+	vertForce = clampf(vertForce - gravity, maxFallSpeed, maxJumpSpeed);
 	// change y position using vert force
 	auto newPosY = this->getPositionY() + vertForce;
 	// apply y position
-	this->setPositionY(clampf(newPosY, origin.y + (float)LEVEL_FLOOR_HEIGHT * RESOLUTION_VARIABLE, origin.y + director->getVisibleSize().height));
+	this->setPositionY(clampf(newPosY, origin.y + floorHeight, origin.y + visibleSize.height));
 
 }
 cocos2d::PhysicsBody* Player::getBody()
 {
-	visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+	auto visibleSize = director->getVisibleSize();
+    origin = director->getVisibleOrigin();
 
 	auto physicsBody = PhysicsBody::createBox( Size(this->getContentSize().width/2, this->getContentSize().height/2), PHYSICSBODY_MATERIAL_DEFAULT);
 
@@ -187,14 +199,12 @@ void Player::updateHP(int dmg)
 // ================================================================== ANIMATION STUFF ==================================================================
 Animate* Player::createAnimation(SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
 {
-	char str[200] = { 0 };
-
 	auto assetPath = GameConstants::getPlayerAssetPath(assetName);
 	auto numberOfFrames = GameConstants::getPlayerAnimationData(numOfFrames);
 	auto animationSpeed = GameConstants::getPlayerAnimationData(animSpeed);
 
+	char str[200] = { 0 };
 	Vector<SpriteFrame*> animFrames(numberOfFrames);
-
 
 	for (int i = 1; i <= numberOfFrames; i++)
 	{
@@ -211,8 +221,8 @@ void Player::loadAnimations()
 {
 	auto spriteSize = GameConstants::getPlayerAnimationData("SPRITE_SIZE");
 	auto playerSheet = GameConstants::getPlayerAssetPath("SPRITE_SHEET");
-	auto spriteCache = SpriteFrameCache::getInstance();
 
+	auto spriteCache = SpriteFrameCache::getInstance();
 	setContentSize(Size(spriteSize, spriteSize));
 	spriteCache->addSpriteFramesWithFile(playerSheet);
 

@@ -9,6 +9,7 @@
 #define DIRECTION_RIGHT 1
 #define MULT_BY_RESOLUTION true
 #define NOT_MULT_BY_RESOLUTION false
+#define PI 3.14159265
 // Splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6
 #define LOGO_ANIM_SPEED 0.12
@@ -21,10 +22,6 @@
 #define ENEMIES_SPAWN_TIMINGS JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["timingsPath"]
 #define ENEMIES_SPAWN_TYPES JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["typesPath"]
 #define ENEMIES_SPAWN_POINTS JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["pointsPath"]
-// Level properties
-#define LEVEL_WALL_DISTANCE JsonInstance::GetInstance()->GetData("balance")["level"]["wallDistance"]
-#define LEVEL_FLOOR_HEIGHT JsonInstance::GetInstance()->GetData("balance")["level"]["floorHeight"]
-#define LEVEL_DURATION JsonInstance::GetInstance()->GetData("balance")["level"]["levelDuration"]
 //Enemy stats
 // Default
 #define ENEMY_DEFAULT_SPEED JsonInstance::GetInstance()->GetData("balance")["enemy"]["default"]["speed"]
@@ -58,6 +55,4 @@
 #define ENEMY_LASER_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["projectile"]["animationSpeed"]
 #define ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["projectile"]["spriteSizeX"]
 #define ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["projectile"]["spriteSizeY"]
-
-#define PI 3.14159265
 #endif
