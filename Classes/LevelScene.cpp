@@ -104,7 +104,7 @@ bool Level::init()
     floor->runAction(RepeatForever::create(backgroundAnimate));
     
     //PARALLAX
-    closeSpeed = 100*RESOLUTION_VARIABLE;
+    closeSpeed = 100*(float)RESOLUTION_VARIABLE;
     midSpeed = closeSpeed/2;
     farSpeed = midSpeed/2;
 
@@ -338,10 +338,8 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ( ( 1 == a->getCollisionBitmask() && 2 == b->getCollisionBitmask() ) 
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
-        player->updateHP((float)ENEMY_DEFAULT_COLLIDE_DMG);
+        player->updateHP(GameConstants::getEnemyStats("REGULAR_COLLIDE_DAMAGE"));
         playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
-        
-        //removeEnemy(GameController::enemies.at(closestEnemy));
 
         if (a->getCollisionBitmask() == 2) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
@@ -362,7 +360,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
 		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
-        player->updateHP((float)ENEMY_DEFAULT_PROJECTILE_DMG);
+        player->updateHP(GameConstants::getProjectileStats("DEFAULT_DAMAGE"));
 
         if (a->getCollisionBitmask() == 3) {
             this->removeProjectile(a->getNode());
@@ -377,7 +375,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ((1 == a->getCollisionBitmask() && 4 == b->getCollisionBitmask())
         || (4 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
     {
-        player->updateHP((float)ENEMY_LASER_PROJECTILE_DMG);
+        player->updateHP(GameConstants::getProjectileStats("LASER_DAMAGE"));
         
         if (a->getCollisionBitmask() == 4) {
             this->removeLaser(a->getNode());
@@ -392,7 +390,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ((1 == a->getCollisionBitmask() && 5 == b->getCollisionBitmask())
         || (5 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
     {
-        player->updateHP((float)ENEMY_LASER_COLLIDE_DMG);
+        player->updateHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
 
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
@@ -554,7 +552,7 @@ void Level::spawnEnemy(float dt, int enemyPos)
     //moving and deleting
     float distance = visibleSize.height + enemy->getContentSize().width;
 
-    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
+    auto enemySpeed = GameConstants::getEnemyStats("REGULAR_SPEED");
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint()-1,0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint()-1,1);
@@ -576,7 +574,7 @@ void Level::spawnEnemyType2(float dt, int enemyPos)
     //moving and deleting
     float distance = visibleSize.height + enemy->getContentSize().width * 2;
 
-    auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
+    auto enemySpeed = GameConstants::getEnemyStats("LASER_SPEED");
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint() - 1, 0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint() - 1, 1);
@@ -598,7 +596,7 @@ void Level::spawnEnemyType3(float dt)
     auto way3 = 2;
     //moving and deleting
     float distance = visibleSize.height;
-    auto enemySpeed = (float)100 * RESOLUTION_VARIABLE;
+    auto enemySpeed = GameConstants::getEnemyStats("TURRET_SPEED");
 
     auto enemyAction1 = MoveBy::create(distance * way1 / enemySpeed, Vec2(0, visibleSize.height * way1));
     auto enemyAction2 = MoveBy::create(distance * way2 / enemySpeed, Vec2(0, visibleSize.height * way2));
@@ -635,7 +633,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 //moving and deleting
                 Vec2 tar = GameController::calcTarget(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
                 float distance = GameController::findDistance(GameController::type1Enemies.at(n)->getPosition(), tar);
-                auto moveAction = MoveTo::create(distance / ENEMY_DEFAULT_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
+                auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("DEFAULT_SPEED"), tar);
                 auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
                 auto sequence = Sequence::create(moveAction, callBack, NULL);
                 projectile->runAction(sequence);
@@ -666,7 +664,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 //moving and deleting
                 Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
                 float distance = GameController::findDistance(GameController::type2Enemies.at(n)->getPosition(), tar);
-                auto moveAction = MoveTo::create(distance / ENEMY_LASER_PROJECTILE_SPEED / RESOLUTION_VARIABLE, tar);
+                auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("LASER_SPEED"), tar);
                 auto callBack = CallFunc::create([this, projectile]() {this->removeLaser(projectile); });
                 auto sequence = Sequence::create(moveAction, callBack, NULL);
 

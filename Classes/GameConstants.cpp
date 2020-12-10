@@ -55,17 +55,28 @@ void GameConstants::initConstants(std::string levelName)
 		setEnemyAnimationData("REGULAR_IDLE_NUM_OF_FRAMES", "regular", "animationFramesNumber");
 		setEnemyAnimationData("REGULAR_IDLE_SPEED", "regular", "animationSpeed");
 		setEnemyAnimationData("REGULAR_SPRITE_SIZE", "regular", "spriteSize");
+		setEnemyStats("REGULAR_SPEED", "regular", "speed", MULT_BY_RESOLUTION);
+		setEnemyStats("REGULAR_COLLIDE_DAMAGE", "regular", "collideDamage", NOT_MULT_BY_RESOLUTION);
+		setEnemyStats("REGULAR_SPAWN_FREQ", "regular", "spawnFrequency", NOT_MULT_BY_RESOLUTION);
+			
 		setEnemyAssetPath("LASER_SPRITE_SHEET", "laser", "spriteSheet");
 		setEnemyAssetPath("LASER_IDLE_LEFT", "laser", "idleLeft");
 		setEnemyAssetPath("LASER_IDLE_RIGHT", "laser", "idleRight");
 		setEnemyAnimationData("LASER_IDLE_NUM_OF_FRAMES", "laser", "animationFramesNumber");
 		setEnemyAnimationData("LASER_IDLE_SPEED", "laser", "animationSpeed");
 		setEnemyAnimationData("LASER_SPRITE_SIZE", "laser", "spriteSize");
+		setEnemyStats("LASER_SPEED", "laser", "speed", MULT_BY_RESOLUTION);
+		setEnemyStats("LASER_COLLIDE_DAMAGE", "laser", "collideDamage", NOT_MULT_BY_RESOLUTION);
+		setEnemyStats("LASER_SPAWN_FREQ", "laser", "spawnFrequency", NOT_MULT_BY_RESOLUTION);
+
 		setEnemyAssetPath("TURRET_SPRITE_SHEET", "turret", "spriteSheet");
 		setEnemyAssetPath("TURRET_IDLE", "turret", "idle");
 		setEnemyAnimationData("TURRET_IDLE_NUM_OF_FRAMES", "turret", "animationFramesNumber");
 		setEnemyAnimationData("TURRET_IDLE_SPEED", "turret", "animationSpeed");
 		setEnemyAnimationData("TURRET_SPRITE_SIZE", "turret", "spriteSize");
+		setEnemyStats("TURRET_SPEED", "turret", "speed", MULT_BY_RESOLUTION);
+		setEnemyStats("TURRET_COLLIDE_DAMAGE", "turret", "collideDamage", NOT_MULT_BY_RESOLUTION);
+		setEnemyStats("TURRET_SPAWN_FREQ", "turret", "spawnFrequency", NOT_MULT_BY_RESOLUTION);
 
 		setProjectileAssetPath("DEFAULT_SPRITE_SHEET", "default", "spriteSheet");
 		setProjectileAssetPath("DEFAULT_SPRITE", "default", "sprite");
@@ -84,8 +95,11 @@ void GameConstants::initConstants(std::string levelName)
 		setProjectileAnimationData("RAY_SPEED", "ray", "animationSpeed");
 		setProjectileAnimationData("RAY_SPRITE_SIZE_X", "ray", "spriteSizeX");
 		setProjectileAnimationData("RAY_SPRITE_SIZE_Y", "ray", "spriteSizeY");
-
-
+		setProjectileStats("DEFAULT_DAMAGE", "default", "damage", NOT_MULT_BY_RESOLUTION);
+		setProjectileStats("DEFAULT_SPEED", "default", "speed", MULT_BY_RESOLUTION);
+		setProjectileStats("LASER_DAMAGE", "laser", "damage", NOT_MULT_BY_RESOLUTION);
+		setProjectileStats("LASER_SPEED", "laser", "speed", MULT_BY_RESOLUTION);
+		setProjectileStats("RAY_DAMAGE", "ray", "damage", MULT_BY_RESOLUTION);
 
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
 		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);

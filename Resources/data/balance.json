@@ -11,30 +11,33 @@
         "jumpKillForce": 7
     },
     "enemy": {
-        "default": {
+        "regular": {
             "speed": 100,
             "collideDamage": 0,
-            "spawnFrequency": 1,
-            "projectileDamage": 1,
-            "projectileSpeed": 200
+            "spawnFrequency": 1
         },
         "laser": {
             "speed": 100,
             "collideDamage": 0,
-            "spawnFrequency": 0.2,
-            "projectileDamage": 1,
-            "projectileSpeed": 200
+            "spawnFrequency": 0.2
+        },
+        "turret": {
+            "speed": 100,
+            "collideDamage": 0,
+            "spawnFrequency": 1
         }
     },
     "projectile": {
         "default": {
-
+            "damage": 1,
+            "speed": 150
         },
         "laser": {
-
+            "damage": 1,
+            "speed": 200
         },
         "ray": {
-
+            "damage": 1
         }
     },
     "level": {
@@ -44,7 +47,7 @@
         "timings": "Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": true,
+        "mask": false,
         "resolution": 3
     }
 }
