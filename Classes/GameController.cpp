@@ -10,6 +10,7 @@ Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
 Vector<EnemyType3*> GameController::type3Enemies;
 Vector<LaserRay*> GameController::laserRays;
+Level1Boss* GameController::boss;
 
 std::vector<int> GameController::shootingTimings;
 std::vector<int> GameController::enemySpawnTimings;
@@ -309,6 +310,43 @@ void GameController::updateEnemyFacing(Vec2 playerPos)
         }
         else if (type2Enemies.at(i)->getPosition().x > playerPos.x) {
             type2Enemies.at(i)->facePlayer(DIRECTION_LEFT);
+        }
+    }
+}
+Level1Boss* GameController::createLevel1Boss()
+{
+    Level1Boss* _boss = Level1Boss::create();
+    _boss->setPhysicsBody(_boss->getBody());
+
+    if (_boss)
+    {
+        boss = _boss;
+        return _boss;
+    }
+    return NULL;
+}
+void GameController::bossMovement()
+{
+    cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    //state 1 = dropping after creation
+    //state 2 = moving left to right
+    //state 3 = moving right to left
+
+    auto bossSpeed = 1;
+    if (boss->getState() == 2)
+    {
+        boss->setPosition(Vec2(boss->getPosition().x + bossSpeed,boss->getPosition().y));
+        if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
+        {
+            boss->setState(3);
+        }
+    }
+    if (boss->getState() == 3)
+    {
+        boss->setPosition(Vec2(boss->getPosition().x - bossSpeed, boss->getPosition().y));
+        if (boss->getPosition().x <= boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
+        {
+            boss->setState(2);
         }
     }
 }

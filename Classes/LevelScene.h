@@ -12,6 +12,7 @@
 #include "LevelFinishScene.h"
 #include "JsonInstance.h"
 #include "GameConstants.h"
+#include "Boss.h"
 
 class Level : public cocos2d::Scene
 {
@@ -68,6 +69,7 @@ private:
     void spawnEnemyProjectiles(float dt);
     void spawnEnemyOnTiming(float dt);
     void spawnLaserRay(float dt,EnemyType3 *ray);
+    void spawnBoss();
 
     bool isPaused;
     int remainingTime;
