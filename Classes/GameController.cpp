@@ -4,7 +4,7 @@
 #include "fstream"
 USING_NS_CC;
 
-Vector<Enemy*> GameController::type1Enemies;
+Vector<EnemyType1*> GameController::type1Enemies;
 Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
@@ -26,18 +26,18 @@ bool GameController::init()
     return true;
 };
 
-Enemy* GameController::spawnEnemy(int pos)
+EnemyType1* GameController::spawnEnemy(int pos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    Enemy * enemy;
-    enemy = Enemy::create();
+    EnemyType1 * enemy;
+    enemy = EnemyType1::create();
     enemy->setSpawnPoint(pos);
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
-    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_DEFAULT_SPRITE_SIZE + origin.y));
+    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + enemy->getContentSize().width + origin.y));
 
     if (enemy)
     {
@@ -59,7 +59,7 @@ EnemyType2* GameController::spawnEnemyType2(int pos)
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
-    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + ENEMY_DEFAULT_SPRITE_SIZE + origin.y));
+    enemy->setPosition(Vec2(enemyPosX, visibleSize.height + enemy->getContentSize().width + origin.y));
 
     if (enemy)
     {
@@ -77,7 +77,7 @@ EnemyType3* GameController::spawnEnemyType3()
     enemy->setPhysicsBody(enemy->getBody());
 
     float enemyPosX = GameController::enemyPosition(enemy);
-    enemy->setPosition(Vec2(enemyPosX, -1* ENEMY_TURRET_SPRITE_SIZE));
+    enemy->setPosition(Vec2(enemyPosX, -1* enemy->getContentSize().width));
     if (enemy) {
         GameController::type3Enemies.pushBack(enemy);
         return enemy;
@@ -129,14 +129,14 @@ LaserRay* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
-float GameController::enemyPosition(Enemy* enemy){
+float GameController::enemyPosition(EnemyType1* enemy){
     float spawnPoints = 4.0;
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     float position;
     auto spawnPoint = enemy->getSpawnPoint();
     spawnPoint = spawnPoint*1.0 /  (spawnPoints+1);
-    position = (spawnPoint * visibleSize.width) - (float)ENEMY_DEFAULT_SPRITE_SIZE / 2 * RESOLUTION_VARIABLE;
+    position = (spawnPoint * visibleSize.width) - enemy->getContentSize().width / 2;
     return position;
 }
 float GameController::enemyPosition(EnemyType2* enemy) {
@@ -146,7 +146,7 @@ float GameController::enemyPosition(EnemyType2* enemy) {
     float position;
     auto spawnPoint = enemy->getSpawnPoint();
     spawnPoint = spawnPoint / (spawnPoints + 1);
-    position = (spawnPoint * visibleSize.width) - (float)ENEMY_DEFAULT_SPRITE_SIZE / 2 * RESOLUTION_VARIABLE;
+    position = (spawnPoint * visibleSize.width) - enemy->getContentSize().width / 2;
     return position;
 }
 float GameController::enemyPosition(EnemyType3* enemy) {

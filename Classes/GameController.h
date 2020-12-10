@@ -14,7 +14,7 @@ public:
     GameController();
 	~GameController();
 
-    static Vector<Enemy*> type1Enemies;
+    static Vector<EnemyType1*> type1Enemies;
     static Vector<EnemyType2*> type2Enemies;
     static Vector<EnemyType3*> type3Enemies;
 
@@ -23,7 +23,7 @@ public:
     static Vector<LaserRay*> laserRays;
     bool init();
 
-    static Enemy* spawnEnemy(int pos);
+    static EnemyType1* spawnEnemy(int pos);
     static EnemyType2* spawnEnemyType2(int pos);
     static EnemyType3* spawnEnemyType3();
 
@@ -31,7 +31,7 @@ public:
     static Laser* spawnLaser(Vec2 pos, Vec2 tar);
     static LaserRay* spawnLaserRay(Vec2 pos, Vec2 tar);
 
-    static float enemyPosition(Enemy* enemy);
+    static float enemyPosition(EnemyType1* enemy);
     static float enemyPosition(EnemyType2* enemy);
     static float enemyPosition(EnemyType3* enemy);
     static void updateRotationType3(Vec2 playerPos);

@@ -11,7 +11,19 @@
         "fallUnarmedRight": "character_unarmed_fall_right_%i.png"
     },
     "enemy": {
-        "spriteSheet": "res/enemies/enemy_regular.plist",
-        "main": "enemy_1_test_%i.png"
+        "regular" : {
+            "spriteSheet": "res/enemies/enemy_regular.plist",
+            "idleLeft": "enemy_1_left%i.png",
+            "idleRight": "enemy_1_right%i.png"    
+        },
+        "laser" : {
+            "spriteSheet": "res/enemies/enemy_variant.plist",
+            "idleLeft": "enemy_2_left%i.png",
+            "idleRight": "enemy_2_right%i.png"
+        },
+        "turret" : {
+            "spriteSheet": "res/enemies/enemy_turret.plist",
+            "idle": "enemy_turret%i.png"
+        }
     }
 }

@@ -36,20 +36,10 @@
 #define ENEMY_LASER_PROJECTILE_DMG JsonInstance::GetInstance()->GetData("balance")["enemy"]["laser"]["projectileDamage"]
 #define ENEMY_LASER_PROJECTILE_SPEED JsonInstance::GetInstance()->GetData("balance")["enemy"]["laser"]["projectileSpeed"]
 // Animation
-// enemy animation and sprites
-#define ENEMY_DEFAULT_ANIM_IDLE_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["animationFramesNumber"]
-#define ENEMY_DEFAULT_ANIM_IDLE_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["animationSpeed"]
-#define ENEMY_DEFAULT_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["spriteSize"]
-#define ENEMY_LASER_ANIM_IDLE_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["animationFramesNumber"]
-#define ENEMY_LASER_ANIM_IDLE_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["animationSpeed"]
-#define ENEMY_LASER_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["spriteSize"]
-#define ENEMY_TURRET_ANIM_IDLE_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["turret"]["animationFramesNumber"]
-#define ENEMY_TURRET_ANIM_IDLE_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["turret"]["animationSpeed"]
-#define ENEMY_TURRET_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["turret"]["spriteSize"]
 // enemy default projectile animation and sprites
-#define ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["projectile"]["animationFramesNumber"]
-#define ENEMY_DEFAULT_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["projectile"]["animationSpeed"]
-#define ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["default"]["projectile"]["spriteSize"]
+#define ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["regular"]["projectile"]["animationFramesNumber"]
+#define ENEMY_DEFAULT_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["regular"]["projectile"]["animationSpeed"]
+#define ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["regular"]["projectile"]["spriteSize"]
 // enemy laser projectile animation and sprites
 #define ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["projectile"]["animationFramesNumber"]
 #define ENEMY_LASER_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["enemyAnim"]["laser"]["projectile"]["animationSpeed"]

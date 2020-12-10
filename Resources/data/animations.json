@@ -11,7 +11,7 @@
         "spriteSize": 112
     },
     "enemyAnim":{
-        "default":{
+        "regular":{
             "animationFramesNumber":5,
             "animationSpeed":0.1,
             "spriteSize":112,

@@ -340,15 +340,15 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         //removeEnemy(GameController::enemies.at(closestEnemy));
 
         if (a->getCollisionBitmask() == 2) {
-            if (player->jumpKill(dynamic_cast<Enemy*>(a->getNode())->getPositionY()))
+            if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
             {
-                this->removeEnemy(dynamic_cast<Enemy*>(a->getNode()));
+                this->removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             }
         }
         if (b->getCollisionBitmask() == 2) {
-            if (player->jumpKill(dynamic_cast<Enemy*>(b->getNode())->getPositionY()))
+            if (player->jumpKill(dynamic_cast<EnemyType1*>(b->getNode())->getPositionY()))
             {
-                this->removeEnemy(dynamic_cast<Enemy*>(b->getNode()));
+                this->removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
 
             }
         }
@@ -542,20 +542,20 @@ void Level::spawnEnemy(float dt, int enemyPos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    Enemy* enemy;
+    EnemyType1* enemy;
     enemy = GameController::spawnEnemy(enemyPos);
     enemy->setScale(0.25*RESOLUTION_VARIABLE);
 	this->addChild(enemy, 4);
 
     //moving and deleting
-    float distance = visibleSize.height + (float)ENEMY_DEFAULT_SPRITE_SIZE * 2;
+    float distance = visibleSize.height + enemy->getContentSize().width;
 
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint()-1,0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint()-1,1);
-    auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5*visibleSize.height - ENEMY_DEFAULT_SPRITE_SIZE));
-    auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5*visibleSize.height - ENEMY_DEFAULT_SPRITE_SIZE));
+    auto enemyAction1 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5*visibleSize.height - enemy->getContentSize().width));
+    auto enemyAction2 = MoveBy::create(distance*0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5*visibleSize.height - enemy->getContentSize().width));
     auto callBack = CallFunc::create([this,enemy](){this->removeEnemy(enemy);});
     auto sequence = Sequence::create(enemyAction1,enemyAction2, callBack, NULL);
     enemy->runAction(sequence);
@@ -570,14 +570,14 @@ void Level::spawnEnemyType2(float dt, int enemyPos)
     this->addChild(enemy, 4);
 
     //moving and deleting
-    float distance = visibleSize.height + (float)ENEMY_LASER_SPRITE_SIZE * 2;
+    float distance = visibleSize.height + enemy->getContentSize().width * 2;
 
     auto enemySpeed = (float)ENEMY_DEFAULT_SPEED * RESOLUTION_VARIABLE;
 
     auto randA = GameController::movementFunc(enemy->getSpawnPoint() - 1, 0);
     auto randB = GameController::movementFunc(enemy->getSpawnPoint() - 1, 1);
-    auto enemyAction1 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5 * visibleSize.height - ENEMY_LASER_SPRITE_SIZE));
-    auto enemyAction2 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5 * visibleSize.height - ENEMY_LASER_SPRITE_SIZE));
+    auto enemyAction1 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randA, -0.5 * visibleSize.height - enemy->getContentSize().width));
+    auto enemyAction2 = MoveBy::create(distance * 0.5 / enemySpeed, Vec2(visibleSize.width * randB, -0.5 * visibleSize.height - enemy->getContentSize().width));
     auto callBack = CallFunc::create([this, enemy]() {this->removeEnemyType2(enemy); });
     auto sequence = Sequence::create(enemyAction1, enemyAction2, callBack, NULL);
     enemy->runAction(sequence);
@@ -737,7 +737,7 @@ void Level::removeProjectile(Node* projectile)
     removeChild(projectile,true);
 }
 
-void Level::removeEnemy(Enemy *enemy)
+void Level::removeEnemy(EnemyType1 *enemy)
 {
     GameController::type1Enemies.eraseObject(enemy);
     enemy->cleanup();

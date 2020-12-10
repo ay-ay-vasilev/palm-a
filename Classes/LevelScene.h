@@ -30,7 +30,7 @@ public:
     CREATE_FUNC(Level);
 
 	void removeProjectile(Node *projectile);
-    void removeEnemy(Enemy *enemy);
+    void removeEnemy(EnemyType1 *enemy);
     void removeLaser(Node *laser);
     void removeLaserRay(LaserRay *ray);
     void removeEnemyType2(EnemyType2 *enemy);
