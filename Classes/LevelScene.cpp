@@ -272,6 +272,8 @@ bool Level::init()
     auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
     this->schedule(updateScorePointer, 1.0f);
 
+    spawnBoss();
+
     this->addChild(playerHPBarUnder, 10);
     this->addChild(playerHPBar, 11);
     this->addChild(progressBar, 10);
@@ -317,6 +319,8 @@ void Level::update(float dt)
         paraNodeFar->runAction(MoveTo::create(this->getContentSize().height / farSpeed, Vec2(0, this->getContentSize().height / farSpeed)));
     }
 
+
+    GameController::bossMovement();
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
@@ -776,4 +780,34 @@ void Level::audioUpdate(float dt)
         Level::spawnEnemyProjectiles(dt);
         currentTiming++;
     }
+}
+void Level::spawnBoss()
+{
+    cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    Level1Boss* boss = GameController::createLevel1Boss();
+    boss->setPosition(Vec2(visibleSize.width/2,visibleSize.height));
+    boss->setScale(0.25 * RESOLUTION_VARIABLE);
+    this->addChild(boss, 5);
+
+    auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height*0.25 * RESOLUTION_VARIABLE));
+    auto changeState = CallFunc::create([boss]() {boss->setState(2); });
+    auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
+    auto sequence = Sequence::create(moveDown, changeState, spawnRay, NULL);
+    boss->runAction(sequence);
+}
+void Level::spawnLaserRay(Level1Boss* boss) 
+{
+    cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    RayProjectile* projectile;
+    projectile = GameController::spawnLaserRay(boss->getPosition(), player->getPosition());
+    projectile->setScale(RESOLUTION_VARIABLE);
+
+    auto angle = 90;
+    projectile->setRotation(angle);
+    projectile->setAnchorPoint(Vec2(0.1, 0.5));
+    this->addChild(projectile,6);
+    boss->setRay(projectile);
+
+    //auto raySFX = AudioEngine::play2d("audio/sfx/raySFX.mp3", true);
+    //AudioEngine::setVolume(raySFX, 0.2);
 }
