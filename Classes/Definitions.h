@@ -35,19 +35,4 @@
 #define ENEMY_LASER_COLLIDE_DMG JsonInstance::GetInstance()->GetData("balance")["enemy"]["laser"]["collideDamage"]
 #define ENEMY_LASER_PROJECTILE_DMG JsonInstance::GetInstance()->GetData("balance")["enemy"]["laser"]["projectileDamage"]
 #define ENEMY_LASER_PROJECTILE_SPEED JsonInstance::GetInstance()->GetData("balance")["enemy"]["laser"]["projectileSpeed"]
-// Animation
-// enemy default projectile animation and sprites
-#define ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["default"]["animationFramesNumber"]
-#define ENEMY_DEFAULT_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["default"]["animationSpeed"]
-#define ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["default"]["spriteSize"]
-// enemy laser projectile animation and sprites
-#define ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["laser"]["animationFramesNumber"]
-#define ENEMY_LASER_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["laser"]["animationSpeed"]
-#define ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["laser"]["spriteSizeX"]
-#define ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["laser"]["spriteSizeY"]
-// enemy ray projectile animation and sprites
-#define ENEMY_RAY_PROJECTILE_ANIM_NUM_OF_FRAMES JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["ray"]["animationFramesNumber"]
-#define ENEMY_RAY_PROJECTILE_ANIM_SPEED JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["ray"]["animationSpeed"]
-#define ENEMY_RAY_PROJECTILE_ANIM_SPRITE_SIZE_X JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["ray"]["spriteSizeX"]
-#define ENEMY_RAY_PROJECTILE_ANIM_SPRITE_SIZE_Y JsonInstance::GetInstance()->GetData("animations")["projectileAnim"]["ray"]["spriteSizeY"]
 #endif

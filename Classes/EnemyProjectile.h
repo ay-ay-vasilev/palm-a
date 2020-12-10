@@ -4,13 +4,19 @@
 #include "cocos2d.h"
 
 USING_NS_CC;
-
-class EnemyProjectile : public cocos2d::Node
+class Projectile
 {
 public:
-    EnemyProjectile();
-	~EnemyProjectile();
-	static EnemyProjectile * create(void);
+	static cocos2d::Animate* createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
+private:
+
+};
+class DefaultProjectile : public cocos2d::Node
+{
+public:
+    DefaultProjectile();
+	~DefaultProjectile();
+	static DefaultProjectile * create(void);
 	virtual bool init();
 
 	Vec2 getTarget();
@@ -23,14 +29,14 @@ public:
 private:
 	Vec2 target;
 	Vec2 speed;
-    
+	static void loadAnimations();
 };
-class Laser : public cocos2d::Node
+class LaserProjectile : public cocos2d::Node
 {
 public:
-	Laser();
-	~Laser();
-	static Laser* create(void);
+	LaserProjectile();
+	~LaserProjectile();
+	static LaserProjectile* create(void);
 	virtual bool init();
 
 	Vec2 getTarget();
@@ -44,12 +50,12 @@ private:
 	Vec2 target;
 	Vec2 speed;
 };
-class LaserRay : public cocos2d::Node
+class RayProjectile : public cocos2d::Node
 {
 public:
-	LaserRay();
-	~LaserRay();
-	static LaserRay* create(void);
+	RayProjectile();
+	~RayProjectile();
+	static RayProjectile* create(void);
 	virtual bool init();
 
 

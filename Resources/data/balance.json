@@ -26,6 +26,17 @@
             "projectileSpeed": 200
         }
     },
+    "projectile": {
+        "default": {
+
+        },
+        "laser": {
+
+        },
+        "ray": {
+
+        }
+    },
     "level": {
         "levelDuration": 116,
         "wallDistance": 40,

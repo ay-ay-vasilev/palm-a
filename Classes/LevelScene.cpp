@@ -624,7 +624,7 @@ void Level::spawnEnemyProjectiles(float dt)
             //create if enemy is above player
             if (GameController::type1Enemies.at(n)->getPosition().y > player->getPosition().y) {
                 //creating
-                EnemyProjectile* projectile;
+                DefaultProjectile* projectile;
                 projectile = GameController::spawnEnemyProjectile(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
                 projectile->setScale(RESOLUTION_VARIABLE);
                 this->addChild(projectile, 5);
@@ -654,7 +654,7 @@ void Level::spawnEnemyProjectiles(float dt)
             //create if enemy is above player
             if (GameController::type2Enemies.at(n)->getPosition().y > player->getPosition().y) {
                 //creating
-                Laser* projectile;
+                LaserProjectile* projectile;
                 projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
                 projectile->setScale(RESOLUTION_VARIABLE);
                 projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
@@ -690,7 +690,7 @@ void Level::spawnEnemyProjectiles(float dt)
 void Level::spawnLaserRay(float dt,EnemyType3* enemy)
 {
     cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-    LaserRay* projectile;
+    RayProjectile* projectile;
     projectile = GameController::spawnLaserRay(enemy->getPosition(), player->getPosition());
     projectile->setScale(RESOLUTION_VARIABLE);
 
@@ -761,7 +761,7 @@ void Level::removeLaser(Node* laser)
     laser->cleanup();
     removeChild(laser, true);
 }
-void Level::removeLaserRay(LaserRay* ray)
+void Level::removeLaserRay(RayProjectile* ray)
 {
     GameController::laserRays.eraseObject(ray);
     ray->cleanup();

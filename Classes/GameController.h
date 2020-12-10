@@ -20,16 +20,16 @@ public:
 
     static Vector<Node*> enemyProjectiles;
     static Vector<Node*> laserArr;
-    static Vector<LaserRay*> laserRays;
+    static Vector<RayProjectile*> laserRays;
     bool init();
 
     static EnemyType1* spawnEnemy(int pos);
     static EnemyType2* spawnEnemyType2(int pos);
     static EnemyType3* spawnEnemyType3();
 
-    static EnemyProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
-    static Laser* spawnLaser(Vec2 pos, Vec2 tar);
-    static LaserRay* spawnLaserRay(Vec2 pos, Vec2 tar);
+    static DefaultProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
+    static LaserProjectile* spawnLaser(Vec2 pos, Vec2 tar);
+    static RayProjectile* spawnLaserRay(Vec2 pos, Vec2 tar);
 
     static float enemyPosition(EnemyType1* enemy);
     static float enemyPosition(EnemyType2* enemy);

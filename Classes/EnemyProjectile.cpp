@@ -1,16 +1,17 @@
 #include "EnemyProjectile.h"
 #include "Definitions.h"
+#include "GameConstants.h"
 
 USING_NS_CC;
 
-EnemyProjectile::EnemyProjectile(void)
+DefaultProjectile::DefaultProjectile(void)
 {
 }
-EnemyProjectile::~EnemyProjectile(void)
+DefaultProjectile::~DefaultProjectile(void)
 {
 }
-EnemyProjectile * EnemyProjectile::create(){
-	EnemyProjectile * projectile = new EnemyProjectile();
+DefaultProjectile * DefaultProjectile::create(){
+	DefaultProjectile * projectile = new DefaultProjectile();
 	cocos2d::Animate* projectileAnimate;
 	if(projectile)
 	{
@@ -21,25 +22,14 @@ EnemyProjectile * EnemyProjectile::create(){
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			char str[200] = { 0 };
-
 			auto spriteCache = SpriteFrameCache::getInstance();
-			spriteCache->addSpriteFramesWithFile("res/projectiles/default_projectile.plist");
-			Vector<SpriteFrame*> projectileAnimFrames(ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES);
-
-			for (int i = 1; i <= ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
-			{
-				sprintf(str, "default%i.png", i);
-				projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-			}
-
-			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_DEFAULT_PROJECTILE_ANIM_SPEED);
-			projectileAnimate = Animate::create(projectileAnimation);
+			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("DEFAULT_SPRITE_SHEET"));
+			projectileAnimate = Projectile::createAnimation(spriteCache, "DEFAULT_NUM_OF_FRAMES", "DEFAULT_SPEED", "DEFAULT_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
-			model->runAction(RepeatForever::create(projectileAnimate));
 
+			model->runAction(RepeatForever::create(projectileAnimate));
 			projectile->addChild(model);
-			projectile->setContentSize(Size(ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE, ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE));
+			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")));
 		}
 
 		projectile->init();
@@ -49,27 +39,27 @@ EnemyProjectile * EnemyProjectile::create(){
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-bool EnemyProjectile::init()
+bool DefaultProjectile::init()
 {
 	return false;
 }
-void EnemyProjectile::setTarget( Vec2 target )
+void DefaultProjectile::setTarget( Vec2 target )
 {
-	EnemyProjectile::target = target;
+	DefaultProjectile::target = target;
 }
-Vec2 EnemyProjectile::getTarget()
+Vec2 DefaultProjectile::getTarget()
 {
-	return EnemyProjectile::target;
+	return DefaultProjectile::target;
 }
-void EnemyProjectile::setSpeed( Vec2 speed )
+void DefaultProjectile::setSpeed( Vec2 speed )
 {
-	EnemyProjectile::speed = speed;
+	DefaultProjectile::speed = speed;
 }
-Vec2 EnemyProjectile::getSpeed()
+Vec2 DefaultProjectile::getSpeed()
 {
-	return EnemyProjectile::speed;
+	return DefaultProjectile::speed;
 }
-cocos2d::PhysicsBody* EnemyProjectile::getBody()
+cocos2d::PhysicsBody* DefaultProjectile::getBody()
 {
 	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -84,14 +74,14 @@ cocos2d::PhysicsBody* EnemyProjectile::getBody()
 }
 //==================================================
 //Laser
-Laser::Laser(void)
+LaserProjectile::LaserProjectile(void)
 {
 }
-Laser::~Laser(void)
+LaserProjectile::~LaserProjectile(void)
 {
 }
-Laser* Laser::create() {
-	Laser* projectile = new Laser();
+LaserProjectile* LaserProjectile::create() {
+	LaserProjectile* projectile = new LaserProjectile();
 	cocos2d::Animate* projectileAnimate;
 	if (projectile)
 	{
@@ -103,26 +93,14 @@ Laser* Laser::create() {
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			char str[200] = { 0 };
-
 			auto spriteCache = SpriteFrameCache::getInstance();
-			spriteCache->addSpriteFramesWithFile("res/projectiles/laser_projectile.plist");
-			Vector<SpriteFrame*> projectileAnimFrames(ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES);
+			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("LASER_SPRITE_SHEET"));
 
-			for (int i = 1; i <= ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
-			{
-				sprintf(str, "laser%i.png", i);
-				projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-			}
-
-
-			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_LASER_PROJECTILE_ANIM_SPEED);
-			projectileAnimate = Animate::create(projectileAnimation);
+			projectileAnimate = Projectile::createAnimation(spriteCache, "LASER_NUM_OF_FRAMES", "LASER_SPEED", "LASER_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(projectileAnimate));
-
 			projectile->addChild(model);
-			projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
+			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_X"), GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_Y")));
 		}
 
 		projectile->init();
@@ -132,27 +110,27 @@ Laser* Laser::create() {
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-bool Laser::init()
+bool LaserProjectile::init()
 {
 	return false;
 }
-void Laser::setTarget(Vec2 target)
+void LaserProjectile::setTarget(Vec2 target)
 {
-	Laser::target = target;
+	LaserProjectile::target = target;
 }
-Vec2 Laser::getTarget()
+Vec2 LaserProjectile::getTarget()
 {
-	return Laser::target;
+	return LaserProjectile::target;
 }
-void Laser::setSpeed(Vec2 speed)
+void LaserProjectile::setSpeed(Vec2 speed)
 {
-	Laser::speed = speed;
+	LaserProjectile::speed = speed;
 }
-Vec2 Laser::getSpeed()
+Vec2 LaserProjectile::getSpeed()
 {
-	return Laser::speed;
+	return LaserProjectile::speed;
 }
-cocos2d::PhysicsBody* Laser::getBody()
+cocos2d::PhysicsBody* LaserProjectile::getBody()
 {
 	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
 	cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -166,14 +144,14 @@ cocos2d::PhysicsBody* Laser::getBody()
 	return physicsBody;
 }
 //=========================================
-LaserRay::LaserRay(void)
+RayProjectile::RayProjectile(void)
 {
 }
-LaserRay::~LaserRay(void)
+RayProjectile::~RayProjectile(void)
 {
 }
-LaserRay* LaserRay::create() {
-	LaserRay* projectile = new LaserRay();
+RayProjectile* RayProjectile::create() {
+	RayProjectile* projectile = new RayProjectile();
 	cocos2d::Animate* projectileAnimate;
 	if (projectile)
 	{
@@ -185,25 +163,15 @@ LaserRay* LaserRay::create() {
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			char str[200] = { 0 };
-
 			auto spriteCache = SpriteFrameCache::getInstance();
-			spriteCache->addSpriteFramesWithFile("res/projectiles/ray_projectile.plist");
-			Vector<SpriteFrame*> projectileAnimFrames(ENEMY_RAY_PROJECTILE_ANIM_NUM_OF_FRAMES);
-
-			for (int i = 1; i <= ENEMY_RAY_PROJECTILE_ANIM_NUM_OF_FRAMES; i++)
-			{
-				sprintf(str, "ray%i.png", i);
-				projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-			}
-
-			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_RAY_PROJECTILE_ANIM_SPEED);
-			projectileAnimate = Animate::create(projectileAnimation);
+			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("RAY_SPRITE_SHEET"));
+			
+			projectileAnimate = Projectile::createAnimation(spriteCache, "RAY_NUM_OF_FRAMES", "RAY_SPEED", "RAY_SPRITE");
 			projectileAnimate->retain();
 			model->runAction(RepeatForever::create(projectileAnimate));
 
 			projectile->addChild(model);
-			projectile->setContentSize(Size(ENEMY_RAY_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_RAY_PROJECTILE_ANIM_SPRITE_SIZE_Y));
+			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("RAY_SPRITE_SIZE_X"), GameConstants::getProjectileAnimationData("RAY_SPRITE_SIZE_Y")));
 		}
 		projectile->setAnchorPoint(Vec2(0, 0.5));
 		projectile->init();
@@ -213,19 +181,19 @@ LaserRay* LaserRay::create() {
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-bool LaserRay::init()
+bool RayProjectile::init()
 {
 	return false;
 }
-void LaserRay::setTarget(Vec2 target)
+void RayProjectile::setTarget(Vec2 target)
 {
-	LaserRay::target = target;
+	RayProjectile::target = target;
 }
-Vec2 LaserRay::getTarget()
+Vec2 RayProjectile::getTarget()
 {
-	return LaserRay::target;
+	return RayProjectile::target;
 }
-cocos2d::PhysicsBody* LaserRay::getBody()
+cocos2d::PhysicsBody* RayProjectile::getBody()
 {
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 
@@ -234,4 +202,26 @@ cocos2d::PhysicsBody* LaserRay::getBody()
 	physicsBody->setContactTestBitmask(true);
 
 	return physicsBody;
+}
+
+
+
+
+cocos2d::Animate* Projectile::createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
+{
+	auto assetPath = GameConstants::getProjectileAssetPath(assetName);
+	auto numberOfFrames = GameConstants::getProjectileAnimationData(numOfFrames);
+	auto animationSpeed = GameConstants::getProjectileAnimationData(animSpeed);
+
+	char str[200] = { 0 };
+	Vector<SpriteFrame*> animFrames(numberOfFrames);
+
+	for (int i = 1; i <= numberOfFrames; i++)
+	{
+		sprintf(str, assetPath.c_str(), i);
+		animFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+	}
+	auto animation = Animation::createWithSpriteFrames(animFrames, animationSpeed);
+
+	return Animate::create(animation);
 }

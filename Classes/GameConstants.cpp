@@ -7,6 +7,10 @@ std::map<std::string, float> GameConstants::playerStats = {};
 std::map<std::string, std::string> GameConstants::enemyAssetPaths = {};
 std::map<std::string, float> GameConstants::enemyAnimationData = {};
 std::map<std::string, float> GameConstants::enemyStats = {};
+std::map<std::string, std::string> GameConstants::projectileAssetPaths = {};
+std::map<std::string, float> GameConstants::projectileAnimationData = {};
+std::map<std::string, float> GameConstants::projectileStats = {};
+
 std::map<std::string, float> GameConstants::levelStats = {};
 
 float GameConstants::resolution = 2;
@@ -51,19 +55,36 @@ void GameConstants::initConstants(std::string levelName)
 		setEnemyAnimationData("REGULAR_IDLE_NUM_OF_FRAMES", "regular", "animationFramesNumber");
 		setEnemyAnimationData("REGULAR_IDLE_SPEED", "regular", "animationSpeed");
 		setEnemyAnimationData("REGULAR_SPRITE_SIZE", "regular", "spriteSize");
-
 		setEnemyAssetPath("LASER_SPRITE_SHEET", "laser", "spriteSheet");
 		setEnemyAssetPath("LASER_IDLE_LEFT", "laser", "idleLeft");
 		setEnemyAssetPath("LASER_IDLE_RIGHT", "laser", "idleRight");
 		setEnemyAnimationData("LASER_IDLE_NUM_OF_FRAMES", "laser", "animationFramesNumber");
 		setEnemyAnimationData("LASER_IDLE_SPEED", "laser", "animationSpeed");
 		setEnemyAnimationData("LASER_SPRITE_SIZE", "laser", "spriteSize");
-
 		setEnemyAssetPath("TURRET_SPRITE_SHEET", "turret", "spriteSheet");
 		setEnemyAssetPath("TURRET_IDLE", "turret", "idle");
 		setEnemyAnimationData("TURRET_IDLE_NUM_OF_FRAMES", "turret", "animationFramesNumber");
 		setEnemyAnimationData("TURRET_IDLE_SPEED", "turret", "animationSpeed");
 		setEnemyAnimationData("TURRET_SPRITE_SIZE", "turret", "spriteSize");
+
+		setProjectileAssetPath("DEFAULT_SPRITE_SHEET", "default", "spriteSheet");
+		setProjectileAssetPath("DEFAULT_SPRITE", "default", "sprite");
+		setProjectileAnimationData("DEFAULT_NUM_OF_FRAMES", "default", "animationFramesNumber");
+		setProjectileAnimationData("DEFAULT_SPEED", "default", "animationSpeed");
+		setProjectileAnimationData("DEFAULT_SPRITE_SIZE", "default", "spriteSize");
+		setProjectileAssetPath("LASER_SPRITE_SHEET", "laser", "spriteSheet");
+		setProjectileAssetPath("LASER_SPRITE", "laser", "sprite");
+		setProjectileAnimationData("LASER_NUM_OF_FRAMES", "laser", "animationFramesNumber");
+		setProjectileAnimationData("LASER_SPEED", "laser", "animationSpeed");
+		setProjectileAnimationData("LASER_SPRITE_SIZE_X", "laser", "spriteSizeX");
+		setProjectileAnimationData("LASER_SPRITE_SIZE_Y", "laser", "spriteSizeY");
+		setProjectileAssetPath("RAY_SPRITE_SHEET", "ray", "spriteSheet");
+		setProjectileAssetPath("RAY_SPRITE", "ray", "sprite");
+		setProjectileAnimationData("RAY_NUM_OF_FRAMES", "ray", "animationFramesNumber");
+		setProjectileAnimationData("RAY_SPEED", "ray", "animationSpeed");
+		setProjectileAnimationData("RAY_SPRITE_SIZE_X", "ray", "spriteSizeX");
+		setProjectileAnimationData("RAY_SPRITE_SIZE_Y", "ray", "spriteSizeY");
+
 
 
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
@@ -97,6 +118,18 @@ float GameConstants::getEnemyAnimationData(const std::string& key)
 float GameConstants::getEnemyStats(const std::string& key)
 {
 	return enemyStats[key];
+}
+std::string GameConstants::getProjectileAssetPath(const std::string& key)
+{
+	return projectileAssetPaths[key];
+}
+float GameConstants::getProjectileAnimationData(const std::string& key)
+{
+	return projectileAnimationData[key];
+}
+float GameConstants::getProjectileStats(const std::string& key)
+{
+	return projectileStats[key];
 }
 float GameConstants::getLevelStats(const std::string& key)
 {
@@ -137,6 +170,23 @@ void GameConstants::setEnemyStats(const std::string& key, const std::string& typ
 		enemyStats[key] *= GameConstants::resolution;
 	}
 }
+void GameConstants::setProjectileAssetPath(const std::string& key, const std::string& type, const std::string& assetName)
+{
+	projectileAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["projectile"][type][assetName];
+}
+void GameConstants::setProjectileAnimationData(const std::string& key, const std::string& type, const std::string& dataName)
+{
+	projectileAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["projectileAnim"][type][dataName];
+}
+void GameConstants::setProjectileStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution)
+{
+	projectileStats[key] = JsonInstance::GetInstance()->GetData("balance")["projectile"][type][dataName];
+	if (multByResolution)
+	{
+		projectileStats[key] *= GameConstants::resolution;
+	}
+}
+
 void GameConstants::setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution)
 {
 	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["level"][dataName];

@@ -32,7 +32,7 @@ public:
 	void removeProjectile(Node *projectile);
     void removeEnemy(EnemyType1 *enemy);
     void removeLaser(Node *laser);
-    void removeLaserRay(LaserRay *ray);
+    void removeLaserRay(RayProjectile *ray);
     void removeEnemyType2(EnemyType2 *enemy);
     void removeEnemyType3(EnemyType3* enemy);
 

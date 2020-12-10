@@ -9,7 +9,7 @@ Vector<Node*> GameController::enemyProjectiles;
 Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
 Vector<EnemyType3*> GameController::type3Enemies;
-Vector<LaserRay*> GameController::laserRays;
+Vector<RayProjectile*> GameController::laserRays;
 
 std::vector<int> GameController::shootingTimings;
 std::vector<int> GameController::enemySpawnTimings;
@@ -84,11 +84,11 @@ EnemyType3* GameController::spawnEnemyType3()
     }
     return enemy;
 }
-EnemyProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
+DefaultProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    EnemyProjectile* projectile;
-    projectile = EnemyProjectile::create();
+    DefaultProjectile* projectile;
+    projectile = DefaultProjectile::create();
     projectile->setPosition( pos );
     projectile->setTarget( tar );
     projectile->setPhysicsBody(projectile->getBody());
@@ -99,11 +99,11 @@ EnemyProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
-Laser* GameController::spawnLaser(Vec2 pos, Vec2 tar)
+LaserProjectile* GameController::spawnLaser(Vec2 pos, Vec2 tar)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    Laser* projectile;
-    projectile = Laser::create();
+    LaserProjectile* projectile;
+    projectile = LaserProjectile::create();
     projectile->setPosition(pos);
     projectile->setTarget(tar);
     projectile->setPhysicsBody(projectile->getBody());
@@ -114,11 +114,11 @@ Laser* GameController::spawnLaser(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
-LaserRay* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
+RayProjectile* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    LaserRay* projectile;
-    projectile = LaserRay::create();
+    RayProjectile* projectile;
+    projectile = RayProjectile::create();
     projectile->setPosition(pos);
     projectile->setTarget(tar);
     projectile->setPhysicsBody(projectile->getBody());
