@@ -11,6 +11,7 @@
 #include "MainMenuScene.h"
 #include "LevelFinishScene.h"
 #include "JsonInstance.h"
+#include "GameConstants.h"
 
 class Level : public cocos2d::Scene
 {

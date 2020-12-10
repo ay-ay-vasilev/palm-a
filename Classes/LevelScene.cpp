@@ -6,6 +6,7 @@
 #include "AudioEngine.h"
 #include "ui/CocosGUI.h"
 #include "json.hpp"
+#include "GameConstants.h"
 USING_NS_CC;
 
 Scene* Level::createScene()
@@ -38,6 +39,8 @@ bool Level::init()
     {
         return false;
     }
+
+    GameConstants::initConstants("level1");
     isPaused = false;
     remainingTime = 0;
     movementInputDeck.clear();
@@ -47,6 +50,7 @@ bool Level::init()
     GameController::laserArr.clear();
     GameController::getJsonData();
     currentEnemy = 0;
+    
     //init the music
     musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
     AudioEngine::setVolume(musicID, 0.1);

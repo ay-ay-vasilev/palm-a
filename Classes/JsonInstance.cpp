@@ -8,7 +8,7 @@ JsonInstance::JsonInstance() {
 	level_1_Data = OpenFile("Resources/data/levels/level1Data.json");
 	balance_Data = OpenFile("Resources/data/balance.json");
 	animations_Data = OpenFile("Resources/data/animations.json");
-
+	asset_Data = OpenFile("Resources/data/assetPaths.json");
 }
 
 nlohmann::json JsonInstance::OpenFile(std::string path) {
@@ -38,6 +38,9 @@ nlohmann::json JsonInstance::GetData(std::string nameOfData) {
 	}else
 	if (nameOfData._Equal("animations")) {
 		return animations_Data;
+	}
+	if (nameOfData._Equal("assetPaths")) {
+		return asset_Data;
 	}
 
 	else return nullptr;

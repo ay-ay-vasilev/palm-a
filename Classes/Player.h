@@ -43,6 +43,8 @@ private:
 	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);
 
 	void initPlayer();
+	void loadAnimations();
+	Animate* createAnimation(SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
 };
 
 #endif /* PLAYER_H_ */

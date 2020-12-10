@@ -1,23 +1,17 @@
 {
     "player": {
         "spriteSheet": "res/character/character_sheet.plist",
-        "idleUnarmedLeft": "character_unarmed_idle_left_test_%i.png",
-        "idleUnarmedRight": "character_unarmed_idle_right_test_%i.png",
-        "runUnarmedLeft": "character_unarmed_run_left_test_%i.png",
-        "runUnarmedRight": "character_unarmed_run_right_test_%i.png"
+        "idleUnarmedLeft": "character_unarmed_idle_left_%i.png",
+        "idleUnarmedRight": "character_unarmed_idle_right_%i.png",
+        "runUnarmedLeft": "character_unarmed_run_left_%i.png",
+        "runUnarmedRight": "character_unarmed_run_right_%i.png",
+        "jumpUnarmedLeft": "character_unarmed_jump_left_%i.png",
+        "jumpUnarmedRight": "character_unarmed_jump_right_%i.png",
+        "fallUnarmedLeft": "character_unarmed_fall_left_%i.png",
+        "fallUnarmedRight": "character_unarmed_fall_right_%i.png"
     },
     "enemy": {
         "spriteSheet": "res/enemies/enemy_regular.plist",
         "main": "enemy_1_test_%i.png"
-    },
-    "level": {
-        "levelDuration": 116,
-        "wallDistance": 40,
-        "floorHeight": 30,
-        "timings": "../Resources/data/levels/timingsLevel1.txt"
-    },
-    "debug": {
-        "mask": false,
-        "resolution": 3
     }
 }

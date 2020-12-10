@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Definitions.h"
+#include "GameConstants.h"
 
 auto director = cocos2d::Director::getInstance();
 auto visibleSize = director->getVisibleSize();
@@ -22,7 +23,6 @@ Player * Player::create()
 	Player * player = new Player();
 	if(player->init())
 	{
-		player->setContentSize(Size(PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SIZE));
 		player->autorelease();
 		player->initPlayer();
 		return player;
@@ -34,91 +34,15 @@ Player * Player::create()
 
 void Player::initPlayer()
 {
+	Player::loadAnimations();
+
+
 	Player::hp=(float)PLAYER_START_HP;
 	moving = false;
 	vertForce = 0;
 	additionalJumps = (float)PLAYER_ADDITIONAL_JUMPS;
 	direction = DIRECTION_LEFT;
 	isOnGround = true;
-	char str[200] = {0};
-
-	auto spriteCache = SpriteFrameCache::getInstance();
-	spriteCache->addSpriteFramesWithFile("res/character/character_sheet.plist");
-
-	Vector<SpriteFrame*> idleLeftAnimFrames(PLAYER_ANIM_IDLE_NUM_OF_FRAMES);
-	Vector<SpriteFrame*> idleRightAnimFrames(PLAYER_ANIM_IDLE_NUM_OF_FRAMES);
-	Vector<SpriteFrame*> runLeftAnimFrames(PLAYER_ANIM_RUN_NUM_OF_FRAMES);
-	Vector<SpriteFrame*> runRightAnimFrames(PLAYER_ANIM_RUN_NUM_OF_FRAMES);
-	
-	Vector<SpriteFrame*> jumpLeftAnimFrames(PLAYER_ANIM_JUMP_NUM_OF_FRAMES);
-	Vector<SpriteFrame*> jumpRightAnimFrames(PLAYER_ANIM_JUMP_NUM_OF_FRAMES);
-	Vector<SpriteFrame*> fallLeftAnimFrames(PLAYER_ANIM_FALL_NUM_OF_FRAMES);
-	Vector<SpriteFrame*> fallRightAnimFrames(PLAYER_ANIM_FALL_NUM_OF_FRAMES);
-
-	for(int i = 1; i <= PLAYER_ANIM_IDLE_NUM_OF_FRAMES; i++)
-	{
-		sprintf(str, "character_unarmed_idle_left_%i.png", i);
-		idleLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-
-		sprintf(str, "character_unarmed_idle_right_%i.png", i);
-		idleRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-	}
-
-	for (int i = 1; i <= PLAYER_ANIM_RUN_NUM_OF_FRAMES; i++)
-	{
-		sprintf(str, "character_unarmed_run_left_%i.png", i);
-		runLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-
-		sprintf(str, "character_unarmed_run_right_%i.png", i);
-		runRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-	}
-
-	for (int i = 1; i <= PLAYER_ANIM_JUMP_NUM_OF_FRAMES; i++)
-	{
-		sprintf(str, "character_unarmed_jump_left_%i.png", i);
-		jumpLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-
-		sprintf(str, "character_unarmed_jump_right_%i.png", i);
-		jumpRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-	}
-
-	for (int i = 1; i <= PLAYER_ANIM_FALL_NUM_OF_FRAMES; i++)
-	{
-		sprintf(str, "character_unarmed_fall_left_%i.png", i);
-		fallLeftAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-
-		sprintf(str, "character_unarmed_fall_right_%i.png", i);
-		fallRightAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-	}
-
-	auto idleLeftAnimation = Animation::createWithSpriteFrames(idleLeftAnimFrames, PLAYER_ANIM_IDLE_SPEED);
-	auto idleRightAnimation = Animation::createWithSpriteFrames(idleRightAnimFrames, PLAYER_ANIM_IDLE_SPEED);
-	auto runLeftAnimation = Animation::createWithSpriteFrames(runLeftAnimFrames, PLAYER_ANIM_RUN_SPEED);
-	auto runRightAnimation = Animation::createWithSpriteFrames(runRightAnimFrames, PLAYER_ANIM_RUN_SPEED);
-	auto jumpLeftAnimation = Animation::createWithSpriteFrames(jumpLeftAnimFrames, PLAYER_ANIM_JUMP_SPEED);
-	auto jumpRightAnimation = Animation::createWithSpriteFrames(jumpRightAnimFrames, PLAYER_ANIM_JUMP_SPEED);
-	auto fallLeftAnimation = Animation::createWithSpriteFrames(fallLeftAnimFrames, PLAYER_ANIM_FALL_SPEED);
-	auto fallRightAnimation = Animation::createWithSpriteFrames(fallRightAnimFrames, PLAYER_ANIM_FALL_SPEED);
-	idleLeftAnimate = Animate::create(idleLeftAnimation);
-	idleRightAnimate = Animate::create(idleRightAnimation);
-	runLeftAnimate = Animate::create(runLeftAnimation);
-	runRightAnimate = Animate::create(runRightAnimation);
-	jumpLeftAnimate = Animate::create(jumpLeftAnimation);
-	jumpRightAnimate = Animate::create(jumpRightAnimation);
-	fallLeftAnimate = Animate::create(fallLeftAnimation);
-	fallRightAnimate = Animate::create(fallRightAnimation);
-
-	// Retain to use it later
-	idleLeftAnimate->retain(); 	
-	idleRightAnimate->retain();
-	runLeftAnimate->retain();
-	runRightAnimate->retain();
-	jumpLeftAnimate->retain();
-	jumpRightAnimate->retain();
-	fallLeftAnimate->retain();
-	fallRightAnimate->retain();
-
-	this->runAction(RepeatForever::create(idleLeftAnimate)); //This will be the starting animation
 }
 
 void Player::dash()
@@ -260,6 +184,59 @@ int Player::getHP()
 void Player::updateHP(int dmg)
 {
 	Player::hp = Player::hp - dmg;
+}
+
+// ================================================================== ANIMATION STUFF ==================================================================
+Animate* Player::createAnimation(SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
+{
+	char str[200] = { 0 };
+
+	auto assetPath = GameConstants::getAssetPath(assetName);
+	auto numberOfFrames = GameConstants::getAnimationData(numOfFrames);
+	auto animationSpeed = GameConstants::getAnimationData(animSpeed);
+
+	Vector<SpriteFrame*> animFrames(numberOfFrames);
+
+
+	for (int i = 1; i <= numberOfFrames; i++)
+	{
+		sprintf(str, assetPath.c_str(), i);
+		animFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+	}
+	auto animation = Animation::createWithSpriteFrames(animFrames, animationSpeed);
+
+	return Animate::create(animation);
+}
+
+
+void Player::loadAnimations()
+{
+	auto spriteSize = GameConstants::getAnimationData("PLAYER_SPRITE_SIZE");
+	auto playerSheet = GameConstants::getAssetPath("PLAYER_SHEET");
+	auto spriteCache = SpriteFrameCache::getInstance();
+
+	setContentSize(Size(spriteSize, spriteSize));
+	spriteCache->addSpriteFramesWithFile(playerSheet);
+
+	idleLeftAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_IDLE_NUM_OF_FRAMES", "PLAYER_ANIM_IDLE_SPEED", "PLAYER_UNARMED_IDLE_LEFT");
+	idleRightAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_IDLE_NUM_OF_FRAMES", "PLAYER_ANIM_IDLE_SPEED", "PLAYER_UNARMED_IDLE_RIGHT");
+	runLeftAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_RUN_NUM_OF_FRAMES", "PLAYER_ANIM_RUN_SPEED", "PLAYER_UNARMED_RUN_LEFT");
+	runRightAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_RUN_NUM_OF_FRAMES", "PLAYER_ANIM_RUN_SPEED", "PLAYER_UNARMED_RUN_RIGHT");
+	jumpLeftAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_JUMP_NUM_OF_FRAMES", "PLAYER_ANIM_JUMP_SPEED", "PLAYER_UNARMED_JUMP_LEFT");
+	jumpRightAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_JUMP_NUM_OF_FRAMES", "PLAYER_ANIM_JUMP_SPEED", "PLAYER_UNARMED_JUMP_RIGHT");
+	fallLeftAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_FALL_NUM_OF_FRAMES", "PLAYER_ANIM_FALL_SPEED", "PLAYER_UNARMED_FALL_LEFT");
+	fallRightAnimate = Player::createAnimation(spriteCache, "PLAYER_ANIM_FALL_NUM_OF_FRAMES", "PLAYER_ANIM_FALL_SPEED", "PLAYER_UNARMED_FALL_RIGHT");
+	// Retain to use it later
+	idleLeftAnimate->retain();
+	idleRightAnimate->retain();
+	runLeftAnimate->retain();
+	runRightAnimate->retain();
+	jumpLeftAnimate->retain();
+	jumpRightAnimate->retain();
+	fallLeftAnimate->retain();
+	fallRightAnimate->retain();
+
+	this->runAction(RepeatForever::create(idleLeftAnimate));
 }
 
 void Player::playAnimation(Animate* leftAnimation, Animate* rightAnimation)

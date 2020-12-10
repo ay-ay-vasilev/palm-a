@@ -68,6 +68,7 @@ list(APPEND GAME_SOURCE
      Classes/LevelFinishScene.cpp
      Classes/NewGameScene.cpp
      Classes/RecordsScene.cpp
+     Classes/GameConstants.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -83,6 +84,7 @@ list(APPEND GAME_HEADER
      Classes/LevelFinishScene.h
      Classes/NewGameScene.h
      Classes/RecordsScene.h
+     Classes/GameConstants.h
      )
 
 if(ANDROID)
