@@ -408,6 +408,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         }
     }
 
+    //if player collided with boss
+    if ((1 == a->getCollisionBitmask() && 8 == b->getCollisionBitmask())
+        || (8 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
+    {
+        player->jumpKill(0);
+    }
+
     return true;
 }
 
