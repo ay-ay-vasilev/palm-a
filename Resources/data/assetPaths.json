@@ -14,7 +14,7 @@
         "regular" : {
             "spriteSheet": "res/enemies/enemy_regular.plist",
             "idleLeft": "enemy_1_left%i.png",
-            "idleRight": "enemy_1_right%i.png"    
+            "idleRight": "enemy_1_right%i.png"  
         },
         "laser" : {
             "spriteSheet": "res/enemies/enemy_variant.plist",
@@ -24,6 +24,20 @@
         "turret" : {
             "spriteSheet": "res/enemies/enemy_turret.plist",
             "idle": "enemy_turret%i.png"
+        }
+    },
+    "projectile": {
+        "default" : {
+            "spriteSheet": "res/projectiles/default_projectile.plist",
+            "sprite": "default%i.png"
+        },
+        "laser" : {
+            "spriteSheet": "res/projectiles/laser_projectile.plist",
+            "sprite": "laser%i.png"
+        },
+        "ray" : {
+            "spriteSheet": "res/projectiles/ray_projectile.plist",
+            "sprite": "ray%i.png"
         }
     }
 }

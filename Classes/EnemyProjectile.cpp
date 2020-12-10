@@ -15,23 +15,23 @@ EnemyProjectile * EnemyProjectile::create(){
 	if(projectile)
 	{
 		projectile->autorelease();
-		char str[200] = { 0 };
-
-		auto spriteCache = SpriteFrameCache::getInstance();
-		spriteCache->addSpriteFramesWithFile("res/projectiles/default_projectile.plist");
-		Vector<SpriteFrame*> projectileAnimFrames(ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES);
-		
-		for (int i = 1; i <= ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
-		{
-			sprintf(str, "default%i.png", i);
-			projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-		}
-
-		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("default1.png"));
+		Sprite* model = Sprite::create();
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
+
+			char str[200] = { 0 };
+
+			auto spriteCache = SpriteFrameCache::getInstance();
+			spriteCache->addSpriteFramesWithFile("res/projectiles/default_projectile.plist");
+			Vector<SpriteFrame*> projectileAnimFrames(ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES);
+
+			for (int i = 1; i <= ENEMY_DEFAULT_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+			{
+				sprintf(str, "default%i.png", i);
+				projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+			}
 
 			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_DEFAULT_PROJECTILE_ANIM_SPEED);
 			projectileAnimate = Animate::create(projectileAnimation);
@@ -39,7 +39,7 @@ EnemyProjectile * EnemyProjectile::create(){
 			model->runAction(RepeatForever::create(projectileAnimate));
 
 			projectile->addChild(model);
-			projectile->setContentSize(model->getContentSize());
+			projectile->setContentSize(Size(ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE, ENEMY_DEFAULT_PROJECTILE_ANIM_SPRITE_SIZE));
 		}
 
 		projectile->init();
@@ -96,23 +96,25 @@ Laser* Laser::create() {
 	if (projectile)
 	{
 		projectile->autorelease();
-		char str[200] = { 0 };
-
-		auto spriteCache = SpriteFrameCache::getInstance();
-		spriteCache->addSpriteFramesWithFile("res/projectiles/laser_projectile.plist");
-		Vector<SpriteFrame*> projectileAnimFrames(ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES);
-
-		for (int i = 1; i <= ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
-		{
-			sprintf(str, "laser%i.png", i);
-			projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-		}
-
-		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("laser1.png"));
+		
+		Sprite* model = Sprite::create();
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
+
+			char str[200] = { 0 };
+
+			auto spriteCache = SpriteFrameCache::getInstance();
+			spriteCache->addSpriteFramesWithFile("res/projectiles/laser_projectile.plist");
+			Vector<SpriteFrame*> projectileAnimFrames(ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES);
+
+			for (int i = 1; i <= ENEMY_LASER_PROJECTILE_ANIM_NUM_OF_FRAMES; i++) //Iterate for the number of images you have
+			{
+				sprintf(str, "laser%i.png", i);
+				projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+			}
+
 
 			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_LASER_PROJECTILE_ANIM_SPEED);
 			projectileAnimate = Animate::create(projectileAnimation);
@@ -120,7 +122,7 @@ Laser* Laser::create() {
 			model->runAction(RepeatForever::create(projectileAnimate));
 
 			projectile->addChild(model);
-			projectile->setContentSize(model->getContentSize());
+			projectile->setContentSize(Size(ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_LASER_PROJECTILE_ANIM_SPRITE_SIZE_Y));
 		}
 
 		projectile->init();
@@ -176,31 +178,32 @@ LaserRay* LaserRay::create() {
 	if (projectile)
 	{
 		projectile->autorelease();
-		char str[200] = { 0 };
 
-		auto spriteCache = SpriteFrameCache::getInstance();
-		spriteCache->addSpriteFramesWithFile("res/projectiles/ray_projectile.plist");
-		Vector<SpriteFrame*> projectileAnimFrames(5);
-
-		for (int i = 1; i <= 5; i++)
-		{
-			sprintf(str, "ray%i.png", i);
-			projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-		}
-
-		Sprite* model = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("ray1.png"));
+		Sprite* model = Sprite::create();
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
 			model->setPosition(0, 0);
 
-			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, 0.01f);
+			char str[200] = { 0 };
+
+			auto spriteCache = SpriteFrameCache::getInstance();
+			spriteCache->addSpriteFramesWithFile("res/projectiles/ray_projectile.plist");
+			Vector<SpriteFrame*> projectileAnimFrames(ENEMY_RAY_PROJECTILE_ANIM_NUM_OF_FRAMES);
+
+			for (int i = 1; i <= ENEMY_RAY_PROJECTILE_ANIM_NUM_OF_FRAMES; i++)
+			{
+				sprintf(str, "ray%i.png", i);
+				projectileAnimFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+			}
+
+			auto projectileAnimation = Animation::createWithSpriteFrames(projectileAnimFrames, ENEMY_RAY_PROJECTILE_ANIM_SPEED);
 			projectileAnimate = Animate::create(projectileAnimation);
 			projectileAnimate->retain();
 			model->runAction(RepeatForever::create(projectileAnimate));
 
 			projectile->addChild(model);
-			projectile->setContentSize(model->getContentSize());
+			projectile->setContentSize(Size(ENEMY_RAY_PROJECTILE_ANIM_SPRITE_SIZE_X, ENEMY_RAY_PROJECTILE_ANIM_SPRITE_SIZE_Y));
 		}
 		projectile->setAnchorPoint(Vec2(0, 0.5));
 		projectile->init();

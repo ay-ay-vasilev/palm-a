@@ -39,5 +39,24 @@
             "projectile": {
             }
         } 
+    },
+    "projectileAnim":{
+        "default":{
+            "animationFramesNumber": 2,
+            "animationSpeed": 0.1,
+            "spriteSize": 12  
+        },
+        "laser":{
+            "animationFramesNumber": 3,
+            "animationSpeed": 0.1,
+            "spriteSizeX": 36,
+            "spriteSizeY": 8
+        },
+        "ray":{
+            "animationFramesNumber": 2,
+            "animationSpeed": 0.01,
+            "spriteSizeX": 800,
+            "spriteSizeY": 20
+        }
     }
 }

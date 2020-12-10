@@ -33,7 +33,7 @@
         "timings": "Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": false,
+        "mask": true,
         "resolution": 3
     }
 }
