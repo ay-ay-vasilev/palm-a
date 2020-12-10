@@ -8,17 +8,21 @@
 class GameConstants {
 
 private:
-	static std::map<std::string, std::string> assetPaths;
-	static std::map<std::string, float> animationData;
-
+	static std::map<std::string, std::string> playerAssetPaths;
+	static std::map<std::string, float> playerAnimationData;
+	static std::map<std::string, float> playerStats;
 
 public:
+	static float resolution;
 	static void initConstants(std::string levelName);
-	static void setAssetPath(const std::string& key, const std::string& category, const std::string& assetName);
-	static void setAnimationData(const std::string& key, const std::string& unit, const std::string& type, const std::string& dataName);
+	
+	static void setPlayerAssetPath(const std::string& key, const std::string& assetName);
+	static void setPlayerAnimationData(const std::string& key, const std::string& dataName);
+	static void setPlayerStats(const std::string& key, const std::string& dataName, const bool multByResolution);
 
-	static std::string getAssetPath(const std::string& key);
-	static float getAnimationData(const std::string& key);
+	static std::string getPlayerAssetPath(const std::string& key);
+	static float getPlayerAnimationData(const std::string& key);
+	static float getPlayerStats(const std::string& key);
 
 };
 #endif

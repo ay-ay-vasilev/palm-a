@@ -335,7 +335,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
     {   
         player->updateHP((float)ENEMY_DEFAULT_COLLIDE_DMG);
-        playerHPBar->setPercent(player->getHP()/(float)PLAYER_START_HP*100.0);
+        playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
         
         //removeEnemy(GameController::enemies.at(closestEnemy));
 
@@ -367,7 +367,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             this->removeProjectile(b->getNode());
         }
 
-        playerHPBar->setPercent(player->getHP()/ (float)PLAYER_START_HP*100.0);
+        playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
     }
     //if player collided with laser
     if ((1 == a->getCollisionBitmask() && 4 == b->getCollisionBitmask())
@@ -382,7 +382,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             this->removeLaser(b->getNode());
         }
 
-        playerHPBar->setPercent(player->getHP() / (float)PLAYER_START_HP * 100.0);
+        playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
     }
     //if player collided with enemy type 2
     if ((1 == a->getCollisionBitmask() && 5 == b->getCollisionBitmask())
@@ -390,7 +390,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         player->updateHP((float)ENEMY_LASER_COLLIDE_DMG);
 
-        playerHPBar->setPercent(player->getHP() / (float)PLAYER_START_HP * 100.0);
+        playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
         if (a->getCollisionBitmask() == 5) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))

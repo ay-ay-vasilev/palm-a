@@ -7,6 +7,8 @@
 // Magic number solvers
 #define DIRECTION_LEFT 0
 #define DIRECTION_RIGHT 1
+#define MULT_BY_RESOLUTION true
+#define NOT_MULT_BY_RESOLUTION false
 // Splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6
 #define LOGO_ANIM_SPEED 0.12
@@ -23,17 +25,6 @@
 #define LEVEL_WALL_DISTANCE JsonInstance::GetInstance()->GetData("balance")["level"]["wallDistance"]
 #define LEVEL_FLOOR_HEIGHT JsonInstance::GetInstance()->GetData("balance")["level"]["floorHeight"]
 #define LEVEL_DURATION JsonInstance::GetInstance()->GetData("balance")["level"]["levelDuration"]
-// Player stats
-#define PLAYER_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["speed"]
-#define PLAYER_DASH_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["dashSpeed"]
-#define PLAYER_JUMP_FORCE JsonInstance::GetInstance()->GetData("balance")["player"]["jumpForce"]
-#define PLAYER_GRAVITY JsonInstance::GetInstance()->GetData("balance")["player"]["gravity"]
-#define PLAYER_MAX_FALL_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["maxFallSpeed"]
-#define PLAYER_MAX_JUMP_SPEED JsonInstance::GetInstance()->GetData("balance")["player"]["maxJumpSpeed"]
-#define PLAYER_START_HP JsonInstance::GetInstance()->GetData("balance")["player"]["hp"]
-#define PLAYER_ADDITIONAL_JUMPS JsonInstance::GetInstance()->GetData("balance")["player"]["additionalJumps"]
-#define PLAYER_JUMP_KILL_FORCE JsonInstance::GetInstance()->GetData("balance")["player"]["jumpKillForce"]
-#define PLAYER_REFILL_JUMPS_ON_KILL JsonInstance::GetInstance()->GetData("balance")["player"]["refillJumpsOnKill"]
 //Enemy stats
 // Default
 #define ENEMY_DEFAULT_SPEED JsonInstance::GetInstance()->GetData("balance")["enemy"]["default"]["speed"]

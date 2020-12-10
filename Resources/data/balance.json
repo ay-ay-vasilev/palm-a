@@ -8,8 +8,7 @@
         "maxJumpSpeed": 10,
         "hp": 150,
         "additionalJumps": 1,
-        "jumpKillForce": 15,
-        "refillJumpsOnKill": true
+        "jumpKillForce": 10
     },
     "enemy": {
         "default": {
