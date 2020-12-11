@@ -466,8 +466,12 @@ void Level::goToMainMenu(Ref* pSender)
     Scene* scene = MainMenu::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
 
-    AudioEngine::stopAll();
-    AudioEngine::end();
+    if (!GameController::bossFightIsOn)
+    {
+        AudioEngine::stopAll();
+        AudioEngine::end();
+    }
+    
     Director::getInstance()->startAnimation();
 
     Director::getInstance()->replaceScene(scene);
