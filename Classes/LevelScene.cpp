@@ -1,4 +1,5 @@
 #include <deque>
+#include "GameOverScene.h"
 #include "Definitions.h"
 #include "LevelScene.h"
 #include "GameController.h"
@@ -42,7 +43,7 @@ bool Level::init()
 
     GameConstants::initConstants("level1");
     isPaused = false;
-    remainingTime = 0;
+    totalScore = 0;
     movementInputDeck.clear();
     GameController::type1Enemies.clear();
     GameController::enemyProjectiles.clear();
@@ -50,7 +51,8 @@ bool Level::init()
     GameController::laserArr.clear();
     GameController::getJsonData();
     currentEnemy = 0;
-    
+    currentTime = 0;
+
     //init the music
     musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
     AudioEngine::setVolume(musicID, 0.1);
@@ -61,25 +63,73 @@ bool Level::init()
     // makes the game 2d
     director->setProjection(Director::Projection::_2D);
 
-    auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(true);
-	listener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
-	listener->onTouchEnded = CC_CALLBACK_2(Level::onTouchEnded, this);
+	this->scheduleUpdate();
     
+    initPlayer(director);
+    initBackground(director);
+    initGameUI(director);
+    initPauseMenu(director);
+    initHUD(director);
+    initCollisionDetector();
+    startCount();
+    this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Level::initStart), 3.0f);
+    return true;
+}
+
+void Level::initStart(float dt) {
+        initScedulers();
+        initListeners();
+}
+
+void Level::startCount() {
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    auto fadeOut = FadeOut::create(1.0f);
+    auto delay = DelayTime::create(1);
+    auto fontSize = 100 * RESOLUTION_VARIABLE;
+    auto label3 = Label::createWithTTF("3", "fonts/PixelForce.ttf", fontSize);
+    auto label2 = Label::createWithTTF("2", "fonts/PixelForce.ttf", fontSize);
+    auto label1 = Label::createWithTTF("1", "fonts/PixelForce.ttf", fontSize);
+    label3->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    label2->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    label1->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    label2->setOpacity(0);
+    label1->setOpacity(0);
+    this->addChild(label1);
+    this->addChild(label2);
+    this->addChild(label3);
+    label3->runAction(Sequence::create(fadeOut, CallFunc::create([this, label2, label3]() {label2->setOpacity(255); this->removeChild(label3); }), nullptr));
+    label2->runAction(Sequence::create(delay, fadeOut, CallFunc::create([this, label1, label2]() {label1->setOpacity(255); this->removeChild(label2); }), nullptr));
+    label1->runAction(Sequence::create(delay, delay, fadeOut, CallFunc::create([this, label1]() { this->removeChild(label1);}), nullptr));
+}
+
+void Level::initListeners() {
+    auto listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = CC_CALLBACK_2(Level::onTouchBegan, this);
+    listener->onTouchEnded = CC_CALLBACK_2(Level::onTouchEnded, this);
+
     auto keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = CC_CALLBACK_2(Level::keyPressed, this);
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Level::keyReleased, this);
-    
-    director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
-    director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+void Level::initPlayer(Director* director) {
+    auto visibleSize = director->getVisibleSize();
+    Vec2 origin = director->getVisibleOrigin();
     player = Player::create();
     player->setPhysicsBody(player->getBody());
-	player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + GameConstants::getLevelStats("FLOOR_HEIGHT")));
-    player->setScale(0.25*RESOLUTION_VARIABLE);
+    player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + GameConstants::getLevelStats("FLOOR_HEIGHT")));
+    player->setScale(0.25 * RESOLUTION_VARIABLE);
+    this->addChild(player, 5);
+}
 
-	this->scheduleUpdate();
-
+void Level::initBackground(Director* director) {
+    auto visibleSize = director->getVisibleSize();
+    Vec2 origin = director->getVisibleOrigin();
     char str[200] = { 0 };
     auto spriteCache = SpriteFrameCache::getInstance();
     spriteCache->addSpriteFramesWithFile("res/level/parallax_layers/level_1_static_layer.plist");
@@ -100,13 +150,13 @@ bool Level::init()
     floor->setScale(RESOLUTION_VARIABLE);
     floor->setAnchorPoint(Vec2(0, 0));
     floor->setPosition(Vec2(origin.x, origin.y));
-    
+
     floor->runAction(RepeatForever::create(backgroundAnimate));
-    
+
     //PARALLAX
-    closeSpeed = 100*RESOLUTION_VARIABLE;
-    midSpeed = closeSpeed/2;
-    farSpeed = midSpeed/2;
+    closeSpeed = 100 * RESOLUTION_VARIABLE;
+    midSpeed = closeSpeed / 2;
+    farSpeed = midSpeed / 2;
 
     auto parallaxClose1 = Sprite::create("res/level/parallax_layers/close_background.png");
     auto parallaxClose2 = Sprite::create("res/level/parallax_layers/close_background.png");
@@ -149,10 +199,15 @@ bool Level::init()
     paraNodeMid->runAction(MoveTo::create(visibleSize.height / midSpeed, Vec2(0, visibleSize.height / midSpeed)));
     paraNodeFar->runAction(MoveTo::create(visibleSize.height / farSpeed, Vec2(0, visibleSize.height / farSpeed)));
 
+    this->addChild(floor, 0);
     this->addChild(paraNodeClose, -1);
     this->addChild(paraNodeMid, -2);
     this->addChild(paraNodeFar, -3);
+}
 
+void Level::initGameUI(Director* director) {
+    auto visibleSize = director->getVisibleSize();
+    Vec2 origin = director->getVisibleOrigin();
     auto dashButton = MenuItemImage::create(
         "res/ui/dash_button.png",
         "res/ui/dash_button.png",
@@ -179,10 +234,15 @@ bool Level::init()
     pauseButton->setOpacity(180);
     pauseButton->setAnchorPoint(Vec2(1, 1));
     pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-    
+
     gameUI = Menu::create(pauseButton, dashButton, jumpButton, NULL);
     gameUI->setPosition(Vec2::ZERO);
+    this->addChild(gameUI, 10);
+}
 
+void Level::initPauseMenu(Director* director) {
+    auto visibleSize = director->getVisibleSize();
+    Vec2 origin = director->getVisibleOrigin();
     pauseBackground = Sprite::create("res/ui/black.png");
     pauseBackground->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
     pauseBackground->setOpacity(0);
@@ -190,11 +250,11 @@ bool Level::init()
     pauseBackground->setContentSize(this->getContentSize());
 
     auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
-    MenuItemLabel *resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
+    MenuItemLabel* resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
     resumeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3 * 2));
 
     auto mainMenuLabel = Label::createWithTTF("MAIN MENU", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
-    MenuItemLabel *mainMenuItem = MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(Level::goToMainMenu, this));
+    MenuItemLabel* mainMenuItem = MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(Level::goToMainMenu, this));
     mainMenuItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3));
 
     pauseMenu = Menu::create(resumeItem, mainMenuItem, NULL);
@@ -203,10 +263,17 @@ bool Level::init()
     pauseMenu->setContentSize(this->getContentSize());
     pauseMenu->setPosition(Vec2::ZERO);
 
+    this->addChild(pauseMenu, 13);
+    this->addChild(pauseBackground, 12);
+}
+
+void Level::initHUD(Director* director) {
+    auto visibleSize = director->getVisibleSize();
+    Vec2 origin = director->getVisibleOrigin();
     // player score
     char playerScore[100];
-    sprintf(playerScore, "Time: %i", remainingTime);
-    scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12*RESOLUTION_VARIABLE);
+    sprintf(playerScore, "Time: %i", totalScore);
+    scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12 * RESOLUTION_VARIABLE);
     scoreLabel->setAnchorPoint(Vec2(0, 1));
     scoreLabel->setPosition(Vec2(origin.x + scoreLabel->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - scoreLabel->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     Color3B color(255, 255, 255);
@@ -232,59 +299,41 @@ bool Level::init()
     playerHPBar = ui::LoadingBar::create("res/ui/hp_bar_2.png");
     playerHPBar->setAnchorPoint(Vec2(0, 0));
     playerHPBar->setPosition(Vec2(origin.x, origin.y));
-    playerHPBar->setScale(0.5*RESOLUTION_VARIABLE);
+    playerHPBar->setScale(0.5 * RESOLUTION_VARIABLE);
     playerHPBar->setPercent(100);
     playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
 
-    cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create( "res/ui/hp_bar_1.png" );
+    cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create("res/ui/hp_bar_1.png");
     playerHPBarUnder->setAnchorPoint(Vec2(0, 0));
     playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
-    playerHPBarUnder->setScale(0.5*RESOLUTION_VARIABLE);
-
-    //===================================
-    
-    //====================================
-    //enemy spawn
-    /*auto enemySpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnRandomEnemy);
-    
-    this->schedule(enemySpawnPointer, ENEMY_DEFAULT_SPAWN_FREQUENCY);*/
-    
-    //====================================
-    //enemy type 3
-    auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
-    
-    this->schedule(enemyProjectileSpawnPointer, 5);
-    //====================================
-
-    //====================================
-    //collision detector
-    auto contactListener = EventListenerPhysicsContact::create();
-    contactListener->onContactBegin = CC_CALLBACK_1( Level::onContactBegin, this );
-    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority( contactListener, this );
-    //====================================
-    currentTime = 0;
-    //====================================
-    auto audioUpdatePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::audioUpdate);
-
-    this->schedule(audioUpdatePointer, 0.005f);
-    //====================================
-
-    auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
-    this->schedule(updateScorePointer, 1.0f);
+    playerHPBarUnder->setScale(0.5 * RESOLUTION_VARIABLE);
 
     this->addChild(playerHPBarUnder, 10);
     this->addChild(playerHPBar, 11);
     this->addChild(progressBar, 10);
     this->addChild(progressBarOver, 11);
     this->addChild(scoreLabel, 1);
-    this->addChild(pauseMenu, 13);
-    this->addChild(pauseBackground, 12);
-    this->addChild(gameUI, 10);
-    this->addChild(floor, 0);
-    this->addChild(player, 5);
+}
 
+void Level::initCollisionDetector() {
+    //collision detector
+    auto contactListener = EventListenerPhysicsContact::create();
+    contactListener->onContactBegin = CC_CALLBACK_1(Level::onContactBegin, this);
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+}
 
-    return true;
+void Level::initScedulers() {
+    //enemy type 3
+    auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
+    this->schedule(enemyProjectileSpawnPointer, 5);
+    //====================================
+
+    auto audioUpdatePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::audioUpdate);
+    this->schedule(audioUpdatePointer, 0.005f);
+    //====================================
+
+    auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
+    this->schedule(updateScorePointer, 1.0f);
 }
 
 void Level::update(float dt)
@@ -294,11 +343,11 @@ void Level::update(float dt)
     GameController::updateEnemyFacing(player->getPosition());
 
     char playerScore[100];
-    sprintf(playerScore, "Score: %i", remainingTime);
+    sprintf(playerScore, "Score: %i", totalScore);
     scoreLabel->setString(playerScore);
-    progressBar->setPercent(remainingTime / GameConstants::getLevelStats("DURATION") * 100.0);
+    progressBar->setPercent(totalScore / GameConstants::getLevelStats("DURATION") * 100.0);
 
-    if (remainingTime > GameConstants::getLevelStats("DURATION")) levelFinished();
+    if (totalScore > GameConstants::getLevelStats("DURATION")) levelFinished();
     if (player->getHP() < 0) gameOver();
 
     GameController::updateRotationType3(player->getPosition());
@@ -411,7 +460,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 
 void Level::updateScore(float dt)
 {
-    remainingTime = remainingTime + 1;
+    totalScore += 1;
 }
 
 void Level::levelFinished()
@@ -426,7 +475,7 @@ void Level::levelFinished()
 
 void Level::gameOver()
 {
-    Scene* scene = MainMenu::createScene();
+    Scene* scene = GameOver::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
 
     AudioEngine::stopAll();

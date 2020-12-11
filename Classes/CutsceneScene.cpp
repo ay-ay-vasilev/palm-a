@@ -1,6 +1,7 @@
 #include "CutsceneScene.h"
 #include "LevelScene.h"
 #include "Definitions.h"
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,8 @@ bool Cutscene::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
     i = 1;
+    musicID = AudioEngine::play2d("audio/music/cutscene_theme.mp3", true);
+    AudioEngine::setVolume(musicID, 0.1);
 
     MenuItemLabel* skipItem = MenuItemLabel::create(Label::createWithTTF("Skip", "fonts/PixelForce.ttf", 23), CC_CALLBACK_1(Cutscene::GoToLevelScene, this));
     skipItem->setAnchorPoint({ 1, 1 });
@@ -44,13 +47,18 @@ bool Cutscene::init()
 }
 
 void Cutscene::GoToLevelScene (cocos2d::Ref* pSender){
-    auto scene = Level::createScene();   
-    Director::getInstance( )->replaceScene( TransitionFade::create(TRANSITION_TIME, scene ) );
+    finish();
 }
 
 void Cutscene::GoToLevelScene2 (float dt){
-    auto scene = Level::createScene();   
-    Director::getInstance( )->replaceScene( TransitionFade::create(TRANSITION_TIME, scene ) );
+    finish();
+}
+
+void Cutscene::finish() {
+    AudioEngine::stopAll();
+    AudioEngine::end();
+    auto scene = Level::createScene();
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }
 
 Label* Cutscene::label(int i) {
@@ -92,7 +100,7 @@ Sprite* Cutscene::Cadr(int i){
     sprintf(str, "res/cutscene/%i_test.png", i);
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
-    cadr->setScale(1.7*RESOLUTION_VARIABLE);
+    cadr->setScale(1.3*RESOLUTION_VARIABLE);
     cadr->setAnchorPoint({ 0.5, 1 });
     cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height));
     cadr->setOpacity(0);
@@ -123,7 +131,7 @@ Sprite* Cutscene::AnimatedCadr(int i, int numOfFrames) {
     Animate* cadrAnimate = Animate::create(cadrAnimation);
 
     animatedCadr->getTexture()->setAliasTexParameters();
-    animatedCadr->setScale(1.7 * RESOLUTION_VARIABLE);
+    animatedCadr->setScale(1.3 * RESOLUTION_VARIABLE);
     animatedCadr->setAnchorPoint({ 0.5, 1 });
     animatedCadr->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height));
     animatedCadr->setOpacity(0);
@@ -136,8 +144,7 @@ Sprite* Cutscene::AnimatedCadr(int i, int numOfFrames) {
 void Cutscene::Next(cocos2d::Ref* pSender) {
     Cutscene::deleteCadr(1, 2);
     if (i > 6) {
-        auto scene = Level::createScene();
-        Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+        finish();
     }
     else if (i == 6) {
         Cutscene::NextCadr(i, 16);
