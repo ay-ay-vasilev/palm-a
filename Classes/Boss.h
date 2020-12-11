@@ -18,7 +18,11 @@ public:
 	RayProjectile* getRay();
 	void setRay(RayProjectile* _ray);
 
+	int getPhase();
+	void setPhase(int _phase);
+
 private:
+	int phase;
 	int state;
 	RayProjectile* ray;
 	Level1Boss();

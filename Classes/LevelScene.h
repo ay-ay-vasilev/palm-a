@@ -68,6 +68,7 @@ private:
     void spawnEnemyType3(float dt);
     void spawnEnemyProjectiles(float dt);
     void spawnEnemyOnTiming(float dt);
+    void spawnLaser(Level1Boss* boss);
     void spawnLaserRay(float dt, EnemyType3* ray);
     void spawnLaserRay(Level1Boss* boss);
     void spawnBoss();

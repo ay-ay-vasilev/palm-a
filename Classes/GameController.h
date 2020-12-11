@@ -31,7 +31,7 @@ public:
 
     static DefaultProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
     static LaserProjectile* spawnLaser(Vec2 pos, Vec2 tar);
-    static RayProjectile* spawnLaserRay(Vec2 pos, Vec2 tar);
+    static RayProjectile* spawnLaserRay(Vec2 tar);
 
     static float enemyPosition(EnemyType1* enemy);
     static float enemyPosition(EnemyType2* enemy);

@@ -115,12 +115,11 @@ LaserProjectile* GameController::spawnLaser(Vec2 pos, Vec2 tar)
     }
     return projectile;
 }
-RayProjectile* GameController::spawnLaserRay(Vec2 pos, Vec2 tar)
+RayProjectile* GameController::spawnLaserRay(Vec2 tar)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     RayProjectile* projectile;
     projectile = RayProjectile::create();
-    projectile->setPosition(pos);
     projectile->setTarget(tar);
     projectile->setPhysicsBody(projectile->getBody());
     if (projectile)
@@ -333,24 +332,44 @@ void GameController::bossMovement()
     //state 3 = moving right to left
 
     auto bossSpeed = 1;
-
-    
     if (boss->getState() == 2)
     {
-        boss->setPosition(Vec2(boss->getPosition().x + bossSpeed,boss->getPosition().y));
+        boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE,boss->getPosition().y));
         if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
         {
             boss->setState(3);
+            boss->setPhase(boss->getPhase() + 1);
+            if (boss->getPhase() == 2) boss->setState(4);
         }
-        boss->getRay()->setPosition(boss->getPosition());
+        boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
     }
     if (boss->getState() == 3)
     {
-        boss->setPosition(Vec2(boss->getPosition().x - bossSpeed, boss->getPosition().y));
+        boss->setPosition(Vec2(boss->getPosition().x - bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
         if (boss->getPosition().x <= boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
         {
             boss->setState(2);
+            boss->setPhase(boss->getPhase() + 1);
+            if (boss->getPhase() == 2) boss->setState(4);
         }
-        boss->getRay()->setPosition(boss->getPosition());
+        boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
+    }
+    if (boss->getState() == 4)
+    {
+        if (boss->getPosition().x < visibleSize.width / 2)
+        {
+            boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
+        }
+        else
+        {
+            boss->getRay()->setRotation(boss->getRay()->getRotation() + 1);
+            if (boss->getRay()->getRotation() > 180) boss->setState(5);
+        }
+        boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
+    }
+    if (boss->getState() == 5)
+    {
+        boss->getRay()->setRotation(boss->getRay()->getRotation() - 1);
+        if (boss->getRay()->getRotation() < 0) boss->setState(4);
     }
 }

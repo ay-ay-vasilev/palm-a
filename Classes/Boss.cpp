@@ -54,3 +54,11 @@ void Level1Boss::setRay(RayProjectile* _ray)
 {
 	ray = _ray;
 }
+int Level1Boss::getPhase()
+{
+	return phase;
+}
+void Level1Boss::setPhase(int _phase)
+{
+	phase = _phase;
+}
