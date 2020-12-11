@@ -30,7 +30,7 @@
                 <key>spriteSourceSize</key>
                 <string>{800,20}</string>
                 <key>textureRect</key>
-                <string>{{0,20},{800,20}}</string>
+                <string>{{800,0},{800,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -45,7 +45,7 @@
                 <key>spriteSourceSize</key>
                 <string>{800,20}</string>
                 <key>textureRect</key>
-                <string>{{0,40},{800,20}}</string>
+                <string>{{0,20},{800,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -60,22 +60,7 @@
                 <key>spriteSourceSize</key>
                 <string>{800,20}</string>
                 <key>textureRect</key>
-                <string>{{0,60},{800,20}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>ray5.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{800,20}</string>
-                <key>spriteSourceSize</key>
-                <string>{800,20}</string>
-                <key>textureRect</key>
-                <string>{{0,80},{800,20}}</string>
+                <string>{{800,20},{800,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -91,9 +76,9 @@
             <key>realTextureFileName</key>
             <string>ray_projectile.png</string>
             <key>size</key>
-            <string>{800,100}</string>
+            <string>{1600,40}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:83f5491e8545964fcae9bcb122aeb549:52cbd341f3f5115fdae7d0d5785741d4:e81f3c653ce324cc134241e46dedc045$</string>
+            <string>$TexturePacker:SmartUpdate:be9cfd121ea4ec6fe0c3a05c6beb36f9:4c7fe104f05cc228a9a5a4093778c62a:e81f3c653ce324cc134241e46dedc045$</string>
             <key>textureFileName</key>
             <string>ray_projectile.png</string>
         </dict>

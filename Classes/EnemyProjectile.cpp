@@ -17,6 +17,7 @@ DefaultProjectile * DefaultProjectile::create(){
 	{
 		projectile->autorelease();
 		Sprite* model = Sprite::create();
+		model->getTexture()->setAliasTexParameters();
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
@@ -88,6 +89,7 @@ LaserProjectile* LaserProjectile::create() {
 		projectile->autorelease();
 		
 		Sprite* model = Sprite::create();
+		model->getTexture()->setAliasTexParameters();
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
@@ -158,6 +160,7 @@ RayProjectile* RayProjectile::create() {
 		projectile->autorelease();
 
 		Sprite* model = Sprite::create();
+		model->getTexture()->setAliasTexParameters();
 		if (model)
 		{
 			model->setAnchorPoint(Vec2(0, 0));
