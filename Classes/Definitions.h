@@ -9,6 +9,7 @@
 #define DIRECTION_RIGHT 1
 #define MULT_BY_RESOLUTION true
 #define NOT_MULT_BY_RESOLUTION false
+#define BEHIND -1
 #define PI 3.14159265
 // Splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6

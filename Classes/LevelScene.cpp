@@ -363,9 +363,16 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->updateHP(GameConstants::getProjectileStats("DEFAULT_DAMAGE"));
 
         if (a->getCollisionBitmask() == 3) {
+            auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
+            this->addChild(particles, 100);
+            
             this->removeProjectile(a->getNode());
+
         }
         if (b->getCollisionBitmask() == 3) {
+            auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
+            this->addChild(particles, 100);
+
             this->removeProjectile(b->getNode());
         }
 
@@ -378,9 +385,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->updateHP(GameConstants::getProjectileStats("LASER_DAMAGE"));
         
         if (a->getCollisionBitmask() == 4) {
+            auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
+            this->addChild(particles, 100);
             this->removeLaser(a->getNode());
         }
         if (b->getCollisionBitmask() == 4) {
+            auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
+            this->addChild(particles, 100);
             this->removeLaser(b->getNode());
         }
 

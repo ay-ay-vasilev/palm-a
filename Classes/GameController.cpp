@@ -93,6 +93,7 @@ DefaultProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
     projectile->setPosition( pos );
     projectile->setTarget( tar );
     projectile->setPhysicsBody(projectile->getBody());
+
     if (projectile)
     {
         GameController::enemyProjectiles.pushBack(projectile);

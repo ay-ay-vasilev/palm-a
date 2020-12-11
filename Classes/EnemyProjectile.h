@@ -26,10 +26,13 @@ public:
 	void setSpeed( Vec2 speed );
 	
 	cocos2d::PhysicsBody* getBody();
+
+	static ParticleSystemQuad* onDestroyParticles(Vec2 position);
+
 private:
 	Vec2 target;
 	Vec2 speed;
-	static void loadAnimations();
+
 };
 class LaserProjectile : public cocos2d::Node
 {
@@ -46,6 +49,9 @@ public:
 	void setSpeed(Vec2 speed);
 
 	cocos2d::PhysicsBody* getBody();
+
+	static ParticleSystemQuad* onDestroyParticles(Vec2 position);
+
 private:
 	Vec2 target;
 	Vec2 speed;

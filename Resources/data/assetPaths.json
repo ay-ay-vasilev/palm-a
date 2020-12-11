@@ -29,11 +29,13 @@
     "projectile": {
         "default" : {
             "spriteSheet": "res/projectiles/default_projectile.plist",
-            "sprite": "default%i.png"
+            "sprite": "default%i.png",
+            "particles": "res/particles/projectiles/default_particles.plist"
         },
         "laser" : {
             "spriteSheet": "res/projectiles/laser_projectile.plist",
-            "sprite": "laser%i.png"
+            "sprite": "laser%i.png",
+            "particles": "res/particles/projectiles/laser_particles.plist"
         },
         "ray" : {
             "spriteSheet": "res/projectiles/ray_projectile.plist",

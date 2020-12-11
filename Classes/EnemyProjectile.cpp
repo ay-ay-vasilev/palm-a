@@ -29,6 +29,13 @@ DefaultProjectile * DefaultProjectile::create(){
 			projectileAnimate->retain(); //Retain to use it later
 
 			model->runAction(RepeatForever::create(projectileAnimate));
+			
+			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+			particles->setAnchorPoint(Vec2(0, 0));
+			particles->setPosition(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")/2, GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")/2));
+			particles->setScale(0.3);
+			model->addChild(particles, BEHIND);
+
 			projectile->addChild(model);
 			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")));
 		}
@@ -73,6 +80,18 @@ cocos2d::PhysicsBody* DefaultProjectile::getBody()
 
 	return physicsBody;
 }
+cocos2d::ParticleSystemQuad* DefaultProjectile::onDestroyParticles(Vec2 position)
+{
+	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+	particles->setAnchorPoint(Vec2(0, 0));
+	particles->setPosition(position);
+	particles->setLife(0.5);
+	particles->setDuration(0.1);
+	particles->setSpeed(100);
+	particles->setAngleVar(360);
+	return particles;
+}
+
 //==================================================
 //Laser
 LaserProjectile::LaserProjectile(void)
@@ -101,6 +120,13 @@ LaserProjectile* LaserProjectile::create() {
 			projectileAnimate = Projectile::createAnimation(spriteCache, "LASER_NUM_OF_FRAMES", "LASER_SPEED", "LASER_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(projectileAnimate));
+
+			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("LASER_PARTICLES"));
+			particles->setAnchorPoint(Vec2(0, 0));
+			particles->setPosition(Size(GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_X") / 3, GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_Y") / 2));
+			particles->setScale(0.3);
+			model->addChild(particles, BEHIND);
+
 			projectile->addChild(model);
 			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_X"), GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_Y")));
 		}
@@ -144,6 +170,18 @@ cocos2d::PhysicsBody* LaserProjectile::getBody()
 	physicsBody->setContactTestBitmask(true);
 
 	return physicsBody;
+}
+cocos2d::ParticleSystemQuad* LaserProjectile::onDestroyParticles(Vec2 position)
+{
+	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("LASER_PARTICLES"));
+	particles->setAnchorPoint(Vec2(0, 0));
+	particles->setPosition(position);
+	particles->setLife(0.2);
+	particles->setDuration(0.1);
+	particles->setSpeed(200);
+	particles->setAngleVar(360);
+	particles->setStartColor(Color4F::WHITE);
+	return particles;
 }
 //=========================================
 RayProjectile::RayProjectile(void)

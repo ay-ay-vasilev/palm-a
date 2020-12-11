@@ -79,22 +79,27 @@ void GameConstants::initConstants(std::string levelName)
 		setEnemyStats("TURRET_SPAWN_FREQ", "turret", "spawnFrequency", NOT_MULT_BY_RESOLUTION);
 
 		setProjectileAssetPath("DEFAULT_SPRITE_SHEET", "default", "spriteSheet");
+		setProjectileAssetPath("DEFAULT_PARTICLES", "default", "particles");
 		setProjectileAssetPath("DEFAULT_SPRITE", "default", "sprite");
 		setProjectileAnimationData("DEFAULT_NUM_OF_FRAMES", "default", "animationFramesNumber");
 		setProjectileAnimationData("DEFAULT_SPEED", "default", "animationSpeed");
 		setProjectileAnimationData("DEFAULT_SPRITE_SIZE", "default", "spriteSize");
+
 		setProjectileAssetPath("LASER_SPRITE_SHEET", "laser", "spriteSheet");
+		setProjectileAssetPath("LASER_PARTICLES", "laser", "particles");
 		setProjectileAssetPath("LASER_SPRITE", "laser", "sprite");
 		setProjectileAnimationData("LASER_NUM_OF_FRAMES", "laser", "animationFramesNumber");
 		setProjectileAnimationData("LASER_SPEED", "laser", "animationSpeed");
 		setProjectileAnimationData("LASER_SPRITE_SIZE_X", "laser", "spriteSizeX");
 		setProjectileAnimationData("LASER_SPRITE_SIZE_Y", "laser", "spriteSizeY");
+
 		setProjectileAssetPath("RAY_SPRITE_SHEET", "ray", "spriteSheet");
 		setProjectileAssetPath("RAY_SPRITE", "ray", "sprite");
 		setProjectileAnimationData("RAY_NUM_OF_FRAMES", "ray", "animationFramesNumber");
 		setProjectileAnimationData("RAY_SPEED", "ray", "animationSpeed");
 		setProjectileAnimationData("RAY_SPRITE_SIZE_X", "ray", "spriteSizeX");
 		setProjectileAnimationData("RAY_SPRITE_SIZE_Y", "ray", "spriteSizeY");
+
 		setProjectileStats("DEFAULT_DAMAGE", "default", "damage", NOT_MULT_BY_RESOLUTION);
 		setProjectileStats("DEFAULT_SPEED", "default", "speed", MULT_BY_RESOLUTION);
 		setProjectileStats("LASER_DAMAGE", "laser", "damage", NOT_MULT_BY_RESOLUTION);
