@@ -1,9 +1,6 @@
 #ifndef __DEFINITIONS_H__
 #define __DEFINITIONS_H__
 #include "JsonInstance.h"
-// Util
-#define RESOLUTION_VARIABLE JsonInstance::GetInstance()->GetData("balance")["debug"]["resolution"]
-#define DEBUG_MASK JsonInstance::GetInstance()->GetData("balance")["debug"]["mask"]
 // Magic number solvers
 #define DIRECTION_LEFT 0
 #define DIRECTION_RIGHT 1
@@ -14,6 +11,9 @@
 // Splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6
 #define LOGO_ANIM_SPEED 0.12
+// Util
+#define RESOLUTION_VARIABLE JsonInstance::GetInstance()->GetData("balance")["debug"]["resolution"]
+#define DEBUG_MASK JsonInstance::GetInstance()->GetData("balance")["debug"]["mask"]
 // Level 1 data
 #define DISPLAY_TIME_SPLASH_SCENE JsonInstance::GetInstance()->GetData("level1")["metadata"]["cutsceneData"]["splashTime"]
 #define TRANSITION_TIME JsonInstance::GetInstance()->GetData("level1")["metadata"]["cutsceneData"]["transitionTime"]

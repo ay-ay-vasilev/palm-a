@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "NewGameScene.h"
 #include "CutsceneScene.h"
+#include "AudioEngine.h"
 #include "Definitions.h"
 
 USING_NS_CC;
@@ -51,6 +52,8 @@ void NewGame::GoToCutscene(cocos2d::Ref* pSender) {
     Director::getInstance()->replaceScene(scene);
 }
 void NewGame::GoToMainMenu(cocos2d::Ref* pSender) {
+    AudioEngine::stopAll();
+    AudioEngine::end();
     auto scene = MainMenu::createScene();
     Director::getInstance()->replaceScene(scene);
 }

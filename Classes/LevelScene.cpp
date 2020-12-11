@@ -355,6 +355,11 @@ void Level::update(float dt)
         removeChild(progressBar,true);
         removeChild(progressBarOver,true);
         AudioEngine::stop(musicID);
+        // TEMPORARY FIX ============================
+        auto newMusicID = AudioEngine::play2d("audio/music/level2.mp3", false);
+        AudioEngine::setVolume(newMusicID, 0.05);
+        // ==========================================
+
         this->unschedule(enemyType3SpawnPointer);
     }
 
@@ -517,11 +522,11 @@ void Level::goToMainMenu(Ref* pSender)
     Scene* scene = MainMenu::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
 
-    if (!GameController::bossFightIsOn)
-    {
-        AudioEngine::stopAll();
-        AudioEngine::end();
-    }
+    AudioEngine::stopAll();
+    AudioEngine::end();
+
+    auto menuMusicID = AudioEngine::play2d("audio/music/main_menu.mp3", false);
+    AudioEngine::setVolume(menuMusicID, 0.1);
     
     Director::getInstance()->startAnimation();
 
@@ -552,6 +557,17 @@ void Level::onTouchEnded(Touch *touch, Event *event)
 
 void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
+    auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+    particles->setAnchorPoint(Vec2(0, 0));
+    particles->setPosition(player->getPosition());
+    particles->setLife(0.5);
+    particles->setDuration(0.1);
+    particles->setSpeed(100);
+    particles->setAngleVar(360);
+    particles->setStartColor(Color4F::GRAY);
+    particles->setEndColor(Color4F::WHITE);
+    particles->setScale(2.0);
+
     switch (keyCode) {
         case EventKeyboard::KeyCode::KEY_A:
             movementInputDeck.push_front(DIRECTION_LEFT);
@@ -562,6 +578,7 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
             //player->run(DIRECTION_RIGHT);
             break;
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
+            this->addChild(particles, 100);
             player->dash();
             break;
         case EventKeyboard::KeyCode:: KEY_SPACE:

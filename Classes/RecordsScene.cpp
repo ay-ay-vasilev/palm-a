@@ -1,5 +1,6 @@
 #include "MainMenuScene.h"
 #include "RecordsScene.h"
+#include "AudioEngine.h"
 #include "Definitions.h"
 
 USING_NS_CC;
@@ -36,6 +37,8 @@ bool RecordsScene::init() {
     return true;
 }
 void RecordsScene::GoToMainMenu(cocos2d::Ref* pSender) {
+    AudioEngine::stopAll();
+    AudioEngine::end();
     auto scene = MainMenu::createScene();
     Director::getInstance()->replaceScene(scene);
 }

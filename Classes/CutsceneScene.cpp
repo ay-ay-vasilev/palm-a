@@ -24,6 +24,8 @@ bool Cutscene::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
     i = 1;
+    AudioEngine::stopAll();
+    AudioEngine::end();
     musicID = AudioEngine::play2d("audio/music/cutscene_theme.mp3", true);
     AudioEngine::setVolume(musicID, 0.1);
 
@@ -68,13 +70,13 @@ Label* Cutscene::label(int i) {
     auto fontSize = 9 * RESOLUTION_VARIABLE;
     switch (i) {
     case 1:
-        sprintf(str, "Legends say, that long ago humans ascended to godhood, shining in the sky\nAnd everyone was blessed with music, pouring from the stars");
+        sprintf(str, "Legends say, that long ago humans ascended to godhood, shining in the sky\n\nAnd everyone was blessed with music, pouring from the stars");
         break;
     case 2:
-        sprintf(str, "But one day, they were punished, their great work destroyed in the ashes.\nAnd all the music was gone with them...");
+        sprintf(str, "But one day, they were punished, their great work destroyed in the ashes.\n\nAnd all the music was gone with them...");
         break;
     case 3:
-        sprintf(str, "But somewhere, there is an ancient vault that survived the fire\nOur elders believe, that the music of our ancestors will unite the lands");
+        sprintf(str, "But somewhere, there is an ancient vault that survived the fire\n\nOur elders believe, that the music of our ancestors will unite the lands");
         break;
     case 4:
         sprintf(str, "Stealing music from gods won't be easy...");
@@ -100,9 +102,9 @@ Sprite* Cutscene::Cadr(int i){
     sprintf(str, "res/cutscene/%i_test.png", i);
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
-    cadr->setScale(1.3*RESOLUTION_VARIABLE);
+    cadr->setScale(1.5*RESOLUTION_VARIABLE);
     cadr->setAnchorPoint({ 0.5, 1 });
-    cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height));
+    cadr->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + visibleSize.height - 10 * RESOLUTION_VARIABLE));
     cadr->setOpacity(0);
     return cadr;
 }
@@ -131,9 +133,9 @@ Sprite* Cutscene::AnimatedCadr(int i, int numOfFrames) {
     Animate* cadrAnimate = Animate::create(cadrAnimation);
 
     animatedCadr->getTexture()->setAliasTexParameters();
-    animatedCadr->setScale(1.3 * RESOLUTION_VARIABLE);
+    animatedCadr->setScale(1.5 * RESOLUTION_VARIABLE);
     animatedCadr->setAnchorPoint({ 0.5, 1 });
-    animatedCadr->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height));
+    animatedCadr->setPosition(Vec2(visibleSize.width / 2 + origin.x, origin.y + visibleSize.height - 10 * RESOLUTION_VARIABLE));
     animatedCadr->setOpacity(0);
     animatedCadr->runAction(RepeatForever::create(cadrAnimate));
     return animatedCadr;
