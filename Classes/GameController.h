@@ -54,6 +54,7 @@ public:
 
     static Level1Boss* createLevel1Boss();
     static void bossMovement();
+    static bool bossFightIsOn;
 private:
     
 
