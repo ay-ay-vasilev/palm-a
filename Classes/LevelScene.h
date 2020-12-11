@@ -42,6 +42,8 @@ public:
     int currentTiming;
     int currentEnemy = 0;
     int musicID;
+
+    cocos2d::SEL_SCHEDULE enemyType3SpawnPointer;
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
@@ -83,6 +85,7 @@ private:
     cocos2d::Menu *pauseMenu;
     cocos2d::Menu *gameUI;
     cocos2d::Sprite *pauseBackground;
+    cocos2d::Sprite* progressBarOver;
     ui::LoadingBar* progressBar;
 
     cocos2d::Label *scoreLabel;

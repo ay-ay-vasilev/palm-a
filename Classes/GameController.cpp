@@ -11,6 +11,7 @@ Vector<Node*> GameController::laserArr;
 Vector<EnemyType3*> GameController::type3Enemies;
 Vector<RayProjectile*> GameController::laserRays;
 Level1Boss* GameController::boss;
+bool GameController::bossFightIsOn;
 
 std::vector<int> GameController::shootingTimings;
 std::vector<int> GameController::enemySpawnTimings;
@@ -269,7 +270,7 @@ void GameController::getJsonData()
         fin >> s;
     }
     fin.close();
-
+    bossFightIsOn = false;
 }
 void GameController::updateRotationType3(Vec2 playerPos)
 {
@@ -330,46 +331,50 @@ void GameController::bossMovement()
     //state 1 = dropping after creation
     //state 2 = moving left to right
     //state 3 = moving right to left
+    if (bossFightIsOn)
+    {
 
-    auto bossSpeed = 1;
-    if (boss->getState() == 2)
-    {
-        boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE,boss->getPosition().y));
-        if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
-        {
-            boss->setState(3);
-            boss->setPhase(boss->getPhase() + 1);
-            if (boss->getPhase() == 2) boss->setState(4);
-        }
-        boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
-    }
-    if (boss->getState() == 3)
-    {
-        boss->setPosition(Vec2(boss->getPosition().x - bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
-        if (boss->getPosition().x <= boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
-        {
-            boss->setState(2);
-            boss->setPhase(boss->getPhase() + 1);
-            if (boss->getPhase() == 2) boss->setState(4);
-        }
-        boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
-    }
-    if (boss->getState() == 4)
-    {
-        if (boss->getPosition().x < visibleSize.width / 2)
+
+        auto bossSpeed = 1;
+        if (boss->getState() == 2)
         {
             boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
+            if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
+            {
+                boss->setState(3);
+                boss->setPhase(boss->getPhase() + 1);
+                if (boss->getPhase() == 2) boss->setState(4);
+            }
+            boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
         }
-        else
+        if (boss->getState() == 3)
         {
-            boss->getRay()->setRotation(boss->getRay()->getRotation() + 1);
-            if (boss->getRay()->getRotation() > 180) boss->setState(5);
+            boss->setPosition(Vec2(boss->getPosition().x - bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
+            if (boss->getPosition().x <= boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
+            {
+                boss->setState(2);
+                boss->setPhase(boss->getPhase() + 1);
+                if (boss->getPhase() == 2) boss->setState(4);
+            }
+            boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
         }
-        boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
-    }
-    if (boss->getState() == 5)
-    {
-        boss->getRay()->setRotation(boss->getRay()->getRotation() - 1);
-        if (boss->getRay()->getRotation() < 0) boss->setState(4);
+        if (boss->getState() == 4)
+        {
+            if (boss->getPosition().x < visibleSize.width / 2)
+            {
+                boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
+            }
+            else
+            {
+                boss->getRay()->setRotation(boss->getRay()->getRotation() + 1);
+                if (boss->getRay()->getRotation() > 180) boss->setState(5);
+            }
+            boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
+        }
+        if (boss->getState() == 5)
+        {
+            boss->getRay()->setRotation(boss->getRay()->getRotation() - 1);
+            if (boss->getRay()->getRotation() < 0) boss->setState(4);
+        }
     }
 }

@@ -213,7 +213,7 @@ bool Level::init()
     scoreLabel->setColor(color);
 
 
-    auto progressBarOver = Sprite::create("res/ui/status_bar_over.png");
+    progressBarOver = Sprite::create("res/ui/status_bar_over.png");
     progressBarOver->getTexture()->setAliasTexParameters();
     progressBarOver->setScale(RESOLUTION_VARIABLE);
     progressBarOver->setAnchorPoint(Vec2(0.5, 0.5));
@@ -251,9 +251,9 @@ bool Level::init()
     
     //====================================
     //enemy type 3
-    auto enemyProjectileSpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
+    enemyType3SpawnPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnEnemyType3);
     
-    this->schedule(enemyProjectileSpawnPointer, 5);
+    this->schedule(enemyType3SpawnPointer, 5);
     //====================================
 
     //====================================
@@ -271,8 +271,6 @@ bool Level::init()
 
     auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
     this->schedule(updateScorePointer, 1.0f);
-
-    spawnBoss();
 
     this->addChild(playerHPBarUnder, 10);
     this->addChild(playerHPBar, 11);
@@ -300,7 +298,15 @@ void Level::update(float dt)
     scoreLabel->setString(playerScore);
     progressBar->setPercent(remainingTime / GameConstants::getLevelStats("DURATION") * 100.0);
 
-    if (remainingTime > GameConstants::getLevelStats("DURATION")) levelFinished();
+    if (remainingTime > GameConstants::getLevelStats("DURATION") && !GameController::bossFightIsOn)
+    {
+        spawnBoss();
+        GameController::bossFightIsOn = true;
+        removeChild(progressBar,true);
+        removeChild(progressBarOver,true);
+        AudioEngine::stop(musicID);
+        this->unschedule(enemyType3SpawnPointer);
+    }
     if (player->getHP() < 0) gameOver();
 
     GameController::updateRotationType3(player->getPosition());
@@ -728,19 +734,21 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
 }
 void Level::spawnEnemyOnTiming(float dt)
 {
-    if (currentTime > GameController::enemySpawnTimings[currentEnemy]*1000)
-    {
-        int type = GameController::enemyTypeArr[currentEnemy];
-        switch (type)
+    if (GameController::enemySpawnTimings[currentEnemy] * 1000 != 0 && remainingTime < GameConstants::getLevelStats("DURATION")) {
+        if (currentTime > GameController::enemySpawnTimings[currentEnemy]*1000)
         {
-        case 1:
-            Level::spawnEnemy(dt , GameController::spawnPointArr[currentEnemy]);
-            break;
-        case 2:
-            Level::spawnEnemyType2(dt, GameController::spawnPointArr[currentEnemy]);
-            break;
+            int type = GameController::enemyTypeArr[currentEnemy];
+            switch (type)
+            {
+            case 1:
+                Level::spawnEnemy(dt , GameController::spawnPointArr[currentEnemy]);
+                break;
+            case 2:
+                Level::spawnEnemyType2(dt, GameController::spawnPointArr[currentEnemy]);
+                break;
+            }
+            currentEnemy++;
         }
-        currentEnemy++;
     }
     
     
@@ -814,7 +822,7 @@ void Level::spawnLaserRay(Level1Boss* boss)
     RayProjectile* projectile;
     projectile = GameController::spawnLaserRay(player->getPosition());
     projectile->setScale(RESOLUTION_VARIABLE);
-    projectile->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + projectile->getContentSize().width / 10));
+    projectile->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + projectile->getContentSize().width / 5));
 
     auto angle = 90;
     projectile->setRotation(angle);
