@@ -76,7 +76,7 @@ private:
     void spawnBoss();
 
     bool isPaused;
-    int remainingTime;
+    int totalScore;
     void updateScore(float points);
 
     void levelFinished();
@@ -94,6 +94,16 @@ private:
 
     void audioUpdate(float dt);
     int currentTime;
+    void initListeners();
+    void initPlayer(Director* director);
+    void initBackground(Director* director);
+    void initGameUI(Director* director);
+    void initPauseMenu(Director* director);
+    void initHUD(Director* director);
+    void initCollisionDetector();
+    void initScedulers();
+    void startCount();
+    void initStart(float dt);
 };
 
 #endif
