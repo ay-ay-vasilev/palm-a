@@ -30,7 +30,7 @@
                 <key>spriteSourceSize</key>
                 <string>{800,20}</string>
                 <key>textureRect</key>
-                <string>{{800,0},{800,20}}</string>
+                <string>{{803,0},{800,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -45,7 +45,7 @@
                 <key>spriteSourceSize</key>
                 <string>{800,20}</string>
                 <key>textureRect</key>
-                <string>{{0,20},{800,20}}</string>
+                <string>{{0,23},{800,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -60,7 +60,7 @@
                 <key>spriteSourceSize</key>
                 <string>{800,20}</string>
                 <key>textureRect</key>
-                <string>{{800,20},{800,20}}</string>
+                <string>{{803,23},{800,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -76,9 +76,9 @@
             <key>realTextureFileName</key>
             <string>ray_projectile.png</string>
             <key>size</key>
-            <string>{1600,40}</string>
+            <string>{1603,43}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:be9cfd121ea4ec6fe0c3a05c6beb36f9:4c7fe104f05cc228a9a5a4093778c62a:e81f3c653ce324cc134241e46dedc045$</string>
+            <string>$TexturePacker:SmartUpdate:8387966eea535e62d4c933110ce8893c:4c7fe104f05cc228a9a5a4093778c62a:e81f3c653ce324cc134241e46dedc045$</string>
             <key>textureFileName</key>
             <string>ray_projectile.png</string>
         </dict>
