@@ -29,7 +29,7 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
-
+    // MOVE LATER
 	void removeProjectile(Node *projectile);
     void removeEnemy(EnemyType1 *enemy);
     void removeLaser(Node *laser);
@@ -39,6 +39,7 @@ public:
 
     bool onContactBegin ( cocos2d::PhysicsContact &contact );
 
+    // MOVE LATER
     int currentTiming;
     int currentEnemy = 0;
     int musicID;
@@ -52,7 +53,7 @@ private:
     Player * player;
 
     void update(float dt);
-
+    // MOVE LATER
     cocos2d::ParallaxNode* paraNodeClose;
     cocos2d::ParallaxNode* paraNodeMid;
     cocos2d::ParallaxNode* paraNodeFar;
@@ -65,7 +66,7 @@ private:
     void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
     void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     void keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-
+    // MOVE LATER
     void spawnEnemy( float dt , int enemyPos);
     void spawnEnemyType2(float dt, int enemyPos);
     void spawnEnemyType3(float dt);
@@ -75,14 +76,14 @@ private:
     void spawnLaserRay(float dt, EnemyType3* ray);
     void spawnLaserRay(Level1Boss* boss);
     void spawnBoss();
-
+    // MOVE LATER
     bool isPaused;
     int totalScore;
     void updateScore(float points);
-
+    // MOVE LATER
     void levelFinished();
     void gameOver();
-
+    // UI
     cocos2d::Menu *pauseMenu;
     cocos2d::Menu *gameUI;
     cocos2d::Sprite *pauseBackground;
