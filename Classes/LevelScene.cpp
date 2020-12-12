@@ -355,10 +355,8 @@ void Level::update(float dt)
         removeChild(progressBar,true);
         removeChild(progressBarOver,true);
         AudioEngine::stop(musicID);
-        // TEMPORARY FIX ============================
-        auto newMusicID = AudioEngine::play2d("audio/music/level2.mp3", false);
+        auto newMusicID = AudioEngine::play2d("audio/music/level1BossFight.mp3", false);
         AudioEngine::setVolume(newMusicID, 0.05);
-        // ==========================================
 
         this->unschedule(enemyType3SpawnPointer);
     }

@@ -41,13 +41,13 @@
         }
     },
     "level": {
-        "levelDuration": 40,
+        "levelDuration": 10,
         "wallDistance": 40,
         "floorHeight": 30,
         "timings": "Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": false,
+        "mask": true,
         "resolution": 3
     }
 }
