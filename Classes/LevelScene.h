@@ -42,6 +42,7 @@ public:
     int currentTiming;
     int currentEnemy = 0;
     int musicID;
+    int bossMusicID;
 
     cocos2d::SEL_SCHEDULE enemyType3SpawnPointer;
 private:

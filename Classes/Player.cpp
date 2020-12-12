@@ -46,7 +46,7 @@ void Player::initPlayer()
 void Player::dash()
 {
 	auto dashSFX = AudioEngine::play2d("audio/sfx/dashSFX.mp3", false);
-	AudioEngine::setVolume(dashSFX, 0.5);
+	AudioEngine::setVolume(dashSFX, 0.3);
 	vertForce = 0;
 	dashed = true;
 }

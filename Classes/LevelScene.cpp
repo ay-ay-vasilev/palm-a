@@ -55,6 +55,7 @@ bool Level::init()
 
     //init the music
     musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
+    AudioEngine::preload("audio/music/level1BossFight.mp3");
     AudioEngine::setVolume(musicID, 0.1);
     // important variables
     auto director = cocos2d::Director::getInstance();
@@ -355,8 +356,8 @@ void Level::update(float dt)
         removeChild(progressBar,true);
         removeChild(progressBarOver,true);
         AudioEngine::stop(musicID);
-        auto newMusicID = AudioEngine::play2d("audio/music/level1BossFight.mp3", false);
-        AudioEngine::setVolume(newMusicID, 0.05);
+        bossMusicID = AudioEngine::play2d("audio/music/level1BossFight.mp3", false);
+        AudioEngine::setVolume(bossMusicID, 0.03);
 
         this->unschedule(enemyType3SpawnPointer);
     }

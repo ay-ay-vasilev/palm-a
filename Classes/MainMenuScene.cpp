@@ -25,7 +25,7 @@ bool MainMenu::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
     musicID = AudioEngine::play2d("audio/music/main_menu.mp3", false);
-    AudioEngine::setVolume(musicID, 0.1);
+    AudioEngine::setVolume(musicID, 0.08);
 
     auto title = Sprite::create();
     char str[200] = { 0 };
