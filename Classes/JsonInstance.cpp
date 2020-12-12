@@ -3,12 +3,20 @@
 
 JsonInstance* JsonInstance::singleton = 0;
 
+nlohmann::json JsonInstance::level_1_Data;
+nlohmann::json JsonInstance::balance_Data;
+nlohmann::json JsonInstance::animations_Data;
+nlohmann::json JsonInstance::asset_Data;
+
 JsonInstance::JsonInstance() {
-	
-	level_1_Data = OpenFile("Resources/data/levels/level1Data.json");
-	balance_Data = OpenFile("Resources/data/balance.json");
-	animations_Data = OpenFile("Resources/data/animations.json");
-	asset_Data = OpenFile("Resources/data/assetPaths.json");
+	ReloadFiles();
+}
+
+void JsonInstance::ReloadFiles() {
+	JsonInstance::level_1_Data = OpenFile("Resources/data/levels/level1Data.json");
+	JsonInstance::balance_Data = OpenFile("Resources/data/balance.json");
+	JsonInstance::animations_Data = OpenFile("Resources/data/animations.json");
+	JsonInstance::asset_Data = OpenFile("Resources/data/assetPaths.json");
 }
 
 nlohmann::json JsonInstance::OpenFile(std::string path) {
