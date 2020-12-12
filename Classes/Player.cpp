@@ -210,7 +210,7 @@ cocos2d::PhysicsBody* Player::getBody()
 	auto physicsBody = PhysicsBody::createBox( Size(this->getContentSize().width/2, this->getContentSize().height/2), PHYSICSBODY_MATERIAL_DEFAULT);
 
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask( 1 );
+	physicsBody->setCollisionBitmask( PLAYER_MASK );
 	physicsBody->setContactTestBitmask( true );
 
 	return physicsBody;

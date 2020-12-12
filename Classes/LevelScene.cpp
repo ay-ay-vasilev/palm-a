@@ -405,12 +405,16 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
             {
+                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
+                AudioEngine::setVolume(enemyDeadSFX, 0.3);
                 this->removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             }
         }
         if (b->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(b->getNode())->getPositionY()))
             {
+                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
+                AudioEngine::setVolume(enemyDeadSFX, 0.3);
                 this->removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
 
             }
@@ -463,18 +467,21 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         || (LASER_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->updateHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
-
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
         if (a->getCollisionBitmask() == LASER_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
             {
+                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
+                AudioEngine::setVolume(enemyDeadSFX, 0.3);
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             }
         }
         if (b->getCollisionBitmask() == LASER_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(b->getNode())->getPositionY()))
             {
+                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
+                AudioEngine::setVolume(enemyDeadSFX, 0.3);
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
             }
         }
