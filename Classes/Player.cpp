@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Definitions.h"
 #include "GameConstants.h"
+#include "AudioEngine.h"
 
 auto director = cocos2d::Director::getInstance();
 Vec2 origin = director->getVisibleOrigin();
@@ -44,6 +45,8 @@ void Player::initPlayer()
 
 void Player::dash()
 {
+	auto dashSFX = AudioEngine::play2d("audio/sfx/dashSFX.mp3", false);
+	AudioEngine::setVolume(dashSFX, 0.5);
 	vertForce = 0;
 	dashed = true;
 }
