@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "GameConstants.h"
 #include "AudioEngine.h"
+#include <algorithm>
 
 auto director = cocos2d::Director::getInstance();
 Vec2 origin = director->getVisibleOrigin();
@@ -47,7 +48,7 @@ void Player::dash()
 {
 	auto dashSFX = AudioEngine::play2d("audio/sfx/dashSFX.mp3", false);
 	AudioEngine::setVolume(dashSFX, 0.3);
-	vertForce = 0;
+	vertForce = std::max(0.0f, vertForce);
 	dashed = true;
 }
 
@@ -125,6 +126,30 @@ void Player::update()
 
 	if (dashed)
 	{
+		auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+		particles->setAnchorPoint(Vec2(0.5, 0.5));
+		particles->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height / 2));
+		particles->setEmitterMode(ParticleSystem::Mode::RADIUS);
+		particles->setTotalParticles(10);
+		particles->setLife(0.05);
+		//particles->setLifeVar(0.2);
+		particles->setDuration(0.1);
+		particles->setAngleVar(180);
+		particles->setStartRadius(20);
+		particles->setEndRadius(60);
+		particles->setStartColor(Color4F::WHITE);
+		particles->setEndColor(Color4F(0, 180, 180, 255));
+		particles->setStartSize(15);
+		particles->setEndSize(5);
+		this->addChild(particles);
+		
+		auto fadeIn = FadeIn::create(0.05f);
+		auto fadeOut = FadeOut::create(0.05f);
+		auto dashSeq = Sequence::create(fadeOut, fadeIn, nullptr);
+
+		this->runAction(dashSeq);
+
+
 		auto newPosX = this->getPositionX();
 		if (direction == DIRECTION_LEFT)
 		{
@@ -237,7 +262,7 @@ void Player::loadAnimations()
 	jumpRightAnimate = Player::createAnimation(spriteCache, "JUMP_NUM_OF_FRAMES", "JUMP_SPEED", "UNARMED_JUMP_RIGHT");
 	fallLeftAnimate = Player::createAnimation(spriteCache, "FALL_NUM_OF_FRAMES", "FALL_SPEED", "UNARMED_FALL_LEFT");
 	fallRightAnimate = Player::createAnimation(spriteCache, "FALL_NUM_OF_FRAMES", "FALL_SPEED", "UNARMED_FALL_RIGHT");
-	// Retain to use it later
+	
 	idleLeftAnimate->retain();
 	idleRightAnimate->retain();
 	runLeftAnimate->retain();
@@ -246,17 +271,24 @@ void Player::loadAnimations()
 	jumpRightAnimate->retain();
 	fallLeftAnimate->retain();
 	fallRightAnimate->retain();
+	
+	RepeatForever * startAnimation = RepeatForever::create(idleLeftAnimate);
+	startAnimation->setTag(ANIMATION_TAG);
 
-	this->runAction(RepeatForever::create(idleLeftAnimate));
+	this->runAction(startAnimation);
 }
 
 void Player::playAnimation(Animate* leftAnimation, Animate* rightAnimation)
 {
-	this->stopAllActions();
+	RepeatForever * newAnimation;
+	this->stopAllActionsByTag(ANIMATION_TAG);
 	if (direction == DIRECTION_LEFT) {
-		this->runAction(RepeatForever::create(leftAnimation));
+		newAnimation = RepeatForever::create(leftAnimation);
 	}
 	else {
-		this->runAction(RepeatForever::create(rightAnimation));
+		newAnimation = RepeatForever::create(rightAnimation);
 	}
+	newAnimation->setTag(ANIMATION_TAG);
+	this->runAction(newAnimation);
+
 }

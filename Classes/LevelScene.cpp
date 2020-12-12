@@ -557,15 +557,20 @@ void Level::onTouchEnded(Touch *touch, Event *event)
 void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
-    particles->setAnchorPoint(Vec2(0, 0));
+    particles->setAnchorPoint(Vec2(0.5, 0.5));
     particles->setPosition(player->getPosition());
-    particles->setLife(0.5);
+    particles->setEmitterMode(ParticleSystem::Mode::RADIUS);
+    particles->setTotalParticles(10);
+    particles->setLife(0.05);
+    //particles->setLifeVar(0.2);
     particles->setDuration(0.1);
-    particles->setSpeed(100);
-    particles->setAngleVar(360);
-    particles->setStartColor(Color4F::GRAY);
-    particles->setEndColor(Color4F::WHITE);
-    particles->setScale(2.0);
+    particles->setAngleVar(180);
+    particles->setStartRadius(60);
+    particles->setEndRadius(20);
+    particles->setStartColor(Color4F::WHITE);
+    particles->setEndColor(Color4F(0, 180, 180, 255));
+    particles->setStartSize(15);
+    particles->setEndSize(5);
 
     switch (keyCode) {
         case EventKeyboard::KeyCode::KEY_A:
@@ -577,8 +582,8 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
             //player->run(DIRECTION_RIGHT);
             break;
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
-            this->addChild(particles, PARTICLES_LAYER);
             player->dash();
+            this->addChild(particles, PARTICLES_LAYER);
             break;
         case EventKeyboard::KeyCode:: KEY_SPACE:
             player->jump();

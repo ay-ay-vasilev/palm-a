@@ -34,6 +34,8 @@
 #define BAR_LAYER 10
 #define BAR_OVER_LAYER 11
 #define PARTICLES_LAYER 6
+// Tags
+#define ANIMATION_TAG 1
 
 // Splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6
