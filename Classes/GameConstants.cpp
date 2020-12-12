@@ -17,6 +17,8 @@ float GameConstants::resolution = 2;
 
 void GameConstants::initConstants(std::string levelName)
 {
+	JsonInstance::ReloadFiles();
+
 	resolution = JsonInstance::GetInstance()->GetData("balance")["debug"]["resolution"];
 
 	if (levelName == "level1")

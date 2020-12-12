@@ -86,7 +86,7 @@ void Level::startCount() {
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     auto fadeOut = FadeOut::create(1.0f);
     auto delay = DelayTime::create(1);
-    auto fontSize = 100 * RESOLUTION_VARIABLE;
+    auto fontSize = 100 * (float)RESOLUTION_VARIABLE;
     auto label3 = Label::createWithTTF("3", "fonts/PixelForce.ttf", fontSize);
     auto label2 = Label::createWithTTF("2", "fonts/PixelForce.ttf", fontSize);
     auto label1 = Label::createWithTTF("1", "fonts/PixelForce.ttf", fontSize);
@@ -124,7 +124,7 @@ void Level::initPlayer(Director* director) {
     player->setPhysicsBody(player->getBody());
     player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + GameConstants::getLevelStats("FLOOR_HEIGHT")));
     player->setScale(0.25 * RESOLUTION_VARIABLE);
-    this->addChild(player, 5);
+    this->addChild(player, PLAYER_LAYER);
 }
 
 void Level::initBackground(Director* director) {
@@ -199,10 +199,10 @@ void Level::initBackground(Director* director) {
     paraNodeMid->runAction(MoveTo::create(visibleSize.height / midSpeed, Vec2(0, visibleSize.height / midSpeed)));
     paraNodeFar->runAction(MoveTo::create(visibleSize.height / farSpeed, Vec2(0, visibleSize.height / farSpeed)));
 
-    this->addChild(floor, 0);
-    this->addChild(paraNodeClose, -1);
-    this->addChild(paraNodeMid, -2);
-    this->addChild(paraNodeFar, -3);
+    this->addChild(floor, FLOOR_LAYER);
+    this->addChild(paraNodeClose, BACKGROUND_CLOSE_LAYER);
+    this->addChild(paraNodeMid, BACKGROUND_MID_LAYER);
+    this->addChild(paraNodeFar, BACKGROUND_FAR_LAYER);
 }
 
 void Level::initGameUI(Director* director) {
@@ -224,7 +224,7 @@ void Level::initGameUI(Director* director) {
     jumpButton->setScale(RESOLUTION_VARIABLE);
     jumpButton->setOpacity(180);
     jumpButton->setAnchorPoint(Vec2(1, 0));
-    jumpButton->setPosition(Vec2(origin.x + visibleSize.width - jumpButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + jumpButton->getContentSize().height / 2 * RESOLUTION_VARIABLE + dashButton->getContentSize().height * RESOLUTION_VARIABLE + 5 * RESOLUTION_VARIABLE));
+    jumpButton->setPosition(Vec2(origin.x + visibleSize.width - jumpButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + jumpButton->getContentSize().height / 2 * RESOLUTION_VARIABLE + dashButton->getContentSize().height * RESOLUTION_VARIABLE + 5 * (float)RESOLUTION_VARIABLE));
 
     auto pauseButton = MenuItemImage::create(
         "res/ui/pause_button.png",
@@ -237,7 +237,7 @@ void Level::initGameUI(Director* director) {
 
     gameUI = Menu::create(pauseButton, dashButton, jumpButton, NULL);
     gameUI->setPosition(Vec2::ZERO);
-    this->addChild(gameUI, 10);
+    this->addChild(gameUI, UI_LAYER);
 }
 
 void Level::initPauseMenu(Director* director) {
@@ -249,11 +249,11 @@ void Level::initPauseMenu(Director* director) {
     pauseBackground->setAnchorPoint(Vec2(0.5, 0.5));
     pauseBackground->setContentSize(this->getContentSize());
 
-    auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
     MenuItemLabel* resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
     resumeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3 * 2));
 
-    auto mainMenuLabel = Label::createWithTTF("MAIN MENU", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto mainMenuLabel = Label::createWithTTF("MAIN MENU", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
     MenuItemLabel* mainMenuItem = MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(Level::goToMainMenu, this));
     mainMenuItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3));
 
@@ -263,8 +263,8 @@ void Level::initPauseMenu(Director* director) {
     pauseMenu->setContentSize(this->getContentSize());
     pauseMenu->setPosition(Vec2::ZERO);
 
-    this->addChild(pauseMenu, 13);
-    this->addChild(pauseBackground, 12);
+    this->addChild(pauseMenu, PAUSE_MENU_LAYER);
+    this->addChild(pauseBackground,PAUSE_BACKGROUND_LAYER);
 }
 
 void Level::initHUD(Director* director) {
@@ -273,7 +273,7 @@ void Level::initHUD(Director* director) {
     // player score
     char playerScore[100];
     sprintf(playerScore, "Time: %i", totalScore);
-    scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12 * RESOLUTION_VARIABLE);
+    scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12 * (float)RESOLUTION_VARIABLE);
     scoreLabel->setAnchorPoint(Vec2(0, 1));
     scoreLabel->setPosition(Vec2(origin.x + scoreLabel->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - scoreLabel->getContentSize().height / 2 * RESOLUTION_VARIABLE));
     Color3B color(255, 255, 255);
@@ -308,11 +308,11 @@ void Level::initHUD(Director* director) {
     playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
     playerHPBarUnder->setScale(0.5 * RESOLUTION_VARIABLE);
 
-    this->addChild(playerHPBarUnder, 10);
-    this->addChild(playerHPBar, 11);
-    this->addChild(progressBar, 10);
-    this->addChild(progressBarOver, 11);
-    this->addChild(scoreLabel, 1);
+    this->addChild(playerHPBarUnder, BAR_UNDER_LAYER);
+    this->addChild(playerHPBar, BAR_LAYER);
+    this->addChild(progressBar, BAR_LAYER);
+    this->addChild(progressBarOver, BAR_OVER_LAYER);
+    this->addChild(scoreLabel, UI_LAYER);
 }
 
 void Level::initCollisionDetector() {
@@ -395,19 +395,19 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     PhysicsBody *b = contact.getShapeB()->getBody();
 
     //if player collided with enemy
-    if ( ( 1 == a->getCollisionBitmask() && 2 == b->getCollisionBitmask() ) 
-		|| ( 2 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
+    if ( ( PLAYER_MASK == a->getCollisionBitmask() && REGULAR_ENEMY_MASK == b->getCollisionBitmask() ) 
+		|| (REGULAR_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask() ) )
     {   
         player->updateHP(GameConstants::getEnemyStats("REGULAR_COLLIDE_DAMAGE"));
         playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
 
-        if (a->getCollisionBitmask() == 2) {
+        if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
             {
                 this->removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             }
         }
-        if (b->getCollisionBitmask() == 2) {
+        if (b->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(b->getNode())->getPositionY()))
             {
                 this->removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
@@ -417,21 +417,21 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     }
 
     //if player collided with projectile
-    if ( ( 1 == a->getCollisionBitmask() && 3 == b->getCollisionBitmask() ) 
-		|| ( 3 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask() ) )
+    if ( (PLAYER_MASK == a->getCollisionBitmask() && DEFAULT_PROJECTILE_MASK == b->getCollisionBitmask() )
+		|| ( DEFAULT_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask() ) )
     {   
         player->updateHP(GameConstants::getProjectileStats("DEFAULT_DAMAGE"));
 
-        if (a->getCollisionBitmask() == 3) {
+        if (a->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
             auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
-            this->addChild(particles, 100);
+            this->addChild(particles, PARTICLES_LAYER);
             
             this->removeProjectile(a->getNode());
 
         }
-        if (b->getCollisionBitmask() == 3) {
+        if (b->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
             auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
-            this->addChild(particles, 100);
+            this->addChild(particles, PARTICLES_LAYER);
 
             this->removeProjectile(b->getNode());
         }
@@ -439,39 +439,39 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
     }
     //if player collided with laser
-    if ((1 == a->getCollisionBitmask() && 4 == b->getCollisionBitmask())
-        || (4 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
+    if ((PLAYER_MASK == a->getCollisionBitmask() && LASER_PROJECTILE_MASK == b->getCollisionBitmask())
+        || (LASER_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->updateHP(GameConstants::getProjectileStats("LASER_DAMAGE"));
         
-        if (a->getCollisionBitmask() == 4) {
+        if (a->getCollisionBitmask() == LASER_PROJECTILE_MASK) {
             auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
-            this->addChild(particles, 100);
+            this->addChild(particles, PARTICLES_LAYER);
             this->removeLaser(a->getNode());
         }
-        if (b->getCollisionBitmask() == 4) {
+        if (b->getCollisionBitmask() == LASER_PROJECTILE_MASK){
             auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
-            this->addChild(particles, 100);
+            this->addChild(particles, PARTICLES_LAYER);
             this->removeLaser(b->getNode());
         }
 
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
     }
     //if player collided with enemy type 2
-    if ((1 == a->getCollisionBitmask() && 5 == b->getCollisionBitmask())
-        || (5 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
+    if ((PLAYER_MASK == a->getCollisionBitmask() && LASER_ENEMY_MASK == b->getCollisionBitmask())
+        || (LASER_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->updateHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
 
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
-        if (a->getCollisionBitmask() == 5) {
+        if (a->getCollisionBitmask() == LASER_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
             {
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             }
         }
-        if (b->getCollisionBitmask() == 5) {
+        if (b->getCollisionBitmask() == LASER_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(b->getNode())->getPositionY()))
             {
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
@@ -480,8 +480,8 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     }
 
     //if player collided with boss
-    if ((1 == a->getCollisionBitmask() && 8 == b->getCollisionBitmask())
-        || (8 == a->getCollisionBitmask() && 1 == b->getCollisionBitmask()))
+    if ((PLAYER_MASK == a->getCollisionBitmask() && BOSS_MASK == b->getCollisionBitmask())
+        || (BOSS_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->jumpKill(0);
     }
@@ -576,7 +576,7 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
             //player->run(DIRECTION_RIGHT);
             break;
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
-            this->addChild(particles, 100);
+            this->addChild(particles, PARTICLES_LAYER);
             player->dash();
             break;
         case EventKeyboard::KeyCode:: KEY_SPACE:
@@ -644,7 +644,7 @@ void Level::spawnEnemy(float dt, int enemyPos)
     EnemyType1* enemy;
     enemy = GameController::spawnEnemy(enemyPos);
     enemy->setScale(0.25*RESOLUTION_VARIABLE);
-	this->addChild(enemy, 4);
+	this->addChild(enemy, ENEMY_LAYER);
 
     //moving and deleting
     float distance = visibleSize.height + enemy->getContentSize().width;
@@ -666,7 +666,7 @@ void Level::spawnEnemyType2(float dt, int enemyPos)
     EnemyType2* enemy;
     enemy = GameController::spawnEnemyType2(enemyPos);
     enemy->setScale(0.25 * RESOLUTION_VARIABLE);
-    this->addChild(enemy, 4);
+    this->addChild(enemy, ENEMY_LAYER);
 
     //moving and deleting
     float distance = visibleSize.height + enemy->getContentSize().width * 2;
@@ -687,7 +687,7 @@ void Level::spawnEnemyType3(float dt)
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
     EnemyType3* enemy;
     enemy = GameController::spawnEnemyType3();
-    this->addChild(enemy, 3);
+    this->addChild(enemy, TURRET_LAYER);
     auto way1 = RandomHelper::random_int(4, 6) / 10.0 ;
     auto way2 = 0.15;
     auto way3 = 2;
@@ -726,7 +726,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 DefaultProjectile* projectile;
                 projectile = GameController::spawnEnemyProjectile(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
                 projectile->setScale(RESOLUTION_VARIABLE);
-                this->addChild(projectile, 5);
+                this->addChild(projectile, PROJECTILE_LAYER);
                 //moving and deleting
                 Vec2 tar = GameController::calcTarget(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
                 float distance = GameController::findDistance(GameController::type1Enemies.at(n)->getPosition(), tar);
@@ -757,7 +757,7 @@ void Level::spawnEnemyProjectiles(float dt)
                 projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
                 projectile->setScale(RESOLUTION_VARIABLE);
                 projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
-                this->addChild(projectile, 5);
+                this->addChild(projectile, PROJECTILE_LAYER);
                 //moving and deleting
                 Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
                 float distance = GameController::findDistance(GameController::type2Enemies.at(n)->getPosition(), tar);
@@ -803,7 +803,7 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
     auto angle = enemy->getRotationAngle();
     if (enemy->getSpawnPoint() == 2) angle += 180;
     projectile->setRotation(angle);
-    this->addChild(projectile, 5);
+    this->addChild(projectile, PROJECTILE_LAYER);
     auto enemySpeed = (float)100 * RESOLUTION_VARIABLE;
 
     float distance = visibleSize.height * 2;
@@ -891,7 +891,7 @@ void Level::spawnBoss()
     Level1Boss* boss = GameController::createLevel1Boss();
     boss->setPosition(Vec2(visibleSize.width/2,visibleSize.height));
     boss->setScale(0.25 * RESOLUTION_VARIABLE);
-    this->addChild(boss, 5);
+    this->addChild(boss, BOSS_LAYER);
 
     auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height*0.25 * RESOLUTION_VARIABLE));
     auto changeState = CallFunc::create([boss]() {boss->setState(2); });
@@ -910,7 +910,7 @@ void Level::spawnLaserRay(Level1Boss* boss)
 
     auto angle = 90;
     projectile->setRotation(angle);
-    this->addChild(projectile,6);
+    this->addChild(projectile, BOSS_PROJECTILE_LAYER);
     boss->setRay(projectile);
 
     //auto raySFX = AudioEngine::play2d("audio/sfx/raySFX.mp3", true);
