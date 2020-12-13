@@ -722,14 +722,12 @@ void Level::spawnEnemyType3(float dt)
 void Level::spawnEnemyProjectiles(float dt)
 {
     int type = 1;
-    if (!GameController::bossFightIsOn) {
-        if (type == 1 && GameController::type1Enemies.size() > 0) {
-            spawnDefaultProjectile(GameController::type1Enemies.size() - 1);
-        }
-        if (currentTime > 120000) type = 2;
-        if (type == 2 && GameController::type2Enemies.size() > 0) {
-            spawnLaserProjectile(GameController::type2Enemies.size() - 1);
-        }
+    if (type == 1 && GameController::type1Enemies.size() > 0) {
+        spawnDefaultProjectile(GameController::type1Enemies.size() - 1);
+    }
+    if (currentTime > 120000) type = 2;
+    if (type == 2 && GameController::type2Enemies.size() > 0) {
+        spawnLaserProjectile(GameController::type2Enemies.size() - 1);
     }
 }
 void Level::spawnDefaultProjectile(int n)
@@ -866,10 +864,12 @@ void Level::removeLaserRay(RayProjectile* ray)
 void Level::audioUpdate(float dt)
 {
     currentTime += 5;
-    if (GameController::shootingTimings[currentTiming] < currentTime)
-    {
-        Level::spawnEnemyProjectiles(dt);
-        currentTiming++;
+    if (!GameController::bossFightIsOn) {
+        if (GameController::shootingTimings[currentTiming] < currentTime)
+        {
+            Level::spawnEnemyProjectiles(dt);
+            currentTiming++;
+        }
     }
 }
 void Level::spawnBoss()
