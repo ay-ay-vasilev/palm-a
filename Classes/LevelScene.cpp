@@ -383,6 +383,10 @@ void Level::update(float dt)
 
 
     GameController::bossMovement();
+    if (GameController::bossFightIsOn)
+    {
+        if (GameController::boss->getHp() < 0) levelFinished();
+    }
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 {
@@ -493,6 +497,8 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         || (BOSS_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->jumpKill(0);
+        GameController::boss->getDamage(1);
+        bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
     }
 
     //if player collided with laser ray
@@ -914,6 +920,7 @@ void Level::spawnLaserRay(Level1Boss* boss)
 }
 void Level::bossInit()
 {
+    GameController::boss->setHp(20);
     auto origin = Director::getInstance()->getVisibleOrigin();
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto bossHpBarOver = Sprite::create("res/ui/boss_hp_bar_under.png");
@@ -923,7 +930,7 @@ void Level::bossInit()
     bossHpBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
 
     // hp bar
-    auto bossHpBar= ui::LoadingBar::create("res/ui/boss_hp_bar.png");
+    bossHpBar= ui::LoadingBar::create("res/ui/boss_hp_bar.png");
     bossHpBar->setScale(RESOLUTION_VARIABLE);
     bossHpBar->setAnchorPoint(Vec2(0.5, 0.5));
     bossHpBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));

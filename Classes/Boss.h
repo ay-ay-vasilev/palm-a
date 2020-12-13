@@ -21,9 +21,16 @@ public:
 	int getPhase();
 	void setPhase(int _phase);
 
+	void getDamage(int _dmg);
+	int getHp();
+	void setHp(int _hp);
+	int getInitialHp();
+
 private:
 	int phase;
 	int state;
+	int hp;
+	int initialHP;
 	RayProjectile* ray;
 	Level1Boss();
 	~Level1Boss();

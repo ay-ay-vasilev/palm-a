@@ -2,7 +2,7 @@
     "player": {
         "speed": 4,
         "dashSpeed": 80,
-        "jumpForce": 7,
+        "jumpForce": 15,
         "gravity": 0.4,
         "maxFallSpeed": -10,
         "maxJumpSpeed": 10,

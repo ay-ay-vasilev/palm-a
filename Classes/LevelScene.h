@@ -95,6 +95,7 @@ private:
     cocos2d::Label *scoreLabel;
     cocos2d::Label *playerHPLabel;
     ui::LoadingBar *playerHPBar;
+    ui::LoadingBar* bossHpBar;
 
     void audioUpdate(float dt);
     int currentTime;
