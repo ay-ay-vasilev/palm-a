@@ -721,45 +721,14 @@ void Level::spawnEnemyType3(float dt)
 }
 void Level::spawnEnemyProjectiles(float dt)
 {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    bool shotHappened = false;
-    auto randomType = cocos2d::RandomHelper::random_int(1, 2);
-    if (randomType == 1) {
-        for (int i = GameController::type1Enemies.size() - 1; i >= 0; i--)
-        {
-            if (shotHappened) break;
-            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
-                spawnDefaultProjectile(i);
-                shotHappened = true;
-            }
+    int type = 1;
+    if (!GameController::bossFightIsOn) {
+        if (type == 1 && GameController::type1Enemies.size() > 0) {
+            spawnDefaultProjectile(GameController::type1Enemies.size() - 1);
         }
-        for (int i = GameController::type2Enemies.size() - 1; i >= 0; i--)
-        {
-            if (shotHappened) break;
-            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
-                spawnLaserProjectile(i);
-                shotHappened = true;
-            }
-        }
-    }
-
-    else {
-        for (int i = GameController::type2Enemies.size() - 1; i >= 0; i--)
-        {
-            if (shotHappened) break;
-            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
-                spawnLaserProjectile(i);
-                shotHappened = true;
-            }
-        }
-        for (int i = GameController::type1Enemies.size() - 1; i >= 0; i--)
-        {
-            if (shotHappened) break;
-            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
-                spawnDefaultProjectile(i);
-                shotHappened = true;
-            }
+        if (currentTime > 120000) type = 2;
+        if (type == 2 && GameController::type2Enemies.size() > 0) {
+            spawnLaserProjectile(GameController::type2Enemies.size() - 1);
         }
     }
 }

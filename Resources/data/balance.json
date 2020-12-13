@@ -6,7 +6,7 @@
         "gravity": 0.4,
         "maxFallSpeed": -10,
         "maxJumpSpeed": 10,
-        "hp": 150,
+        "hp": 1500,
         "additionalJumps": 1,
         "jumpKillForce": 7
     },
