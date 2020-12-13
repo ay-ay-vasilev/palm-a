@@ -508,7 +508,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ((PLAYER_MASK == a->getCollisionBitmask() && RAY_PROJECTILE_MASK == b->getCollisionBitmask())
         || (RAY_PROJECTILE_MASK == a->getCollisionBitmask() && RAY_PROJECTILE_MASK == b->getCollisionBitmask()))
     {
-        player->damageHP(100);
+        player->damageHP(10);
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
     }
 

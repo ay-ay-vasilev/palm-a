@@ -44,6 +44,17 @@ void Player::initPlayer()
 	direction = DIRECTION_LEFT;
 	isOnGround = true;
 	invincible = false;
+
+	jetpackParticles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+	jetpackParticles->setAnchorPoint(Vec2(0.5, 0.5));
+	jetpackParticles->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
+	
+	jetpackParticles->setTotalParticles(100);
+	jetpackParticles->setLifeVar(0.1f);
+	
+	jetpackParticles->setGravity(Vec2(0, -1000));
+	this->addChild(jetpackParticles, PARTICLES_LAYER);
+	jetpackParticles->stopSystem();
 }
 
 void Player::removeInvincibility(float dt)
@@ -69,13 +80,19 @@ void Player::jump()
 {
 	if (isOnGround) {
 		isOnGround = false;
-		vertForce = GameConstants::getPlayerStats("JUMP_FORCE");;
+		vertForce = GameConstants::getPlayerStats("JUMP_FORCE");
 		playAnimation(jumpLeftAnimate, jumpRightAnimate);
+		auto jumpSFX = AudioEngine::play2d("audio/sfx/jumpSFX.mp3", false);
+		AudioEngine::setVolume(jumpSFX, 0.3);
 	}
 	else if (additionalJumps > 0 && !isOnGround) {
 		additionalJumps--;
 		vertForce = GameConstants::getPlayerStats("ADDITIONAL_JUMP_FORCE");
 		playAnimation(flyLeftAnimate, flyRightAnimate);
+		auto jetJumpSFX = AudioEngine::play2d("audio/sfx/jetpackJumpSFX.mp3", false);
+		AudioEngine::setVolume(jetJumpSFX, 0.3);
+
+		jetpackParticles->start();
 	}
 }
 
@@ -94,6 +111,7 @@ bool Player::jumpKill(float enemyPosY)
 void Player::fall()
 {
 	playAnimation(fallLeftAnimate, fallRightAnimate);
+	jetpackParticles->stopSystem();
 }
 
 void Player::run(int directionParam)

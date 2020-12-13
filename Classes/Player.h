@@ -18,6 +18,8 @@ public:
 	Animate * flyLeftAnimate;
 	Animate * flyRightAnimate;
 
+	ParticleSystemQuad* jetpackParticles;
+
 	static Player * create(void);
 	void dash();
 	void jump();
