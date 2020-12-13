@@ -63,3 +63,19 @@ void Level1Boss::setPhase(int _phase)
 {
 	phase = _phase;
 }
+void Level1Boss::getDamage(int _dmg)
+{
+	hp = hp - _dmg;
+}
+int Level1Boss::getHp() {
+	return hp;
+}
+void Level1Boss::setHp(int _hp)
+{
+	hp =_hp;
+	initialHP = _hp;
+}
+int Level1Boss::getInitialHp()
+{
+	return initialHP;
+}

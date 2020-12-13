@@ -3,7 +3,7 @@
         "unarmed": {
             "speed": 4,
             "dashSpeed": 80,
-            "jumpForce": 5,
+            "jumpForce": 7,
             "gravity": 0.4,
             "maxFallSpeed": -10,
             "maxJumpSpeed": 10,
@@ -15,14 +15,14 @@
         "jetpack": {
             "speed": 4,
             "dashSpeed": 80,
-            "jumpForce": 5,
+            "jumpForce": 7,
             "gravity": 0.4,
             "maxFallSpeed": -10,
             "maxJumpSpeed": 10,
             "hp": 100,
             "additionalJumps": 3,
-            "additionalJumpForce": 8,
-            "jumpKillForce": 8
+            "additionalJumpForce": 9,
+            "jumpKillForce": 9
         }
     },
     "enemy": {
@@ -56,7 +56,7 @@
         }
     },
     "level": {
-        "levelDuration": 208,
+        "levelDuration": 209,
         "wallDistance": 40,
         "floorHeight": 30,
         "timings": "Resources/data/levels/timingsLevel1.txt"
