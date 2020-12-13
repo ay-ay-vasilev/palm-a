@@ -76,6 +76,8 @@ private:
     void spawnLaserRay(float dt, EnemyType3* ray);
     void spawnLaserRay(Level1Boss* boss);
     void spawnBoss();
+    void spawnDefaultProjectile(int n);
+    void spawnLaserProjectile(int n);
     // MOVE LATER
     bool isPaused;
     int totalScore;
