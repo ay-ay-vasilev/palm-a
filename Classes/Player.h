@@ -24,12 +24,13 @@ public:
 	void run(int directionParam);
 	void idle();
 	void update();
+	void giveIFrames(float duration);
 
 	cocos2d::PhysicsBody* getBody();
 
 	int hp;
 	int getHP();
-	void updateHP(int dmg);
+	bool damageHP(int dmg);
 private:
 	~Player();
 
@@ -39,6 +40,9 @@ private:
 	float vertForce;
 	bool isOnGround;
 	int additionalJumps;
+	
+	bool invincible;
+	void removeInvincibility(float dt);
 
 	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);
 

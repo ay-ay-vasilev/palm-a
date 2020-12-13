@@ -399,14 +399,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ( ( PLAYER_MASK == a->getCollisionBitmask() && REGULAR_ENEMY_MASK == b->getCollisionBitmask() ) 
 		|| (REGULAR_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask() ) )
     {   
-        player->updateHP(GameConstants::getEnemyStats("REGULAR_COLLIDE_DAMAGE"));
+        player->damageHP(GameConstants::getEnemyStats("REGULAR_COLLIDE_DAMAGE"));
         playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
 
         if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.3);
+                AudioEngine::setVolume(enemyDeadSFX, 0.4);
                 this->removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             }
         }
@@ -414,7 +414,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             if (player->jumpKill(dynamic_cast<EnemyType1*>(b->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.3);
+                AudioEngine::setVolume(enemyDeadSFX, 0.4);
                 this->removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
 
             }
@@ -425,55 +425,58 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ( (PLAYER_MASK == a->getCollisionBitmask() && DEFAULT_PROJECTILE_MASK == b->getCollisionBitmask() )
 		|| ( DEFAULT_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask() ) )
     {   
-        player->updateHP(GameConstants::getProjectileStats("DEFAULT_DAMAGE"));
+        if (player->damageHP(GameConstants::getProjectileStats("DEFAULT_DAMAGE")))
+        {
+            if (a->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
+                auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
+                this->addChild(particles, PARTICLES_LAYER);
 
-        if (a->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
-            auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-            
-            this->removeProjectile(a->getNode());
+                this->removeProjectile(a->getNode());
 
+            }
+            if (b->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
+                auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
+                this->addChild(particles, PARTICLES_LAYER);
+
+                this->removeProjectile(b->getNode());
+            }
+
+            playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
         }
-        if (b->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
-            auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-
-            this->removeProjectile(b->getNode());
-        }
-
-        playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
     }
     //if player collided with laser
     if ((PLAYER_MASK == a->getCollisionBitmask() && LASER_PROJECTILE_MASK == b->getCollisionBitmask())
         || (LASER_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
-        player->updateHP(GameConstants::getProjectileStats("LASER_DAMAGE"));
-        
-        if (a->getCollisionBitmask() == LASER_PROJECTILE_MASK) {
-            auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-            this->removeLaser(a->getNode());
-        }
-        if (b->getCollisionBitmask() == LASER_PROJECTILE_MASK){
-            auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-            this->removeLaser(b->getNode());
-        }
+        if (player->damageHP(GameConstants::getProjectileStats("LASER_DAMAGE")))
+        {
 
-        playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
+            if (a->getCollisionBitmask() == LASER_PROJECTILE_MASK) {
+                auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
+                this->addChild(particles, PARTICLES_LAYER);
+                this->removeLaser(a->getNode());
+            }
+            if (b->getCollisionBitmask() == LASER_PROJECTILE_MASK) {
+                auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
+                this->addChild(particles, PARTICLES_LAYER);
+                this->removeLaser(b->getNode());
+            }
+
+            playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
+        }
     }
     //if player collided with enemy type 2
     if ((PLAYER_MASK == a->getCollisionBitmask() && LASER_ENEMY_MASK == b->getCollisionBitmask())
         || (LASER_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
-        player->updateHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
+        player->damageHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
         if (a->getCollisionBitmask() == LASER_ENEMY_MASK) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.3);
+                AudioEngine::setVolume(enemyDeadSFX, 0.4);
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             }
         }
@@ -481,7 +484,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             if (player->jumpKill(dynamic_cast<EnemyType2*>(b->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.3);
+                AudioEngine::setVolume(enemyDeadSFX, 0.4);
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
             }
         }

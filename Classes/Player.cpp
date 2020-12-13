@@ -42,6 +42,18 @@ void Player::initPlayer()
 	additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");;
 	direction = DIRECTION_LEFT;
 	isOnGround = true;
+	invincible = false;
+}
+
+void Player::removeInvincibility(float dt)
+{
+	invincible = false;
+}
+
+void Player::giveIFrames(float duration)
+{
+	invincible = true;
+	this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::removeInvincibility), duration);
 }
 
 void Player::dash()
@@ -143,9 +155,10 @@ void Player::update()
 		particles->setEndSize(5);
 		this->addChild(particles);
 		
-		auto fadeIn = FadeIn::create(0.05f);
-		auto fadeOut = FadeOut::create(0.05f);
+		auto fadeIn = FadeIn::create(0.1f);
+		auto fadeOut = FadeOut::create(0.1f);
 		auto dashSeq = Sequence::create(fadeOut, fadeIn, nullptr);
+		giveIFrames(0.2f);
 
 		this->runAction(dashSeq);
 
@@ -219,9 +232,31 @@ int Player::getHP()
 {
 	return Player::hp;
 }
-void Player::updateHP(int dmg)
+bool Player::damageHP(int dmg)
 {
-	Player::hp = Player::hp - dmg;
+	if (dmg > 0 && !invincible)
+	{
+		auto damageSFX = AudioEngine::play2d("audio/sfx/damageSFX.mp3", false);
+		AudioEngine::setVolume(damageSFX, 0.1);
+
+		auto fadeIn = FadeIn::create(0.1f);
+		auto fadeOut = FadeOut::create(0.1f);
+		auto redTint = TintTo::create(0.4f, 255, 0, 0);
+		auto normalTint = TintTo::create(0.4f, 255, 255, 255);
+
+		auto damageFade = Sequence::create(fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn, nullptr);
+		auto damageTint = Sequence::create(redTint, normalTint, nullptr);
+
+		this->runAction(damageFade);
+		this->runAction(damageTint);
+		giveIFrames(0.8f);
+
+		Player::hp = Player::hp - dmg;
+
+		return true;
+	}	
+
+	return false;
 }
 
 // ================================================================== ANIMATION STUFF ==================================================================
