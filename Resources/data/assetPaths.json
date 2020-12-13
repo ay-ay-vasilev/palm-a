@@ -1,14 +1,32 @@
 {
-    "player": {
-        "spriteSheet": "res/character/character_sheet.plist",
-        "idleUnarmedLeft": "character_unarmed_idle_left_%i.png",
-        "idleUnarmedRight": "character_unarmed_idle_right_%i.png",
-        "runUnarmedLeft": "character_unarmed_run_left_%i.png",
-        "runUnarmedRight": "character_unarmed_run_right_%i.png",
-        "jumpUnarmedLeft": "character_unarmed_jump_left_%i.png",
-        "jumpUnarmedRight": "character_unarmed_jump_right_%i.png",
-        "fallUnarmedLeft": "character_unarmed_fall_left_%i.png",
-        "fallUnarmedRight": "character_unarmed_fall_right_%i.png"
+    "player": { 
+        "unarmed":{
+            "spriteSheet": "res/character/character_sheet.plist",
+            "idleLeft": "character_unarmed_idle_left_%i.png",
+            "idleRight": "character_unarmed_idle_right_%i.png",
+            "runLeft": "character_unarmed_run_left_%i.png",
+            "runRight": "character_unarmed_run_right_%i.png",
+            "jumpLeft": "character_unarmed_jump_left_%i.png",
+            "jumpRight": "character_unarmed_jump_right_%i.png",
+            "fallLeft": "character_unarmed_fall_left_%i.png",
+            "fallRight": "character_unarmed_fall_right_%i.png",
+            "flyLeft": "character_unarmed_fly_left_%i.png",
+            "flyRight": "character_unarmed_fly_right_%i.png"
+        },
+        "jetpack":{
+            "spriteSheet": "res/character/character_sheet.plist",
+            "idleLeft": "character_jetpack_idle_left_%i.png",
+            "idleRight": "character_jetpack_idle_right_%i.png",
+            "runLeft": "character_jetpack_run_left_%i.png",
+            "runRight": "character_jetpack_run_right_%i.png",
+            "jumpLeft": "character_jetpack_jump_left_%i.png",
+            "jumpRight": "character_jetpack_jump_right_%i.png",
+            "fallLeft": "character_jetpack_fall_left_%i.png",
+            "fallRight": "character_jetpack_fall_right_%i.png",
+            "flyLeft": "character_jetpack_fly_left_%i.png",
+            "flyRight": "character_jetpack_fly_right_%i.png"
+        },
+        "turret":{}
     },
     "enemy": {
         "regular" : {

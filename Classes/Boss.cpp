@@ -1,5 +1,6 @@
 #include "Boss.h"
 #include "GameController.h"
+#include "Definitions.h"
 
 Level1Boss::Level1Boss() {}
 Level1Boss::~Level1Boss() {}
@@ -34,7 +35,7 @@ cocos2d::PhysicsBody* Level1Boss::getBody()
 	physicsBody->setPositionOffset(Vec2(0, 0));
 
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(8);
+	physicsBody->setCollisionBitmask(BOSS_MASK);
 	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }

@@ -35,6 +35,7 @@ Player * Player::create()
 
 void Player::initPlayer()
 {
+	GameConstants::loadPlayer("jetpack");
 	Player::loadAnimations();
 	Player::hp = GameConstants::getPlayerStats("START_HP");
 	moving = false;
@@ -73,8 +74,8 @@ void Player::jump()
 	}
 	else if (additionalJumps > 0 && !isOnGround) {
 		additionalJumps--;
-		vertForce = GameConstants::getPlayerStats("JUMP_FORCE");
-		playAnimation(jumpLeftAnimate, jumpRightAnimate);
+		vertForce = GameConstants::getPlayerStats("ADDITIONAL_JUMP_FORCE");
+		playAnimation(flyLeftAnimate, flyRightAnimate);
 	}
 }
 
@@ -110,7 +111,15 @@ void Player::run(int directionParam)
 	}
 	// update jump animation if character is in air and rising
 	else {
-		playAnimation(jumpLeftAnimate, jumpRightAnimate);
+		if (additionalJumps == GameConstants::getPlayerStats("ADDITIONAL_JUMPS"))
+		{
+			playAnimation(jumpLeftAnimate, jumpRightAnimate);
+		}
+		else
+		{
+			playAnimation(flyLeftAnimate, flyRightAnimate);
+		}
+			
 	}
 }
 
@@ -289,14 +298,16 @@ void Player::loadAnimations()
 	setContentSize(Size(spriteSize, spriteSize));
 	spriteCache->addSpriteFramesWithFile(playerSheet);
 
-	idleLeftAnimate = Player::createAnimation(spriteCache, "IDLE_NUM_OF_FRAMES", "IDLE_SPEED", "UNARMED_IDLE_LEFT");
-	idleRightAnimate = Player::createAnimation(spriteCache, "IDLE_NUM_OF_FRAMES", "IDLE_SPEED", "UNARMED_IDLE_RIGHT");
-	runLeftAnimate = Player::createAnimation(spriteCache, "RUN_NUM_OF_FRAMES", "RUN_SPEED", "UNARMED_RUN_LEFT");
-	runRightAnimate = Player::createAnimation(spriteCache, "RUN_NUM_OF_FRAMES", "RUN_SPEED", "UNARMED_RUN_RIGHT");
-	jumpLeftAnimate = Player::createAnimation(spriteCache, "JUMP_NUM_OF_FRAMES", "JUMP_SPEED", "UNARMED_JUMP_LEFT");
-	jumpRightAnimate = Player::createAnimation(spriteCache, "JUMP_NUM_OF_FRAMES", "JUMP_SPEED", "UNARMED_JUMP_RIGHT");
-	fallLeftAnimate = Player::createAnimation(spriteCache, "FALL_NUM_OF_FRAMES", "FALL_SPEED", "UNARMED_FALL_LEFT");
-	fallRightAnimate = Player::createAnimation(spriteCache, "FALL_NUM_OF_FRAMES", "FALL_SPEED", "UNARMED_FALL_RIGHT");
+	idleLeftAnimate = Player::createAnimation(spriteCache, "IDLE_NUM_OF_FRAMES", "IDLE_SPEED", "IDLE_LEFT");
+	idleRightAnimate = Player::createAnimation(spriteCache, "IDLE_NUM_OF_FRAMES", "IDLE_SPEED", "IDLE_RIGHT");
+	runLeftAnimate = Player::createAnimation(spriteCache, "RUN_NUM_OF_FRAMES", "RUN_SPEED", "RUN_LEFT");
+	runRightAnimate = Player::createAnimation(spriteCache, "RUN_NUM_OF_FRAMES", "RUN_SPEED", "RUN_RIGHT");
+	jumpLeftAnimate = Player::createAnimation(spriteCache, "JUMP_NUM_OF_FRAMES", "JUMP_SPEED", "JUMP_LEFT");
+	jumpRightAnimate = Player::createAnimation(spriteCache, "JUMP_NUM_OF_FRAMES", "JUMP_SPEED", "JUMP_RIGHT");
+	fallLeftAnimate = Player::createAnimation(spriteCache, "FALL_NUM_OF_FRAMES", "FALL_SPEED", "FALL_LEFT");
+	fallRightAnimate = Player::createAnimation(spriteCache, "FALL_NUM_OF_FRAMES", "FALL_SPEED", "FALL_RIGHT");
+	flyLeftAnimate = Player::createAnimation(spriteCache, "FLY_NUM_OF_FRAMES", "FLY_SPEED", "FLY_LEFT");
+	flyRightAnimate = Player::createAnimation(spriteCache, "FLY_NUM_OF_FRAMES", "FLY_SPEED", "FLY_RIGHT");
 	
 	idleLeftAnimate->retain();
 	idleRightAnimate->retain();
@@ -306,6 +317,8 @@ void Player::loadAnimations()
 	jumpRightAnimate->retain();
 	fallLeftAnimate->retain();
 	fallRightAnimate->retain();
+	flyLeftAnimate->retain();
+	flyRightAnimate->retain();
 	
 	RepeatForever * startAnimation = RepeatForever::create(idleLeftAnimate);
 	startAnimation->setTag(ANIMATION_TAG);

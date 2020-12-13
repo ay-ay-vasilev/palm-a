@@ -1,6 +1,9 @@
 #ifndef __DEFINITIONS_H__
 #define __DEFINITIONS_H__
 #include "JsonInstance.h"
+// Player types
+#define PLAYER_UNARMED "unarmed"
+#define PLAYER_JETPACK "jetpack"
 // Magic number solvers
 #define DIRECTION_LEFT 0
 #define DIRECTION_RIGHT 1
@@ -14,6 +17,7 @@
 #define LASER_ENEMY_MASK 5
 #define LASER_PROJECTILE_MASK 4
 #define TURRET_ENEMY_MASK 6
+#define RAY_PROJECTILE_MASK 7
 #define BOSS_MASK 8
 // Layers
 #define BEHIND -1

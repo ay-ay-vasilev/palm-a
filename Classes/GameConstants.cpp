@@ -23,34 +23,6 @@ void GameConstants::initConstants(std::string levelName)
 
 	if (levelName == "level1")
 	{
-		setPlayerAssetPath("SPRITE_SHEET", "spriteSheet");
-		setPlayerAssetPath("UNARMED_IDLE_LEFT", "idleUnarmedLeft");
-		setPlayerAssetPath("UNARMED_IDLE_RIGHT", "idleUnarmedRight");
-		setPlayerAssetPath("UNARMED_RUN_LEFT", "runUnarmedLeft");
-		setPlayerAssetPath("UNARMED_RUN_RIGHT", "runUnarmedRight");
-		setPlayerAssetPath("UNARMED_JUMP_LEFT", "jumpUnarmedLeft");
-		setPlayerAssetPath("UNARMED_JUMP_RIGHT", "jumpUnarmedRight");
-		setPlayerAssetPath("UNARMED_FALL_LEFT", "fallUnarmedLeft");
-		setPlayerAssetPath("UNARMED_FALL_RIGHT", "fallUnarmedRight");
-		setPlayerAnimationData("IDLE_NUM_OF_FRAMES", "idleFrames");
-		setPlayerAnimationData("RUN_NUM_OF_FRAMES", "runFrames");
-		setPlayerAnimationData("JUMP_NUM_OF_FRAMES", "jumpFrames");
-		setPlayerAnimationData("FALL_NUM_OF_FRAMES", "fallFrames");
-		setPlayerAnimationData("IDLE_SPEED", "idleAnimSpeed");
-		setPlayerAnimationData("RUN_SPEED", "runAnimSpeed");
-		setPlayerAnimationData("JUMP_SPEED", "jumpAnimSpeed");
-		setPlayerAnimationData("FALL_SPEED", "fallAnimSpeed");
-		setPlayerAnimationData("SPRITE_SIZE", "spriteSize");
-		setPlayerStats("SPEED", "speed", MULT_BY_RESOLUTION);
-		setPlayerStats("DASH_SPEED", "dashSpeed", MULT_BY_RESOLUTION);
-		setPlayerStats("JUMP_FORCE", "jumpForce", MULT_BY_RESOLUTION);
-		setPlayerStats("GRAVITY", "gravity", MULT_BY_RESOLUTION);
-		setPlayerStats("MAX_FALL_SPEED", "maxFallSpeed", MULT_BY_RESOLUTION);
-		setPlayerStats("MAX_JUMP_SPEED", "maxJumpSpeed", MULT_BY_RESOLUTION);
-		setPlayerStats("START_HP", "hp", NOT_MULT_BY_RESOLUTION);
-		setPlayerStats("ADDITIONAL_JUMPS", "additionalJumps", NOT_MULT_BY_RESOLUTION);
-		setPlayerStats("JUMP_KILL_FORCE", "jumpKillForce", MULT_BY_RESOLUTION);
-
 		setEnemyAssetPath("REGULAR_SPRITE_SHEET", "regular", "spriteSheet");
 		setEnemyAssetPath("REGULAR_IDLE_LEFT", "regular", "idleLeft");
 		setEnemyAssetPath("REGULAR_IDLE_RIGHT", "regular", "idleRight");
@@ -159,17 +131,17 @@ float GameConstants::getLevelStats(const std::string& key)
 
 
 // ============================================= SETTERS =============================================
-void GameConstants::setPlayerAssetPath(const std::string& key, const std::string& assetName)
+void GameConstants::setPlayerAssetPath(const std::string& key, const std::string& assetName, const std::string& playerType)
 {
-	playerAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["player"][assetName];
+	playerAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["player"][playerType][assetName];
 }
-void GameConstants::setPlayerAnimationData(const std::string& key, const std::string& dataName)
+void GameConstants::setPlayerAnimationData(const std::string& key, const std::string& dataName, const std::string& playerType)
 {
-	playerAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["playerAnim"][dataName];
+	playerAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["playerAnim"][playerType][dataName];
 }
-void GameConstants::setPlayerStats(const std::string& key, const std::string& dataName, const bool multByResolution)
+void GameConstants::setPlayerStats(const std::string& playerType, const std::string& key, const std::string& dataName, const bool multByResolution)
 {
-	playerStats[key] = JsonInstance::GetInstance()->GetData("balance")["player"][dataName];
+	playerStats[key] = JsonInstance::GetInstance()->GetData("balance")["player"][playerType][dataName];
 	if (multByResolution)
 	{
 		playerStats[key] *= GameConstants::resolution;
@@ -207,7 +179,6 @@ void GameConstants::setProjectileStats(const std::string& key, const std::string
 		projectileStats[key] *= GameConstants::resolution;
 	}
 }
-
 void GameConstants::setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution)
 {
 	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["level"][dataName];
@@ -215,4 +186,46 @@ void GameConstants::setLevelStats(const std::string& key, const std::string& dat
 	{
 		levelStats[key] *= GameConstants::resolution;
 	}
+}
+
+
+// ============================================= LOAD OBJECT ==============================================
+void GameConstants::loadPlayer(const std::string& playerType)
+{
+	setPlayerAssetPath("SPRITE_SHEET", "spriteSheet", playerType);
+
+	setPlayerAssetPath("IDLE_LEFT", "idleLeft", playerType);
+	setPlayerAssetPath("IDLE_RIGHT", "idleRight", playerType);
+	setPlayerAssetPath("RUN_LEFT", "runLeft", playerType);
+	setPlayerAssetPath("RUN_RIGHT", "runRight", playerType);
+	setPlayerAssetPath("JUMP_LEFT", "jumpLeft", playerType);
+	setPlayerAssetPath("JUMP_RIGHT", "jumpRight", playerType);
+	setPlayerAssetPath("FALL_LEFT", "fallLeft", playerType);
+	setPlayerAssetPath("FALL_RIGHT", "fallRight", playerType);
+	setPlayerAssetPath("FLY_LEFT", "flyLeft", playerType);
+	setPlayerAssetPath("FLY_RIGHT", "flyRight", playerType);
+
+	setPlayerAnimationData("IDLE_NUM_OF_FRAMES", "idleFrames", playerType);
+	setPlayerAnimationData("RUN_NUM_OF_FRAMES", "runFrames", playerType);
+	setPlayerAnimationData("JUMP_NUM_OF_FRAMES", "jumpFrames", playerType);
+	setPlayerAnimationData("FALL_NUM_OF_FRAMES", "fallFrames", playerType);
+	setPlayerAnimationData("FLY_NUM_OF_FRAMES", "flyFrames", playerType);
+	setPlayerAnimationData("IDLE_SPEED", "idleAnimSpeed", playerType);
+	setPlayerAnimationData("RUN_SPEED", "runAnimSpeed", playerType);
+	setPlayerAnimationData("JUMP_SPEED", "jumpAnimSpeed", playerType);
+	setPlayerAnimationData("FALL_SPEED", "fallAnimSpeed", playerType);
+	setPlayerAnimationData("FLY_SPEED", "flyAnimSpeed", playerType);
+	setPlayerAnimationData("SPRITE_SIZE", "spriteSize", playerType);
+
+	setPlayerStats(playerType, "SPEED", "speed", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "DASH_SPEED", "dashSpeed", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "JUMP_FORCE", "jumpForce", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "GRAVITY", "gravity", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "MAX_FALL_SPEED", "maxFallSpeed", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "MAX_JUMP_SPEED", "maxJumpSpeed", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "START_HP", "hp", NOT_MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "ADDITIONAL_JUMPS", "additionalJumps", NOT_MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "ADDITIONAL_JUMP_FORCE", "additionalJumpForce", MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "JUMP_KILL_FORCE", "jumpKillForce", MULT_BY_RESOLUTION);
+
 }

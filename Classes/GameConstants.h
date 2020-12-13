@@ -26,9 +26,9 @@ public:
 	static float resolution;
 	static void initConstants(std::string levelName);
 	
-	static void setPlayerAssetPath(const std::string& key, const std::string& assetName);
-	static void setPlayerAnimationData(const std::string& key, const std::string& dataName);
-	static void setPlayerStats(const std::string& key, const std::string& dataName, const bool multByResolution);
+	static void setPlayerAssetPath(const std::string& key, const std::string& assetName, const std::string& playerType);
+	static void setPlayerAnimationData(const std::string& key, const std::string& dataName, const std::string& playerType);
+	static void setPlayerStats(const std::string& playerType, const std::string& key, const std::string& dataName, const bool multByResolution);
 	static void setEnemyAssetPath(const std::string& key, const std::string& type, const std::string& assetName);
 	static void setEnemyAnimationData(const std::string& key, const std::string& type, const std::string& dataName);
 	static void setEnemyStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution);
@@ -49,6 +49,6 @@ public:
 	static float getProjectileStats(const std::string& key);
 	static float getLevelStats(const std::string& key);
 	
-
+	static void loadPlayer(const std::string& type);
 };
 #endif

@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>character_unarmed_fall_left_1.png</key>
+            <key>character_jetpack_fall_left_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_left_2.png</key>
+            <key>character_jetpack_fall_left_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -34,7 +34,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_left_3.png</key>
+            <key>character_jetpack_fall_left_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -49,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_left_4.png</key>
+            <key>character_jetpack_fall_left_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -64,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_right_1.png</key>
+            <key>character_jetpack_fall_right_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_right_2.png</key>
+            <key>character_jetpack_fall_right_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_right_3.png</key>
+            <key>character_jetpack_fall_right_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_fall_right_4.png</key>
+            <key>character_jetpack_fall_right_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_left_1.png</key>
+            <key>character_jetpack_fly_left_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_left_2.png</key>
+            <key>character_jetpack_fly_left_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_left_3.png</key>
+            <key>character_jetpack_fly_left_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +169,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_left_4.png</key>
+            <key>character_jetpack_fly_left_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_left_5.png</key>
+            <key>character_jetpack_fly_left_5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_right_1.png</key>
+            <key>character_jetpack_fly_left_6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_right_2.png</key>
+            <key>character_jetpack_fly_right_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_right_3.png</key>
+            <key>character_jetpack_fly_right_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -244,7 +244,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_right_4.png</key>
+            <key>character_jetpack_fly_right_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -259,7 +259,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_idle_right_5.png</key>
+            <key>character_jetpack_fly_right_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -274,7 +274,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_jump_left_1.png</key>
+            <key>character_jetpack_fly_right_5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -289,7 +289,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_jump_right_1.png</key>
+            <key>character_jetpack_fly_right_6.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -304,7 +304,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_1.png</key>
+            <key>character_jetpack_idle_left_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -319,7 +319,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_2.png</key>
+            <key>character_jetpack_idle_left_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -334,7 +334,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_3.png</key>
+            <key>character_jetpack_idle_left_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -349,7 +349,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_4.png</key>
+            <key>character_jetpack_idle_left_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -364,7 +364,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_5.png</key>
+            <key>character_jetpack_idle_left_5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -379,7 +379,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_6.png</key>
+            <key>character_jetpack_idle_right_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -394,7 +394,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_7.png</key>
+            <key>character_jetpack_idle_right_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -409,7 +409,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_left_8.png</key>
+            <key>character_jetpack_idle_right_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -424,7 +424,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_1.png</key>
+            <key>character_jetpack_idle_right_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -439,7 +439,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_2.png</key>
+            <key>character_jetpack_idle_right_5.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -454,7 +454,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_3.png</key>
+            <key>character_jetpack_jump_left_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -469,7 +469,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_4.png</key>
+            <key>character_jetpack_jump_right_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -484,7 +484,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_5.png</key>
+            <key>character_jetpack_run_left_1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -499,7 +499,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_6.png</key>
+            <key>character_jetpack_run_left_2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -514,7 +514,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_7.png</key>
+            <key>character_jetpack_run_left_3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -529,7 +529,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>character_unarmed_run_right_8.png</key>
+            <key>character_jetpack_run_left_4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -541,6 +541,756 @@
                 <string>{112,112}</string>
                 <key>textureRect</key>
                 <string>{{1904,112},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_left_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{0,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_left_6.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{112,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_left_7.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{224,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_left_8.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{336,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{448,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{560,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{672,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{784,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{896,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_6.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1008,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_7.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1120,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_jetpack_run_right_8.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1232,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_left_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1344,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_left_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1456,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_left_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1568,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_left_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1680,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_right_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1792,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_right_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1904,224},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_right_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{0,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fall_right_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{112,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fly_left_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{224,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_fly_right_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{336,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_left_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{448,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_left_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{560,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_left_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{672,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_left_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{784,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_left_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{896,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_right_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1008,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_right_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1120,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_right_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1232,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_right_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1344,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_idle_right_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1456,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_jump_left_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1568,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_jump_right_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1680,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1792,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1904,336},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{0,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{112,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{224,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_6.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{336,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_7.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{448,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_left_8.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{560,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{672,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{784,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{896,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1008,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1120,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_6.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1232,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_7.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1344,448},{112,112}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>character_unarmed_run_right_8.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{112,112}</string>
+                <key>spriteSourceSize</key>
+                <string>{112,112}</string>
+                <key>textureRect</key>
+                <string>{{1456,448},{112,112}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -556,9 +1306,9 @@
             <key>realTextureFileName</key>
             <string>character_sheet.png</string>
             <key>size</key>
-            <string>{2016,224}</string>
+            <string>{2016,560}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:59f34b55fb8147958ff5fcec36a5f430:74b5ceb4eebad70aee8c8f4d846db2c3:18f410f6a0fbce08392f7aab04a1178c$</string>
+            <string>$TexturePacker:SmartUpdate:4bcdcef120607d9f8c16f6265741e7b4:50cab3c107449a1fff9015f42ec5816d:18f410f6a0fbce08392f7aab04a1178c$</string>
             <key>textureFileName</key>
             <string>character_sheet.png</string>
         </dict>

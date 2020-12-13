@@ -15,8 +15,8 @@ EnemyType1* EnemyType1::create() {
 		enemy->autorelease();
 		enemy->model = Sprite::create();
 		if (enemy->model) {
-			enemy->model->setAnchorPoint(Vec2(0, 0));
-			enemy->model->setPosition(0, 0);
+			enemy->model->setAnchorPoint(Vec2::ZERO);
+			enemy->model->setPosition(Vec2::ZERO);
 
 			EnemyType1::loadAnimations(enemy);
 
@@ -36,7 +36,7 @@ cocos2d::PhysicsBody* EnemyType1::getBody()
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(2);
+	physicsBody->setCollisionBitmask(REGULAR_ENEMY_MASK);
 	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }
@@ -75,8 +75,8 @@ EnemyType2* EnemyType2::create()
 		enemy->autorelease();
 		enemy->model = Sprite::create();
 		if (enemy->model) {
-			enemy->model->setAnchorPoint(Vec2(0, 0));
-			enemy->model->setPosition(0, 0);
+			enemy->model->setAnchorPoint(Vec2::ZERO);
+			enemy->model->setPosition(Vec2::ZERO);
 
 			EnemyType2::loadAnimations(enemy);
 
@@ -96,7 +96,7 @@ cocos2d::PhysicsBody* EnemyType2::getBody()
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(5);
+	physicsBody->setCollisionBitmask(LASER_ENEMY_MASK);
 	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }
@@ -139,8 +139,7 @@ EnemyType3* EnemyType3::create()
 
 		enemy->model = Sprite::create();
 		if (enemy->model) {
-			//enemy->model->setAnchorPoint(Vec2(0, 0));
-			enemy->model->setPosition(0, 0);
+			enemy->model->setPosition(Vec2::ZERO);
 
 			char str[200] = { 0 };
 
@@ -164,7 +163,7 @@ cocos2d::PhysicsBody* EnemyType3::getBody()
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(6);
+	physicsBody->setCollisionBitmask(TURRET_ENEMY_MASK);
 	physicsBody->setContactTestBitmask(true);
 	return physicsBody;
 }

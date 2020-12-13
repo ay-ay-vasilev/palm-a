@@ -15,6 +15,8 @@ public:
 	Animate * jumpRightAnimate;
 	Animate * fallLeftAnimate;
 	Animate * fallRightAnimate;
+	Animate * flyLeftAnimate;
+	Animate * flyRightAnimate;
 
 	static Player * create(void);
 	void dash();

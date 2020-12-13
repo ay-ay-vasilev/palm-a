@@ -1,14 +1,29 @@
 {
     "player": {
-        "speed": 4,
-        "dashSpeed": 80,
-        "jumpForce": 7,
-        "gravity": 0.4,
-        "maxFallSpeed": -10,
-        "maxJumpSpeed": 10,
-        "hp": 1500,
-        "additionalJumps": 1,
-        "jumpKillForce": 7
+        "unarmed": {
+            "speed": 4,
+            "dashSpeed": 80,
+            "jumpForce": 5,
+            "gravity": 0.4,
+            "maxFallSpeed": -10,
+            "maxJumpSpeed": 10,
+            "hp": 100,
+            "additionalJumps": 1,
+            "additionalJumpForce": 5,
+            "jumpKillForce": 7
+        },
+        "jetpack": {
+            "speed": 4,
+            "dashSpeed": 80,
+            "jumpForce": 5,
+            "gravity": 0.4,
+            "maxFallSpeed": -10,
+            "maxJumpSpeed": 10,
+            "hp": 100,
+            "additionalJumps": 3,
+            "additionalJumpForce": 8,
+            "jumpKillForce": 8
+        }
     },
     "enemy": {
         "regular": {
@@ -48,6 +63,6 @@
     },
     "debug": {
         "mask": false,
-        "resolution": 2
+        "resolution": 3
     }
 }
