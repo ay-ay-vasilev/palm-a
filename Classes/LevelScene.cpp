@@ -787,7 +787,12 @@ void Level::spawnLaserProjectile(int n)
     LaserProjectile* projectile;
     projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
     projectile->setScale(RESOLUTION_VARIABLE);
-    projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
+    auto angle = GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
+    if (GameController::type2Enemies.at(n)->getPosition().y < player->getPosition().y)
+    {
+        angle = 360 - angle;
+    }
+    projectile->setRotation(angle);
     this->addChild(projectile, PROJECTILE_LAYER);
     //moving and deleting
     Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
