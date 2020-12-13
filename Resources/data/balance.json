@@ -48,6 +48,6 @@
     },
     "debug": {
         "mask": false,
-        "resolution": 3
+        "resolution": 2
     }
 }

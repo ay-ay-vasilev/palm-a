@@ -54,9 +54,8 @@ bool Level::init()
     currentTime = 0;
 
     //init the music
-    musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
     AudioEngine::preload("audio/music/level1BossFight.mp3");
-    AudioEngine::setVolume(musicID, 0.1);
+
     // important variables
     auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
@@ -80,6 +79,8 @@ bool Level::init()
 void Level::initStart(float dt) {
         initScedulers();
         initListeners();
+        musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
+        AudioEngine::setVolume(musicID, 0.1);
 }
 
 void Level::startCount() {
@@ -722,84 +723,84 @@ void Level::spawnEnemyProjectiles(float dt)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    bool shotHappened = false;
     auto randomType = cocos2d::RandomHelper::random_int(1, 2);
     if (randomType == 1) {
-        if (GameController::type1Enemies.size() > 0) {
-            long min = 0;
-            long max = GameController::type1Enemies.size() - 1;
-            long n = cocos2d::RandomHelper::random_int(min, max);
-            /*while (GameController::enemies.at(n)->getPosition().y < player->getPosition().y)
-            {
-                n = cocos2d::RandomHelper::random_int(min, max);
-            }*/
-
-            //create if enemy is above player
-            if (GameController::type1Enemies.at(n)->getPosition().y > player->getPosition().y) {
-                //creating
-                DefaultProjectile* projectile;
-                projectile = GameController::spawnEnemyProjectile(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
-                projectile->setScale(RESOLUTION_VARIABLE);
-                this->addChild(projectile, PROJECTILE_LAYER);
-                //moving and deleting
-                Vec2 tar = GameController::calcTarget(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
-                float distance = GameController::findDistance(GameController::type1Enemies.at(n)->getPosition(), tar);
-                auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("DEFAULT_SPEED"), tar);
-                auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
-                auto sequence = Sequence::create(moveAction, callBack, NULL);
-                projectile->runAction(sequence);
-                //SFX
-                auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
-                AudioEngine::setVolume(projectileSFX, 0.1);
+        for (int i = GameController::type1Enemies.size() - 1; i >= 0; i--)
+        {
+            if (shotHappened) break;
+            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
+                spawnDefaultProjectile(i);
+                shotHappened = true;
+            }
+        }
+        for (int i = GameController::type2Enemies.size() - 1; i >= 0; i--)
+        {
+            if (shotHappened) break;
+            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
+                spawnLaserProjectile(i);
+                shotHappened = true;
             }
         }
     }
 
     else {
-        if (GameController::type2Enemies.size() > 0) {
-            long min = 0;
-            long max = GameController::type2Enemies.size() - 1;
-            long n = cocos2d::RandomHelper::random_int(min, max);
-           /* while (GameController::type2Enemies.at(n)->getPosition().y < player->getPosition().y)
-            {
-                n = cocos2d::RandomHelper::random_int(min, max);
-            }*/
-            //create if enemy is above player
-            if (GameController::type2Enemies.at(n)->getPosition().y > player->getPosition().y) {
-                //creating
-                LaserProjectile* projectile;
-                projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
-                projectile->setScale(RESOLUTION_VARIABLE);
-                projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
-                this->addChild(projectile, PROJECTILE_LAYER);
-                //moving and deleting
-                Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
-                float distance = GameController::findDistance(GameController::type2Enemies.at(n)->getPosition(), tar);
-                auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("LASER_SPEED"), tar);
-                auto callBack = CallFunc::create([this, projectile]() {this->removeLaser(projectile); });
-                auto sequence = Sequence::create(moveAction, callBack, NULL);
-
-                projectile->runAction(sequence);
-                //SFX
-                auto laserSFX = AudioEngine::play2d("audio/sfx/laserSFX.mp3", false);
-                AudioEngine::setVolume(laserSFX, 0.01);
-                //pausing and resuming movement of enemy
-                /*
-                auto  pauseCallback = CallFunc::create([i]() {
-                    GameController::type2Enemies.at(i)->stopActionByTag(1);
-                    });
-                float delay = LASER_SPAWNING_TIME;
-                auto delayAction = DelayTime::create(delay);
-                auto resumeCallback = CallFunc::create([i]() {
-                    GameController::type2Enemies.at(i)->resume();
-                    });
-                GameController::type2Enemies.at(i)->runAction(Sequence::create(pauseCallback, delayAction, resumeCallback, NULL));
-                */
-
+        for (int i = GameController::type2Enemies.size() - 1; i >= 0; i--)
+        {
+            if (shotHappened) break;
+            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
+                spawnLaserProjectile(i);
+                shotHappened = true;
+            }
+        }
+        for (int i = GameController::type1Enemies.size() - 1; i >= 0; i--)
+        {
+            if (shotHappened) break;
+            if (GameController::type1Enemies.at(i)->getPosition().y > player->getPosition().y) {
+                spawnDefaultProjectile(i);
+                shotHappened = true;
             }
         }
     }
 }
+void Level::spawnDefaultProjectile(int n)
+{
+    //creating
+    DefaultProjectile* projectile;
+    projectile = GameController::spawnEnemyProjectile(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
+    projectile->setScale(RESOLUTION_VARIABLE);
+    this->addChild(projectile, PROJECTILE_LAYER);
+    //moving and deleting
+    Vec2 tar = GameController::calcTarget(GameController::type1Enemies.at(n)->getPosition(), player->getPosition());
+    float distance = GameController::findDistance(GameController::type1Enemies.at(n)->getPosition(), tar);
+    auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("DEFAULT_SPEED"), tar);
+    auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
+    auto sequence = Sequence::create(moveAction, callBack, NULL);
+    projectile->runAction(sequence);
+    //SFX
+    auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
+    AudioEngine::setVolume(projectileSFX, 0.1);
+}
+void Level::spawnLaserProjectile(int n)
+{
+    //creating
+    LaserProjectile* projectile;
+    projectile = GameController::spawnLaser(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
+    projectile->setScale(RESOLUTION_VARIABLE);
+    projectile->setRotation(GameController::calcAngle(GameController::type2Enemies.at(n)->getPosition(), player->getPosition()));
+    this->addChild(projectile, PROJECTILE_LAYER);
+    //moving and deleting
+    Vec2 tar = GameController::calcTarget(GameController::type2Enemies.at(n)->getPosition(), player->getPosition());
+    float distance = GameController::findDistance(GameController::type2Enemies.at(n)->getPosition(), tar);
+    auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("LASER_SPEED"), tar);
+    auto callBack = CallFunc::create([this, projectile]() {this->removeLaser(projectile); });
+    auto sequence = Sequence::create(moveAction, callBack, NULL);
 
+    projectile->runAction(sequence);
+    //SFX
+    auto laserSFX = AudioEngine::play2d("audio/sfx/laserSFX.mp3", false);
+    AudioEngine::setVolume(laserSFX, 0.01);
+}
 void Level::spawnLaser(Level1Boss* boss)
 {
     //here
@@ -890,7 +891,6 @@ void Level::removeLaserRay(RayProjectile* ray)
 }
 void Level::audioUpdate(float dt)
 {
-    //if (GameController::shootingTimings[currentTiming] < AudioEngine::getCurrentTime(musicID) * 1000)
     currentTime += 5;
     if (GameController::shootingTimings[currentTiming] < currentTime)
     {
