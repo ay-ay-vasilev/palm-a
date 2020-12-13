@@ -495,6 +495,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->jumpKill(0);
     }
 
+    //if player collided with laser ray
+    if ((PLAYER_MASK == a->getCollisionBitmask() && LASER_RAY_MASK == b->getCollisionBitmask())
+        || (LASER_RAY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
+    {
+        player->updateHP(100);
+        playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
+    }
+
     return true;
 }
 
@@ -884,7 +892,8 @@ void Level::spawnBoss()
     auto changeState = CallFunc::create([boss]() {boss->setState(2); });
     auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
     auto changePhase = CallFunc::create([boss]() {boss->setPhase(0); });
-    auto sequence = Sequence::create(moveDown, changePhase, changeState, spawnRay, NULL);
+    auto bossInitCall = CallFunc::create([this]() {this->bossInit(); });
+    auto sequence = Sequence::create(moveDown, changePhase, changeState,bossInitCall, spawnRay, NULL);
     boss->runAction(sequence);
 }
 void Level::spawnLaserRay(Level1Boss* boss) 
@@ -902,4 +911,29 @@ void Level::spawnLaserRay(Level1Boss* boss)
 
     //auto raySFX = AudioEngine::play2d("audio/sfx/raySFX.mp3", true);
     //AudioEngine::setVolume(raySFX, 0.2);
+}
+void Level::bossInit()
+{
+    auto origin = Director::getInstance()->getVisibleOrigin();
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto bossHpBarOver = Sprite::create("res/ui/boss_hp_bar_under.png");
+    bossHpBarOver->getTexture()->setAliasTexParameters();
+    bossHpBarOver->setScale(RESOLUTION_VARIABLE);
+    bossHpBarOver->setAnchorPoint(Vec2(0.5, 0.5));
+    bossHpBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
+
+    // hp bar
+    auto bossHpBar= ui::LoadingBar::create("res/ui/boss_hp_bar.png");
+    bossHpBar->setScale(RESOLUTION_VARIABLE);
+    bossHpBar->setAnchorPoint(Vec2(0.5, 0.5));
+    bossHpBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
+    bossHpBar->setPercent(100);
+    bossHpBar->setDirection(ui::LoadingBar::Direction::LEFT);
+
+    auto bossNameLabel = Label::createWithTTF("AMU", "fonts/PixelForce.ttf", 12 * (float)RESOLUTION_VARIABLE);
+    bossNameLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT") + bossHpBar->getContentSize().height * 2 * RESOLUTION_VARIABLE));
+    
+    this->addChild(bossHpBar, UI_LAYER);
+    this->addChild(bossHpBarOver, UI_LAYER);
+    this->addChild(bossNameLabel,UI_LAYER);
 }

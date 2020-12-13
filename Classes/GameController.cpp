@@ -183,7 +183,9 @@ Vec2 GameController::calcTarget(Vec2 enemyPos, Vec2 playerPos)
     // enemypos = 1
     // playerpos = 2
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 offset = playerPos - enemyPos;
+    int enemyScatter = 20;
+    Vec2 scatterVec = Vec2(RandomHelper::random_int(-enemyScatter, enemyScatter), RandomHelper::random_int(-enemyScatter, enemyScatter));
+    Vec2 offset = playerPos - enemyPos + scatterVec;
     offset.normalize();
     //multiplied by 2 because sometimes it doesn't reach
     Vec2 shootAmount = offset * visibleSize.width * 2;

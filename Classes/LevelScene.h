@@ -108,6 +108,7 @@ private:
     void initScedulers();
     void startCount();
     void initStart(float dt);
+    void bossInit();
 };
 
 #endif

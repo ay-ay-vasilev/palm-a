@@ -14,6 +14,7 @@
 #define LASER_ENEMY_MASK 5
 #define LASER_PROJECTILE_MASK 4
 #define TURRET_ENEMY_MASK 6
+#define LASER_RAY_MASK 7
 #define BOSS_MASK 8
 // Layers
 #define BEHIND -1
