@@ -963,7 +963,7 @@ void Level::spawnPlayerProjectile(float dt)
     //moving and deleting
     auto distance = visibleSize.height - player->getPosition().y + projectile->getContentSize().height;
     auto destination = Vec2(player->getPosition().x,distance + player->getPosition().y);
-    auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("DEFAULT_SPEED"), destination);
+    auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("PLAYER_SPEED"), destination);
     auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
     auto sequence = Sequence::create(moveAction, callBack, NULL);
     projectile->runAction(sequence);

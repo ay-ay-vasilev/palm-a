@@ -65,6 +65,10 @@
         },
         "ray": {
             "damage": 1
+        },
+        "player":{
+            "damage": 1,
+            "speed" : 200
         }
     },
     "level": {

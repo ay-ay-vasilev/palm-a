@@ -79,6 +79,8 @@ void GameConstants::initConstants(std::string levelName)
 		setProjectileStats("LASER_DAMAGE", "laser", "damage", NOT_MULT_BY_RESOLUTION);
 		setProjectileStats("LASER_SPEED", "laser", "speed", MULT_BY_RESOLUTION);
 		setProjectileStats("RAY_DAMAGE", "ray", "damage", MULT_BY_RESOLUTION);
+		setProjectileStats("PLAYER_DAMAGE", "player", "damage", NOT_MULT_BY_RESOLUTION);
+		setProjectileStats("PLAYER_SPEED", "player", "speed", MULT_BY_RESOLUTION);
 
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
 		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);
