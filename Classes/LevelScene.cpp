@@ -511,12 +511,68 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 
     //if player collided with laser ray
     if ((PLAYER_MASK == a->getCollisionBitmask() && RAY_PROJECTILE_MASK == b->getCollisionBitmask())
-        || (RAY_PROJECTILE_MASK == a->getCollisionBitmask() && RAY_PROJECTILE_MASK == b->getCollisionBitmask()))
+        || (RAY_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->damageHP(10);
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
     }
+    //if player projectile collided with enemytype1
+    if ((PLAYER_PROJECTILE_MASK == a->getCollisionBitmask() && REGULAR_ENEMY_MASK == b->getCollisionBitmask())
+        || (REGULAR_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_PROJECTILE_MASK == b->getCollisionBitmask()))
+    {
+        if (REGULAR_ENEMY_MASK == a->getCollisionBitmask())
+        {
+            auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
+            this->addChild(particles, PARTICLES_LAYER);
 
+            removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
+            removeProjectile(b->getNode());
+        }
+        else
+        {
+            auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
+            this->addChild(particles, PARTICLES_LAYER);
+
+            removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
+            removeProjectile(a->getNode());
+        }
+    }
+    //if player projectile collided with enemytype2
+    if ((PLAYER_PROJECTILE_MASK == a->getCollisionBitmask() && LASER_ENEMY_MASK == b->getCollisionBitmask())
+        || (LASER_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_PROJECTILE_MASK == b->getCollisionBitmask()))
+    {
+        if (LASER_ENEMY_MASK == a->getCollisionBitmask())
+        {
+            auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
+            this->addChild(particles, PARTICLES_LAYER);
+
+            removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
+            removeProjectile(b->getNode());
+        }
+        else
+        {
+            auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
+            this->addChild(particles, PARTICLES_LAYER);
+
+            removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
+            removeProjectile(a->getNode());
+        }
+    }
+    //if player projectile collided with boss
+    if ((PLAYER_PROJECTILE_MASK == a->getCollisionBitmask() && BOSS_MASK == b->getCollisionBitmask())
+        || (BOSS_MASK == a->getCollisionBitmask() && PLAYER_PROJECTILE_MASK == b->getCollisionBitmask()))
+    {
+        GameController::boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
+        bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
+        if (PLAYER_PROJECTILE_MASK == a->getCollisionBitmask()) 
+        {
+            removeProjectile(a->getNode());
+        }
+        else
+        {
+            removeProjectile(b->getNode());
+        }
+    }
     return true;
 }
 
