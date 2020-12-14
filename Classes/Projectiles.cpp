@@ -1,4 +1,4 @@
-#include "EnemyProjectile.h"
+#include "Projectiles.h"
 #include "Definitions.h"
 #include "GameConstants.h"
 
@@ -77,6 +77,19 @@ cocos2d::PhysicsBody* DefaultProjectile::getBody()
 	physicsBody->setDynamic(false);
 	physicsBody->setCollisionBitmask(DEFAULT_PROJECTILE_MASK);
 	physicsBody->setContactTestBitmask( true );
+
+	return physicsBody;
+}
+cocos2d::PhysicsBody* DefaultProjectile::getBodyPlayer()
+{
+	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+	cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+
+	physicsBody->setDynamic(false);
+	physicsBody->setCollisionBitmask(PLAYER_PROJECTILE_MASK);
+	physicsBody->setContactTestBitmask(true);
 
 	return physicsBody;
 }

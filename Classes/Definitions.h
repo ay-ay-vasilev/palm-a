@@ -19,6 +19,7 @@
 #define TURRET_ENEMY_MASK 6
 #define RAY_PROJECTILE_MASK 7
 #define BOSS_MASK 8
+#define PLAYER_PROJECTILE_MASK 9
 // Layers
 #define BEHIND -1
 #define PLAYER_LAYER 6

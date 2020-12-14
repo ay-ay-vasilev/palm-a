@@ -6,7 +6,7 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "EnemyProjectile.h"
+#include "Projectiles.h"
 #include "GameController.h"
 #include "MainMenuScene.h"
 #include "LevelFinishScene.h"
@@ -46,6 +46,7 @@ public:
     int bossMusicID;
 
     cocos2d::SEL_SCHEDULE enemyType3SpawnPointer;
+    cocos2d::SEL_SCHEDULE playerProjectilesPointer;
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
@@ -78,6 +79,7 @@ private:
     void spawnBoss();
     void spawnDefaultProjectile(int n);
     void spawnLaserProjectile(int n);
+    void spawnPlayerProjectile(float dt);
     // MOVE LATER
     bool isPaused;
     int totalScore;

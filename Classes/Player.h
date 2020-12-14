@@ -2,6 +2,7 @@
 #define PLAYER_H_
 
 #include "cocos2d.h"
+#include "Projectiles.h"
 
 USING_NS_CC;
 

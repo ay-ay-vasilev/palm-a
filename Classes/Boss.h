@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "EnemyProjectile.h"
+#include "Projectiles.h"
 
 class Level1Boss : public cocos2d::Node
 {

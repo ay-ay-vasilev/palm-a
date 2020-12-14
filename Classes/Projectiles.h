@@ -26,6 +26,7 @@ public:
 	void setSpeed( Vec2 speed );
 	
 	cocos2d::PhysicsBody* getBody();
+	cocos2d::PhysicsBody* getBodyPlayer();
 
 	static ParticleSystemQuad* onDestroyParticles(Vec2 position);
 

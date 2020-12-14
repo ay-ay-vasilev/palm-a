@@ -86,6 +86,21 @@ EnemyType3* GameController::spawnEnemyType3()
     }
     return enemy;
 }
+DefaultProjectile* GameController::spawnPlayerProjectile(Vec2 pos)
+{
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    DefaultProjectile* projectile;
+    projectile = DefaultProjectile::create();
+    projectile->setPosition(pos);
+    projectile->setPhysicsBody(projectile->getBodyPlayer());
+
+    if (projectile)
+    {
+        GameController::enemyProjectiles.pushBack(projectile);
+        return projectile;
+    }
+    return projectile;
+}
 DefaultProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();

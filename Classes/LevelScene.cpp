@@ -337,6 +337,11 @@ void Level::initScedulers() {
 
     auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
     this->schedule(updateScorePointer, 1.0f);
+
+    //player shooting
+    playerProjectilesPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnPlayerProjectile);
+
+    this->schedule(playerProjectilesPointer,1);
 }
 
 void Level::update(float dt)
@@ -946,4 +951,23 @@ void Level::bossInit()
     this->addChild(bossHpBar, UI_LAYER);
     this->addChild(bossHpBarOver, UI_LAYER);
     this->addChild(bossNameLabel,UI_LAYER);
+}
+void Level::spawnPlayerProjectile(float dt)
+{
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    //creating
+    DefaultProjectile* projectile;
+    projectile = GameController::spawnPlayerProjectile(player->getPosition());
+    projectile->setScale(RESOLUTION_VARIABLE);
+    this->addChild(projectile, PROJECTILE_LAYER);
+    //moving and deleting
+    auto distance = visibleSize.height - player->getPosition().y + projectile->getContentSize().height;
+    auto destination = Vec2(player->getPosition().x,distance + player->getPosition().y);
+    auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("DEFAULT_SPEED"), destination);
+    auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
+    auto sequence = Sequence::create(moveAction, callBack, NULL);
+    projectile->runAction(sequence);
+    //SFX
+    auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
+    AudioEngine::setVolume(projectileSFX, 0.1);
 }
