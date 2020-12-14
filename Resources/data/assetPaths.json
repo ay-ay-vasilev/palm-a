@@ -26,7 +26,19 @@
             "flyLeft": "character_jetpack_fly_left_%i.png",
             "flyRight": "character_jetpack_fly_right_%i.png"
         },
-        "turret":{}
+        "turret":{
+            "spriteSheet": "res/character/character_sheet.plist",
+            "idleLeft": "character_turret_idle_left_%i.png",
+            "idleRight": "character_turret_idle_right_%i.png",
+            "runLeft": "character_turret_run_left_%i.png",
+            "runRight": "character_turret_run_right_%i.png",
+            "jumpLeft": "character_turret_jump_left_%i.png",
+            "jumpRight": "character_turret_jump_right_%i.png",
+            "fallLeft": "character_turret_fall_left_%i.png",
+            "fallRight": "character_turret_fall_right_%i.png",
+            "flyLeft": "character_turret_fly_left_%i.png",
+            "flyRight": "character_turret_fly_right_%i.png"
+        }
     },
     "enemy": {
         "regular" : {

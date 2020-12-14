@@ -35,7 +35,7 @@ Player * Player::create()
 
 void Player::initPlayer()
 {
-	GameConstants::loadPlayer("jetpack");
+	GameConstants::loadPlayer("turret");
 	Player::loadAnimations();
 	Player::hp = GameConstants::getPlayerStats("START_HP");
 	moving = false;

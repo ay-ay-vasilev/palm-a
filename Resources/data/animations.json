@@ -23,7 +23,20 @@
             "runAnimSpeed": 0.06,
             "jumpAnimSpeed": 0.1,
             "fallAnimSpeed": 0.06,
-            "flyAnimSpeed": 0.06,
+            "flyAnimSpeed": 0.02,
+            "spriteSize": 112
+        },
+        "turret": {
+            "idleFrames": 5,
+            "runFrames": 8,
+            "jumpFrames": 1,
+            "fallFrames": 4,
+            "flyFrames": 6,
+            "idleAnimSpeed": 0.1,
+            "runAnimSpeed": 0.06,
+            "jumpAnimSpeed": 0.1,
+            "fallAnimSpeed": 0.06,
+            "flyAnimSpeed": 0.02,
             "spriteSize": 112
         }
     },
