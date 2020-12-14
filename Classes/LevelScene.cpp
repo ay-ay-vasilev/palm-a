@@ -387,9 +387,10 @@ void Level::update(float dt)
     }
 
 
-    GameController::bossMovement();
+   
     if (GameController::bossFightIsOn)
     {
+        GameController::bossMovement();
         if (GameController::boss->getHp() < 0) levelFinished();
     }
 }
@@ -412,7 +413,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->damageHP(GameConstants::getEnemyStats("REGULAR_COLLIDE_DAMAGE"));
         playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
 
-        if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
+        if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK && a->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
@@ -420,7 +421,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
                 this->removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             }
         }
-        if (b->getCollisionBitmask() == REGULAR_ENEMY_MASK) {
+        if (b->getCollisionBitmask() == REGULAR_ENEMY_MASK && b->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(b->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
@@ -482,7 +483,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         player->damageHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
         playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
-        if (a->getCollisionBitmask() == LASER_ENEMY_MASK) {
+        if (a->getCollisionBitmask() == LASER_ENEMY_MASK && a->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
@@ -490,7 +491,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             }
         }
-        if (b->getCollisionBitmask() == LASER_ENEMY_MASK) {
+        if (b->getCollisionBitmask() == LASER_ENEMY_MASK && b->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(b->getNode())->getPositionY()))
             {
                 auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
@@ -504,9 +505,13 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ((PLAYER_MASK == a->getCollisionBitmask() && BOSS_MASK == b->getCollisionBitmask())
         || (BOSS_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
-        player->jumpKill(0);
-        GameController::boss->getDamage(1);
-        bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
+        if (GameController::bossFightIsOn)
+        {
+            player->jumpKill(0);
+            GameController::boss->getDamage(1);
+            bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
+
+        }
     }
 
     //if player collided with laser ray
@@ -562,8 +567,12 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ((PLAYER_PROJECTILE_MASK == a->getCollisionBitmask() && BOSS_MASK == b->getCollisionBitmask())
         || (BOSS_MASK == a->getCollisionBitmask() && PLAYER_PROJECTILE_MASK == b->getCollisionBitmask()))
     {
-        GameController::boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
-        bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
+        if (GameController::bossFightIsOn) 
+        {
+            GameController::boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
+            bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
+        }
+
         if (PLAYER_PROJECTILE_MASK == a->getCollisionBitmask()) 
         {
             removeProjectile(a->getNode());
@@ -963,7 +972,7 @@ void Level::spawnBoss()
     auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
     auto changePhase = CallFunc::create([boss]() {boss->setPhase(0); });
     auto bossInitCall = CallFunc::create([this]() {this->bossInit(); });
-    auto sequence = Sequence::create(moveDown, changePhase, changeState,bossInitCall, spawnRay, NULL);
+    auto sequence = Sequence::create(bossInitCall, moveDown, changePhase, changeState, spawnRay, NULL);
     boss->runAction(sequence);
 }
 void Level::spawnLaserRay(Level1Boss* boss) 
@@ -984,7 +993,6 @@ void Level::spawnLaserRay(Level1Boss* boss)
 }
 void Level::bossInit()
 {
-    GameController::boss->setHp(20);
     auto origin = Director::getInstance()->getVisibleOrigin();
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto bossHpBarOver = Sprite::create("res/ui/boss_hp_bar_under.png");

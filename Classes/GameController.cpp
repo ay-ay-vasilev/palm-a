@@ -335,6 +335,7 @@ Level1Boss* GameController::createLevel1Boss()
 {
     Level1Boss* _boss = Level1Boss::create();
     _boss->setPhysicsBody(_boss->getBody());
+    _boss->setHp(20);
 
     if (_boss)
     {
