@@ -4,12 +4,6 @@
 
 USING_NS_CC;
 
-DefaultProjectile::DefaultProjectile(void)
-{
-}
-DefaultProjectile::~DefaultProjectile(void)
-{
-}
 DefaultProjectile * DefaultProjectile::create(){
 	DefaultProjectile * projectile = new DefaultProjectile();
 	cocos2d::Animate* projectileAnimate;
@@ -47,52 +41,7 @@ DefaultProjectile * DefaultProjectile::create(){
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-bool DefaultProjectile::init()
-{
-	return false;
-}
-void DefaultProjectile::setTarget( Vec2 target )
-{
-	DefaultProjectile::target = target;
-}
-Vec2 DefaultProjectile::getTarget()
-{
-	return DefaultProjectile::target;
-}
-void DefaultProjectile::setSpeed( Vec2 speed )
-{
-	DefaultProjectile::speed = speed;
-}
-Vec2 DefaultProjectile::getSpeed()
-{
-	return DefaultProjectile::speed;
-}
-cocos2d::PhysicsBody* DefaultProjectile::getBody()
-{
-	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto physicsBody = PhysicsBody::createBox( this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-	
-	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(DEFAULT_PROJECTILE_MASK);
-	physicsBody->setContactTestBitmask( true );
-
-	return physicsBody;
-}
-cocos2d::PhysicsBody* DefaultProjectile::getBodyPlayer()
-{
-	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-	cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-
-	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(PLAYER_PROJECTILE_MASK);
-	physicsBody->setContactTestBitmask(true);
-
-	return physicsBody;
-}
 cocos2d::ParticleSystemQuad* DefaultProjectile::onDestroyParticles(Vec2 position)
 {
 	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
@@ -105,14 +54,10 @@ cocos2d::ParticleSystemQuad* DefaultProjectile::onDestroyParticles(Vec2 position
 	return particles;
 }
 
+
+
 //==================================================
 //Laser
-LaserProjectile::LaserProjectile(void)
-{
-}
-LaserProjectile::~LaserProjectile(void)
-{
-}
 LaserProjectile* LaserProjectile::create() {
 	LaserProjectile* projectile = new LaserProjectile();
 	cocos2d::Animate* projectileAnimate;
@@ -151,39 +96,7 @@ LaserProjectile* LaserProjectile::create() {
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-bool LaserProjectile::init()
-{
-	return false;
-}
-void LaserProjectile::setTarget(Vec2 target)
-{
-	LaserProjectile::target = target;
-}
-Vec2 LaserProjectile::getTarget()
-{
-	return LaserProjectile::target;
-}
-void LaserProjectile::setSpeed(Vec2 speed)
-{
-	LaserProjectile::speed = speed;
-}
-Vec2 LaserProjectile::getSpeed()
-{
-	return LaserProjectile::speed;
-}
-cocos2d::PhysicsBody* LaserProjectile::getBody()
-{
-	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-	cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-
-	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(LASER_PROJECTILE_MASK);
-	physicsBody->setContactTestBitmask(true);
-
-	return physicsBody;
-}
 cocos2d::ParticleSystemQuad* LaserProjectile::onDestroyParticles(Vec2 position)
 {
 	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("LASER_PARTICLES"));
@@ -196,13 +109,56 @@ cocos2d::ParticleSystemQuad* LaserProjectile::onDestroyParticles(Vec2 position)
 	particles->setStartColor(Color4F::WHITE);
 	return particles;
 }
+//================================================
+PlayerProjectile* PlayerProjectile::create() {
+	PlayerProjectile* projectile = new PlayerProjectile();
+	cocos2d::Animate* projectileAnimate;
+	if (projectile)
+	{
+		projectile->autorelease();
+		Sprite* model = Sprite::create();
+		model->getTexture()->setAliasTexParameters();
+		if (model)
+		{
+			model->setAnchorPoint(Vec2::ZERO);
+			model->setPosition(Vec2::ZERO);
+
+			auto spriteCache = SpriteFrameCache::getInstance();
+			spriteCache->addSpriteFramesWithFile("res/projectiles/default_projectile.plist");
+			projectileAnimate = Projectile::createAnimation(spriteCache, "DEFAULT_NUM_OF_FRAMES", "DEFAULT_SPEED", "DEFAULT_SPRITE");
+			projectileAnimate->retain(); //Retain to use it later
+
+			model->runAction(RepeatForever::create(projectileAnimate));
+
+			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+			particles->setAnchorPoint(Vec2::ZERO);
+			particles->setPosition(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE") / 2, GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE") / 2));
+			particles->setScale(0.3);
+			model->addChild(particles, BEHIND);
+
+			projectile->addChild(model);
+			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")));
+		}
+
+		projectile->init();
+		return projectile;
+	}
+	CC_SAFE_DELETE(projectile);
+	CC_SAFE_RELEASE(projectileAnimate);
+	return NULL;
+}
+cocos2d::ParticleSystemQuad* PlayerProjectile::onDestroyParticles(Vec2 position)
+{
+	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+	particles->setAnchorPoint(Vec2::ZERO);
+	particles->setPosition(position);
+	particles->setLife(0.5);
+	particles->setDuration(0.1);
+	particles->setSpeed(100);
+	particles->setAngleVar(360);
+	return particles;
+}
 //=========================================
-RayProjectile::RayProjectile(void)
-{
-}
-RayProjectile::~RayProjectile(void)
-{
-}
 RayProjectile* RayProjectile::create() {
 	RayProjectile* projectile = new RayProjectile();
 	cocos2d::Animate* projectileAnimate;
@@ -235,29 +191,36 @@ RayProjectile* RayProjectile::create() {
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-bool RayProjectile::init()
+
+void Projectile::setTarget(Vec2 target)
 {
-	return false;
+	Projectile::target = target;
 }
-void RayProjectile::setTarget(Vec2 target)
+Vec2 Projectile::getTarget()
 {
-	RayProjectile::target = target;
+	return Projectile::target;
 }
-Vec2 RayProjectile::getTarget()
+void Projectile::setSpeed(Vec2 speed)
 {
-	return RayProjectile::target;
+	Projectile::speed = speed;
 }
-cocos2d::PhysicsBody* RayProjectile::getBody()
+Vec2 Projectile::getSpeed()
 {
+	return Projectile::speed;
+}
+cocos2d::PhysicsBody* Projectile::getBody(int maskID)
+{
+	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+	cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
 	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
 
 	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(RAY_PROJECTILE_MASK);
+	physicsBody->setCollisionBitmask(maskID);
 	physicsBody->setContactTestBitmask(true);
 
 	return physicsBody;
 }
-
 cocos2d::Animate* Projectile::createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
 {
 	auto assetPath = GameConstants::getProjectileAssetPath(assetName);

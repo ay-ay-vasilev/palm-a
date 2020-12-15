@@ -527,7 +527,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         if (REGULAR_ENEMY_MASK == a->getCollisionBitmask())
         {
-            auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
+            auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
             removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
@@ -535,7 +535,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         }
         else
         {
-            auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
+            auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
             removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
@@ -548,7 +548,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         if (LASER_ENEMY_MASK == a->getCollisionBitmask())
         {
-            auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
+            auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
             removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
@@ -556,7 +556,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         }
         else
         {
-            auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
+            auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
             removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
@@ -1020,7 +1020,7 @@ void Level::spawnPlayerProjectile(float dt)
 {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     //creating
-    DefaultProjectile* projectile;
+    PlayerProjectile* projectile;
     projectile = GameController::spawnPlayerProjectile(player->getPosition());
     projectile->setScale(RESOLUTION_VARIABLE);
     this->addChild(projectile, PROJECTILE_LAYER);

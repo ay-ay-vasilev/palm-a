@@ -86,13 +86,13 @@ EnemyType3* GameController::spawnEnemyType3()
     }
     return enemy;
 }
-DefaultProjectile* GameController::spawnPlayerProjectile(Vec2 pos)
+PlayerProjectile* GameController::spawnPlayerProjectile(Vec2 pos)
 {
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-    DefaultProjectile* projectile;
-    projectile = DefaultProjectile::create();
+    PlayerProjectile* projectile;
+    projectile = PlayerProjectile::create();
     projectile->setPosition(pos);
-    projectile->setPhysicsBody(projectile->getBodyPlayer());
+    projectile->setPhysicsBody(projectile->getBody(PLAYER_PROJECTILE_MASK));
 
     if (projectile)
     {
@@ -108,7 +108,7 @@ DefaultProjectile* GameController::spawnEnemyProjectile(Vec2 pos, Vec2 tar)
     projectile = DefaultProjectile::create();
     projectile->setPosition( pos );
     projectile->setTarget( tar );
-    projectile->setPhysicsBody(projectile->getBody());
+    projectile->setPhysicsBody(projectile->getBody(DEFAULT_PROJECTILE_MASK));
 
     if (projectile)
     {
@@ -124,7 +124,7 @@ LaserProjectile* GameController::spawnLaser(Vec2 pos, Vec2 tar)
     projectile = LaserProjectile::create();
     projectile->setPosition(pos);
     projectile->setTarget(tar);
-    projectile->setPhysicsBody(projectile->getBody());
+    projectile->setPhysicsBody(projectile->getBody(LASER_PROJECTILE_MASK));
     if (projectile)
     {
         GameController::laserArr.pushBack(projectile);
@@ -138,7 +138,7 @@ RayProjectile* GameController::spawnLaserRay(Vec2 tar)
     RayProjectile* projectile;
     projectile = RayProjectile::create();
     projectile->setTarget(tar);
-    projectile->setPhysicsBody(projectile->getBody());
+    projectile->setPhysicsBody(projectile->getBody(RAY_PROJECTILE_MASK));
     if (projectile)
     {
         GameController::laserRays.pushBack(projectile);
