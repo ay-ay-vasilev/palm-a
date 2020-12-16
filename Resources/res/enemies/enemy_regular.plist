@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>enemy_1_right1.png</key>
+            <key>enemy_1_left_dead1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>enemy_1_right2.png</key>
+            <key>enemy_1_right1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>enemy_1_right3.png</key>
+            <key>enemy_1_right2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>enemy_1_right4.png</key>
+            <key>enemy_1_right3.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>enemy_1_right5.png</key>
+            <key>enemy_1_right4.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -151,6 +151,36 @@
                 <string>{96,96}</string>
                 <key>textureRect</key>
                 <string>{{864,0},{96,96}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>enemy_1_right5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{96,96}</string>
+                <key>spriteSourceSize</key>
+                <string>{96,96}</string>
+                <key>textureRect</key>
+                <string>{{960,0},{96,96}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>enemy_1_right_dead1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{96,96}</string>
+                <key>spriteSourceSize</key>
+                <string>{96,96}</string>
+                <key>textureRect</key>
+                <string>{{1056,0},{96,96}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -166,9 +196,9 @@
             <key>realTextureFileName</key>
             <string>enemy_regular.png</string>
             <key>size</key>
-            <string>{960,96}</string>
+            <string>{1152,96}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:21ef8e65fa18e4806dfcde186072696d:f08fa884450f579c7d03a0a7937ed79a:7da3ee592b5c31f277827a8f0d1ba5b4$</string>
+            <string>$TexturePacker:SmartUpdate:f2aa72c7fef634a8b8572a854dacec86:c48a369c03f1c41a4f6fa26b36b47aea:7da3ee592b5c31f277827a8f0d1ba5b4$</string>
             <key>textureFileName</key>
             <string>enemy_regular.png</string>
         </dict>
