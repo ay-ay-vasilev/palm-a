@@ -87,6 +87,11 @@
             "animationSpeed": 0.01,
             "spriteSizeX": 800,
             "spriteSizeY": 20
+        },
+        "player":{
+            "animationFramesNumber": 2,
+            "animationSpeed": 0.1,
+            "spriteSize": 12  
         }
     }
 }

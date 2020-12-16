@@ -124,20 +124,20 @@ PlayerProjectile* PlayerProjectile::create() {
 			model->setPosition(Vec2::ZERO);
 
 			auto spriteCache = SpriteFrameCache::getInstance();
-			spriteCache->addSpriteFramesWithFile("res/projectiles/default_projectile.plist");
-			projectileAnimate = Projectile::createAnimation(spriteCache, "DEFAULT_NUM_OF_FRAMES", "DEFAULT_SPEED", "DEFAULT_SPRITE");
+			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("PLAYER_SPRITE_SHEET"));
+			projectileAnimate = Projectile::createAnimation(spriteCache, "PLAYER_NUM_OF_FRAMES", "PLAYER_SPEED", "PLAYER_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
 
 			model->runAction(RepeatForever::create(projectileAnimate));
 
-			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
 			particles->setAnchorPoint(Vec2::ZERO);
-			particles->setPosition(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE") / 2, GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE") / 2));
+			particles->setPosition(Size(GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE") / 2, GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE") / 2));
 			particles->setScale(0.3);
 			model->addChild(particles, BEHIND);
 
 			projectile->addChild(model);
-			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")));
+			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE")));
 		}
 
 		projectile->init();
@@ -149,7 +149,7 @@ PlayerProjectile* PlayerProjectile::create() {
 }
 cocos2d::ParticleSystemQuad* PlayerProjectile::onDestroyParticles(Vec2 position)
 {
-	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
 	particles->setAnchorPoint(Vec2::ZERO);
 	particles->setPosition(position);
 	particles->setLife(0.5);

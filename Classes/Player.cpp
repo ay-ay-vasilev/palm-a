@@ -165,7 +165,7 @@ void Player::update()
 
 	if (dashed)
 	{
-		auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+		auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
 		particles->setAnchorPoint(Vec2(0.5, 0.5));
 		particles->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height / 2));
 		particles->setEmitterMode(ParticleSystem::Mode::RADIUS);

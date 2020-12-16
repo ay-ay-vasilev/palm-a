@@ -74,6 +74,13 @@ void GameConstants::initConstants(std::string levelName)
 		setProjectileAnimationData("RAY_SPRITE_SIZE_X", "ray", "spriteSizeX");
 		setProjectileAnimationData("RAY_SPRITE_SIZE_Y", "ray", "spriteSizeY");
 
+		setProjectileAssetPath("PLAYER_SPRITE_SHEET", "player", "spriteSheet");
+		setProjectileAssetPath("PLAYER_PARTICLES", "player", "particles");
+		setProjectileAssetPath("PLAYER_SPRITE", "player", "sprite");
+		setProjectileAnimationData("PLAYER_NUM_OF_FRAMES", "player", "animationFramesNumber");
+		setProjectileAnimationData("PLAYER_SPEED", "player", "animationSpeed");
+		setProjectileAnimationData("PLAYER_SPRITE_SIZE", "player", "spriteSize");
+
 		setProjectileStats("DEFAULT_DAMAGE", "default", "damage", NOT_MULT_BY_RESOLUTION);
 		setProjectileStats("DEFAULT_SPEED", "default", "speed", MULT_BY_RESOLUTION);
 		setProjectileStats("LASER_DAMAGE", "laser", "damage", NOT_MULT_BY_RESOLUTION);

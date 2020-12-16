@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>default1.png</key>
+            <key>player1.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>default2.png</key>
+            <key>player2.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -48,7 +48,7 @@
             <key>size</key>
             <string>{24,12}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6299cc3a786be382b5bfe704553bfa80:d9026fe6373304393f41e3e075b2f004:60ad0f947c32e287560142f3e5b8320f$</string>
+            <string>$TexturePacker:SmartUpdate:800fd6d799693af377aca211de6eaf8f:bf483384f24dd56db894e1d11c6a2aa7:700c3cb20f35d5cb38fd272bccef4205$</string>
             <key>textureFileName</key>
             <string>player_projectile.png</string>
         </dict>

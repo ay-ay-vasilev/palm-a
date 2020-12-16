@@ -70,6 +70,11 @@
         "ray" : {
             "spriteSheet": "res/projectiles/ray_projectile.plist",
             "sprite": "ray%i.png"
+        },
+        "player" : {
+            "spriteSheet": "res/projectiles/player_projectile.plist",
+            "sprite": "player%i.png",
+            "particles": "res/particles/projectiles/player_particles.plist"
         }
     }
 }
