@@ -45,7 +45,7 @@ void Player::initPlayer()
 	isOnGround = true;
 	invincible = false;
 
-	jetpackParticles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
+	jetpackParticles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
 	jetpackParticles->setAnchorPoint(Vec2(0.5, 0.5));
 	jetpackParticles->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
 	
