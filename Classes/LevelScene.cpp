@@ -530,6 +530,9 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
+            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
+            AudioEngine::setVolume(enemyShotSFX, 0.15);
+
             removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             removeProjectile(b->getNode());
         }
@@ -537,6 +540,9 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         {
             auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
+
+            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
+            AudioEngine::setVolume(enemyShotSFX, 0.15);
 
             removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
             removeProjectile(a->getNode());
@@ -551,6 +557,9 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
+            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
+            AudioEngine::setVolume(enemyShotSFX, 0.15);
+
             removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             removeProjectile(b->getNode());
         }
@@ -558,6 +567,9 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         {
             auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
+
+            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
+            AudioEngine::setVolume(enemyShotSFX, 0.15);
 
             removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
             removeProjectile(a->getNode());
@@ -1032,6 +1044,6 @@ void Level::spawnPlayerProjectile(float dt)
     auto sequence = Sequence::create(moveAction, callBack, NULL);
     projectile->runAction(sequence);
     //SFX
-    auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
-    AudioEngine::setVolume(projectileSFX, 0.1);
+    auto projectileSFX = AudioEngine::play2d("audio/sfx/playerProjectileSFX.mp3", false);
+    AudioEngine::setVolume(projectileSFX, 0.2);
 }
