@@ -12,7 +12,7 @@ Level1Boss* Level1Boss::create()
 	if (boss)
 	{
 		boss->autorelease();
-		boss->model = cocos2d::Sprite::create("res/bosses/boss_test.png");
+		boss->model = cocos2d::Sprite::create("res/levels/1/boss/boss_test.png");
 		if (boss->model)
 		{
 			boss->model->setAnchorPoint(Vec2(0, 0));

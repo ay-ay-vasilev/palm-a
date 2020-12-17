@@ -99,7 +99,7 @@ Sprite* Cutscene::Cadr(int i){
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    sprintf(str, "res/cutscene/%i_test.png", i);
+    sprintf(str, "res/levels/1/cutscene/%i_test.png", i);
     auto cadr = Sprite::create(str);
     cadr->getTexture()->setAliasTexParameters();
     cadr->setScale(1.5*RESOLUTION_VARIABLE);
@@ -116,7 +116,7 @@ Sprite* Cutscene::AnimatedCadr(int i, int numOfFrames) {
     cocos2d::Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto spriteCache = SpriteFrameCache::getInstance();
-    sprintf(str, "res/cutscene/%i.plist", i);
+    sprintf(str, "res/levels/1/cutscene/%i.plist", i);
     spriteCache->addSpriteFramesWithFile(str);
 
     auto animatedCadr = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("1.png"));

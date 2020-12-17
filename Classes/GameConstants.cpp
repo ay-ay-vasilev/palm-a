@@ -92,7 +92,6 @@ void GameConstants::initConstants(std::string levelName)
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
 		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);
 		setLevelStats("DURATION", "levelDuration", NOT_MULT_BY_RESOLUTION);
-
 	}
 }
 
@@ -158,7 +157,7 @@ void GameConstants::setPlayerStats(const std::string& playerType, const std::str
 }
 void GameConstants::setEnemyAssetPath(const std::string& key, const std::string& type, const std::string& assetName)
 {
-	enemyAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["enemy"][type][assetName];
+	enemyAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"]["1"]["enemy"][type][assetName];
 }
 void GameConstants::setEnemyAnimationData(const std::string& key, const std::string& type, const std::string& dataName)
 {

@@ -49,10 +49,11 @@
 #define RESOLUTION_VARIABLE JsonInstance::GetInstance()->GetData("balance")["debug"]["resolution"]
 #define DEBUG_MASK JsonInstance::GetInstance()->GetData("balance")["debug"]["mask"]
 // Level 1 data
-#define DISPLAY_TIME_SPLASH_SCENE JsonInstance::GetInstance()->GetData("level1")["metadata"]["cutsceneData"]["splashTime"]
-#define TRANSITION_TIME JsonInstance::GetInstance()->GetData("level1")["metadata"]["cutsceneData"]["transitionTime"]
-#define FADE_LENGTH JsonInstance::GetInstance()->GetData("level1")["metadata"]["cutsceneData"]["fadeLength"]
-#define NUMBER_OF_CADRS JsonInstance::GetInstance()->GetData("level1")["metadata"]["cutsceneData"]["numberOfFrames"]
+#define DISPLAY_TIME_SPLASH_SCENE JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["splashTime"]
+#define TRANSITION_TIME JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["transitionTime"]
+#define FADE_LENGTH JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["fadeLength"]
+#define NUMBER_OF_CADRS JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["numberOfFrames"]
+
 #define LEVEL_1_DATA JsonInstance::GetInstance()->GetData("balance")["level"]["timings"]
 #define ENEMIES_SPAWN_TIMINGS JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["timingsPath"]
 #define ENEMIES_SPAWN_TYPES JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["typesPath"]

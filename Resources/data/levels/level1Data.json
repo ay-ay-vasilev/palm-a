@@ -1,5 +1,5 @@
 {
-	"metadata" :{
+	"cutscene" :{
 		"cutsceneData": {
 			"splashTime": 2,
 			"transitionTime": 0.8,
@@ -11,5 +11,5 @@
 			"timingsPath": "Resources/data/levels/timings.txt",
 			"typesPath": "Resources/data/levels/types.txt",
 			"pointsPath": "Resources/data/levels/points.txt"
-		}
+	}
 }

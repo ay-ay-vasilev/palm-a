@@ -134,7 +134,7 @@ void Level::initBackground(Director* director) {
     Vec2 origin = director->getVisibleOrigin();
     char str[200] = { 0 };
     auto spriteCache = SpriteFrameCache::getInstance();
-    spriteCache->addSpriteFramesWithFile("res/level/parallax_layers/level_1_static_layer.plist");
+    spriteCache->addSpriteFramesWithFile("res/levels/1/parallax_layers/level_1_static_layer.plist");
     Vector<SpriteFrame*> backgroundAnimFrames(3);
 
     for (int i = 1; i <= 3; i++)
@@ -147,7 +147,7 @@ void Level::initBackground(Director* director) {
     auto backgroundAnimation = Animation::createWithSpriteFrames(backgroundAnimFrames, 0.1);
     Animate* backgroundAnimate = Animate::create(backgroundAnimation);
 
-    auto floor = Sprite::createWithSpriteFrame(spriteCache->getSpriteFrameByName("level_1_static_layer1.png"));
+    auto floor = Sprite::create();
     floor->getTexture()->setAliasTexParameters();
     floor->setScale(RESOLUTION_VARIABLE);
     floor->setAnchorPoint(Vec2(0, 0));
@@ -160,12 +160,12 @@ void Level::initBackground(Director* director) {
     midSpeed = closeSpeed/2;
     farSpeed = midSpeed/2;
 
-    auto parallaxClose1 = Sprite::create("res/level/parallax_layers/close_background.png");
-    auto parallaxClose2 = Sprite::create("res/level/parallax_layers/close_background.png");
-    auto parallaxMid1 = Sprite::create("res/level/parallax_layers/mid_background.png");
-    auto parallaxMid2 = Sprite::create("res/level/parallax_layers/mid_background.png");
-    auto parallaxFar1 = Sprite::create("res/level/parallax_layers/far_background.png");
-    auto parallaxFar2 = Sprite::create("res/level/parallax_layers/far_background.png");
+    auto parallaxClose1 = Sprite::create("res/levels/1/parallax_layers/close_background.png");
+    auto parallaxClose2 = Sprite::create("res/levels/1/parallax_layers/close_background.png");
+    auto parallaxMid1 = Sprite::create("res/levels/1/parallax_layers/mid_background.png");
+    auto parallaxMid2 = Sprite::create("res/levels/1/parallax_layers/mid_background.png");
+    auto parallaxFar1 = Sprite::create("res/levels/1/parallax_layers/far_background.png");
+    auto parallaxFar2 = Sprite::create("res/levels/1/parallax_layers/far_background.png");
 
     parallaxClose1->getTexture()->setAliasTexParameters();
     parallaxClose1->setScale(RESOLUTION_VARIABLE);

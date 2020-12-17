@@ -40,22 +40,6 @@
             "flyRight": "character_turret_fly_right_%i.png"
         }
     },
-    "enemy": {
-        "regular" : {
-            "spriteSheet": "res/enemies/enemy_regular.plist",
-            "idleLeft": "enemy_1_left%i.png",
-            "idleRight": "enemy_1_right%i.png"  
-        },
-        "laser" : {
-            "spriteSheet": "res/enemies/enemy_variant.plist",
-            "idleLeft": "enemy_2_left%i.png",
-            "idleRight": "enemy_2_right%i.png"
-        },
-        "turret" : {
-            "spriteSheet": "res/enemies/enemy_turret.plist",
-            "idle": "enemy_turret%i.png"
-        }
-    },
     "projectile": {
         "default" : {
             "spriteSheet": "res/projectiles/default_projectile.plist",
@@ -75,6 +59,66 @@
             "spriteSheet": "res/projectiles/player_projectile.plist",
             "sprite": "player%i.png",
             "particles": "res/particles/projectiles/player_particles.plist"
+        }
+    },
+    "levels": {
+        "1" : {
+            "cutscene" : {
+                "spriteSheet": "res/levels/1/cutscene/%i.plist",
+                "sprite": "%i.png",
+                "static": "res/levels/1/cutscene/%i_test.png"
+            },
+            "staticLayer" : {
+                "spriteSheet": "res/levels/1/parallax_layers/level_1_static_layer.plist",
+                "sprite": "level_1_static_layer%i.png"
+            },
+            "closeLayer" : {
+                "sprite": "res/levels/1/parallax_layers/close_background.png"
+            },
+            "midLayer" : {
+                "sprite": "res/levels/1/parallax_layers/mid_background.png"
+            },
+            "farLayer" : {
+                "sprite": "res/levels/1/parallax_layers/far_background.png"
+            },
+            "enemy": {
+                "regular" : {
+                    "spriteSheet": "res/levels/1/enemies/enemy_regular.plist",
+                    "idleLeft": "enemy_1_left%i.png",
+                    "idleRight": "enemy_1_right%i.png"  
+                },
+                "laser" : {
+                    "spriteSheet": "res/levels/1/enemies/enemy_variant.plist",
+                    "idleLeft": "enemy_2_left%i.png",
+                    "idleRight": "enemy_2_right%i.png"
+                },
+                "turret" : {
+                    "spriteSheet": "res/levels/1/enemies/enemy_turret.plist",
+                    "idle": "enemy_turret%i.png"
+                }
+            },
+            "boss": {
+                "spriteSheet": "res/levels/1/boss",
+                "attackFirst": {
+                    "start": "attack_first/start/%i.png",
+                    "attack": "attack_first/attack/%i.png",
+                    "end": "attack_first/end/%i.png"
+                },
+                "attackSecond": {
+                    "start": "attack_second/start/%i.png",
+                    "attack": "attack_second/attack/%i.png",
+                    "end": "attack_second/end/%i.png"
+                },
+                "idleBody": {
+                    "sprite": "idle/body/%i.png"
+                },
+                "idleEye": {
+                    "sprite": "idle/eye/%i.png"
+                }
+            }
+        },
+        "2" : {
+
         }
     }
 }
