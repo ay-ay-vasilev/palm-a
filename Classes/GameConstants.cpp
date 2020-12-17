@@ -237,4 +237,10 @@ void GameConstants::loadPlayer(const std::string& playerType)
 	setPlayerStats(playerType, "ADDITIONAL_JUMP_FORCE", "additionalJumpForce", MULT_BY_RESOLUTION);
 	setPlayerStats(playerType, "JUMP_KILL_FORCE", "jumpKillForce", MULT_BY_RESOLUTION);
 
+	setPlayerStats(playerType, "SHOOTS", "shoots", NOT_MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "DASHES", "dashes", NOT_MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "DASH_COOLDOWN", "dashCooldown", NOT_MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "DASH_I_FRAMES", "dashIFrames", NOT_MULT_BY_RESOLUTION);
+	setPlayerStats(playerType, "DMG_I_FRAMES", "dmgIFrames", NOT_MULT_BY_RESOLUTION);
+
 }

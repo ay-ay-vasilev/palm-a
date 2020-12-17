@@ -25,7 +25,7 @@ Player * Player::create()
 	if(player->init())
 	{
 		player->autorelease();
-		player->initPlayer();
+		player->initPlayer("jetpack");
 		return player;
 	}
 
@@ -33,17 +33,23 @@ Player * Player::create()
 	return NULL;
 }
 
-void Player::initPlayer()
+void Player::initPlayer(std::string playerType)
 {
-	GameConstants::loadPlayer("turret");
+	GameConstants::loadPlayer(playerType);
 	Player::loadAnimations();
 	Player::hp = GameConstants::getPlayerStats("START_HP");
-	moving = false;
-	vertForce = 0;
-	additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");;
-	direction = DIRECTION_LEFT;
+	Player::shoots = GameConstants::getPlayerStats("SHOOTS");
+	Player::additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");
+	Player::dashIFrames = GameConstants::getPlayerStats("DASH_I_FRAMES");
+	Player::damageIFrames = GameConstants::getPlayerStats("DMG_I_FRAMES");
+	Player::dashes = GameConstants::getPlayerStats("DASHES");
+	Player::dashCooldown = GameConstants::getPlayerStats("DASH_COOLDOWN");
+
 	isOnGround = true;
+	moving = false;
 	invincible = false;
+	vertForce = 0;
+	direction = DIRECTION_LEFT;
 
 	jetpackParticles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
 	jetpackParticles->setAnchorPoint(Vec2(0.5, 0.5));
@@ -62,6 +68,11 @@ void Player::removeInvincibility(float dt)
 	invincible = false;
 }
 
+void Player::replenishDash(float dt)
+{
+	dashes = GameConstants::getPlayerStats("DASHES");
+}
+
 void Player::giveIFrames(float duration)
 {
 	invincible = true;
@@ -70,10 +81,15 @@ void Player::giveIFrames(float duration)
 
 void Player::dash()
 {
-	auto dashSFX = AudioEngine::play2d("audio/sfx/dashSFX.mp3", false);
-	AudioEngine::setVolume(dashSFX, 0.3);
-	vertForce = std::max(0.0f, vertForce);
-	dashed = true;
+	if (dashes > 0)
+	{
+		dashes--;
+		auto dashSFX = AudioEngine::play2d("audio/sfx/dashSFX.mp3", false);
+		AudioEngine::setVolume(dashSFX, 0.3);
+		vertForce = std::max(0.0f, vertForce);
+		dashed = true;
+		this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::replenishDash), dashCooldown);
+	}
 }
 
 void Player::jump()
@@ -102,6 +118,7 @@ bool Player::jumpKill(float enemyPosY)
 		isOnGround = false;
 		vertForce = GameConstants::getPlayerStats("JUMP_KILL_FORCE");
 		additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");
+		replenishDash(0.0);
 		playAnimation(jumpLeftAnimate, jumpRightAnimate);
 		return true;
 	}
@@ -255,6 +272,11 @@ cocos2d::PhysicsBody* Player::getBody()
 
 	return physicsBody;
 }
+bool Player::canShoot()
+{
+	return Player::shoots;
+}
+
 int Player::getHP()
 {
 	return Player::hp;
@@ -266,17 +288,17 @@ bool Player::damageHP(int dmg)
 		auto damageSFX = AudioEngine::play2d("audio/sfx/damageSFX.mp3", false);
 		AudioEngine::setVolume(damageSFX, 0.1);
 
-		auto fadeIn = FadeIn::create(0.1f);
-		auto fadeOut = FadeOut::create(0.1f);
-		auto redTint = TintTo::create(0.4f, 255, 0, 0);
-		auto normalTint = TintTo::create(0.4f, 255, 255, 255);
+		auto fadeIn = FadeIn::create(damageIFrames/8.0f);
+		auto fadeOut = FadeOut::create(damageIFrames/8.0f);
+		auto redTint = TintTo::create(damageIFrames/2.0f, 255, 0, 0);
+		auto normalTint = TintTo::create(damageIFrames/2.0f, 255, 255, 255);
 
 		auto damageFade = Sequence::create(fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn, nullptr);
 		auto damageTint = Sequence::create(redTint, normalTint, nullptr);
 
 		this->runAction(damageFade);
 		this->runAction(damageTint);
-		giveIFrames(0.8f);
+		giveIFrames(damageIFrames);
 
 		Player::hp = Player::hp - dmg;
 

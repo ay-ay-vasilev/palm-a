@@ -8,16 +8,18 @@ USING_NS_CC;
 
 class Player : public cocos2d::Sprite {
 public:
-	Animate * idleLeftAnimate;
-	Animate * idleRightAnimate;
-	Animate * runLeftAnimate;
-	Animate * runRightAnimate;
-	Animate * jumpLeftAnimate;
-	Animate * jumpRightAnimate;
-	Animate * fallLeftAnimate;
-	Animate * fallRightAnimate;
-	Animate * flyLeftAnimate;
-	Animate * flyRightAnimate;
+	void initPlayer(std::string playerType);
+
+	Animate* idleLeftAnimate;
+	Animate* idleRightAnimate;
+	Animate* runLeftAnimate;
+	Animate* runRightAnimate;
+	Animate* jumpLeftAnimate;
+	Animate* jumpRightAnimate;
+	Animate* fallLeftAnimate;
+	Animate* fallRightAnimate;
+	Animate* flyLeftAnimate;
+	Animate* flyRightAnimate;
 
 	ParticleSystemQuad* jetpackParticles;
 
@@ -35,6 +37,7 @@ public:
 
 	int hp;
 	int getHP();
+	bool canShoot();
 	bool damageHP(int dmg);
 private:
 	~Player();
@@ -45,13 +48,20 @@ private:
 	float vertForce;
 	bool isOnGround;
 	int additionalJumps;
-	
+	bool shoots;
+
+	float dashIFrames;
+	float damageIFrames;
+
+	float dashCooldown;
+	int dashes;
+
 	bool invincible;
 	void removeInvincibility(float dt);
+	void replenishDash(float dt);
 
 	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);
 
-	void initPlayer();
 	void loadAnimations();
 	Animate* createAnimation(SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
 };

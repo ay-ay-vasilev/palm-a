@@ -10,7 +10,12 @@
             "hp": 100,
             "additionalJumps": 1,
             "additionalJumpForce": 5,
-            "jumpKillForce": 7
+            "jumpKillForce": 7,
+            "shoots": 0,
+            "dashes": 1,
+            "dashCooldown": 2.0,
+            "dashIFrames": 0.2,
+            "dmgIFrames": 0.8 
         },
         "jetpack": {
             "speed": 4,
@@ -22,7 +27,12 @@
             "hp": 100,
             "additionalJumps": 3,
             "additionalJumpForce": 9,
-            "jumpKillForce": 9
+            "jumpKillForce": 9,
+            "shoots": 0,
+            "dashes": 2,
+            "dashCooldown": 2.0,
+            "dashIFrames": 0.2,
+            "dmgIFrames": 0.8
         },
         "turret": {
             "speed": 4,
@@ -34,7 +44,12 @@
             "hp": 100,
             "additionalJumps": 3,
             "additionalJumpForce": 9,
-            "jumpKillForce": 9
+            "jumpKillForce": 9,
+            "shoots": 1,
+            "dashes": 3,
+            "dashCooldown": 2.0,
+            "dashIFrames": 0.2,
+            "dmgIFrames": 0.8
         }
     },
     "enemy": {
@@ -68,17 +83,17 @@
         },
         "player":{
             "damage": 1,
-            "speed" : 200
+            "speed" : 300
         }
     },
     "level": {
-        "levelDuration": 10,
+        "levelDuration": 208,
         "wallDistance": 40,
         "floorHeight": 30,
         "timings": "Resources/data/levels/timingsLevel1.txt"
     },
     "debug": {
-        "mask": true,
-        "resolution": 2
+        "mask": false,
+        "resolution": 3
     }
 }
