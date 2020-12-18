@@ -9,11 +9,11 @@
 #include "Enemy.h"
 #include "Projectiles.h"
 #include "GameController.h"
-#include "MainMenuScene.h"
 #include "LevelFinishScene.h"
 #include "JsonInstance.h"
 #include "GameConstants.h"
 #include "Boss.h"
+#include "GameUI.h"
 
 class Level : public cocos2d::Scene
 {
@@ -21,12 +21,6 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-
-    // a selector callback
-    void dashButtonCallback(cocos2d::Ref* pSender);
-    void jumpButtonCallback(cocos2d::Ref* pSender);
-    void pauseButtonCallback(cocos2d::Ref* pSender);
-    void goToMainMenu(cocos2d::Ref* pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
@@ -54,6 +48,7 @@ private:
 
     Player * player;
     Background* background;
+    GameUI* gameUI;
 
     void update(float dt);
 
@@ -76,23 +71,8 @@ private:
     void spawnLaserProjectile(int n);
     void spawnPlayerProjectile(float dt);
     // MOVE LATER
-    bool isPaused;
-    int totalScore;
-    void updateScore(float points);
-    // MOVE LATER
     void levelFinished();
     void gameOver();
-    // UI
-    cocos2d::Menu *pauseMenu;
-    cocos2d::Menu *gameUI;
-    cocos2d::Sprite *pauseBackground;
-    cocos2d::Sprite* progressBarOver;
-    ui::LoadingBar* progressBar;
-
-    cocos2d::Label *scoreLabel;
-    cocos2d::Label *playerHPLabel;
-    ui::LoadingBar *playerHPBar;
-    ui::LoadingBar* bossHpBar;
 
     void audioUpdate(float dt);
     int currentTime;
@@ -100,8 +80,6 @@ private:
     void initPlayer(Director* director);
     void initBackground(Director* director);
     void initGameUI(Director* director);
-    void initPauseMenu(Director* director);
-    void initHUD(Director* director);
     void initCollisionDetector();
     void initScedulers();
     void startCount();

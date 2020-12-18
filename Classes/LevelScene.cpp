@@ -42,8 +42,6 @@ bool Level::init()
     }
 
     GameConstants::initConstants("level1");
-    isPaused = false;
-    totalScore = 0;
     movementInputDeck.clear();
     GameController::type1Enemies.clear();
     GameController::enemyProjectiles.clear();
@@ -68,8 +66,6 @@ bool Level::init()
     initPlayer(director);
     initBackground(director);
     initGameUI(director);
-    initPauseMenu(director);
-    initHUD(director);
     initCollisionDetector();
     startCount();
     this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Level::initStart), 3.0f);
@@ -137,113 +133,10 @@ void Level::initBackground(Director* director) {
 }
 
 void Level::initGameUI(Director* director) {
-    auto visibleSize = director->getVisibleSize();
-    Vec2 origin = director->getVisibleOrigin();
-    auto dashButton = MenuItemImage::create(
-        "res/ui/dash_button.png",
-        "res/ui/dash_button.png",
-        CC_CALLBACK_1(Level::dashButtonCallback, this));
-    dashButton->setScale(RESOLUTION_VARIABLE);
-    dashButton->setOpacity(180);
-    dashButton->setAnchorPoint(Vec2(1, 0));
-    dashButton->setPosition(Vec2(origin.x + visibleSize.width - dashButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + dashButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-
-    auto jumpButton = MenuItemImage::create(
-        "res/ui/jump_button.png",
-        "res/ui/jump_button.png",
-        CC_CALLBACK_1(Level::jumpButtonCallback, this));
-    jumpButton->setScale(RESOLUTION_VARIABLE);
-    jumpButton->setOpacity(180);
-    jumpButton->setAnchorPoint(Vec2(1, 0));
-    jumpButton->setPosition(Vec2(origin.x + visibleSize.width - jumpButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + jumpButton->getContentSize().height / 2 * RESOLUTION_VARIABLE + dashButton->getContentSize().height * RESOLUTION_VARIABLE + 5 * (float)RESOLUTION_VARIABLE));
-
-    auto pauseButton = MenuItemImage::create(
-        "res/ui/pause_button.png",
-        "res/ui/pause_button.png",
-        CC_CALLBACK_1(Level::pauseButtonCallback, this));
-    pauseButton->setScale(RESOLUTION_VARIABLE);
-    pauseButton->setOpacity(180);
-    pauseButton->setAnchorPoint(Vec2(1, 1));
-    pauseButton->setPosition(Vec2(origin.x + visibleSize.width - pauseButton->getContentSize().width / 2 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - pauseButton->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-
-    gameUI = Menu::create(pauseButton, dashButton, jumpButton, NULL);
-    gameUI->setPosition(Vec2::ZERO);
+    gameUI = GameUI::create(player);
+    background->setAnchorPoint(Vec2::ZERO);
+    background->setPosition(Vec2::ZERO);
     this->addChild(gameUI, UI_LAYER);
-}
-
-void Level::initPauseMenu(Director* director) {
-    auto visibleSize = director->getVisibleSize();
-    Vec2 origin = director->getVisibleOrigin();
-    pauseBackground = Sprite::create("res/ui/black.png");
-    pauseBackground->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
-    pauseBackground->setOpacity(0);
-    pauseBackground->setAnchorPoint(Vec2(0.5, 0.5));
-    pauseBackground->setContentSize(this->getContentSize());
-
-    auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
-    MenuItemLabel* resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(Level::pauseButtonCallback, this));
-    resumeItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3 * 2));
-
-    auto mainMenuLabel = Label::createWithTTF("MAIN MENU", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
-    MenuItemLabel* mainMenuItem = MenuItemLabel::create(mainMenuLabel, CC_CALLBACK_1(Level::goToMainMenu, this));
-    mainMenuItem->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 3));
-
-    pauseMenu = Menu::create(resumeItem, mainMenuItem, NULL);
-    pauseMenu->setEnabled(false);
-    pauseMenu->setVisible(false);
-    pauseMenu->setContentSize(this->getContentSize());
-    pauseMenu->setPosition(Vec2::ZERO);
-
-    this->addChild(pauseMenu, PAUSE_MENU_LAYER);
-    this->addChild(pauseBackground,PAUSE_BACKGROUND_LAYER);
-}
-
-void Level::initHUD(Director* director) {
-    auto visibleSize = director->getVisibleSize();
-    Vec2 origin = director->getVisibleOrigin();
-    // player score
-    char playerScore[100];
-    sprintf(playerScore, "Time: %i", totalScore);
-    scoreLabel = Label::createWithTTF(playerScore, "fonts/PixelForce.ttf", 12 * (float)RESOLUTION_VARIABLE);
-    scoreLabel->setAnchorPoint(Vec2(0, 1));
-    scoreLabel->setPosition(Vec2(origin.x + scoreLabel->getContentSize().width / 4 * RESOLUTION_VARIABLE, origin.y + visibleSize.height - scoreLabel->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-    Color3B color(255, 255, 255);
-    scoreLabel->setColor(color);
-
-
-    progressBarOver = Sprite::create("res/ui/status_bar_over.png");
-    progressBarOver->getTexture()->setAliasTexParameters();
-    progressBarOver->setScale(RESOLUTION_VARIABLE);
-    progressBarOver->setAnchorPoint(Vec2(0.5, 0.5));
-    progressBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBarOver->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-
-    // progress bar
-    progressBar = ui::LoadingBar::create("res/ui/status_bar.png");
-    progressBar->setScale(RESOLUTION_VARIABLE);
-    progressBar->setAnchorPoint(Vec2(0.5, 0.5));
-    progressBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - progressBarOver->getContentSize().height / 2 * RESOLUTION_VARIABLE));
-    progressBar->setPercent(0);
-    progressBar->setDirection(ui::LoadingBar::Direction::LEFT);
-
-    //===================================
-    //player hp bar
-    playerHPBar = ui::LoadingBar::create("res/ui/hp_bar_2.png");
-    playerHPBar->setAnchorPoint(Vec2(0, 0));
-    playerHPBar->setPosition(Vec2(origin.x, origin.y));
-    playerHPBar->setScale(0.5 * RESOLUTION_VARIABLE);
-    playerHPBar->setPercent(100);
-    playerHPBar->setDirection(ui::LoadingBar::Direction::LEFT);
-
-    cocos2d::Sprite* playerHPBarUnder = cocos2d::Sprite::create("res/ui/hp_bar_1.png");
-    playerHPBarUnder->setAnchorPoint(Vec2(0, 0));
-    playerHPBarUnder->setPosition(Vec2(origin.x, origin.y));
-    playerHPBarUnder->setScale(0.5 * RESOLUTION_VARIABLE);
-
-    this->addChild(playerHPBarUnder, BAR_UNDER_LAYER);
-    this->addChild(playerHPBar, BAR_LAYER);
-    this->addChild(progressBar, BAR_LAYER);
-    this->addChild(progressBarOver, BAR_OVER_LAYER);
-    this->addChild(scoreLabel, UI_LAYER);
 }
 
 void Level::initCollisionDetector() {
@@ -264,8 +157,7 @@ void Level::initScedulers() {
     this->schedule(audioUpdatePointer, 0.005f);
     //====================================
 
-    auto updateScorePointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::updateScore);
-    this->schedule(updateScorePointer, 1.0f);
+    gameUI->scheduleScoreUpdate();
 
     //player shooting
     playerProjectilesPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Level::spawnPlayerProjectile);
@@ -278,20 +170,15 @@ void Level::update(float dt)
 
     player->update();
     background->update();
+    gameUI->update();
 
     GameController::updateEnemyFacing(player->getPosition());
 
-    char playerScore[100];
-    sprintf(playerScore, "Score: %i", totalScore);
-    scoreLabel->setString(playerScore);
-    progressBar->setPercent(totalScore / GameConstants::getLevelStats("DURATION") * 100.0);
-
-    if (totalScore > GameConstants::getLevelStats("DURATION") && !GameController::bossFightIsOn)
+    if (gameUI->getTotalScore() > GameConstants::getLevelStats("DURATION") && !GameController::bossFightIsOn)
     {
         GameController::bossFightIsOn = true;
         spawnBoss();
-        removeChild(progressBar,true);
-        removeChild(progressBarOver,true);
+        gameUI->removeProgressBar();
         AudioEngine::stop(musicID);
         bossMusicID = AudioEngine::play2d("audio/music/level1BossFight.mp3", false);
         AudioEngine::setVolume(bossMusicID, 0.03);
@@ -308,6 +195,7 @@ void Level::update(float dt)
     {
         GameController::bossMovement();
         if (GameController::boss->getHp() < 0) levelFinished();
+        //if (GameController::boss != nullptr) gameUI->updateBossHPBar(GameController::boss->getHp(), GameController::boss->getInitialHp());
     }
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
@@ -327,7 +215,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 		|| (REGULAR_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask() ) )
     {   
         player->damageHP(GameConstants::getEnemyStats("REGULAR_COLLIDE_DAMAGE"));
-        playerHPBar->setPercent(player->getHP()/ GameConstants::getPlayerStats("START_HP")*100.0);
 
         if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK && a->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
@@ -367,8 +254,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
 
                 this->removeProjectile(b->getNode());
             }
-
-            playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
         }
     }
     //if player collided with laser
@@ -388,8 +273,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
                 this->addChild(particles, PARTICLES_LAYER);
                 this->removeLaser(b->getNode());
             }
-
-            playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
         }
     }
     //if player collided with enemy type 2
@@ -397,7 +280,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         || (LASER_ENEMY_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->damageHP(GameConstants::getEnemyStats("LASER_COLLIDE_DAMAGE"));
-        playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
 
         if (a->getCollisionBitmask() == LASER_ENEMY_MASK && a->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
@@ -425,8 +307,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         {
             player->jumpKill(0);
             GameController::boss->getDamage(1);
-            bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
-
         }
     }
 
@@ -435,7 +315,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         || (RAY_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
         player->damageHP(10);
-        playerHPBar->setPercent(player->getHP() / GameConstants::getPlayerStats("START_HP") * 100.0);
     }
     //if player projectile collided with enemytype1
     if ((PLAYER_PROJECTILE_MASK == a->getCollisionBitmask() && REGULAR_ENEMY_MASK == b->getCollisionBitmask())
@@ -498,7 +377,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         if (GameController::bossFightIsOn) 
         {
             GameController::boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
-            bossHpBar->setPercent((float)GameController::boss->getHp() / GameController::boss->getInitialHp() * 100);
         }
 
         if (PLAYER_PROJECTILE_MASK == a->getCollisionBitmask()) 
@@ -511,11 +389,6 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         }
     }
     return true;
-}
-
-void Level::updateScore(float dt)
-{
-    totalScore += 1;
 }
 
 void Level::levelFinished()
@@ -537,24 +410,6 @@ void Level::gameOver()
     AudioEngine::end();
     Director::getInstance()->replaceScene(scene);
 }
-
-
-void Level::goToMainMenu(Ref* pSender)
-{
-    Scene* scene = MainMenu::createScene();
-    TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
-
-    AudioEngine::stopAll();
-    AudioEngine::end();
-
-    auto menuMusicID = AudioEngine::play2d("audio/music/main_menu.mp3", false);
-    AudioEngine::setVolume(menuMusicID, 0.1);
-    
-    Director::getInstance()->startAnimation();
-
-    Director::getInstance()->replaceScene(scene);
-}
-
 
 bool Level::onTouchBegan(Touch *touch, Event *event)
 {
@@ -632,38 +487,6 @@ void Level::keyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event*
     }
     if (movementInputDeck.empty()) player->idle();
     else player->run(movementInputDeck.front());
-}
-
-
-void Level::dashButtonCallback(Ref* pSender)
-{
-    player->dash();
-}
-
-void Level::jumpButtonCallback(Ref* pSender)
-{
-    player->jump();
-}
-
-void Level::pauseButtonCallback(Ref* pSender)
-{
-    if (!isPaused) {
-        pauseBackground->setOpacity(200);
-        pauseMenu->setEnabled(true);
-        pauseMenu->setVisible(true);
-        gameUI->setEnabled(false);
-        AudioEngine::pauseAll();
-        Director::getInstance()->stopAnimation();
-    }
-    else {
-        pauseBackground->setOpacity(0);
-        pauseMenu->setEnabled(false);
-        pauseMenu->setVisible(false);
-        gameUI->setEnabled(true);
-        AudioEngine::resumeAll();
-        Director::getInstance()->startAnimation();
-    }
-    isPaused = !isPaused;
 }
 
 void Level::spawnEnemy(float dt, int enemyPos)
@@ -819,7 +642,7 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
 }
 void Level::spawnEnemyOnTiming(float dt)
 {
-    if (GameController::enemySpawnTimings[currentEnemy] * 1000 != 0 && totalScore < GameConstants::getLevelStats("DURATION")) {
+    if (GameController::enemySpawnTimings[currentEnemy] * 1000 != 0 && gameUI->getTotalScore() < GameConstants::getLevelStats("DURATION")) {
         if (currentTime > GameController::enemySpawnTimings[currentEnemy]*1000)
         {
             int type = GameController::enemyTypeArr[currentEnemy];
@@ -921,28 +744,7 @@ void Level::spawnLaserRay(Level1Boss* boss)
 }
 void Level::bossInit()
 {
-    auto origin = Director::getInstance()->getVisibleOrigin();
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto bossHpBarOver = Sprite::create("res/ui/boss_hp_bar_under.png");
-    bossHpBarOver->getTexture()->setAliasTexParameters();
-    bossHpBarOver->setScale(RESOLUTION_VARIABLE);
-    bossHpBarOver->setAnchorPoint(Vec2(0.5, 0.5));
-    bossHpBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
-
-    // hp bar
-    bossHpBar= ui::LoadingBar::create("res/ui/boss_hp_bar.png");
-    bossHpBar->setScale(RESOLUTION_VARIABLE);
-    bossHpBar->setAnchorPoint(Vec2(0.5, 0.5));
-    bossHpBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
-    bossHpBar->setPercent(100);
-    bossHpBar->setDirection(ui::LoadingBar::Direction::LEFT);
-
-    auto bossNameLabel = Label::createWithTTF("AMU", "fonts/PixelForce.ttf", 12 * (float)RESOLUTION_VARIABLE);
-    bossNameLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT") + bossHpBar->getContentSize().height * 2 * RESOLUTION_VARIABLE));
-    
-    this->addChild(bossHpBar, UI_LAYER);
-    this->addChild(bossHpBarOver, UI_LAYER);
-    this->addChild(bossNameLabel,UI_LAYER);
+    gameUI->initBossUI();
 }
 void Level::spawnPlayerProjectile(float dt)
 {
