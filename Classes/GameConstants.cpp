@@ -10,6 +10,9 @@ std::map<std::string, float> GameConstants::enemyStats = {};
 std::map<std::string, std::string> GameConstants::projectileAssetPaths = {};
 std::map<std::string, float> GameConstants::projectileAnimationData = {};
 std::map<std::string, float> GameConstants::projectileStats = {};
+std::map<std::string, std::string> GameConstants::bossAssetPaths = {};
+std::map<std::string, float> GameConstants::bossAnimationData = {};
+std::map<std::string, float> GameConstants::bossStats = {};
 
 std::map<std::string, std::string> GameConstants::levelAssetPaths = {};
 std::map<std::string, float> GameConstants::levelAnimationData = {};
@@ -91,6 +94,38 @@ void GameConstants::initConstants(std::string levelName)
 		setProjectileStats("PLAYER_DAMAGE", "player", "damage", NOT_MULT_BY_RESOLUTION);
 		setProjectileStats("PLAYER_SPEED", "player", "speed", MULT_BY_RESOLUTION);
 
+		setBossAssetPath("SPRITE_SHEET","spriteSheet","link");
+		setBossAssetPath("SPRITE_MODEL","sprite","link");
+		setBossAssetPath("FIRST_ATTACK_START", "attackFirst", "start");
+		setBossAssetPath("FIRST_ATTACK_ATTACK", "attackFirst", "attack");
+		setBossAssetPath("FIRST_ATTACK_END", "attackFirst", "end");
+		setBossAssetPath("SECOND_ATTACK_START", "attackSecond", "start");
+		setBossAssetPath("SECOND_ATTACK_ATTACK", "attackSecond", "attack");
+		setBossAssetPath("SECOND_ATTACK_END", "attackSecond", "end");
+		setBossAssetPath("IDLE_BODY","idleBody","sprite");
+		setBossAssetPath("IDLE_EYE", "idleEye", "sprite");
+
+		setBossAnimationData("IDLE_BODY_NUM_OF_FRAMES", "idle", "body", "animationFramesNumber");
+		setBossAnimationData("IDLE_BODY_SPEED", "idle", "body" , "animationSpeed");
+		setBossAnimationData("IDLE_EYE_NUM_OF_FRAMES", "idle", "eye", "animationFramesNumber");
+		setBossAnimationData("IDLE_EYE_SPEED", "idle", "eye", "animationSpeed");
+
+		setBossAnimationData("FIRST_ATTACK_START_NUM_OF_FRAMES", "attackFirst", "start", "animationFramesNumber");
+		setBossAnimationData("FIRST_ATTACK_START_SPEED", "attackFirst", "start", "animationSpeed");
+		setBossAnimationData("FIRST_ATTACK_ATTACK_NUM_OF_FRAMES", "attackFirst", "attack", "animationFramesNumber");
+		setBossAnimationData("FIRST_ATTACK_ATTACK_SPEED", "attackFirst", "attack", "animationSpeed");
+		setBossAnimationData("FIRST_ATTACK_END_NUM_OF_FRAMES", "attackFirst", "end", "animationFramesNumber");
+		setBossAnimationData("FIRST_ATTACK_END_SPEED", "attackFirst", "end", "animationSpeed");
+
+		setBossAnimationData("SECOND_ATTACK_START_NUM_OF_FRAMES",			"attackSecond", "start", "animationFramesNumber");
+		setBossAnimationData("SECOND_ATTACK_START_SPEED",					"attackSecond", "start", "animationSpeed");
+		setBossAnimationData("SECOND_ATTACK_LEFT_TO_RIGHT_NUM_OF_FRAMES",	"attackSecond", "leftRight", "animationFramesNumber");
+		setBossAnimationData("SECOND_ATTACK_LEFT_TO_RIGHT_SPEED",			"attackSecond", "leftRight", "animationSpeed");
+		setBossAnimationData("SECOND_ATTACK_RIGHT_TO_LEFT_NUM_OF_FRAMES",	"attackSecond", "rightLeft", "animationFramesNumber");
+		setBossAnimationData("SECOND_ATTACK_RIGHT_TO_LEFT_SPEED",			"attackSecond", "rightLeft", "animationSpeed");
+		setBossAnimationData("SECOND_ATTACK_END_NUM_OF_FRAMES",				"attackSecond", "end", "animationFramesNumber");
+		setBossAnimationData("SECOND_ATTACK_END_SPEED",						"attackSecond", "end", "animationSpeed");
+
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
 		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);
 		setLevelStats("DURATION", "levelDuration", NOT_MULT_BY_RESOLUTION);
@@ -133,6 +168,14 @@ float GameConstants::getProjectileAnimationData(const std::string& key)
 float GameConstants::getProjectileStats(const std::string& key)
 {
 	return projectileStats[key];
+}
+std::string GameConstants::getBossAssetPath(const std::string& key)
+{
+	return bossAssetPaths[key];
+}
+float GameConstants::getBossAnimationData(const std::string& key)
+{
+	return bossAnimationData[key];
 }
 float GameConstants::getLevelStats(const std::string& key)
 {
@@ -189,6 +232,7 @@ void GameConstants::setProjectileStats(const std::string& key, const std::string
 		projectileStats[key] *= GameConstants::resolution;
 	}
 }
+
 void GameConstants::setLevelAssetPaths(const std::string& key, const std::string& assetName)
 {
 	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"]["1"]["background"][assetName];
@@ -197,8 +241,6 @@ void GameConstants::setLevelAnimationData(const std::string& key, const std::str
 {
 	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["projectile"][dataName];
 }
-
-
 void GameConstants::setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution)
 {
 	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["level"][dataName];
@@ -207,6 +249,17 @@ void GameConstants::setLevelStats(const std::string& key, const std::string& dat
 		levelStats[key] *= GameConstants::resolution;
 	}
 }
+
+
+void GameConstants::setBossAssetPath(const std::string& key, const std::string& type, const std::string& assetName)
+{
+	bossAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"]["1"]["boss"][type][assetName];
+}
+void GameConstants::setBossAnimationData(const std::string& key, const std::string& type, const std::string& type2, const std::string& dataName)
+{
+	bossAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["bossAnim"][type][type2][dataName];
+}
+
 
 
 // ============================================= LOAD OBJECT ==============================================

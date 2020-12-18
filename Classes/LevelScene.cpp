@@ -288,8 +288,8 @@ void Level::update(float dt)
 
     if (totalScore > GameConstants::getLevelStats("DURATION") && !GameController::bossFightIsOn)
     {
-        spawnBoss();
         GameController::bossFightIsOn = true;
+        spawnBoss();
         removeChild(progressBar,true);
         removeChild(progressBarOver,true);
         AudioEngine::stop(musicID);
@@ -892,10 +892,10 @@ void Level::spawnBoss()
     cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
     Level1Boss* boss = GameController::createLevel1Boss();
     boss->setPosition(Vec2(visibleSize.width/2,visibleSize.height));
-    boss->setScale(0.25 * RESOLUTION_VARIABLE);
+    boss->setScale(RESOLUTION_VARIABLE);
     this->addChild(boss, BOSS_LAYER);
 
-    auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height*0.25 * RESOLUTION_VARIABLE));
+    auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height * RESOLUTION_VARIABLE));
     auto changeState = CallFunc::create([boss]() {boss->setState(2); });
     auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
     auto changePhase = CallFunc::create([boss]() {boss->setPhase(0); });
