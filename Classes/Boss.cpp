@@ -12,9 +12,9 @@ Level1Boss* Level1Boss::create()
 	if (boss)
 	{
 		boss->autorelease();
-		boss->model = cocos2d::Sprite::create(GameConstants::getBossAssetPath("SPRITE_MODEL"));
+		boss->model = cocos2d::Sprite::create();
 		boss->setAnchorPoint(Vec2(0.5, 0));
-		boss->setContentSize(Size(boss->model->getContentSize().width * 0.25, boss->model->getContentSize().height * 0.25));
+		boss->setContentSize(Size(124, 192));
 		if (boss->model)
 		{
 			boss->model->setPosition(Vec2(0, 0));
@@ -114,7 +114,9 @@ cocos2d::Animate* Level1Boss::createAnimation(cocos2d::SpriteFrameCache* spriteC
 	for (int i = 1; i <= numberOfFrames; i++)
 	{
 		sprintf(str, assetPath.c_str(), i);
-		animFrames.pushBack(spriteCache->getSpriteFrameByName(str));
+		auto frame = spriteCache->getSpriteFrameByName(str);
+		frame->getTexture()->setAliasTexParameters();
+		animFrames.pushBack(frame);
 	}
 	auto animation = Animation::createWithSpriteFrames(animFrames, animationSpeed);
 
