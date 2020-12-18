@@ -1,5 +1,5 @@
 {
-    "playerAnim": {
+    "player": {
         "unarmed": {
             "idleFrames": 5,
             "runFrames": 8,
@@ -40,37 +40,47 @@
             "spriteSize": 112
         }
     },
-    "enemyAnim":{
-        "regular":{
-            "animationFramesNumber":5,
-            "animationSpeed":0.1,
-            "spriteSize":112,
-            "projectile": {
-                "animationFramesNumber": 2,
-                "animationSpeed": 0.1,
-                "spriteSize": 12
+    "levels": {
+        "1": {
+            "background": {
+
+            },
+            "enemy":{
+                "regular":{
+                    "animationFramesNumber":5,
+                    "animationSpeed":0.1,
+                    "spriteSize":112,
+                    "projectile": {
+                        "animationFramesNumber": 2,
+                        "animationSpeed": 0.1,
+                        "spriteSize": 12
+                    }
+                },
+                "laser":{
+                    "animationFramesNumber":5,
+                    "animationSpeed":0.1,
+                    "spriteSize":112,
+                    "projectile": {
+                        "animationFramesNumber": 3,
+                        "animationSpeed": 0.1,
+                        "spriteSizeX": 36,
+                        "spriteSizeY": 8
+                    }
+                },
+                "turret": {
+                    "animationFramesNumber":7,
+                    "animationSpeed":0.1,
+                    "spriteSize":112,
+                    "projectile": {
+                    }
+                } 
             }
         },
-        "laser":{
-            "animationFramesNumber":5,
-            "animationSpeed":0.1,
-            "spriteSize":112,
-            "projectile": {
-                "animationFramesNumber": 3,
-                "animationSpeed": 0.1,
-                "spriteSizeX": 36,
-                "spriteSizeY": 8
-            }
-        },
-        "turret": {
-            "animationFramesNumber":7,
-            "animationSpeed":0.1,
-            "spriteSize":112,
-            "projectile": {
-            }
-        } 
+        "2": {
+            
+        }
     },
-    "projectileAnim":{
+    "projectile":{
         "default":{
             "animationFramesNumber": 2,
             "animationSpeed": 0.1,

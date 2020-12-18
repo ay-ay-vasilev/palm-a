@@ -19,13 +19,13 @@ Player::~Player()
 	CC_SAFE_RELEASE(jumpRightAnimate);
 }
 
-Player * Player::create()
+Player * Player::create(std::string playerType)
 {
 	Player * player = new Player();
 	if(player->init())
 	{
 		player->autorelease();
-		player->initPlayer("jetpack");
+		player->initPlayer(playerType);
 		return player;
 	}
 

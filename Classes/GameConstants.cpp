@@ -11,6 +11,8 @@ std::map<std::string, std::string> GameConstants::projectileAssetPaths = {};
 std::map<std::string, float> GameConstants::projectileAnimationData = {};
 std::map<std::string, float> GameConstants::projectileStats = {};
 
+std::map<std::string, std::string> GameConstants::levelAssetPaths = {};
+std::map<std::string, float> GameConstants::levelAnimationData = {};
 std::map<std::string, float> GameConstants::levelStats = {};
 
 float GameConstants::resolution = 2;
@@ -145,7 +147,7 @@ void GameConstants::setPlayerAssetPath(const std::string& key, const std::string
 }
 void GameConstants::setPlayerAnimationData(const std::string& key, const std::string& dataName, const std::string& playerType)
 {
-	playerAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["playerAnim"][playerType][dataName];
+	playerAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["player"][playerType][dataName];
 }
 void GameConstants::setPlayerStats(const std::string& playerType, const std::string& key, const std::string& dataName, const bool multByResolution)
 {
@@ -161,7 +163,7 @@ void GameConstants::setEnemyAssetPath(const std::string& key, const std::string&
 }
 void GameConstants::setEnemyAnimationData(const std::string& key, const std::string& type, const std::string& dataName)
 {
-	enemyAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["enemyAnim"][type][dataName];
+	enemyAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["levels"]["1"]["enemy"][type][dataName];
 }
 void GameConstants::setEnemyStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution)
 {
@@ -177,7 +179,7 @@ void GameConstants::setProjectileAssetPath(const std::string& key, const std::st
 }
 void GameConstants::setProjectileAnimationData(const std::string& key, const std::string& type, const std::string& dataName)
 {
-	projectileAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["projectileAnim"][type][dataName];
+	projectileAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["projectile"][type][dataName];
 }
 void GameConstants::setProjectileStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution)
 {
@@ -187,6 +189,16 @@ void GameConstants::setProjectileStats(const std::string& key, const std::string
 		projectileStats[key] *= GameConstants::resolution;
 	}
 }
+void GameConstants::setLevelAssetPaths(const std::string& key, const std::string& assetName)
+{
+	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"]["1"]["background"][assetName];
+}
+void GameConstants::setLevelAnimationData(const std::string& key, const std::string& dataName)
+{
+	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["projectile"][dataName];
+}
+
+
 void GameConstants::setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution)
 {
 	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["level"][dataName];

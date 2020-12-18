@@ -23,7 +23,7 @@ public:
 
 	ParticleSystemQuad* jetpackParticles;
 
-	static Player * create(void);
+	static Player * create(std::string playerType);
 	void dash();
 	void jump();
 	bool jumpKill(float enemyPosY);

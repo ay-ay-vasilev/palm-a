@@ -41,7 +41,6 @@
 #define PARTICLES_LAYER 6
 // Tags
 #define ANIMATION_TAG 1
-
 // Splash definitions
 #define LOGO_ANIM_NUM_OF_FRAMES 6
 #define LOGO_ANIM_SPEED 0.12

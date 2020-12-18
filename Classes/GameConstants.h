@@ -20,6 +20,8 @@ private:
 	static std::map<std::string, float> projectileAnimationData;
 	static std::map<std::string, float> projectileStats;
 
+	static std::map<std::string, std::string> GameConstants::levelAssetPaths;
+	static std::map<std::string, float> GameConstants::levelAnimationData;
 	static std::map<std::string, float> levelStats;
 
 public:
@@ -36,6 +38,8 @@ public:
 	static void setProjectileAnimationData(const std::string& key, const std::string& type, const std::string& dataName);
 	static void setProjectileStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution);
 
+	static void setLevelAssetPaths(const std::string& key, const std::string& assetName);
+	static void setLevelAnimationData(const std::string& key, const std::string& dataName);
 	static void setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution);
 
 	static std::string getPlayerAssetPath(const std::string& key);
@@ -47,6 +51,9 @@ public:
 	static std::string getProjectileAssetPath(const std::string& key);
 	static float getProjectileAnimationData(const std::string& key);
 	static float getProjectileStats(const std::string& key);
+
+	static std::string getLevelAssetPath(const std::string& key);
+	static float getLevelAnimationData(const std::string& key);
 	static float getLevelStats(const std::string& key);
 	
 	static void loadPlayer(const std::string& type);

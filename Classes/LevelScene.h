@@ -5,6 +5,7 @@
 #include "ui/CocosGUI.h"
 #include "cocos2d.h"
 #include "Player.h"
+#include "Background.h"
 #include "Enemy.h"
 #include "Projectiles.h"
 #include "GameController.h"
@@ -52,15 +53,9 @@ private:
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
 
     Player * player;
+    Background* background;
 
     void update(float dt);
-    // MOVE LATER
-    cocos2d::ParallaxNode* paraNodeClose;
-    cocos2d::ParallaxNode* paraNodeMid;
-    cocos2d::ParallaxNode* paraNodeFar;
-    float closeSpeed;
-    float midSpeed;
-    float farSpeed;
 
     std::deque<int> movementInputDeck;
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
