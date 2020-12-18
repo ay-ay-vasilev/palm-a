@@ -93,5 +93,49 @@
             "animationSpeed": 0.1,
             "spriteSize": 12  
         }
+    },
+    "bossAnim":{
+        "idle":{
+            "body":{
+                "animationFramesNumber": 11,
+                "animationSpeed":0.1
+            },
+            "eye":{
+                "animationFramesNumber": 11,
+                "animationSpeed":0.1
+            }
+        },
+        "attackFirst":{
+            "start":{
+                "animationFramesNumber":3,
+                "animationSpeed":0.1
+            },
+            "attack":{
+                "animationFramesNumber":1,
+                "animationSpeed":0.1
+            },
+            "end":{
+                "animationFramesNumber":4,
+                "animationSpeed":0.1
+            }
+        },
+        "attackSecond":{
+            "start":{
+                "animationFramesNumber":3,
+                "animationSpeed":0.1
+            },
+            "leftRight":{
+                "animationFramesNumber":6,
+                "animationSpeed":0.1
+            },
+            "rightLeft":{
+                "animationFramesNumber":6,
+                "animationSpeed":0.1
+            },
+            "end":{
+                "animationFramesNumber":2,
+                "animationSpeed":0.1
+            }
+        }
     }
 }

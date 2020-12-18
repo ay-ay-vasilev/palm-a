@@ -98,7 +98,9 @@
                 }
             },
             "boss": {
-                "spriteSheet": "res/levels/1/boss",
+                "spriteSheet": {
+                    "link":"res/levels/1/boss/boss_1_sheet.plist"
+                },
                 "attackFirst": {
                     "start": "attack_first/start/%i.png",
                     "attack": "attack_first/attack/%i.png",
@@ -114,6 +116,9 @@
                 },
                 "idleEye": {
                     "sprite": "idle/eye/%i.png"
+                },
+                "sprite":{
+                    "link":"res/levels/1/boss/boss_test.png"
                 }
             }
         },

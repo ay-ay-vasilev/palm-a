@@ -9,7 +9,9 @@ public:
 	static Level1Boss* create();
 
 	cocos2d::Sprite* model;
-	cocos2d::Animate* idleAnimation;
+	cocos2d::Sprite* eye;
+	cocos2d::Animate* bodyIdleAnimation;
+	cocos2d::Animate* eyeIdleAnimation;
 	cocos2d::PhysicsBody* getBody();
 
 	int getState();
@@ -34,4 +36,7 @@ private:
 	RayProjectile* ray;
 	Level1Boss();
 	~Level1Boss();
+
+	static void loadAnimations(Level1Boss* boss);
+	static cocos2d::Animate* createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
 };
