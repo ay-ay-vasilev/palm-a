@@ -74,6 +74,7 @@
             "levelDuration": 10,
             "wallDistance": 40,
             "floorHeight": 30,
+            "elevationSpeed": 100,
             "timings": "Resources/data/levels/timingsLevel1.txt",
             "enemy": {
                 "regular": {

@@ -73,7 +73,7 @@
                 "floorSprite": "floor/%i.png",
                 "closeSprite": "close/%i.png",
                 "midSprite": "mid/%i.png",
-                "farSprite": "far%i.png"
+                "farSprite": "far/%i.png"
             },
             "enemy": {
                 "regular" : {

@@ -144,6 +144,7 @@ void GameConstants::initConstants(std::string levelName)
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
 		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);
 		setLevelStats("DURATION", "levelDuration", NOT_MULT_BY_RESOLUTION);
+		setLevelStats("ELEVATION_SPEED", "elevationSpeed", MULT_BY_RESOLUTION);
 	}
 }
 
@@ -191,6 +192,14 @@ std::string GameConstants::getBossAssetPath(const std::string& key)
 float GameConstants::getBossAnimationData(const std::string& key)
 {
 	return bossAnimationData[key];
+}
+std::string GameConstants::getLevelAssetPath(const std::string& key)
+{
+	return levelAssetPaths[key];
+}
+float GameConstants::getLevelAnimationData(const std::string& key)
+{
+	return levelAnimationData[key];
 }
 float GameConstants::getLevelStats(const std::string& key)
 {
