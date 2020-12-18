@@ -334,7 +334,7 @@ void GameController::updateEnemyFacing(Vec2 playerPos)
 Level1Boss* GameController::createLevel1Boss()
 {
     Level1Boss* _boss = Level1Boss::create();
-    _boss->model->setPhysicsBody(_boss->getBody());
+    _boss->setPhysicsBody(_boss->getBody());
     _boss->setHp(20);
 
     if (_boss)
@@ -358,22 +358,30 @@ void GameController::bossMovement()
         if (boss->getState() == 2)
         {
             boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
-            if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
+            if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * RESOLUTION_VARIABLE)
             {
                 boss->setState(3);
                 boss->setPhase(boss->getPhase() + 1);
-                if (boss->getPhase() == 2) boss->setState(4);
+                if (boss->getPhase() == 2)
+                {
+                    boss->setState(4);
+                    boss->endFirstAttack(boss);
+                }
             }
             boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
         }
         if (boss->getState() == 3)
         {
             boss->setPosition(Vec2(boss->getPosition().x - bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
-            if (boss->getPosition().x <= boss->getContentSize().width * 0.25 * RESOLUTION_VARIABLE)
+            if (boss->getPosition().x <= boss->getContentSize().width * RESOLUTION_VARIABLE)
             {
                 boss->setState(2);
                 boss->setPhase(boss->getPhase() + 1);
-                if (boss->getPhase() == 2) boss->setState(4);
+                if (boss->getPhase() == 2)
+                {
+                    boss->setState(4);
+                    boss->endFirstAttack(boss);
+                }
             }
             boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
         }

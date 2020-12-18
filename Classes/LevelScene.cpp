@@ -894,13 +894,16 @@ void Level::spawnBoss()
     boss->setPosition(Vec2(visibleSize.width/2,visibleSize.height));
     boss->setScale(RESOLUTION_VARIABLE);
     this->addChild(boss, BOSS_LAYER);
+    auto delay = DelayTime::create(GameConstants::getBossAnimationData("FIRST_ATTACK_START_NUM_OF_FRAMES")*GameConstants::getBossAnimationData("FIRST_ATTACK_START_SPEED"));
 
     auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height * RESOLUTION_VARIABLE));
     auto changeState = CallFunc::create([boss]() {boss->setState(2); });
     auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
     auto changePhase = CallFunc::create([boss]() {boss->setPhase(0); });
     auto bossInitCall = CallFunc::create([this]() {this->bossInit(); });
-    auto sequence = Sequence::create(bossInitCall, moveDown, changePhase, changeState, spawnRay, NULL);
+    auto startFirstAttack = CallFunc::create([boss]() {boss->startFirstAttack(boss); });
+
+    auto sequence = Sequence::create(bossInitCall, moveDown, changePhase, startFirstAttack, delay, spawnRay, changeState,NULL);
     boss->runAction(sequence);
 }
 void Level::spawnLaserRay(Level1Boss* boss) 
