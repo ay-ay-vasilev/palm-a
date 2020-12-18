@@ -69,19 +69,11 @@
                 "static": "res/levels/1/cutscene/%i_test.png"
             },
             "background" : {
-                "staticLayer" : {
-                    "spriteSheet": "res/levels/1/parallax_layers/level_1_static_layer.plist",
-                    "sprite": "level_1_static_layer%i.png"
-                },
-                "closeLayer" : {
-                    "sprite": "res/levels/1/parallax_layers/close_background.png"
-                },
-                "midLayer" : {
-                    "sprite": "res/levels/1/parallax_layers/mid_background.png"
-                },
-                "farLayer" : {
-                    "sprite": "res/levels/1/parallax_layers/far_background.png"
-                }
+                "spriteSheet": "res/levels/1/background/background.plist",
+                "floorSprite": "floor/%i.png",
+                "closeSprite": "close/%i.png",
+                "midSprite": "mid/%i.png",
+                "farSprite": "far%i.png"
             },
             "enemy": {
                 "regular" : {

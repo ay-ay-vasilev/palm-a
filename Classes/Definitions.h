@@ -53,7 +53,7 @@
 #define FADE_LENGTH JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["fadeLength"]
 #define NUMBER_OF_CADRS JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["numberOfFrames"]
 
-#define LEVEL_1_DATA JsonInstance::GetInstance()->GetData("balance")["level"]["timings"]
+#define LEVEL_1_DATA JsonInstance::GetInstance()->GetData("balance")["levels"]["1"]["timings"]
 #define ENEMIES_SPAWN_TIMINGS JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["timingsPath"]
 #define ENEMIES_SPAWN_TYPES JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["typesPath"]
 #define ENEMIES_SPAWN_POINTS JsonInstance::GetInstance()->GetData("level1")["enemySpawnTimings"]["pointsPath"]

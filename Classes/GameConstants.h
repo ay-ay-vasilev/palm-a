@@ -45,7 +45,7 @@ public:
 	static void setBossAssetPath(const std::string& key, const std::string& type, const std::string& assetName);
 	static void setBossAnimationData(const std::string& key, const std::string& type, const std::string& type2,const std::string& dataName);
 
-	static void setLevelAssetPaths(const std::string& key, const std::string& assetName);
+	static void setLevelAssetPath(const std::string& key, const std::string& assetName);
 	static void setLevelAnimationData(const std::string& key, const std::string& dataName);
 	static void setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution);
 

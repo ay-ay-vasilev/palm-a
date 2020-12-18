@@ -43,7 +43,14 @@
     "levels": {
         "1": {
             "background": {
-
+                "floorAnimationFramesNumber": 3,
+                "floorAnimationSpeed": 0.1,
+                "closeAnimationFramesNumber": 2,
+                "closeAnimationSpeed": 0.15,
+                "midAnimationFramesNumber": 2,
+                "midAnimationSpeed": 0.075,
+                "farAnimationFramesNumber": 2,
+                "farAnimationSpeed": 0.0375
             },
             "enemy":{
                 "regular":{
@@ -74,6 +81,9 @@
                     "projectile": {
                     }
                 } 
+            },
+            "boss":{
+                
             }
         },
         "2": {

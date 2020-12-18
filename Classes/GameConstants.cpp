@@ -110,12 +110,12 @@ void GameConstants::initConstants(std::string levelName)
 		setBossAnimationData("IDLE_EYE_NUM_OF_FRAMES", "idle", "eye", "animationFramesNumber");
 		setBossAnimationData("IDLE_EYE_SPEED", "idle", "eye", "animationSpeed");
 
-		setBossAnimationData("FIRST_ATTACK_START_NUM_OF_FRAMES", "attackFirst", "start", "animationFramesNumber");
-		setBossAnimationData("FIRST_ATTACK_START_SPEED", "attackFirst", "start", "animationSpeed");
-		setBossAnimationData("FIRST_ATTACK_ATTACK_NUM_OF_FRAMES", "attackFirst", "attack", "animationFramesNumber");
-		setBossAnimationData("FIRST_ATTACK_ATTACK_SPEED", "attackFirst", "attack", "animationSpeed");
-		setBossAnimationData("FIRST_ATTACK_END_NUM_OF_FRAMES", "attackFirst", "end", "animationFramesNumber");
-		setBossAnimationData("FIRST_ATTACK_END_SPEED", "attackFirst", "end", "animationSpeed");
+		setBossAnimationData("FIRST_ATTACK_START_NUM_OF_FRAMES",	"attackFirst", "start", "animationFramesNumber");
+		setBossAnimationData("FIRST_ATTACK_START_SPEED",			"attackFirst", "start", "animationSpeed");
+		setBossAnimationData("FIRST_ATTACK_ATTACK_NUM_OF_FRAMES",	"attackFirst", "attack", "animationFramesNumber");
+		setBossAnimationData("FIRST_ATTACK_ATTACK_SPEED",			"attackFirst", "attack", "animationSpeed");
+		setBossAnimationData("FIRST_ATTACK_END_NUM_OF_FRAMES",		"attackFirst", "end", "animationFramesNumber");
+		setBossAnimationData("FIRST_ATTACK_END_SPEED",				"attackFirst", "end", "animationSpeed");
 
 		setBossAnimationData("SECOND_ATTACK_START_NUM_OF_FRAMES",			"attackSecond", "start", "animationFramesNumber");
 		setBossAnimationData("SECOND_ATTACK_START_SPEED",					"attackSecond", "start", "animationSpeed");
@@ -125,6 +125,21 @@ void GameConstants::initConstants(std::string levelName)
 		setBossAnimationData("SECOND_ATTACK_RIGHT_TO_LEFT_SPEED",			"attackSecond", "rightLeft", "animationSpeed");
 		setBossAnimationData("SECOND_ATTACK_END_NUM_OF_FRAMES",				"attackSecond", "end", "animationFramesNumber");
 		setBossAnimationData("SECOND_ATTACK_END_SPEED",						"attackSecond", "end", "animationSpeed");
+
+		setLevelAssetPath("SPRITE_SHEET", "spriteSheet");
+		setLevelAssetPath("FLOOR_SPRITE", "floorSprite");
+		setLevelAssetPath("CLOSE_SPRITE", "closeSprite");
+		setLevelAssetPath("MID_SPRITE", "midSprite");
+		setLevelAssetPath("FAR_SPRITE", "farSprite");
+
+		setLevelAnimationData("FLOOR_NUM_OF_FRAMES", "floorAnimationFramesNumber");
+		setLevelAnimationData("FLOOR_SPEED", "floorAnimationSpeed");
+		setLevelAnimationData("CLOSE_NUM_OF_FRAMES", "closeAnimationFramesNumber");
+		setLevelAnimationData("CLOSE_SPEED", "closeAnimationSpeed");
+		setLevelAnimationData("MID_NUM_OF_FRAMES", "midAnimationFramesNumber");
+		setLevelAnimationData("MID_SPEED", "midAnimationSpeed");
+		setLevelAnimationData("FAR_NUM_OF_FRAMES", "farAnimationFramesNumber");
+		setLevelAnimationData("FAR_SPEED", "farAnimationSpeed");
 
 		setLevelStats("WALL_DISTANCE", "wallDistance", MULT_BY_RESOLUTION);
 		setLevelStats("FLOOR_HEIGHT", "floorHeight", MULT_BY_RESOLUTION);
@@ -210,7 +225,7 @@ void GameConstants::setEnemyAnimationData(const std::string& key, const std::str
 }
 void GameConstants::setEnemyStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution)
 {
-	enemyStats[key] = JsonInstance::GetInstance()->GetData("balance")["enemy"][type][dataName];
+	enemyStats[key] = JsonInstance::GetInstance()->GetData("balance")["levels"]["1"]["enemy"][type][dataName];
 	if (multByResolution)
 	{
 		enemyStats[key] *= GameConstants::resolution;
@@ -233,17 +248,17 @@ void GameConstants::setProjectileStats(const std::string& key, const std::string
 	}
 }
 
-void GameConstants::setLevelAssetPaths(const std::string& key, const std::string& assetName)
+void GameConstants::setLevelAssetPath(const std::string& key, const std::string& assetName)
 {
 	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"]["1"]["background"][assetName];
 }
 void GameConstants::setLevelAnimationData(const std::string& key, const std::string& dataName)
 {
-	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["projectile"][dataName];
+	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["levels"]["1"]["background"][dataName];
 }
 void GameConstants::setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution)
 {
-	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["level"][dataName];
+	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["levels"]["1"][dataName];
 	if (multByResolution)
 	{
 		levelStats[key] *= GameConstants::resolution;

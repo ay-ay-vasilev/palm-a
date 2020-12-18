@@ -52,23 +52,6 @@
             "dmgIFrames": 0.8
         }
     },
-    "enemy": {
-        "regular": {
-            "speed": 100,
-            "collideDamage": 0,
-            "spawnFrequency": 1
-        },
-        "laser": {
-            "speed": 100,
-            "collideDamage": 0,
-            "spawnFrequency": 0.2
-        },
-        "turret": {
-            "speed": 100,
-            "collideDamage": 0,
-            "spawnFrequency": 1
-        }
-    },
     "projectile": {
         "default": {
             "damage": 1,
@@ -86,11 +69,34 @@
             "speed" : 300
         }
     },
-    "level": {
-        "levelDuration": 10,
-        "wallDistance": 40,
-        "floorHeight": 30,
-        "timings": "Resources/data/levels/timingsLevel1.txt"
+    "levels": {
+        "1": {
+            "levelDuration": 10,
+            "wallDistance": 40,
+            "floorHeight": 30,
+            "timings": "Resources/data/levels/timingsLevel1.txt",
+            "enemy": {
+                "regular": {
+                    "speed": 100,
+                    "collideDamage": 0,
+                    "spawnFrequency": 1
+                },
+                "laser": {
+                    "speed": 100,
+                    "collideDamage": 0,
+                    "spawnFrequency": 0.2
+                },
+                "turret": {
+                    "speed": 100,
+                    "collideDamage": 0,
+                    "spawnFrequency": 1
+                }
+            }
+    
+        },
+        "2": {
+
+        }
     },
     "debug": {
         "mask": true,

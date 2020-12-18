@@ -18,4 +18,5 @@ private:
     float midSpeed;
     float farSpeed;
 
+    static cocos2d::ParallaxNode* createParallaxLayer(cocos2d::SpriteFrameCache* spriteCache, std::string assetPath, float speed);
 };
