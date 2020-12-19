@@ -47,7 +47,7 @@ cocos2d::ParticleSystemQuad* DefaultProjectile::onDestroyParticles(Vec2 position
 	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
 	particles->setAnchorPoint(Vec2::ZERO);
 	particles->setPosition(position);
-	particles->setLife(0.5);
+	particles->setLife(0.2);
 	particles->setDuration(0.1);
 	particles->setSpeed(100);
 	particles->setAngleVar(360);
@@ -152,7 +152,7 @@ cocos2d::ParticleSystemQuad* PlayerProjectile::onDestroyParticles(Vec2 position)
 	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
 	particles->setAnchorPoint(Vec2::ZERO);
 	particles->setPosition(position);
-	particles->setLife(0.5);
+	particles->setLife(0.2);
 	particles->setDuration(0.1);
 	particles->setSpeed(100);
 	particles->setAngleVar(360);

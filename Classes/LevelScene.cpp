@@ -325,7 +325,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     if ((PLAYER_MASK == a->getCollisionBitmask() && RAY_PROJECTILE_MASK == b->getCollisionBitmask())
         || (RAY_PROJECTILE_MASK == a->getCollisionBitmask() && PLAYER_MASK == b->getCollisionBitmask()))
     {
-        player->damageHP(10);
+        player->damageHP(1);
     }
     //if player projectile collided with enemytype1
     if ((PLAYER_PROJECTILE_MASK == a->getCollisionBitmask() && REGULAR_ENEMY_MASK == b->getCollisionBitmask())
