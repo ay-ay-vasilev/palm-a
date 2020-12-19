@@ -47,6 +47,7 @@
 // Util
 #define RESOLUTION_VARIABLE JsonInstance::GetInstance()->GetData("balance")["debug"]["resolution"]
 #define DEBUG_MASK JsonInstance::GetInstance()->GetData("balance")["debug"]["mask"]
+#define PLAYER_TYPE JsonInstance::GetInstance()->GetData("balance")["debug"]["playerType"]
 // Level 1 data
 #define DISPLAY_TIME_SPLASH_SCENE JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["splashTime"]
 #define TRANSITION_TIME JsonInstance::GetInstance()->GetData("level1")["cutscene"]["cutsceneData"]["transitionTime"]

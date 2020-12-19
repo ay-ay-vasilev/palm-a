@@ -42,6 +42,7 @@ bool Level::init()
     }
 
     GameConstants::initConstants("level1");
+
     movementInputDeck.clear();
     GameController::type1Enemies.clear();
     GameController::enemyProjectiles.clear();
@@ -63,7 +64,7 @@ bool Level::init()
 
 	this->scheduleUpdate();
     
-    initPlayer(director);
+    initPlayer(PLAYER_TYPE);
 
     boss = GameController::createLevel1Boss();
 
@@ -123,10 +124,12 @@ void Level::initListeners() {
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void Level::initPlayer(Director* director) {
+void Level::initPlayer(std::string playerType) {
+    auto director = Director::getInstance();
     auto visibleSize = director->getVisibleSize();
     Vec2 origin = director->getVisibleOrigin();
-    player = Player::create("jetpack");
+
+    player = Player::create(playerType);
     player->setPhysicsBody(player->getBody());
     player->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + GameConstants::getLevelStats("FLOOR_HEIGHT")));
     player->setScale(0.25 * RESOLUTION_VARIABLE);
@@ -203,7 +206,6 @@ void Level::update(float dt)
     {
         GameController::bossMovement();
         if (GameController::boss->getHp() < 0) levelFinished();
-        //if (GameController::boss != nullptr) gameUI->updateBossHPBar(GameController::boss->getHp(), GameController::boss->getInitialHp());
     }
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
@@ -316,6 +318,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             player->jumpKill(0);
             GameController::boss->getDamage(1);
         }
+        gameUI->updateBossHPBar(GameController::boss->getHp(), GameController::boss->getInitialHp());
     }
 
     //if player collided with laser ray
@@ -395,6 +398,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         {
             removeProjectile(b->getNode());
         }
+        gameUI->updateBossHPBar(GameController::boss->getHp(), GameController::boss->getInitialHp());
     }
     return true;
 }

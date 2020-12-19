@@ -39,7 +39,7 @@ Level1Boss* Level1Boss::create()
 }
 cocos2d::PhysicsBody* Level1Boss::getBody()
 {
-	auto physicsBody = PhysicsBody::createBox(Size(this->model->getContentSize().width/3, this->getContentSize().height/6), PHYSICSBODY_MATERIAL_DEFAULT);
+	auto physicsBody = PhysicsBody::createBox(Size(this->getContentSize().width/3, this->getContentSize().height/6), PHYSICSBODY_MATERIAL_DEFAULT);
 
 	physicsBody->setPositionOffset(Vec2(0, 0));
 

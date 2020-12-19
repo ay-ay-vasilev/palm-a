@@ -8,7 +8,7 @@
             "maxFallSpeed": -10,
             "maxJumpSpeed": 10,
             "hp": 100,
-            "additionalJumps": 1,
+            "additionalJumps": 0,
             "additionalJumpForce": 5,
             "jumpKillForce": 7,
             "shoots": 0,
@@ -71,7 +71,7 @@
     },
     "levels": {
         "1": {
-            "levelDuration": 10,
+            "levelDuration": 208,
             "wallDistance": 40,
             "floorHeight": 30,
             "elevationSpeed": 100,
@@ -100,7 +100,8 @@
         }
     },
     "debug": {
-        "mask": true,
-        "resolution": 3
+        "mask": false,
+        "resolution": 3,
+        "playerType": "turret"
     }
 }

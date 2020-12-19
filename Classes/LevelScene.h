@@ -78,7 +78,7 @@ private:
     void audioUpdate(float dt);
     int currentTime;
     void initListeners();
-    void initPlayer(Director* director);
+    void initPlayer(std::string playerType);
     void initBackground(Director* director);
     void initGameUI(Director* director);
     void initCollisionDetector();
