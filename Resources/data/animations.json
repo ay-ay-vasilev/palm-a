@@ -128,7 +128,7 @@
         "attackFirst":{
             "start":{
                 "animationFramesNumber":3,
-                "animationSpeed":0.1
+                "animationSpeed":0.5
             },
             "attack":{
                 "animationFramesNumber":1,

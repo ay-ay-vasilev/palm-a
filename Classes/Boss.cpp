@@ -99,8 +99,20 @@ void Level1Boss::loadAnimations(Level1Boss* boss)
 	boss->eyeIdleAnimation = Level1Boss::createAnimation(spriteCache, "IDLE_EYE_NUM_OF_FRAMES","IDLE_EYE_SPEED","IDLE_EYE");
 	boss->eyeIdleAnimation->retain();
 
-	boss->model->runAction(RepeatForever::create(boss->bodyIdleAnimation));
-	boss->eye->runAction(RepeatForever::create(boss->eyeIdleAnimation));
+	boss->firstAttack_start = Level1Boss::createAnimation(spriteCache, "FIRST_ATTACK_START_NUM_OF_FRAMES", "FIRST_ATTACK_START_SPEED", "FIRST_ATTACK_START");
+	boss->firstAttack_start->retain();
+	boss->firstAttack_attack = Level1Boss::createAnimation(spriteCache, "FIRST_ATTACK_ATTACK_NUM_OF_FRAMES", "FIRST_ATTACK_ATTACK_SPEED", "FIRST_ATTACK_ATTACK");
+	boss->firstAttack_attack->retain();
+	boss->firstAttack_end = Level1Boss::createAnimation(spriteCache, "FIRST_ATTACK_END_NUM_OF_FRAMES", "FIRST_ATTACK_END_SPEED", "FIRST_ATTACK_END");
+	boss->firstAttack_end->retain();
+
+
+	auto bodyAnimation = RepeatForever::create(boss->bodyIdleAnimation);
+	auto eyeAnimation = RepeatForever::create(boss->eyeIdleAnimation);
+	bodyAnimation->setTag(ANIMATION_TAG);
+	eyeAnimation->setTag(ANIMATION_TAG);
+	boss->model->runAction(bodyAnimation);
+	boss->eye->runAction(eyeAnimation);
 }
 cocos2d::Animate* Level1Boss::createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
 {
@@ -121,4 +133,36 @@ cocos2d::Animate* Level1Boss::createAnimation(cocos2d::SpriteFrameCache* spriteC
 	auto animation = Animation::createWithSpriteFrames(animFrames, animationSpeed);
 
 	return Animate::create(animation);
+}
+void Level1Boss::startFirstAttack(Level1Boss* boss)
+{
+	boss->model->stopActionByTag(ANIMATION_TAG);
+	boss->eye->stopActionByTag(ANIMATION_TAG);
+
+	auto startAnimation = boss->firstAttack_start;
+
+	auto attackAnimation = RepeatForever::create(boss->firstAttack_attack);
+
+	auto sequence = Sequence::create(startAnimation, attackAnimation, NULL);
+	sequence->setTag(ANIMATION_TAG);
+
+	boss->model->runAction(sequence);
+}
+void Level1Boss::endFirstAttack(Level1Boss* boss)
+{
+	boss->model->stopActionByTag(ANIMATION_TAG);
+
+	auto endAnimation = boss->firstAttack_end;
+	auto bodyAnimation = RepeatForever::create(boss->bodyIdleAnimation);
+	auto eyeAnimation = RepeatForever::create(boss->eyeIdleAnimation);
+	auto delay = DelayTime::create(GameConstants::getBossAnimationData("FIRST_ATTACK_END_NUM_OF_FRAMES")*GameConstants::getBossAnimationData("FIRST_ATTACK_END_SPEED"));
+
+	auto bodySequence = Sequence::create(bodyAnimation, NULL);
+	auto eyeSequence = Sequence::create(delay, eyeAnimation, NULL);
+
+	bodySequence->setTag(ANIMATION_TAG);
+	eyeSequence->setTag(ANIMATION_TAG);
+
+	boss->model->runAction(bodySequence);
+	boss->eye->runAction(eyeSequence);
 }

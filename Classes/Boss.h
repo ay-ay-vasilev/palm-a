@@ -12,6 +12,9 @@ public:
 	cocos2d::Sprite* eye;
 	cocos2d::Animate* bodyIdleAnimation;
 	cocos2d::Animate* eyeIdleAnimation;
+	cocos2d::Animate* firstAttack_start;
+	cocos2d::Animate* firstAttack_attack;
+	cocos2d::Animate* firstAttack_end;
 	cocos2d::PhysicsBody* getBody();
 
 	int getState();
@@ -28,6 +31,9 @@ public:
 	void setHp(int _hp);
 	int getInitialHp();
 
+
+	void startFirstAttack(Level1Boss* boss);
+	void endFirstAttack(Level1Boss* boss);
 private:
 	int phase;
 	int state;
