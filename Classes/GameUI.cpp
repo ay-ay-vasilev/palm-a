@@ -79,30 +79,6 @@ void GameUI::initGameUI(Player* player)
     gameUI = Menu::create(pauseButton, dashButton, jumpButton, NULL);
     gameUI->setPosition(Vec2::ZERO);
 
-    bossHpBarOver = Sprite::create("res/ui/boss_hp_bar_under.png");
-    bossHpBarOver->getTexture()->setAliasTexParameters();
-    bossHpBarOver->setScale(RESOLUTION_VARIABLE);
-    bossHpBarOver->setAnchorPoint(Vec2(0.5, 0.5));
-    bossHpBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
-
-    bossHpBar = ui::LoadingBar::create("res/ui/boss_hp_bar.png");
-    bossHpBar->setScale(RESOLUTION_VARIABLE);
-    bossHpBar->setAnchorPoint(Vec2(0.5, 0.5));
-    bossHpBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
-    bossHpBar->setPercent(100);
-    bossHpBar->setDirection(ui::LoadingBar::Direction::LEFT);
-
-    bossNameLabel = Label::createWithTTF("AMU", "fonts/PixelForce.ttf", 12 * (float)RESOLUTION_VARIABLE);
-    bossNameLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT") + bossHpBar->getContentSize().height * 2 * RESOLUTION_VARIABLE));
-
-    this->addChild(bossHpBar, UI_LAYER);
-    this->addChild(bossHpBarOver, UI_LAYER);
-    this->addChild(bossNameLabel, UI_LAYER);
-
-    bossHpBarOver->setVisible(false);
-    bossHpBar->setVisible(false);
-    bossNameLabel->setVisible(false);
-
     this->addChild(gameUI, UI_LAYER);
 }
 
@@ -118,10 +94,10 @@ void GameUI::initPauseMenu()
     auto visibleSize = director->getVisibleSize();
     Vec2 origin = director->getVisibleOrigin();
     pauseBackground = Sprite::create("res/ui/black.png");
-    pauseBackground->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+    pauseBackground->setAnchorPoint(Vec2::ZERO);
+    pauseBackground->setPosition(Vec2::ZERO);
     pauseBackground->setOpacity(0);
-    pauseBackground->setAnchorPoint(Vec2(0.5, 0.5));
-    pauseBackground->setContentSize(this->getContentSize());
+    pauseBackground->setContentSize(visibleSize);
 
     auto resumeLabel = Label::createWithTTF("RESUME", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
     MenuItemLabel* resumeItem = MenuItemLabel::create(resumeLabel, CC_CALLBACK_1(GameUI::pauseButtonCallback, this));
@@ -252,9 +228,29 @@ void GameUI::removeProgressBar()
 
 void GameUI::initBossUI()
 {
-    bossHpBarOver->setVisible(true);
-    bossHpBar->setVisible(true);
-    bossNameLabel->setVisible(true);
+    auto director = Director::getInstance();
+    auto visibleSize = director->getVisibleSize();
+    Vec2 origin = director->getVisibleOrigin();
+
+    bossHpBarOver = Sprite::create("res/ui/boss_hp_bar_under.png");
+    bossHpBarOver->getTexture()->setAliasTexParameters();
+    bossHpBarOver->setScale(RESOLUTION_VARIABLE);
+    bossHpBarOver->setAnchorPoint(Vec2(0.5, 0.5));
+    bossHpBarOver->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
+
+    bossHpBar = ui::LoadingBar::create("res/ui/boss_hp_bar.png");
+    bossHpBar->setScale(RESOLUTION_VARIABLE);
+    bossHpBar->setAnchorPoint(Vec2(0.5, 0.5));
+    bossHpBar->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT")));
+    bossHpBar->setPercent(100);
+    bossHpBar->setDirection(ui::LoadingBar::Direction::LEFT);
+
+    bossNameLabel = Label::createWithTTF("AMU", "fonts/PixelForce.ttf", 12 * (float)RESOLUTION_VARIABLE);
+    bossNameLabel->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - GameConstants::getLevelStats("FLOOR_HEIGHT") + bossHpBar->getContentSize().height * 2 * RESOLUTION_VARIABLE));
+
+    this->addChild(bossHpBar, UI_LAYER);
+    this->addChild(bossHpBarOver, UI_LAYER);
+    this->addChild(bossNameLabel, UI_LAYER);
 }
 
 void GameUI::updateBossHPBar(float hp, float maxHp)

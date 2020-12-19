@@ -49,6 +49,7 @@ private:
     Player * player;
     Background* background;
     GameUI* gameUI;
+    Level1Boss* boss;
 
     void update(float dt);
 
