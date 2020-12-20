@@ -28,6 +28,9 @@ private:
 	static std::map<std::string, float> bossAnimationData;
 	static std::map<std::string, float> bossStats;
 	
+	static std::map<std::string, std::string> cutsceneAssetPaths;
+	static std::map<std::string, float> cutsceneAnimationData;
+
 
 public:
 	static float resolution;
@@ -45,6 +48,9 @@ public:
 	static void setBossAssetPath(const std::string& key, const std::string& level, const std::string& type, const std::string& assetName);
 	static void setBossAnimationData(const std::string& key, const std::string& level, const std::string& type, const std::string& type2,const std::string& dataName);
 
+	static void setCutsceneAssetPath(const std::string& key, const std::string& level, const std::string& assetName);
+	static void setCutsceneAnimationData(const std::string& key, const std::string& level, const std::string& dataName);
+
 	static void setLevelAssetPath(const std::string& key, const std::string& level, const std::string& assetName);
 	static void setLevelAnimationData(const std::string& key, const std::string& level, const std::string& dataName);
 	static void setLevelStats(const std::string& key, const std::string& level, const std::string& dataName, const bool multByResolution);
@@ -58,6 +64,9 @@ public:
 	static std::string getProjectileAssetPath(const std::string& key);
 	static float getProjectileAnimationData(const std::string& key);
 	static float getProjectileStats(const std::string& key);
+
+	static std::string getCutsceneAssetPath(const std::string& key);
+	static float getCutsceneAnimationData(const std::string& key);
 
 	static std::string getLevelAssetPath(const std::string& key);
 	static float getLevelAnimationData(const std::string& key);

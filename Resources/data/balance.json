@@ -1,4 +1,10 @@
 {
+    "debug": {
+        "mask": false,
+        "resolution": 3,
+        "playerType": "turret",
+        "level": "1"
+    },
     "player": {
         "unarmed": {
             "speed": 4,
@@ -71,11 +77,11 @@
     },
     "levels": {
         "1": {
+            "levelMusicVolume": 0.1,
             "levelDuration": 208,
             "wallDistance": 40,
             "floorHeight": 30,
             "elevationSpeed": 100,
-            "timings": "Resources/data/levels/timingsLevel1.txt",
             "enemy": {
                 "regular": {
                     "speed": 100,
@@ -88,7 +94,6 @@
                     "spawnFrequency": 0.2
                 },
                 "turret": {
-                    "speed": 100,
                     "collideDamage": 0,
                     "spawnFrequency": 1
                 }
@@ -96,34 +101,27 @@
     
         },
         "2": {
-            "levelDuration": 20,
+            "levelMusicVolume": 0.05,
+            "levelDuration": 214,
             "wallDistance": 40,
             "floorHeight": 30,
             "elevationSpeed": 150,
-            "timings": "Resources/data/levels/timingsLevel2.txt",
             "enemy": {
                 "regular": {
-                    "speed": 120,
+                    "speed": 100,
                     "collideDamage": 0,
                     "spawnFrequency": 1
                 },
                 "laser": {
-                    "speed": 120,
+                    "speed": 100,
                     "collideDamage": 0,
                     "spawnFrequency": 0.2
                 },
                 "turret": {
-                    "speed": 150,
                     "collideDamage": 0,
                     "spawnFrequency": 1
                 }
             }
         }
-    },
-    "debug": {
-        "mask": false,
-        "resolution": 3,
-        "playerType": "turret",
-        "level": "2"
     }
 }

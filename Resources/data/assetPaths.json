@@ -68,7 +68,13 @@
                 "sprite": "%i.png",
                 "static": "res/levels/1/cutscene/%i_test.png"
             },
-            "background" : {
+            "level" : {
+                "bossMusic" : "audio/music/level1BossFight.mp3",
+                "levelMusic" : "audio/music/level1.mp3",
+                "timingsPath": "Resources/data/levels/timings.txt",
+                "typesPath": "Resources/data/levels/types.txt",
+                "pointsPath": "Resources/data/levels/points.txt",
+                "timings": "Resources/data/levels/timingsLevel1.txt",
                 "spriteSheet": "res/levels/1/background/background.plist",
                 "floorSprite": "floor/%i.png",
                 "closeSprite": "close/%i.png",
@@ -122,7 +128,13 @@
                 "sprite": "%i.png",
                 "static": "res/levels/1/cutscene/%i_test.png"
             },
-            "background" : {
+            "level" : {
+                "bossMusic" : "audio/music/level1BossFight.mp3",
+                "levelMusic" : "audio/music/level2.mp3",
+                "timingsPath": "Resources/data/levels/timings.txt",
+                "typesPath": "Resources/data/levels/types.txt",
+                "pointsPath": "Resources/data/levels/points.txt",
+                "timings": "Resources/data/levels/timingsLevel2.txt",
                 "spriteSheet": "res/levels/2/background/background.plist",
                 "floorSprite": "floor/%i.png",
                 "closeSprite": "close/%i.png",

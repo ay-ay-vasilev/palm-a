@@ -18,6 +18,9 @@ std::map<std::string, std::string> GameConstants::levelAssetPaths = {};
 std::map<std::string, float> GameConstants::levelAnimationData = {};
 std::map<std::string, float> GameConstants::levelStats = {};
 
+std::map<std::string, std::string> GameConstants::cutsceneAssetPaths = {};
+std::map<std::string, float> GameConstants::cutsceneAnimationData = {};
+
 float GameConstants::resolution = 2;
 
 void GameConstants::initConstants(std::string level)
@@ -51,7 +54,6 @@ void GameConstants::initConstants(std::string level)
 	setEnemyAnimationData("TURRET_IDLE_NUM_OF_FRAMES", level, "turret", "animationFramesNumber");
 	setEnemyAnimationData("TURRET_IDLE_SPEED", level, "turret", "animationSpeed");
 	setEnemyAnimationData("TURRET_SPRITE_SIZE", level, "turret", "spriteSize");
-	setEnemyStats("TURRET_SPEED", level, "turret", "speed", MULT_BY_RESOLUTION);
 	setEnemyStats("TURRET_COLLIDE_DAMAGE", level, "turret", "collideDamage", NOT_MULT_BY_RESOLUTION);
 	setEnemyStats("TURRET_SPAWN_FREQ", level, "turret", "spawnFrequency", NOT_MULT_BY_RESOLUTION);
 
@@ -129,6 +131,13 @@ void GameConstants::initConstants(std::string level)
 	setLevelAssetPath("CLOSE_SPRITE", level, "closeSprite");
 	setLevelAssetPath("MID_SPRITE", level, "midSprite");
 	setLevelAssetPath("FAR_SPRITE", level, "farSprite");
+	
+	setLevelAssetPath("TIMINGS", level, "timings");
+	setLevelAssetPath("ENEMIES_SPAWN_TIMINGS", level, "timingsPath");
+	setLevelAssetPath("ENEMIES_SPAWN_TYPES", level, "typesPath");
+	setLevelAssetPath("ENEMIES_SPAWN_POINTS", level, "pointsPath");
+	setLevelAssetPath("LEVEL_MUSIC", level, "levelMusic");
+	setLevelAssetPath("BOSS_MUSIC", level, "bossMusic");
 
 	setLevelAnimationData("FLOOR_NUM_OF_FRAMES", level, "floorAnimationFramesNumber");
 	setLevelAnimationData("FLOOR_SPEED", level, "floorAnimationSpeed");
@@ -143,6 +152,10 @@ void GameConstants::initConstants(std::string level)
 	setLevelStats("FLOOR_HEIGHT", level, "floorHeight", MULT_BY_RESOLUTION);
 	setLevelStats("DURATION", level, "levelDuration", NOT_MULT_BY_RESOLUTION);
 	setLevelStats("ELEVATION_SPEED", level, "elevationSpeed", MULT_BY_RESOLUTION);
+	setLevelStats("LEVEL_MUSIC_VOLUME", level, "levelMusicVolume", NOT_MULT_BY_RESOLUTION);
+
+	setCutsceneAnimationData("FADE_LENGTH", level, "fadeLength");
+	setCutsceneAnimationData("NUM_OF_FRAMES", level, "numberOfFrames");
 }
 
 // ============================================= GETTERS =============================================
@@ -202,6 +215,14 @@ float GameConstants::getLevelStats(const std::string& key)
 {
 	return levelStats[key];
 }
+std::string GameConstants::getCutsceneAssetPath(const std::string& key)
+{
+	return cutsceneAssetPaths[key];
+}
+float GameConstants::getCutsceneAnimationData(const std::string& key)
+{
+	return cutsceneAnimationData[key];
+}
 
 
 // ============================================= SETTERS =============================================
@@ -256,7 +277,7 @@ void GameConstants::setProjectileStats(const std::string& key, const std::string
 
 void GameConstants::setLevelAssetPath(const std::string& key, const std::string& level, const std::string& assetName)
 {
-	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"][level]["background"][assetName];
+	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"][level]["level"][assetName];
 }
 void GameConstants::setLevelAnimationData(const std::string& key, const std::string& level, const std::string& dataName)
 {
@@ -271,6 +292,14 @@ void GameConstants::setLevelStats(const std::string& key, const std::string& lev
 	}
 }
 
+void GameConstants::setCutsceneAssetPath(const std::string& key, const std::string& level, const std::string& assetName)
+{
+	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"][level]["cutscene"][assetName];
+}
+void GameConstants::setCutsceneAnimationData(const std::string& key, const std::string& level, const std::string& dataName)
+{
+	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["levels"][level]["cutscene"][dataName];
+}
 
 void GameConstants::setBossAssetPath(const std::string& key, const std::string& level, const std::string& type, const std::string& assetName)
 {

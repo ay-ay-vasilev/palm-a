@@ -56,5 +56,5 @@ void Splash::GoToMainMenuScene( float dt )
 {
     auto scene = MainMenu::createScene();
     
-    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+    Director::getInstance( )->replaceScene( TransitionFade::create(TRANSITION_TIME, scene ) );
 }

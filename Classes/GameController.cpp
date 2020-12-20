@@ -233,9 +233,9 @@ void GameController::getJsonData()
 {
     //timings data
     std::ifstream fin;
-    fin.open((std::string) LEVEL_1_DATA);
+    fin.open((std::string) GameConstants::getLevelAssetPath("TIMINGS"));
     if (fin.fail()) {
-        fin.open("../" + (std::string) LEVEL_1_DATA);
+        fin.open("../" + (std::string) GameConstants::getLevelAssetPath("TIMINGS"));
     }
     
     auto s = 0;
@@ -247,9 +247,9 @@ void GameController::getJsonData()
     }
     fin.close();
     //enemies timings 
-    fin.open((std::string)ENEMIES_SPAWN_TIMINGS);
+    fin.open((std::string)GameConstants::getLevelAssetPath("ENEMIES_SPAWN_TIMINGS"));
     if (fin.fail()) {
-        fin.open("../" + (std::string)ENEMIES_SPAWN_TIMINGS);
+        fin.open("../" + (std::string)GameConstants::getLevelAssetPath("ENEMIES_SPAWN_TIMINGS"));
     }
 
     s = 0;
@@ -261,9 +261,9 @@ void GameController::getJsonData()
     }
     fin.close();
     //enemies types
-    fin.open((std::string)ENEMIES_SPAWN_TYPES);
+    fin.open((std::string)GameConstants::getLevelAssetPath("ENEMIES_SPAWN_TYPES"));
     if (fin.fail()) {
-        fin.open("../" + (std::string)ENEMIES_SPAWN_TYPES);
+        fin.open("../" + (std::string)GameConstants::getLevelAssetPath("ENEMIES_SPAWN_TYPES"));
     }
 
     s = 0;
@@ -275,9 +275,9 @@ void GameController::getJsonData()
     }
     fin.close();
     //enemies spawn points
-    fin.open((std::string)ENEMIES_SPAWN_POINTS);
+    fin.open((std::string)GameConstants::getLevelAssetPath("ENEMIES_SPAWN_POINTS"));
     if (fin.fail()) {
-        fin.open("../" + (std::string)ENEMIES_SPAWN_POINTS);
+        fin.open("../" + (std::string)GameConstants::getLevelAssetPath("ENEMIES_SPAWN_POINTS"));
     }
 
     s = 0;

@@ -42,6 +42,10 @@
     },
     "levels": {
         "1": {
+            "cutscene": {
+                "fadeLength": 0.5,
+                "numberOfFrames": 6
+            },
             "background": {
                 "floorAnimationFramesNumber": 3,
                 "floorAnimationSpeed": 0.1,
@@ -128,6 +132,10 @@
             }
         },
         "2": {
+            "cutscene": {
+                "fadeLength": 0.5,
+                "numberOfFrames": 6
+            },
             "background": {
                 "floorAnimationFramesNumber": 3,
                 "floorAnimationSpeed": 0.1,
@@ -211,7 +219,7 @@
                         "animationSpeed":0.1
                     }
                 }
-            } 
+            }
         }
     },
     "projectile":{
@@ -237,8 +245,5 @@
             "animationSpeed": 0.1,
             "spriteSize": 12  
         }
-    },
-    "bossAnim":{
-
     }
 }

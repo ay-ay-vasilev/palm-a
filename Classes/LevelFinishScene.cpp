@@ -22,25 +22,26 @@ bool LevelFinish::init() {
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
 
-    auto Label = Label::createWithTTF("FINISH", "fonts/Light-Pixel-7.ttf", 18 * RESOLUTION_VARIABLE);
+    auto Label = Label::createWithTTF("FINISH", "fonts/Light-Pixel-7.ttf", 18 * (float)RESOLUTION_VARIABLE);
     Label->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 2 / 3));
     this->addChild(Label);
 
-    auto continueLabel = Label::createWithTTF("NEXT LEVEL", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
-    auto backLabel = Label::createWithTTF("BACK TO MAIN MENU", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
-    auto exitLabel = Label::createWithTTF("EXIT", "fonts/PixelForce.ttf", 18 * RESOLUTION_VARIABLE);
+    auto continueLabel = Label::createWithTTF("NEXT LEVEL", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
+    auto backLabel = Label::createWithTTF("BACK TO MAIN MENU", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
+    auto exitLabel = Label::createWithTTF("EXIT", "fonts/PixelForce.ttf", 18 * (float)RESOLUTION_VARIABLE);
     MenuItemLabel* continueItem = MenuItemLabel::create(continueLabel, CC_CALLBACK_1(LevelFinish::GoToNextLevel, this));
     MenuItemLabel* backItem = MenuItemLabel::create(backLabel, CC_CALLBACK_1(LevelFinish::GoToMainMenu, this));
     MenuItemLabel* exitItem = MenuItemLabel::create(exitLabel, CC_CALLBACK_1(LevelFinish::CloseGame, this));
     auto menu = Menu::create(continueItem, backItem, exitItem, NULL);
     menu->setPosition(Vec2(origin.x + visibleSize.width / 2,
         origin.y + visibleSize.height / 3));
-    menu->alignItemsVerticallyWithPadding(10 * RESOLUTION_VARIABLE);
+    menu->alignItemsVerticallyWithPadding(10 * (float)RESOLUTION_VARIABLE);
     this->addChild(menu, 1);
 
     return true;
 }
 void LevelFinish::GoToNextLevel(cocos2d::Ref* pSender) {
+    GameConstants::initConstants(LEVEL_NEXT);
     auto scene = Level::createScene();
     Director::getInstance()->replaceScene(scene);
 }

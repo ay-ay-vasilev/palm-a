@@ -73,6 +73,7 @@ bool MainMenu::init()
 }
 
 void MainMenu::GoToNewGameScene(cocos2d::Ref* pSender) {
+    GameConstants::initConstants(LEVEL);
     auto scene = NewGame::createScene();
     Director::getInstance()->replaceScene(scene);
 }
@@ -80,6 +81,8 @@ void MainMenu::GoToNewGameScene(cocos2d::Ref* pSender) {
 void MainMenu::ContinueGame(cocos2d::Ref* pSender) {
     AudioEngine::stopAll();
     AudioEngine::end();
+    // SOMEHOW GET CURRENT LEVEL
+    //GameConstants::initConstants(LEVEL);
     auto scene = Level::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }

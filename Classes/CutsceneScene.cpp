@@ -159,7 +159,7 @@ void Cutscene::Next(cocos2d::Ref* pSender) {
 }
 
 void Cutscene::NextCadr(int i, int numOfFrames) {
-    auto fadeIn = FadeIn::create(FADE_LENGTH);
+    auto fadeIn = FadeIn::create(GameConstants::getCutsceneAnimationData("FADE_LENGTH"));
     cocos2d::Sprite* cadr;
     if (numOfFrames > 1) cadr = AnimatedCadr(i, numOfFrames);
     else cadr = Cadr(i);
@@ -171,7 +171,7 @@ void Cutscene::NextCadr(int i, int numOfFrames) {
 }
 
 void Cutscene::deleteCadr(int tagL, int tagC) {
-    auto fadeOut = FadeOut::create(FADE_LENGTH);
+    auto fadeOut = FadeOut::create(GameConstants::getCutsceneAnimationData("FADE_LENGTH"));
     auto callBackLabel = CallFunc::create([this, tagL]() {this->removeChildByTag(tagL, true); });
     auto callBackCadr = CallFunc::create([this, tagC]() {this->removeChildByTag(tagC, true); });
     this->getChildByTag(tagC)->runAction(Sequence::create(fadeOut, callBackCadr, nullptr));

@@ -5,7 +5,6 @@
 class JsonInstance {
 
 private:
-	static nlohmann::json level_1_Data;
 	static nlohmann::json balance_Data;
 	static nlohmann::json animations_Data;
 	static nlohmann::json asset_Data;

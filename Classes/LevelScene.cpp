@@ -41,8 +41,6 @@ bool Level::init()
         return false;
     }
 
-    GameConstants::initConstants(LEVEL);
-
     movementInputDeck.clear();
     GameController::type1Enemies.clear();
     GameController::enemyProjectiles.clear();
@@ -53,7 +51,7 @@ bool Level::init()
     currentTime = 0;
 
     //init the music
-    AudioEngine::preload("audio/music/level1BossFight.mp3");
+    AudioEngine::preload(GameConstants::getLevelAssetPath("BOSS_MUSIC"));
 
     // important variables
     auto director = cocos2d::Director::getInstance();
@@ -84,8 +82,8 @@ bool Level::init()
 void Level::initStart(float dt) {
         initScedulers();
         initListeners();
-        musicID = AudioEngine::play2d("audio/music/level1.mp3", false);
-        AudioEngine::setVolume(musicID, 0.1);
+        musicID = AudioEngine::play2d(GameConstants::getLevelAssetPath("LEVEL_MUSIC"), false);
+        AudioEngine::setVolume(musicID, GameConstants::getLevelStats("LEVEL_MUSIC_VOLUME"));
 }
 
 void Level::startCount() {
@@ -191,7 +189,7 @@ void Level::update(float dt)
         spawnBoss();
         gameUI->removeProgressBar();
         AudioEngine::stop(musicID);
-        bossMusicID = AudioEngine::play2d("audio/music/level1BossFight.mp3", false);
+        bossMusicID = AudioEngine::play2d(GameConstants::getLevelAssetPath("BOSS_MUSIC"), false);
         AudioEngine::setVolume(bossMusicID, 0.03);
 
         this->unschedule(enemyType3SpawnPointer);
@@ -557,7 +555,7 @@ void Level::spawnEnemyType3(float dt)
     auto way3 = 2;
     //moving and deleting
     float distance = visibleSize.height;
-    auto enemySpeed = GameConstants::getEnemyStats("TURRET_SPEED");
+    auto enemySpeed = GameConstants::getLevelStats("ELEVATION_SPEED");
 
     auto enemyAction1 = MoveBy::create(distance * way1 / enemySpeed, Vec2(0, visibleSize.height * way1));
     auto enemyAction2 = MoveBy::create(distance * way2 / enemySpeed, Vec2(0, visibleSize.height * way2));

@@ -42,6 +42,7 @@ public:
 
     cocos2d::SEL_SCHEDULE enemyType3SpawnPointer;
     cocos2d::SEL_SCHEDULE playerProjectilesPointer;
+
 private:
     cocos2d::PhysicsWorld *sceneWorld;
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
@@ -77,6 +78,7 @@ private:
 
     void audioUpdate(float dt);
     int currentTime;
+    
     void initListeners();
     void initPlayer(std::string playerType);
     void initBackground(Director* director);

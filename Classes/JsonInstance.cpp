@@ -3,7 +3,6 @@
 
 JsonInstance* JsonInstance::singleton = 0;
 
-nlohmann::json JsonInstance::level_1_Data;
 nlohmann::json JsonInstance::balance_Data;
 nlohmann::json JsonInstance::animations_Data;
 nlohmann::json JsonInstance::asset_Data;
@@ -13,7 +12,6 @@ JsonInstance::JsonInstance() {
 }
 
 void JsonInstance::ReloadFiles() {
-	JsonInstance::level_1_Data = OpenFile("Resources/data/levels/level1Data.json");
 	JsonInstance::balance_Data = OpenFile("Resources/data/balance.json");
 	JsonInstance::animations_Data = OpenFile("Resources/data/animations.json");
 	JsonInstance::asset_Data = OpenFile("Resources/data/assetPaths.json");
@@ -38,9 +36,6 @@ JsonInstance* JsonInstance::GetInstance() {
 }
 
 nlohmann::json JsonInstance::GetData(std::string nameOfData) {
-	if (nameOfData._Equal("level1")) {
-		return level_1_Data;
-	}else
 	if (nameOfData._Equal("balance")) {
 		return balance_Data;
 	}else
