@@ -31,23 +31,23 @@ private:
 
 public:
 	static float resolution;
-	static void initConstants(std::string levelName);
+	static void initConstants(std::string level);
 	
 	static void setPlayerAssetPath(const std::string& key, const std::string& assetName, const std::string& playerType);
 	static void setPlayerAnimationData(const std::string& key, const std::string& dataName, const std::string& playerType);
 	static void setPlayerStats(const std::string& playerType, const std::string& key, const std::string& dataName, const bool multByResolution);
-	static void setEnemyAssetPath(const std::string& key, const std::string& type, const std::string& assetName);
-	static void setEnemyAnimationData(const std::string& key, const std::string& type, const std::string& dataName);
-	static void setEnemyStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution);
+	static void setEnemyAssetPath(const std::string& key, const std::string& level, const std::string& type, const std::string& assetName);
+	static void setEnemyAnimationData(const std::string& key, const std::string& level, const std::string& type, const std::string& dataName);
+	static void setEnemyStats(const std::string& key, const std::string& level, const std::string& type, const std::string& dataName, const bool multByResolution);
 	static void setProjectileAssetPath(const std::string& key, const std::string& type, const std::string& assetName);
 	static void setProjectileAnimationData(const std::string& key, const std::string& type, const std::string& dataName);
 	static void setProjectileStats(const std::string& key, const std::string& type, const std::string& dataName, const bool multByResolution);
-	static void setBossAssetPath(const std::string& key, const std::string& type, const std::string& assetName);
-	static void setBossAnimationData(const std::string& key, const std::string& type, const std::string& type2,const std::string& dataName);
+	static void setBossAssetPath(const std::string& key, const std::string& level, const std::string& type, const std::string& assetName);
+	static void setBossAnimationData(const std::string& key, const std::string& level, const std::string& type, const std::string& type2,const std::string& dataName);
 
-	static void setLevelAssetPath(const std::string& key, const std::string& assetName);
-	static void setLevelAnimationData(const std::string& key, const std::string& dataName);
-	static void setLevelStats(const std::string& key, const std::string& dataName, const bool multByResolution);
+	static void setLevelAssetPath(const std::string& key, const std::string& level, const std::string& assetName);
+	static void setLevelAnimationData(const std::string& key, const std::string& level, const std::string& dataName);
+	static void setLevelStats(const std::string& key, const std::string& level, const std::string& dataName, const bool multByResolution);
 
 	static std::string getPlayerAssetPath(const std::string& key);
 	static float getPlayerAnimationData(const std::string& key);

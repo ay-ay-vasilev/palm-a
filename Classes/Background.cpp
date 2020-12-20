@@ -83,7 +83,7 @@ void Background::update()
 
 cocos2d::ParallaxNode* Background::createParallaxLayer(cocos2d::SpriteFrameCache* spriteCache, std::string assetPath, float howFar)
 {
-    float speed = 100* (float)RESOLUTION_VARIABLE / howFar;
+    float speed = GameConstants::getLevelStats("ELEVATION_SPEED") / howFar;
 
     char str[200] = { 0 };
     auto visibleSize = Director::getInstance()->getVisibleSize();

@@ -96,12 +96,34 @@
     
         },
         "2": {
-
+            "levelDuration": 20,
+            "wallDistance": 40,
+            "floorHeight": 30,
+            "elevationSpeed": 150,
+            "timings": "Resources/data/levels/timingsLevel2.txt",
+            "enemy": {
+                "regular": {
+                    "speed": 120,
+                    "collideDamage": 0,
+                    "spawnFrequency": 1
+                },
+                "laser": {
+                    "speed": 120,
+                    "collideDamage": 0,
+                    "spawnFrequency": 0.2
+                },
+                "turret": {
+                    "speed": 150,
+                    "collideDamage": 0,
+                    "spawnFrequency": 1
+                }
+            }
         }
     },
     "debug": {
         "mask": false,
         "resolution": 3,
-        "playerType": "turret"
+        "playerType": "turret",
+        "level": "2"
     }
 }

@@ -41,7 +41,7 @@ bool Level::init()
         return false;
     }
 
-    GameConstants::initConstants("level1");
+    GameConstants::initConstants(LEVEL);
 
     movementInputDeck.clear();
     GameController::type1Enemies.clear();
@@ -640,7 +640,7 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
     if (enemy->getSpawnPoint() == 2) angle += 180;
     projectile->setRotation(angle);
     this->addChild(projectile, PROJECTILE_LAYER);
-    auto enemySpeed = (float)100 * RESOLUTION_VARIABLE;
+    auto enemySpeed = GameConstants::getLevelStats("ELEVATION_SPEED");
 
     float distance = visibleSize.height * 2;
     auto moveAction = MoveBy::create(1.5f,Vec2(0,enemySpeed*1.5f)); // MAGIC NUMBER

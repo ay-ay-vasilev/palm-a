@@ -83,11 +83,135 @@
                 } 
             },
             "boss":{
-                
+                "idle":{
+                    "body":{
+                        "animationFramesNumber": 11,
+                        "animationSpeed":0.1
+                    },
+                    "eye":{
+                        "animationFramesNumber": 11,
+                        "animationSpeed":0.1
+                    }
+                },
+                "attackFirst":{
+                    "start":{
+                        "animationFramesNumber":3,
+                        "animationSpeed":0.5
+                    },
+                    "attack":{
+                        "animationFramesNumber":1,
+                        "animationSpeed":0.1
+                    },
+                    "end":{
+                        "animationFramesNumber":4,
+                        "animationSpeed":0.1
+                    }
+                },
+                "attackSecond":{
+                    "start":{
+                        "animationFramesNumber":3,
+                        "animationSpeed":0.1
+                    },
+                    "leftRight":{
+                        "animationFramesNumber":6,
+                        "animationSpeed":0.1
+                    },
+                    "rightLeft":{
+                        "animationFramesNumber":6,
+                        "animationSpeed":0.1
+                    },
+                    "end":{
+                        "animationFramesNumber":2,
+                        "animationSpeed":0.1
+                    }
+                }
             }
         },
         "2": {
-            
+            "background": {
+                "floorAnimationFramesNumber": 3,
+                "floorAnimationSpeed": 0.1,
+                "closeAnimationFramesNumber": 2,
+                "closeAnimationSpeed": 0.15,
+                "midAnimationFramesNumber": 2,
+                "midAnimationSpeed": 0.075,
+                "farAnimationFramesNumber": 2,
+                "farAnimationSpeed": 0.0375
+            },
+            "enemy":{
+                "regular":{
+                    "animationFramesNumber":5,
+                    "animationSpeed":0.1,
+                    "spriteSize":112,
+                    "projectile": {
+                        "animationFramesNumber": 2,
+                        "animationSpeed": 0.1,
+                        "spriteSize": 12
+                    }
+                },
+                "laser":{
+                    "animationFramesNumber":5,
+                    "animationSpeed":0.1,
+                    "spriteSize":112,
+                    "projectile": {
+                        "animationFramesNumber": 3,
+                        "animationSpeed": 0.1,
+                        "spriteSizeX": 36,
+                        "spriteSizeY": 8
+                    }
+                },
+                "turret": {
+                    "animationFramesNumber":7,
+                    "animationSpeed":0.1,
+                    "spriteSize":112,
+                    "projectile": {
+                    }
+                } 
+            },
+            "boss":{
+                "idle":{
+                    "body":{
+                        "animationFramesNumber": 11,
+                        "animationSpeed":0.1
+                    },
+                    "eye":{
+                        "animationFramesNumber": 11,
+                        "animationSpeed":0.1
+                    }
+                },
+                "attackFirst":{
+                    "start":{
+                        "animationFramesNumber":3,
+                        "animationSpeed":0.5
+                    },
+                    "attack":{
+                        "animationFramesNumber":1,
+                        "animationSpeed":0.1
+                    },
+                    "end":{
+                        "animationFramesNumber":4,
+                        "animationSpeed":0.1
+                    }
+                },
+                "attackSecond":{
+                    "start":{
+                        "animationFramesNumber":3,
+                        "animationSpeed":0.1
+                    },
+                    "leftRight":{
+                        "animationFramesNumber":6,
+                        "animationSpeed":0.1
+                    },
+                    "rightLeft":{
+                        "animationFramesNumber":6,
+                        "animationSpeed":0.1
+                    },
+                    "end":{
+                        "animationFramesNumber":2,
+                        "animationSpeed":0.1
+                    }
+                }
+            } 
         }
     },
     "projectile":{
@@ -115,47 +239,6 @@
         }
     },
     "bossAnim":{
-        "idle":{
-            "body":{
-                "animationFramesNumber": 11,
-                "animationSpeed":0.1
-            },
-            "eye":{
-                "animationFramesNumber": 11,
-                "animationSpeed":0.1
-            }
-        },
-        "attackFirst":{
-            "start":{
-                "animationFramesNumber":3,
-                "animationSpeed":0.5
-            },
-            "attack":{
-                "animationFramesNumber":1,
-                "animationSpeed":0.1
-            },
-            "end":{
-                "animationFramesNumber":4,
-                "animationSpeed":0.1
-            }
-        },
-        "attackSecond":{
-            "start":{
-                "animationFramesNumber":3,
-                "animationSpeed":0.1
-            },
-            "leftRight":{
-                "animationFramesNumber":6,
-                "animationSpeed":0.1
-            },
-            "rightLeft":{
-                "animationFramesNumber":6,
-                "animationSpeed":0.1
-            },
-            "end":{
-                "animationFramesNumber":2,
-                "animationSpeed":0.1
-            }
-        }
+
     }
 }
