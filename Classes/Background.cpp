@@ -97,7 +97,7 @@ cocos2d::ParallaxNode* Background::createParallaxLayer(cocos2d::SpriteFrameCache
         frame->getTexture()->setAliasTexParameters();
         animFrames.pushBack(spriteCache->getSpriteFrameByName(str));
     }
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.15*howFar);
+    auto animation = Animation::createWithSpriteFrames(animFrames, 0.15);
 
     Animate* animate1 = Animate::create(animation);
     auto layer1 = Sprite::create();

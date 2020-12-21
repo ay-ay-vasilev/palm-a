@@ -160,7 +160,7 @@
                 "laser":{
                     "animationFramesNumber":5,
                     "animationSpeed":0.1,
-                    "spriteSize":112,
+                    "spriteSize":128,
                     "projectile": {
                         "animationFramesNumber": 3,
                         "animationSpeed": 0.1,

@@ -3,7 +3,7 @@
         "mask": false,
         "resolution": 3,
         "playerType": "turret",
-        "level": "1"
+        "level": "2"
     },
     "player": {
         "unarmed": {

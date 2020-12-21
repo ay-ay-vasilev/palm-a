@@ -71,10 +71,10 @@
             "level" : {
                 "bossMusic" : "audio/music/level1BossFight.mp3",
                 "levelMusic" : "audio/music/level1.mp3",
-                "timingsPath": "Resources/data/levels/timings.txt",
-                "typesPath": "Resources/data/levels/types.txt",
-                "pointsPath": "Resources/data/levels/points.txt",
-                "timings": "Resources/data/levels/timingsLevel1.txt",
+                "timingsPath": "Resources/data/levels/level1/enemyTimingsLevel1.txt",
+                "typesPath": "Resources/data/levels/level1/typesLevel1.txt",
+                "pointsPath": "Resources/data/levels/level1/pointsLevel1.txt",
+                "timings": "Resources/data/levels/level1/timingsLevel1.txt",
                 "spriteSheet": "res/levels/1/background/background.plist",
                 "floorSprite": "floor/%i.png",
                 "closeSprite": "close/%i.png",
@@ -131,10 +131,10 @@
             "level" : {
                 "bossMusic" : "audio/music/level1BossFight.mp3",
                 "levelMusic" : "audio/music/level2.mp3",
-                "timingsPath": "Resources/data/levels/timings.txt",
-                "typesPath": "Resources/data/levels/types.txt",
-                "pointsPath": "Resources/data/levels/points.txt",
-                "timings": "Resources/data/levels/timingsLevel2.txt",
+                "timingsPath": "Resources/data/levels/level2/enemyTimingsLevel2.txt",
+                "typesPath": "Resources/data/levels/level2/typesLevel2.txt",
+                "pointsPath": "Resources/data/levels/level2/pointsLevel2.txt",
+                "timings": "Resources/data/levels/level2/timingsLevel2.txt",
                 "spriteSheet": "res/levels/2/background/background.plist",
                 "floorSprite": "floor/%i.png",
                 "closeSprite": "close/%i.png",
@@ -143,17 +143,17 @@
             },
             "enemy": {
                 "regular" : {
-                    "spriteSheet": "res/levels/1/enemies/enemy_regular.plist",
+                    "spriteSheet": "res/levels/2/enemies/enemy_regular.plist",
                     "idleLeft": "enemy_1_left%i.png",
                     "idleRight": "enemy_1_right%i.png"  
                 },
                 "laser" : {
-                    "spriteSheet": "res/levels/1/enemies/enemy_variant.plist",
+                    "spriteSheet": "res/levels/2/enemies/enemy_variant.plist",
                     "idleLeft": "enemy_2_left%i.png",
                     "idleRight": "enemy_2_right%i.png"
                 },
                 "turret" : {
-                    "spriteSheet": "res/levels/1/enemies/enemy_turret.plist",
+                    "spriteSheet": "res/levels/2/enemies/enemy_turret.plist",
                     "idle": "enemy_turret%i.png"
                 }
             },
