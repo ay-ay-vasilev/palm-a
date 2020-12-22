@@ -8,6 +8,7 @@ USING_NS_CC;
 
 class Player : public cocos2d::Sprite {
 public:
+	static Player* create(std::string playerType);
 	void initPlayer(std::string playerType);
 
 	Animate* idleLeftAnimate;
@@ -23,7 +24,6 @@ public:
 
 	ParticleSystemQuad* jetpackParticles;
 
-	static Player * create(std::string playerType);
 	void dash();
 	void jump();
 	bool jumpKill(float enemyPosY);
@@ -63,7 +63,6 @@ private:
 	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);
 
 	void loadAnimations();
-	Animate* createAnimation(SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
 };
 
 #endif /* PLAYER_H_ */

@@ -5,7 +5,7 @@
 #include "ui/CocosGUI.h"
 #include "cocos2d.h"
 #include "Player.h"
-#include "Background.h"
+#include "LevelBackground.h"
 #include "Enemy.h"
 #include "Projectiles.h"
 #include "GameController.h"
@@ -48,7 +48,7 @@ private:
     void setPhysicsWorld (cocos2d::PhysicsWorld *world) { sceneWorld=world; };
 
     Player * player;
-    Background* background;
+    LevelBackground* background;
     GameUI* gameUI;
     Level1Boss* boss;
 
@@ -81,7 +81,7 @@ private:
     
     void initListeners();
     void initPlayer(std::string playerType);
-    void initBackground(Director* director);
+    void initBackground(std::string level);
     void initGameUI(Director* director);
     void initCollisionDetector();
     void initScedulers();

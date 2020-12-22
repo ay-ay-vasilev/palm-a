@@ -75,25 +75,25 @@
                 "typesPath": "Resources/data/levels/level1/typesLevel1.txt",
                 "pointsPath": "Resources/data/levels/level1/pointsLevel1.txt",
                 "timings": "Resources/data/levels/level1/timingsLevel1.txt",
-                "spriteSheet": "res/levels/1/background/background.plist",
-                "floorSprite": "floor/%i.png",
-                "closeSprite": "close/%i.png",
-                "midSprite": "mid/%i.png",
-                "farSprite": "far/%i.png"
+                "spriteSheet": "res/levels/background/background.plist",
+                "floorSprite": "1/floor/%i.png",
+                "closeSprite": "1/close/%i.png",
+                "midSprite": "1/mid/%i.png",
+                "farSprite": "1/far/%i.png"
             },
             "enemy": {
                 "regular" : {
-                    "spriteSheet": "res/levels/1/enemies/enemy_regular.plist",
-                    "idleLeft": "enemy_1_left%i.png",
-                    "idleRight": "enemy_1_right%i.png"  
+                    "spriteSheet": "res/levels/enemies/enemies.plist",
+                    "idleLeft": "1/regular/left/enemy_1_left%i.png",
+                    "idleRight": "1/regular/right/enemy_1_right%i.png"  
                 },
                 "laser" : {
-                    "spriteSheet": "res/levels/1/enemies/enemy_variant.plist",
-                    "idleLeft": "enemy_2_left%i.png",
-                    "idleRight": "enemy_2_right%i.png"
+                    "spriteSheet": "res/levels/enemies/enemies.plist",
+                    "idleLeft": "1/variant/left/enemy_2_left%i.png",
+                    "idleRight": "1/variant/right/enemy_2_right%i.png"
                 },
                 "turret" : {
-                    "spriteSheet": "res/levels/1/enemies/enemy_turret.plist",
+                    "spriteSheet": "res/levels/enemies/enemy_turret.plist",
                     "idle": "enemy_turret%i.png"
                 }
             },
@@ -135,25 +135,25 @@
                 "typesPath": "Resources/data/levels/level2/typesLevel2.txt",
                 "pointsPath": "Resources/data/levels/level2/pointsLevel2.txt",
                 "timings": "Resources/data/levels/level2/timingsLevel2.txt",
-                "spriteSheet": "res/levels/2/background/background.plist",
-                "floorSprite": "floor/%i.png",
-                "closeSprite": "close/%i.png",
-                "midSprite": "mid/%i.png",
-                "farSprite": "far/%i.png"
+                "spriteSheet": "res/levels/background/background.plist",
+                "floorSprite": "2/floor/%i.png",
+                "closeSprite": "2/close/%i.png",
+                "midSprite": "2/mid/%i.png",
+                "farSprite": "2/far/%i.png"
             },
             "enemy": {
                 "regular" : {
-                    "spriteSheet": "res/levels/2/enemies/enemy_regular.plist",
-                    "idleLeft": "enemy_1_left%i.png",
-                    "idleRight": "enemy_1_right%i.png"  
+                    "spriteSheet": "res/levels/enemies/enemies.plist",
+                    "idleLeft": "2/regular/left/enemy_1_left%i.png",
+                    "idleRight": "2/regular/right/enemy_1_right%i.png"  
                 },
                 "laser" : {
-                    "spriteSheet": "res/levels/2/enemies/enemy_variant.plist",
-                    "idleLeft": "enemy_2_left%i.png",
-                    "idleRight": "enemy_2_right%i.png"
+                    "spriteSheet": "res/levels/enemies/enemies.plist",
+                    "idleLeft": "2/variant/left/enemy_2_left%i.png",
+                    "idleRight": "2/variant/right/enemy_2_right%i.png"
                 },
                 "turret" : {
-                    "spriteSheet": "res/levels/2/enemies/enemy_turret.plist",
+                    "spriteSheet": "res/levels/enemies/enemy_turret.plist",
                     "idle": "enemy_turret%i.png"
                 }
             },

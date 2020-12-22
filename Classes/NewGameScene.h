@@ -10,6 +10,12 @@ public:
     static cocos2d::Scene* createScene();
 
     void GoToCutscene(cocos2d::Ref* pSender);
+
+    void GoToCutsceneEasy(cocos2d::Ref* pSender);
+    void GoToCutsceneMedium(cocos2d::Ref* pSender);
+    void GoToCutsceneHard(cocos2d::Ref* pSender);
+
+
     void GoToMainMenu(cocos2d::Ref* pSender);
 
     virtual bool init();

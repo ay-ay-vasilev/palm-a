@@ -52,9 +52,9 @@
                 "closeAnimationFramesNumber": 2,
                 "closeAnimationSpeed": 0.15,
                 "midAnimationFramesNumber": 2,
-                "midAnimationSpeed": 0.075,
+                "midAnimationSpeed": 0.15,
                 "farAnimationFramesNumber": 2,
-                "farAnimationSpeed": 0.0375
+                "farAnimationSpeed": 0.15
             },
             "enemy":{
                 "regular":{
@@ -142,9 +142,9 @@
                 "closeAnimationFramesNumber": 2,
                 "closeAnimationSpeed": 0.15,
                 "midAnimationFramesNumber": 2,
-                "midAnimationSpeed": 0.075,
+                "midAnimationSpeed": 0.15,
                 "farAnimationFramesNumber": 2,
-                "farAnimationSpeed": 0.0375
+                "farAnimationSpeed": 0.15
             },
             "enemy":{
                 "regular":{
@@ -160,7 +160,7 @@
                 "laser":{
                     "animationFramesNumber":5,
                     "animationSpeed":0.1,
-                    "spriteSize":128,
+                    "spriteSize":192,
                     "projectile": {
                         "animationFramesNumber": 3,
                         "animationSpeed": 0.1,

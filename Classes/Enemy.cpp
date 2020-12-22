@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "GameController.h"
 #include "GameConstants.h"
+#include "Util.h"
 USING_NS_CC;
 
 EnemyType1::EnemyType1() {}
@@ -195,35 +196,15 @@ void EnemyType3::setRotationAngle(float _angle)
 
 
 
-
-
 //============================================= ANIMATIONS =============================================
-cocos2d::Animate* Enemy::createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
-{
-	auto assetPath = GameConstants::getEnemyAssetPath(assetName);
-	auto numberOfFrames = GameConstants::getEnemyAnimationData(numOfFrames);
-	auto animationSpeed = GameConstants::getEnemyAnimationData(animSpeed);
-
-	char str[200] = { 0 };
-	Vector<SpriteFrame*> animFrames(numberOfFrames);
-
-	for (int i = 1; i <= numberOfFrames; i++)
-	{
-		sprintf(str, assetPath.c_str(), i);
-		animFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-	}
-	auto animation = Animation::createWithSpriteFrames(animFrames, animationSpeed);
-
-	return Animate::create(animation);
-}
 
 void EnemyType1::loadAnimations(EnemyType1* enemy)
 {
 	auto spriteCache = SpriteFrameCache::getInstance();
 	spriteCache->addSpriteFramesWithFile(GameConstants::getEnemyAssetPath("REGULAR_SPRITE_SHEET"));
 
-	enemy->idleAnimateLeft = Enemy::createAnimation(spriteCache, "REGULAR_IDLE_NUM_OF_FRAMES", "REGULAR_IDLE_SPEED", "REGULAR_IDLE_LEFT");
-	enemy->idleAnimateRight = Enemy::createAnimation(spriteCache, "REGULAR_IDLE_NUM_OF_FRAMES", "REGULAR_IDLE_SPEED", "REGULAR_IDLE_RIGHT");
+	enemy->idleAnimateLeft = Util::createEnemyAnimation(spriteCache, "REGULAR_IDLE_NUM_OF_FRAMES", "REGULAR_IDLE_SPEED", "REGULAR_IDLE_LEFT");
+	enemy->idleAnimateRight = Util::createEnemyAnimation(spriteCache, "REGULAR_IDLE_NUM_OF_FRAMES", "REGULAR_IDLE_SPEED", "REGULAR_IDLE_RIGHT");
 	enemy->idleAnimateLeft->retain();
 	enemy->idleAnimateRight->retain();
 	enemy->model->runAction(RepeatForever::create(enemy->idleAnimateLeft));
@@ -234,8 +215,8 @@ void EnemyType2::loadAnimations(EnemyType2* enemy)
 	auto spriteCache = SpriteFrameCache::getInstance();
 	spriteCache->addSpriteFramesWithFile(GameConstants::getEnemyAssetPath("LASER_SPRITE_SHEET"));
 
-	enemy->idleAnimateLeft = Enemy::createAnimation(spriteCache, "LASER_IDLE_NUM_OF_FRAMES", "LASER_IDLE_SPEED", "LASER_IDLE_LEFT");
-	enemy->idleAnimateRight = Enemy::createAnimation(spriteCache, "LASER_IDLE_NUM_OF_FRAMES", "LASER_IDLE_SPEED", "LASER_IDLE_RIGHT");
+	enemy->idleAnimateLeft = Util::createEnemyAnimation(spriteCache, "LASER_IDLE_NUM_OF_FRAMES", "LASER_IDLE_SPEED", "LASER_IDLE_LEFT");
+	enemy->idleAnimateRight = Util::createEnemyAnimation(spriteCache, "LASER_IDLE_NUM_OF_FRAMES", "LASER_IDLE_SPEED", "LASER_IDLE_RIGHT");
 	enemy->idleAnimateLeft->retain();
 	enemy->idleAnimateRight->retain();
 	enemy->model->runAction(RepeatForever::create(enemy->idleAnimateLeft));
@@ -246,7 +227,7 @@ void EnemyType3::loadAnimations(EnemyType3* enemy)
 	auto spriteCache = SpriteFrameCache::getInstance();
 	spriteCache->addSpriteFramesWithFile(GameConstants::getEnemyAssetPath("TURRET_SPRITE_SHEET"));
 
-	enemy->idleAnimate = Enemy::createAnimation(spriteCache, "TURRET_IDLE_NUM_OF_FRAMES", "TURRET_IDLE_SPEED", "TURRET_IDLE");
+	enemy->idleAnimate = Util::createEnemyAnimation(spriteCache, "TURRET_IDLE_NUM_OF_FRAMES", "TURRET_IDLE_SPEED", "TURRET_IDLE");
 	enemy->idleAnimate->retain();
 	enemy->model->runAction(RepeatForever::create(enemy->idleAnimate));
 }

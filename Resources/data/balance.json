@@ -113,7 +113,7 @@
                     "spawnFrequency": 1
                 },
                 "laser": {
-                    "speed": 100,
+                    "speed": 70,
                     "collideDamage": 0,
                     "spawnFrequency": 0.2
                 },

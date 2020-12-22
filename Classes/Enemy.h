@@ -6,7 +6,6 @@
 class Enemy
 {
 public:
-    static cocos2d::Animate* createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
 };
 
 class EnemyType1 : public cocos2d::Node

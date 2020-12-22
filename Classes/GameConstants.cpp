@@ -22,6 +22,27 @@ std::map<std::string, std::string> GameConstants::cutsceneAssetPaths = {};
 std::map<std::string, float> GameConstants::cutsceneAnimationData = {};
 
 float GameConstants::resolution = 2;
+std::string GameConstants::playerTypeTest = "turret";
+std::string GameConstants::levelTest = "1";
+
+
+std::string GameConstants::getPlayerType()
+{
+	return playerTypeTest;
+}
+void GameConstants::setPlayerType(const std::string& value)
+{
+	playerTypeTest = value;
+}
+
+std::string GameConstants::getLevelTest()
+{
+	return levelTest;
+}
+void GameConstants::setLevelTest(const std::string& value)
+{
+	levelTest = value;
+}
 
 void GameConstants::initConstants(std::string level)
 {
@@ -126,34 +147,6 @@ void GameConstants::initConstants(std::string level)
 	setBossAnimationData("SECOND_ATTACK_END_NUM_OF_FRAMES", level, "attackSecond", "end", "animationFramesNumber");
 	setBossAnimationData("SECOND_ATTACK_END_SPEED", level, "attackSecond", "end", "animationSpeed");
 
-	setLevelAssetPath("SPRITE_SHEET", level, "spriteSheet");
-	setLevelAssetPath("FLOOR_SPRITE", level, "floorSprite");
-	setLevelAssetPath("CLOSE_SPRITE", level, "closeSprite");
-	setLevelAssetPath("MID_SPRITE", level, "midSprite");
-	setLevelAssetPath("FAR_SPRITE", level, "farSprite");
-	
-	setLevelAssetPath("TIMINGS", level, "timings");
-	setLevelAssetPath("ENEMIES_SPAWN_TIMINGS", level, "timingsPath");
-	setLevelAssetPath("ENEMIES_SPAWN_TYPES", level, "typesPath");
-	setLevelAssetPath("ENEMIES_SPAWN_POINTS", level, "pointsPath");
-	setLevelAssetPath("LEVEL_MUSIC", level, "levelMusic");
-	setLevelAssetPath("BOSS_MUSIC", level, "bossMusic");
-
-	setLevelAnimationData("FLOOR_NUM_OF_FRAMES", level, "floorAnimationFramesNumber");
-	setLevelAnimationData("FLOOR_SPEED", level, "floorAnimationSpeed");
-	setLevelAnimationData("CLOSE_NUM_OF_FRAMES", level, "closeAnimationFramesNumber");
-	setLevelAnimationData("CLOSE_SPEED", level, "closeAnimationSpeed");
-	setLevelAnimationData("MID_NUM_OF_FRAMES", level, "midAnimationFramesNumber");
-	setLevelAnimationData("MID_SPEED", level, "midAnimationSpeed");
-	setLevelAnimationData("FAR_NUM_OF_FRAMES", level, "farAnimationFramesNumber");
-	setLevelAnimationData("FAR_SPEED", level, "farAnimationSpeed");
-
-	setLevelStats("WALL_DISTANCE", level, "wallDistance", MULT_BY_RESOLUTION);
-	setLevelStats("FLOOR_HEIGHT", level, "floorHeight", MULT_BY_RESOLUTION);
-	setLevelStats("DURATION", level, "levelDuration", NOT_MULT_BY_RESOLUTION);
-	setLevelStats("ELEVATION_SPEED", level, "elevationSpeed", MULT_BY_RESOLUTION);
-	setLevelStats("LEVEL_MUSIC_VOLUME", level, "levelMusicVolume", NOT_MULT_BY_RESOLUTION);
-
 	setCutsceneAnimationData("FADE_LENGTH", level, "fadeLength");
 	setCutsceneAnimationData("NUM_OF_FRAMES", level, "numberOfFrames");
 }
@@ -242,6 +235,26 @@ void GameConstants::setPlayerStats(const std::string& playerType, const std::str
 		playerStats[key] *= GameConstants::resolution;
 	}
 }
+
+void GameConstants::setLevelAssetPath(const std::string& key, const std::string& level, const std::string& assetName)
+{
+	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"][level]["level"][assetName];
+}
+void GameConstants::setLevelAnimationData(const std::string& key, const std::string& level, const std::string& dataName)
+{
+	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["levels"][level]["background"][dataName];
+}
+void GameConstants::setLevelStats(const std::string& key, const std::string& level, const std::string& dataName, const bool multByResolution)
+{
+	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["levels"][level][dataName];
+	if (multByResolution)
+	{
+		levelStats[key] *= GameConstants::resolution;
+	}
+}
+
+
+
 void GameConstants::setEnemyAssetPath(const std::string& key, const std::string& level, const std::string& type, const std::string& assetName)
 {
 	enemyAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"][level]["enemy"][type][assetName];
@@ -272,23 +285,6 @@ void GameConstants::setProjectileStats(const std::string& key, const std::string
 	if (multByResolution)
 	{
 		projectileStats[key] *= GameConstants::resolution;
-	}
-}
-
-void GameConstants::setLevelAssetPath(const std::string& key, const std::string& level, const std::string& assetName)
-{
-	levelAssetPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["levels"][level]["level"][assetName];
-}
-void GameConstants::setLevelAnimationData(const std::string& key, const std::string& level, const std::string& dataName)
-{
-	levelAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["levels"][level]["background"][dataName];
-}
-void GameConstants::setLevelStats(const std::string& key, const std::string& level, const std::string& dataName, const bool multByResolution)
-{
-	levelStats[key] = JsonInstance::GetInstance()->GetData("balance")["levels"][level][dataName];
-	if (multByResolution)
-	{
-		levelStats[key] *= GameConstants::resolution;
 	}
 }
 
@@ -358,3 +354,37 @@ void GameConstants::loadPlayer(const std::string& playerType)
 	setPlayerStats(playerType, "DMG_I_FRAMES", "dmgIFrames", NOT_MULT_BY_RESOLUTION);
 
 }
+
+void GameConstants::loadLevel (const std::string& level)
+{
+
+	setLevelAssetPath("SPRITE_SHEET", level, "spriteSheet");
+	setLevelAssetPath("FLOOR_SPRITE", level, "floorSprite");
+	setLevelAssetPath("CLOSE_SPRITE", level, "closeSprite");
+	setLevelAssetPath("MID_SPRITE", level, "midSprite");
+	setLevelAssetPath("FAR_SPRITE", level, "farSprite");
+
+	setLevelAssetPath("TIMINGS", level, "timings");
+	setLevelAssetPath("ENEMIES_SPAWN_TIMINGS", level, "timingsPath");
+	setLevelAssetPath("ENEMIES_SPAWN_TYPES", level, "typesPath");
+	setLevelAssetPath("ENEMIES_SPAWN_POINTS", level, "pointsPath");
+	setLevelAssetPath("LEVEL_MUSIC", level, "levelMusic");
+	setLevelAssetPath("BOSS_MUSIC", level, "bossMusic");
+
+	setLevelAnimationData("FLOOR_NUM_OF_FRAMES", level, "floorAnimationFramesNumber");
+	setLevelAnimationData("FLOOR_SPEED", level, "floorAnimationSpeed");
+	setLevelAnimationData("CLOSE_NUM_OF_FRAMES", level, "closeAnimationFramesNumber");
+	setLevelAnimationData("CLOSE_SPEED", level, "closeAnimationSpeed");
+	setLevelAnimationData("MID_NUM_OF_FRAMES", level, "midAnimationFramesNumber");
+	setLevelAnimationData("MID_SPEED", level, "midAnimationSpeed");
+	setLevelAnimationData("FAR_NUM_OF_FRAMES", level, "farAnimationFramesNumber");
+	setLevelAnimationData("FAR_SPEED", level, "farAnimationSpeed");
+
+	setLevelStats("WALL_DISTANCE", level, "wallDistance", MULT_BY_RESOLUTION);
+	setLevelStats("FLOOR_HEIGHT", level, "floorHeight", MULT_BY_RESOLUTION);
+	setLevelStats("DURATION", level, "levelDuration", NOT_MULT_BY_RESOLUTION);
+	setLevelStats("ELEVATION_SPEED", level, "elevationSpeed", MULT_BY_RESOLUTION);
+	setLevelStats("LEVEL_MUSIC_VOLUME", level, "levelMusicVolume", NOT_MULT_BY_RESOLUTION);
+
+}
+

@@ -18,6 +18,7 @@ bool Splash::init()
     {
         return false;
     }
+
     auto director = cocos2d::Director::getInstance();
 
     auto visibleSize = director->getVisibleSize();

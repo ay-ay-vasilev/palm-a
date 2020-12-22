@@ -36,16 +36,30 @@ Scene* Level::createScene()
 
 bool Level::init()
 {
+
     if ( !Scene::init() )
     {
         return false;
     }
 
+    GameConstants::initConstants(GameConstants::getLevelTest());
+
+    
+    initPlayer(GameConstants::getPlayerType());
+    initBackground(GameConstants::getLevelTest());
+
     movementInputDeck.clear();
+    
     GameController::type1Enemies.clear();
     GameController::enemyProjectiles.clear();
     GameController::type2Enemies.clear();
     GameController::laserArr.clear();
+
+    GameController::shootingTimings.clear();
+    GameController::enemySpawnTimings.clear();
+    GameController::enemyTypeArr.clear();
+    GameController::spawnPointArr.clear();
+
     GameController::getJsonData();
     currentEnemy = 0;
     currentTime = 0;
@@ -61,17 +75,13 @@ bool Level::init()
     director->setProjection(Director::Projection::_2D);
 
 	this->scheduleUpdate();
-    
-    initPlayer(PLAYER_TYPE);
 
     boss = GameController::createLevel1Boss();
 
     boss->setPosition(Vec2(visibleSize.width / 2, visibleSize.height));
-    boss->setScale(RESOLUTION_VARIABLE);
+    boss->setScale(GameConstants::resolution);
     this->addChild(boss, BOSS_LAYER);
 
-
-    initBackground(director);
     initGameUI(director);
     initCollisionDetector();
     startCount();
@@ -134,17 +144,18 @@ void Level::initPlayer(std::string playerType) {
     this->addChild(player, PLAYER_LAYER);
 }
 
-void Level::initBackground(Director* director) {
-    background = Background::create();
+void Level::initBackground(std::string level) {
+
+    background = LevelBackground::create(level);
     background->setAnchorPoint(Vec2::ZERO);
     background->setPosition(Vec2::ZERO);
-    this->addChild(background);
+    this->addChild(background, FLOOR_LAYER);
 }
 
 void Level::initGameUI(Director* director) {
     gameUI = GameUI::create(player);
-    background->setAnchorPoint(Vec2::ZERO);
-    background->setPosition(Vec2::ZERO);
+    gameUI->setAnchorPoint(Vec2::ZERO);
+    gameUI->setPosition(Vec2::ZERO);
     this->addChild(gameUI, UI_LAYER);
 }
 

@@ -47,6 +47,4 @@
 #define RESOLUTION_VARIABLE JsonInstance::GetInstance()->GetData("balance")["debug"]["resolution"]
 #define DEBUG_MASK JsonInstance::GetInstance()->GetData("balance")["debug"]["mask"]
 #define PLAYER_TYPE JsonInstance::GetInstance()->GetData("balance")["debug"]["playerType"]
-#define LEVEL JsonInstance::GetInstance()->GetData("balance")["debug"]["level"]
-#define LEVEL_NEXT "2"
 #endif

@@ -1,6 +1,7 @@
 #include "Projectiles.h"
 #include "Definitions.h"
 #include "GameConstants.h"
+#include "Util.h"
 
 USING_NS_CC;
 
@@ -19,7 +20,7 @@ DefaultProjectile * DefaultProjectile::create(){
 
 			auto spriteCache = SpriteFrameCache::getInstance();
 			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("DEFAULT_SPRITE_SHEET"));
-			projectileAnimate = Projectile::createAnimation(spriteCache, "DEFAULT_NUM_OF_FRAMES", "DEFAULT_SPEED", "DEFAULT_SPRITE");
+			projectileAnimate = Util::createProjectileAnimation(spriteCache, "DEFAULT_NUM_OF_FRAMES", "DEFAULT_SPEED", "DEFAULT_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
 
 			model->runAction(RepeatForever::create(projectileAnimate));
@@ -75,7 +76,7 @@ LaserProjectile* LaserProjectile::create() {
 			auto spriteCache = SpriteFrameCache::getInstance();
 			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("LASER_SPRITE_SHEET"));
 
-			projectileAnimate = Projectile::createAnimation(spriteCache, "LASER_NUM_OF_FRAMES", "LASER_SPEED", "LASER_SPRITE");
+			projectileAnimate = Util::createProjectileAnimation(spriteCache, "LASER_NUM_OF_FRAMES", "LASER_SPEED", "LASER_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(projectileAnimate));
 
@@ -125,7 +126,7 @@ PlayerProjectile* PlayerProjectile::create() {
 
 			auto spriteCache = SpriteFrameCache::getInstance();
 			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("PLAYER_SPRITE_SHEET"));
-			projectileAnimate = Projectile::createAnimation(spriteCache, "PLAYER_NUM_OF_FRAMES", "PLAYER_SPEED", "PLAYER_SPRITE");
+			projectileAnimate = Util::createProjectileAnimation(spriteCache, "PLAYER_NUM_OF_FRAMES", "PLAYER_SPEED", "PLAYER_SPRITE");
 			projectileAnimate->retain(); //Retain to use it later
 
 			model->runAction(RepeatForever::create(projectileAnimate));
@@ -176,7 +177,7 @@ RayProjectile* RayProjectile::create() {
 			auto spriteCache = SpriteFrameCache::getInstance();
 			spriteCache->addSpriteFramesWithFile(GameConstants::getProjectileAssetPath("RAY_SPRITE_SHEET"));
 			
-			projectileAnimate = Projectile::createAnimation(spriteCache, "RAY_NUM_OF_FRAMES", "RAY_SPEED", "RAY_SPRITE");
+			projectileAnimate = Util::createProjectileAnimation(spriteCache, "RAY_NUM_OF_FRAMES", "RAY_SPEED", "RAY_SPRITE");
 			projectileAnimate->retain();
 			model->runAction(RepeatForever::create(projectileAnimate));
 
@@ -220,22 +221,4 @@ cocos2d::PhysicsBody* Projectile::getBody(int maskID)
 	physicsBody->setContactTestBitmask(true);
 
 	return physicsBody;
-}
-cocos2d::Animate* Projectile::createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
-{
-	auto assetPath = GameConstants::getProjectileAssetPath(assetName);
-	auto numberOfFrames = GameConstants::getProjectileAnimationData(numOfFrames);
-	auto animationSpeed = GameConstants::getProjectileAnimationData(animSpeed);
-
-	char str[200] = { 0 };
-	Vector<SpriteFrame*> animFrames(numberOfFrames);
-
-	for (int i = 1; i <= numberOfFrames; i++)
-	{
-		sprintf(str, assetPath.c_str(), i);
-		animFrames.pushBack(spriteCache->getSpriteFrameByName(str));
-	}
-	auto animation = Animation::createWithSpriteFrames(animFrames, animationSpeed);
-
-	return Animate::create(animation);
 }

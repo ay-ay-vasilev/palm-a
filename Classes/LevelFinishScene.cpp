@@ -37,13 +37,13 @@ bool LevelFinish::init() {
         origin.y + visibleSize.height / 3));
     menu->alignItemsVerticallyWithPadding(10 * (float)RESOLUTION_VARIABLE);
 
-    GameConstants::initConstants(LEVEL_NEXT);
-
     this->addChild(menu, 1);
 
     return true;
 }
 void LevelFinish::GoToNextLevel(cocos2d::Ref* pSender) {
+    GameConstants::setLevelTest("2");
+    
     auto scene = Level::createScene();
     Director::getInstance()->replaceScene(scene);
 }

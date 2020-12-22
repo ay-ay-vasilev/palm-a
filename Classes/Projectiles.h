@@ -16,7 +16,6 @@ public:
 	cocos2d::PhysicsBody* getBody(int maskID);
 	cocos2d::PhysicsBody* getBodyPlayer(int maskID);
 
-	static cocos2d::Animate* createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName);
 private:
 	Vec2 target;
 	Vec2 speed;

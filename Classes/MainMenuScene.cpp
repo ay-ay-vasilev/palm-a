@@ -73,7 +73,6 @@ bool MainMenu::init()
 }
 
 void MainMenu::GoToNewGameScene(cocos2d::Ref* pSender) {
-    GameConstants::initConstants(LEVEL);
     auto scene = NewGame::createScene();
     Director::getInstance()->replaceScene(scene);
 }
