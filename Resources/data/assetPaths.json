@@ -40,6 +40,18 @@
             "flyRight": "character_turret_fly_right_%i.png"
         }
     },
+    "sfx": {
+        "playerDamageSFX": "audio/sfx/damageSFX.mp3",
+        "playerDashSFX": "audio/sfx/dashSFX.mp3",
+        "playerJumpSFX": "audio/sfx/jumpSFX.mp3",
+        "playerJetpackSFX": "audio/sfx/jetpackJumpSFX.mp3",
+        "playerProjectileSFX": "audio/sfx/playerProjectileSFX.mp3",
+        "enemyDeadSFX": "audio/sfx/enemyDeadSFX.mp3",
+        "enemyShotSFX": "audio/sfx/enemyShotSFX.mp3",
+        "enemyProjectileSFX": "audio/sfx/projectileSFX.mp3",
+        "enemyLaserSFX": "audio/sfx/laserSFX.mp3",
+        "enemyRaySFX": "audio/sfx/raySFX.mp3"
+    },
     "projectile": {
         "default" : {
             "spriteSheet": "res/projectiles/default_projectile.plist",

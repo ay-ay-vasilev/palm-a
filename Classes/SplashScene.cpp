@@ -1,6 +1,7 @@
 #include "SplashScene.h"
 #include "MainMenuScene.h"
 #include "Definitions.h"
+#include "SFXController.h"
 
 USING_NS_CC;
 
@@ -19,11 +20,13 @@ bool Splash::init()
         return false;
     }
 
-    auto director = cocos2d::Director::getInstance();
+    SFXController::preloadSFX();
 
+    auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
     Vec2 origin = director->getVisibleOrigin();
     
+
     auto funPointer = static_cast<cocos2d::SEL_SCHEDULE>(&Splash::GoToMainMenuScene);
     
     this->scheduleOnce(funPointer, DISPLAY_TIME_SPLASH_SCENE);

@@ -21,6 +21,8 @@ std::map<std::string, float> GameConstants::levelStats = {};
 std::map<std::string, std::string> GameConstants::cutsceneAssetPaths = {};
 std::map<std::string, float> GameConstants::cutsceneAnimationData = {};
 
+std::map<std::string, std::string> GameConstants::sfxPaths = {};
+
 float GameConstants::resolution = 2;
 std::string GameConstants::playerTypeTest = "turret";
 std::string GameConstants::levelTest = "1";
@@ -149,6 +151,19 @@ void GameConstants::initConstants(std::string level)
 
 	setCutsceneAnimationData("FADE_LENGTH", level, "fadeLength");
 	setCutsceneAnimationData("NUM_OF_FRAMES", level, "numberOfFrames");
+
+	setSfxPath("PLAYER_DMG_SFX", "playerDamageSFX");
+	setSfxPath("PLAYER_DASH_SFX", "playerDashSFX");
+	setSfxPath("PLAYER_JUMP_SFX", "playerJumpSFX");
+	setSfxPath("PLAYER_JETPACK_SFX", "playerJetpackSFX");
+	setSfxPath("PLAYER_PROJECTILE_SFX", "playerProjectileSFX");
+
+	setSfxPath("ENEMY_CRUSHED_SFX", "enemyDeadSFX");
+	setSfxPath("ENEMY_SHOT_SFX", "enemyShotSFX");
+	setSfxPath("ENEMY_PROJECTILE_SFX", "enemyProjectileSFX");
+	setSfxPath("ENEMY_LASER_SFX", "enemyLaserSFX");
+	setSfxPath("ENEMY_RAY_SFX", "enemyRaySFX");
+
 }
 
 // ============================================= GETTERS =============================================
@@ -216,7 +231,10 @@ float GameConstants::getCutsceneAnimationData(const std::string& key)
 {
 	return cutsceneAnimationData[key];
 }
-
+std::string GameConstants::getSfxPath(const std::string& key)
+{
+	return sfxPaths[key];
+}
 
 // ============================================= SETTERS =============================================
 void GameConstants::setPlayerAssetPath(const std::string& key, const std::string& assetName, const std::string& playerType)
@@ -305,7 +323,10 @@ void GameConstants::setBossAnimationData(const std::string& key, const std::stri
 {
 	bossAnimationData[key] = JsonInstance::GetInstance()->GetData("animations")["levels"][level]["boss"][type][type2][dataName];
 }
-
+void GameConstants::setSfxPath(const std::string& key, const std::string& dataName)
+{
+	sfxPaths[key] = JsonInstance::GetInstance()->GetData("assetPaths")["sfx"][dataName];
+}
 
 
 // ============================================= LOAD OBJECT ==============================================

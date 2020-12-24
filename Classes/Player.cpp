@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Definitions.h"
 #include "GameConstants.h"
-#include "AudioEngine.h"
+#include "SFXController.h"
 #include "Util.h"
 #include <algorithm>
 
@@ -91,8 +91,7 @@ void Player::dash()
 	if (dashes > 0)
 	{
 		dashes--;
-		auto dashSFX = AudioEngine::play2d("audio/sfx/dashSFX.mp3", false);
-		AudioEngine::setVolume(dashSFX, 0.3);
+		SFXController::playerDash();
 		vertForce = std::max(0.0f, vertForce);
 		dashed = true;
 		this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::replenishDash), dashCooldown);
@@ -105,15 +104,13 @@ void Player::jump()
 		isOnGround = false;
 		vertForce = GameConstants::getPlayerStats("JUMP_FORCE");
 		playAnimation(jumpLeftAnimate, jumpRightAnimate);
-		auto jumpSFX = AudioEngine::play2d("audio/sfx/jumpSFX.mp3", false);
-		AudioEngine::setVolume(jumpSFX, 0.3);
+		SFXController::playerJump();
 	}
 	else if (additionalJumps > 0 && !isOnGround) {
 		additionalJumps--;
 		vertForce = GameConstants::getPlayerStats("ADDITIONAL_JUMP_FORCE");
 		playAnimation(flyLeftAnimate, flyRightAnimate);
-		auto jetJumpSFX = AudioEngine::play2d("audio/sfx/jetpackJumpSFX.mp3", false);
-		AudioEngine::setVolume(jetJumpSFX, 0.3);
+		SFXController::playerJetpack();
 
 		jetpackParticles->start();
 	}
@@ -292,15 +289,27 @@ bool Player::damageHP(int dmg)
 {
 	if (dmg > 0 && !invincible)
 	{
-		auto damageSFX = AudioEngine::play2d("audio/sfx/damageSFX.mp3", false);
-		AudioEngine::setVolume(damageSFX, 0.1);
+		SFXController::playerDmg();
 
 		auto fadeIn = FadeIn::create(damageIFrames/8.0f);
 		auto fadeOut = FadeOut::create(damageIFrames/8.0f);
 		auto redTint = TintTo::create(damageIFrames/2.0f, 255, 0, 0);
 		auto normalTint = TintTo::create(damageIFrames/2.0f, 255, 255, 255);
 
-		auto damageFade = Sequence::create(fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn, nullptr);
+		
+		Vector<FiniteTimeAction*> test;
+		test.pushBack(fadeOut);
+		test.pushBack(fadeIn);
+		test.pushBack(fadeOut);
+		test.pushBack(fadeIn);
+		test.pushBack(fadeOut);
+		test.pushBack(fadeIn);
+		test.pushBack(fadeOut);
+		test.pushBack(fadeIn);
+
+		Spawn *newTest = Spawn::create(test);
+
+		auto damageFade = Sequence::create(test);
 		auto damageTint = Sequence::create(redTint, normalTint, nullptr);
 
 		this->runAction(damageFade);

@@ -31,7 +31,7 @@ private:
 	static std::map<std::string, std::string> cutsceneAssetPaths;
 	static std::map<std::string, float> cutsceneAnimationData;
 
-	
+	static std::map<std::string, std::string> sfxPaths;
 
 public:
 	static float resolution;
@@ -52,7 +52,6 @@ public:
 	static void setLevelAnimationData(const std::string& key, const std::string& level, const std::string& dataName);
 	static void setLevelStats(const std::string& key, const std::string& level, const std::string& dataName, const bool multByResolution);
 
-
 	static void setEnemyAssetPath(const std::string& key, const std::string& level, const std::string& type, const std::string& assetName);
 	static void setEnemyAnimationData(const std::string& key, const std::string& level, const std::string& type, const std::string& dataName);
 	static void setEnemyStats(const std::string& key, const std::string& level, const std::string& type, const std::string& dataName, const bool multByResolution);
@@ -64,6 +63,8 @@ public:
 
 	static void setCutsceneAssetPath(const std::string& key, const std::string& level, const std::string& assetName);
 	static void setCutsceneAnimationData(const std::string& key, const std::string& level, const std::string& dataName);
+
+	static void setSfxPath(const std::string& key, const std::string& dataName);
 	
 	static std::string getPlayerAssetPath(const std::string& key);
 	static float getPlayerAnimationData(const std::string& key);
@@ -83,10 +84,11 @@ public:
 	static std::string getCutsceneAssetPath(const std::string& key);
 	static float getCutsceneAnimationData(const std::string& key);
 
-
 	static std::string getBossAssetPath(const std::string& key);
 	static float getBossAnimationData(const std::string& key);
-	
+
+	static std::string getSfxPath(const std::string& key);
+
 	static void loadPlayer(const std::string& type);
 	static void loadLevel(const std::string& level);
 };

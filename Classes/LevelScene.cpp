@@ -8,6 +8,7 @@
 #include "ui/CocosGUI.h"
 #include "json.hpp"
 #include "GameConstants.h"
+#include "SFXController.h"
 USING_NS_CC;
 
 Scene* Level::createScene()
@@ -238,16 +239,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         if (a->getCollisionBitmask() == REGULAR_ENEMY_MASK && a->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(a->getNode())->getPositionY()))
             {
-                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.4);
+                SFXController::enemyJumpKilled();
                 this->removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             }
         }
         if (b->getCollisionBitmask() == REGULAR_ENEMY_MASK && b->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType1*>(b->getNode())->getPositionY()))
             {
-                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.4);
+                SFXController::enemyJumpKilled();
                 this->removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
 
             }
@@ -303,16 +302,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         if (a->getCollisionBitmask() == LASER_ENEMY_MASK && a->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(a->getNode())->getPositionY()))
             {
-                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.4);
+                SFXController::enemyJumpKilled();
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             }
         }
         if (b->getCollisionBitmask() == LASER_ENEMY_MASK && b->getNode() != nullptr) {
             if (player->jumpKill(dynamic_cast<EnemyType2*>(b->getNode())->getPositionY()))
             {
-                auto enemyDeadSFX = AudioEngine::play2d("audio/sfx/enemyDeadSFX.mp3", false);
-                AudioEngine::setVolume(enemyDeadSFX, 0.4);
+                SFXController::enemyJumpKilled();
                 this->removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
             }
         }
@@ -345,9 +342,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
-            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
-            AudioEngine::setVolume(enemyShotSFX, 0.15);
-
+            SFXController::enemyShotKilled();
             removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             removeProjectile(b->getNode());
         }
@@ -356,9 +351,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
-            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
-            AudioEngine::setVolume(enemyShotSFX, 0.15);
-
+            SFXController::enemyShotKilled();
             removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
             removeProjectile(a->getNode());
         }
@@ -372,9 +365,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
-            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
-            AudioEngine::setVolume(enemyShotSFX, 0.15);
-
+            SFXController::enemyShotKilled();
             removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             removeProjectile(b->getNode());
         }
@@ -383,9 +374,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
             auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
             this->addChild(particles, PARTICLES_LAYER);
 
-            auto enemyShotSFX = AudioEngine::play2d("audio/sfx/enemyShotSFX.mp3", false);
-            AudioEngine::setVolume(enemyShotSFX, 0.15);
-
+            SFXController::enemyShotKilled();
             removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
             removeProjectile(a->getNode());
         }
@@ -603,9 +592,7 @@ void Level::spawnDefaultProjectile(int n)
     auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
     auto sequence = Sequence::create(moveAction, callBack, NULL);
     projectile->runAction(sequence);
-    //SFX
-    auto projectileSFX = AudioEngine::play2d("audio/sfx/projectileSFX.mp3", false);
-    AudioEngine::setVolume(projectileSFX, 0.1);
+    SFXController::enemyProjectile();
 }
 void Level::spawnLaserProjectile(int n)
 {
@@ -628,9 +615,7 @@ void Level::spawnLaserProjectile(int n)
     auto sequence = Sequence::create(moveAction, callBack, NULL);
 
     projectile->runAction(sequence);
-    //SFX
-    auto laserSFX = AudioEngine::play2d("audio/sfx/laserSFX.mp3", false);
-    AudioEngine::setVolume(laserSFX, 0.01);
+    SFXController::enemyLaser();
 }
 void Level::spawnLaser(Level1Boss* boss)
 {
@@ -658,8 +643,7 @@ void Level::spawnLaserRay(float dt,EnemyType3* enemy)
 
     projectile->runAction(sequence);
 
-    auto raySFX = AudioEngine::play2d("audio/sfx/raySFX.mp3", false);
-    AudioEngine::setVolume(raySFX, 0.2);
+    SFXController::enemyRay();
 }
 void Level::spawnEnemyOnTiming(float dt)
 {
@@ -784,8 +768,7 @@ void Level::spawnPlayerProjectile(float dt)
         auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
         auto sequence = Sequence::create(moveAction, callBack, NULL);
         projectile->runAction(sequence);
-        //SFX
-        auto projectileSFX = AudioEngine::play2d("audio/sfx/playerProjectileSFX.mp3", false);
-        AudioEngine::setVolume(projectileSFX, 0.2);
+        
+        SFXController::playerProjectile();
     }
 }
