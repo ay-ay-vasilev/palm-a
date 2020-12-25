@@ -25,19 +25,16 @@ class DefaultProjectile : public Projectile
 {
 public:
 	static DefaultProjectile * create(void);
-	static ParticleSystemQuad* onDestroyParticles(Vec2 position);
 };
 class LaserProjectile : public Projectile
 {
 public:
 	static LaserProjectile* create(void);
-	static ParticleSystemQuad* onDestroyParticles(Vec2 position);
 };
 class PlayerProjectile : public Projectile
 {
 public:
 	static PlayerProjectile* create(void);
-	static ParticleSystemQuad* onDestroyParticles(Vec2 position);
 };
 
 

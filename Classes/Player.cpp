@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "GameConstants.h"
 #include "SFXController.h"
+#include "ParticleController.h"
 #include "Util.h"
 #include <algorithm>
 
@@ -105,22 +106,7 @@ void Player::dash()
 {
 	if (dashes > 0)
 	{
-		auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
-		particles->setAnchorPoint(Vec2(0.5, 0.5));
-		particles->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
-		particles->setEmitterMode(ParticleSystem::Mode::RADIUS);
-		particles->setTotalParticles(10);
-		particles->setLife(0.05);
-		//particles->setLifeVar(0.2);
-		particles->setDuration(0.1);
-		particles->setAngleVar(180);
-		particles->setStartRadius(20);
-		particles->setEndRadius(60);
-		particles->setStartColor(Color4F::WHITE);
-		particles->setEndColor(Color4F(0, 180, 180, 255));
-		particles->setStartSize(15);
-		particles->setEndSize(5);
-		this->addChild(particles);
+		this->addChild(ParticleController::playerDashEnd(this));
 
 		dashes--;
 		SFXController::playerDash();

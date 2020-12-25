@@ -1,6 +1,7 @@
 #include "Projectiles.h"
 #include "Definitions.h"
 #include "GameConstants.h"
+#include "ParticleController.h"
 #include "Util.h"
 
 USING_NS_CC;
@@ -24,12 +25,7 @@ DefaultProjectile * DefaultProjectile::create(){
 			projectileAnimate->retain(); //Retain to use it later
 
 			model->runAction(RepeatForever::create(projectileAnimate));
-			
-			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
-			particles->setAnchorPoint(Vec2::ZERO);
-			particles->setPosition(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")/2, GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")/2));
-			particles->setScale(0.3);
-			model->addChild(particles, BEHIND);
+			model->addChild(ParticleController::projectileParticles(), BEHIND);
 
 			projectile->addChild(model);
 			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("DEFAULT_SPRITE_SIZE")));
@@ -42,19 +38,6 @@ DefaultProjectile * DefaultProjectile::create(){
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
 }
-
-cocos2d::ParticleSystemQuad* DefaultProjectile::onDestroyParticles(Vec2 position)
-{
-	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
-	particles->setAnchorPoint(Vec2::ZERO);
-	particles->setPosition(position);
-	particles->setLife(0.2);
-	particles->setDuration(0.1);
-	particles->setSpeed(100);
-	particles->setAngleVar(360);
-	return particles;
-}
-
 
 
 //==================================================
@@ -80,11 +63,7 @@ LaserProjectile* LaserProjectile::create() {
 			projectileAnimate->retain(); //Retain to use it later
 			model->runAction(RepeatForever::create(projectileAnimate));
 
-			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("LASER_PARTICLES"));
-			particles->setAnchorPoint(Vec2::ZERO);
-			particles->setPosition(Size(GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_X") / 3, GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_Y") / 2));
-			particles->setScale(0.3);
-			model->addChild(particles, BEHIND);
+			model->addChild(ParticleController::laserParticles(), BEHIND);
 
 			projectile->addChild(model);
 			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_X"), GameConstants::getProjectileAnimationData("LASER_SPRITE_SIZE_Y")));
@@ -98,18 +77,6 @@ LaserProjectile* LaserProjectile::create() {
 	return NULL;
 }
 
-cocos2d::ParticleSystemQuad* LaserProjectile::onDestroyParticles(Vec2 position)
-{
-	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("LASER_PARTICLES"));
-	particles->setAnchorPoint(Vec2::ZERO);
-	particles->setPosition(position);
-	particles->setLife(0.2);
-	particles->setDuration(0.1);
-	particles->setSpeed(200);
-	particles->setAngleVar(360);
-	particles->setStartColor(Color4F::WHITE);
-	return particles;
-}
 //================================================
 PlayerProjectile* PlayerProjectile::create() {
 	PlayerProjectile* projectile = new PlayerProjectile();
@@ -131,11 +98,7 @@ PlayerProjectile* PlayerProjectile::create() {
 
 			model->runAction(RepeatForever::create(projectileAnimate));
 
-			auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
-			particles->setAnchorPoint(Vec2::ZERO);
-			particles->setPosition(Size(GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE") / 2, GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE") / 2));
-			particles->setScale(0.3);
-			model->addChild(particles, BEHIND);
+			model->addChild(ParticleController::playerProjectileParticles(), BEHIND);
 
 			projectile->addChild(model);
 			projectile->setContentSize(Size(GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE"), GameConstants::getProjectileAnimationData("PLAYER_SPRITE_SIZE")));
@@ -147,17 +110,6 @@ PlayerProjectile* PlayerProjectile::create() {
 	CC_SAFE_DELETE(projectile);
 	CC_SAFE_RELEASE(projectileAnimate);
 	return NULL;
-}
-cocos2d::ParticleSystemQuad* PlayerProjectile::onDestroyParticles(Vec2 position)
-{
-	auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
-	particles->setAnchorPoint(Vec2::ZERO);
-	particles->setPosition(position);
-	particles->setLife(0.2);
-	particles->setDuration(0.1);
-	particles->setSpeed(100);
-	particles->setAngleVar(360);
-	return particles;
 }
 //=========================================
 RayProjectile* RayProjectile::create() {

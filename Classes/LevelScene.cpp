@@ -3,6 +3,7 @@
 #include "Definitions.h"
 #include "LevelScene.h"
 #include "GameController.h"
+#include "ParticleController.h"
 #include <CCScheduler.h>
 #include "AudioEngine.h"
 #include "ui/CocosGUI.h"
@@ -260,16 +261,12 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         if (player->damageHP(GameConstants::getProjectileStats("DEFAULT_DAMAGE")))
         {
             if (a->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
-                auto particles = DefaultProjectile::onDestroyParticles(a->getNode()->getPosition());
-                this->addChild(particles, PARTICLES_LAYER);
-
+                this->addChild(ParticleController::onDestroyProjectile(a->getNode()->getPosition()), PARTICLES_LAYER);
                 this->removeProjectile(a->getNode());
 
             }
             if (b->getCollisionBitmask() == DEFAULT_PROJECTILE_MASK) {
-                auto particles = DefaultProjectile::onDestroyParticles(b->getNode()->getPosition());
-                this->addChild(particles, PARTICLES_LAYER);
-
+                this->addChild(ParticleController::onDestroyProjectile(b->getNode()->getPosition()), PARTICLES_LAYER);
                 this->removeProjectile(b->getNode());
             }
         }
@@ -282,13 +279,11 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         {
 
             if (a->getCollisionBitmask() == LASER_PROJECTILE_MASK) {
-                auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
-                this->addChild(particles, PARTICLES_LAYER);
+                this->addChild(ParticleController::onDestroyLaser(a->getNode()->getPosition()), PARTICLES_LAYER);
                 this->removeLaser(a->getNode());
             }
             if (b->getCollisionBitmask() == LASER_PROJECTILE_MASK) {
-                auto particles = LaserProjectile::onDestroyParticles(player->getPosition());
-                this->addChild(particles, PARTICLES_LAYER);
+                this->addChild(ParticleController::onDestroyLaser(b->getNode()->getPosition()), PARTICLES_LAYER);
                 this->removeLaser(b->getNode());
             }
         }
@@ -339,18 +334,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         if (REGULAR_ENEMY_MASK == a->getCollisionBitmask())
         {
-            auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-
+            this->addChild(ParticleController::onDestroyPlayerProjectile(a->getNode()->getPosition()), PARTICLES_LAYER);
             SFXController::enemyShotKilled();
             removeEnemy(dynamic_cast<EnemyType1*>(a->getNode()));
             removeProjectile(b->getNode());
         }
         else
         {
-            auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-
+            this->addChild(ParticleController::onDestroyPlayerProjectile(b->getNode()->getPosition()), PARTICLES_LAYER);
             SFXController::enemyShotKilled();
             removeEnemy(dynamic_cast<EnemyType1*>(b->getNode()));
             removeProjectile(a->getNode());
@@ -362,18 +353,14 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         if (LASER_ENEMY_MASK == a->getCollisionBitmask())
         {
-            auto particles = PlayerProjectile::onDestroyParticles(a->getNode()->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-
+            this->addChild(ParticleController::onDestroyPlayerProjectile(a->getNode()->getPosition()), PARTICLES_LAYER);
             SFXController::enemyShotKilled();
             removeEnemyType2(dynamic_cast<EnemyType2*>(a->getNode()));
             removeProjectile(b->getNode());
         }
         else
         {
-            auto particles = PlayerProjectile::onDestroyParticles(b->getNode()->getPosition());
-            this->addChild(particles, PARTICLES_LAYER);
-
+            this->addChild(ParticleController::onDestroyPlayerProjectile(b->getNode()->getPosition()), PARTICLES_LAYER);
             SFXController::enemyShotKilled();
             removeEnemyType2(dynamic_cast<EnemyType2*>(b->getNode()));
             removeProjectile(a->getNode());
@@ -444,22 +431,6 @@ void Level::onTouchEnded(Touch *touch, Event *event)
 
 void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
-    auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("DEFAULT_PARTICLES"));
-    particles->setAnchorPoint(Vec2(0.5, 0.5));
-    particles->setPosition(player->getPosition());
-    particles->setEmitterMode(ParticleSystem::Mode::RADIUS);
-    particles->setTotalParticles(10);
-    particles->setLife(0.05);
-    //particles->setLifeVar(0.2);
-    particles->setDuration(0.1);
-    particles->setAngleVar(180);
-    particles->setStartRadius(60);
-    particles->setEndRadius(20);
-    particles->setStartColor(Color4F::WHITE);
-    particles->setEndColor(Color4F(0, 180, 180, 255));
-    particles->setStartSize(15);
-    particles->setEndSize(5);
-
     switch (keyCode) {
         case EventKeyboard::KeyCode::KEY_A:
             movementInputDeck.push_front(DIRECTION_LEFT);
@@ -471,7 +442,7 @@ void Level::keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* 
             break;
         case EventKeyboard::KeyCode::KEY_LEFT_SHIFT:
             player->dash();
-            this->addChild(particles, PARTICLES_LAYER);
+            this->addChild(ParticleController::playerDashStart(player));
             break;
         case EventKeyboard::KeyCode:: KEY_SPACE:
             player->jump();
