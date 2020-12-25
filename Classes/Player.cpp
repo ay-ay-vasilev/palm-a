@@ -45,11 +45,11 @@ void Player::initPlayer(std::string playerType)
 {
 	GameConstants::loadPlayer(playerType);
 	Player::loadAnimations();
-	Player::hp = GameConstants::getPlayerStats("START_HP") / GameConstants::getDifficultyModifier();
+	Player::hp = GameConstants::getPlayerStats("START_HP");
 	Player::shoots = GameConstants::getPlayerStats("SHOOTS");
 	Player::additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");
 	Player::dashIFrames = GameConstants::getPlayerStats("DASH_I_FRAMES");
-	Player::damageIFrames = GameConstants::getPlayerStats("DMG_I_FRAMES");
+	Player::damageIFrames = GameConstants::getPlayerStats("DMG_I_FRAMES") / GameConstants::getDifficultyModifier();
 	Player::dashes = GameConstants::getPlayerStats("DASHES");
 	Player::dashCooldown = GameConstants::getPlayerStats("DASH_COOLDOWN");
 
