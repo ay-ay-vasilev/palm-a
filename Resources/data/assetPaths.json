@@ -120,7 +120,8 @@
                 },
                 "attackSecond": {
                     "start": "attack_second/start/%i.png",
-                    "attack": "attack_second/attack/%i.png",
+                    "leftRight": "attack_second/left_right/%i.png",
+                    "rightLeft":"attack_second/right_left/%i.png",
                     "end": "attack_second/end/%i.png"
                 },
                 "idleBody": {

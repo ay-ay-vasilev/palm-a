@@ -1,6 +1,6 @@
 {
     "debug": {
-        "mask": false,
+        "mask": true,
         "resolution": 2,
         "playerType": "turret",
         "level": "2"
@@ -78,7 +78,7 @@
     "levels": {
         "1": {
             "levelMusicVolume": 0.1,
-            "levelDuration": 208,
+            "levelDuration": 1,
             "wallDistance": 40,
             "floorHeight": 30,
             "elevationSpeed": 100,

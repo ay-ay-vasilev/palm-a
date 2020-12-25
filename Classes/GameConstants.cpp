@@ -123,7 +123,8 @@ void GameConstants::initConstants(std::string level)
 	setBossAssetPath("FIRST_ATTACK_ATTACK", level, "attackFirst", "attack");
 	setBossAssetPath("FIRST_ATTACK_END", level, "attackFirst", "end");
 	setBossAssetPath("SECOND_ATTACK_START", level, "attackSecond", "start");
-	setBossAssetPath("SECOND_ATTACK_ATTACK", level, "attackSecond", "attack");
+	setBossAssetPath("SECOND_ATTACK_LEFT_RIGHT", level, "attackSecond", "leftRight");
+	setBossAssetPath("SECOND_ATTACK_RIGHT_LEFT", level, "attackSecond", "rightLeft");
 	setBossAssetPath("SECOND_ATTACK_END", level, "attackSecond", "end");
 	setBossAssetPath("IDLE_BODY", level, "idleBody", "sprite");
 	setBossAssetPath("IDLE_EYE", level, "idleEye", "sprite");

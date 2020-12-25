@@ -12,6 +12,8 @@
 #include "SFXController.h"
 USING_NS_CC;
 
+Level* Level::singleton = 0;
+
 Scene* Level::createScene()
 {
     // 'scene' is an autorelease object
@@ -36,6 +38,9 @@ Scene* Level::createScene()
     return scene;
 }
 
+Level* Level::getInstance() {
+    return singleton;
+}
 bool Level::init()
 {
 
@@ -88,6 +93,8 @@ bool Level::init()
     initCollisionDetector();
     startCount();
     this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Level::initStart), 3.0f);
+
+    singleton = this;
     return true;
 }
 
@@ -158,6 +165,7 @@ void Level::initGameUI(Director* director) {
     gameUI = GameUI::create(player);
     gameUI->setAnchorPoint(Vec2::ZERO);
     gameUI->setPosition(Vec2::ZERO);
+    bossUICreated = false;
     this->addChild(gameUI, UI_LAYER);
 }
 
@@ -196,10 +204,10 @@ void Level::update(float dt)
 
     GameController::updateEnemyFacing(player->getPosition());
 
-    if (gameUI->getTotalScore() > GameConstants::getLevelStats("DURATION") && !GameController::bossFightIsOn)
+    if (gameUI->getTotalScore() > GameConstants::getLevelStats("DURATION") && !GameController::startBossFight)
     {
-        GameController::bossFightIsOn = true;
         spawnBoss();
+        GameController::startBossFight = true;
         gameUI->removeProgressBar();
         AudioEngine::stop(musicID);
         bossMusicID = AudioEngine::play2d(GameConstants::getLevelAssetPath("BOSS_MUSIC"), false);
@@ -216,7 +224,7 @@ void Level::update(float dt)
     if (GameController::bossFightIsOn)
     {
         GameController::bossMovement();
-        if (GameController::boss->getHp() < 0) levelFinished();
+        if (boss->getHp() < 0) levelFinished();
     }
 }
 bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
@@ -317,9 +325,10 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         if (GameController::bossFightIsOn)
         {
             player->jumpKill(0);
-            GameController::boss->getDamage(1);
+            boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
         }
-        gameUI->updateBossHPBar(GameController::boss->getHp(), GameController::boss->getInitialHp());
+        gameUI->updateBossHPBar(boss->getHp(), boss->getInitialHp());
+        CCLOG("BOSS HP = %i, BOSS INITIAL HP = %i", boss->getHp(), boss->getInitialHp());
     }
 
     //if player collided with laser ray
@@ -372,7 +381,7 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
     {
         if (GameController::bossFightIsOn) 
         {
-            GameController::boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
+            boss->getDamage(GameConstants::getProjectileStats("PLAYER_DAMAGE"));
         }
 
         if (PLAYER_PROJECTILE_MASK == a->getCollisionBitmask()) 
@@ -383,7 +392,8 @@ bool Level::onContactBegin ( cocos2d::PhysicsContact &contact )
         {
             removeProjectile(b->getNode());
         }
-        gameUI->updateBossHPBar(GameController::boss->getHp(), GameController::boss->getInitialHp());
+        gameUI->updateBossHPBar(boss->getHp(), boss->getInitialHp());
+        CCLOG("BOSS HP = %i, BOSS INITIAL HP = %i", boss->getHp(), boss->getInitialHp());
     }
     return true;
 }
@@ -690,16 +700,11 @@ void Level::spawnBoss()
 {
     cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-    auto delay = DelayTime::create(GameConstants::getBossAnimationData("FIRST_ATTACK_START_NUM_OF_FRAMES")*GameConstants::getBossAnimationData("FIRST_ATTACK_START_SPEED"));
-
     auto bossInitCall = CallFunc::create([this]() {this->bossInit(); });
     auto moveDown = MoveBy::create(5,Vec2(0,-1*boss->getContentSize().height * RESOLUTION_VARIABLE));
-    //auto changeState = CallFunc::create([boss]() {boss->setState(2); });
-    //auto spawnRay = CallFunc::create([this,boss]() {this->spawnLaserRay(boss); });
-    //auto changePhase = CallFunc::create([boss]() {boss->setPhase(0); });
-    //auto startFirstAttack = CallFunc::create([boss]() {boss->startFirstAttack(boss); });
+    auto startFight = CallFunc::create([]() {GameController::bossFightIsOn = true; });
 
-    auto sequence = Sequence::create(bossInitCall, moveDown/*, changePhase, startFirstAttack, delay, spawnRay, changeState*/, NULL);
+    auto sequence = Sequence::create(bossInitCall, moveDown, startFight, NULL);
     boss->runAction(sequence);
 }
 void Level::spawnLaserRay(Level1Boss* boss) 
@@ -720,7 +725,11 @@ void Level::spawnLaserRay(Level1Boss* boss)
 }
 void Level::bossInit()
 {
-    gameUI->initBossUI();
+    if (!bossUICreated)
+    {
+        gameUI->initBossUI();
+        bossUICreated = true;
+    }
 }
 void Level::spawnPlayerProjectile(float dt)
 {
@@ -742,4 +751,8 @@ void Level::spawnPlayerProjectile(float dt)
         
         SFXController::playerProjectile();
     }
+}
+Level1Boss* Level::getBoss()
+{
+    return boss;
 }

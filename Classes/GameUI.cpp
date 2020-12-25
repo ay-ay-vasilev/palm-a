@@ -256,4 +256,5 @@ void GameUI::initBossUI()
 void GameUI::updateBossHPBar(float hp, float maxHp)
 {
     bossHpBar->setPercent(hp / maxHp * 100);
+    CCLOG("%f", hp / maxHp * 100);
 }

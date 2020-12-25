@@ -108,21 +108,21 @@
                     },
                     "end":{
                         "animationFramesNumber":4,
-                        "animationSpeed":0.1
+                        "animationSpeed":0.5
                     }
                 },
                 "attackSecond":{
                     "start":{
                         "animationFramesNumber":3,
-                        "animationSpeed":0.1
+                        "animationSpeed":0.5
                     },
                     "leftRight":{
                         "animationFramesNumber":6,
-                        "animationSpeed":0.1
+                        "animationSpeed":0.5
                     },
                     "rightLeft":{
                         "animationFramesNumber":6,
-                        "animationSpeed":0.1
+                        "animationSpeed":0.5
                     },
                     "end":{
                         "animationFramesNumber":2,
@@ -198,7 +198,7 @@
                     },
                     "end":{
                         "animationFramesNumber":4,
-                        "animationSpeed":0.1
+                        "animationSpeed":0.5
                     }
                 },
                 "attackSecond":{
