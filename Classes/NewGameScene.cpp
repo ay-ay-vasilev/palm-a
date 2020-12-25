@@ -4,6 +4,7 @@
 #include "AudioEngine.h"
 #include "Definitions.h"
 #include "GameConstants.h"
+#include "Audio.h"
 
 USING_NS_CC;
 
@@ -62,36 +63,37 @@ void NewGame::GoToCutsceneEasy(cocos2d::Ref* pSender) {
     GameConstants::setPlayerType("jetpack");
     GameConstants::setDifficultyModifier(EASY);
 
-    auto scene = Cutscene::createScene();
-    Director::getInstance()->replaceScene(scene);
+    GoToCutscene1();
 }
 
 void NewGame::GoToCutsceneMedium(cocos2d::Ref* pSender) {
     GameConstants::setPlayerType("jetpack");
     GameConstants::setDifficultyModifier(MEDIUM);
 
-    auto scene = Cutscene::createScene();
-    Director::getInstance()->replaceScene(scene);
+    GoToCutscene1();
 }
 
 void NewGame::GoToCutsceneHard(cocos2d::Ref* pSender) {
     GameConstants::setPlayerType("jetpack");
     GameConstants::setDifficultyModifier(HARD);
 
+    GoToCutscene1();
+}
+void NewGame::GoToCutscene1() {
+    AudioEngine::stop(Audio::mainMenuThemeID);
+    Audio::setMenuThemePlay(false);
+    Audio::setCutsceneMusicPath(GameConstants::getLevelTest());
     auto scene = Cutscene::createScene();
     Director::getInstance()->replaceScene(scene);
 }
 
 
 void NewGame::GoToCutscene(cocos2d::Ref* pSender) {
-    auto scene = Cutscene::createScene();
-    Director::getInstance()->replaceScene(scene);
+    GoToCutscene1();
 }
 
 
 void NewGame::GoToMainMenu(cocos2d::Ref* pSender) {
-    AudioEngine::stopAll();
-    AudioEngine::end();
     auto scene = MainMenu::createScene();
     Director::getInstance()->replaceScene(scene);
 }

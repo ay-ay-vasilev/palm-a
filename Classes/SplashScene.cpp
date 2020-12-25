@@ -2,6 +2,7 @@
 #include "MainMenuScene.h"
 #include "Definitions.h"
 #include "SFXController.h"
+#include "Audio.h"
 
 USING_NS_CC;
 
@@ -52,7 +53,7 @@ bool Splash::init()
     backgroundSprite->setScale(0.75*RESOLUTION_VARIABLE);
     backgroundSprite->runAction(RepeatForever::create(logoAnimate));
     this->addChild(backgroundSprite);
-
+    Audio::setMainMenuMusicPath();
     return true;
 }
 

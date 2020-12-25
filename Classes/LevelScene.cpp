@@ -10,6 +10,7 @@
 #include "json.hpp"
 #include "GameConstants.h"
 #include "SFXController.h"
+#include "Audio.h"
 USING_NS_CC;
 
 Level* Level::singleton = 0;
@@ -50,7 +51,7 @@ bool Level::init()
     }
 
     GameConstants::initConstants(GameConstants::getLevelTest());
-
+    
     
     initPlayer(GameConstants::getPlayerType());
     initBackground(GameConstants::getLevelTest());
@@ -71,9 +72,6 @@ bool Level::init()
     currentEnemy = 0;
     currentTime = 0;
 
-    //init the music
-    AudioEngine::preload(GameConstants::getLevelAssetPath("BOSS_MUSIC"));
-
     // important variables
     auto director = cocos2d::Director::getInstance();
     auto visibleSize = director->getVisibleSize();
@@ -82,6 +80,8 @@ bool Level::init()
     director->setProjection(Director::Projection::_2D);
 
 	this->scheduleUpdate();
+    Audio::setLvlMusicPaths(GameConstants::getLevelTest());
+    Audio::preloadLvlMusic();
 
     boss = GameController::createLevel1Boss();
 
@@ -101,8 +101,7 @@ bool Level::init()
 void Level::initStart(float dt) {
         initScedulers();
         initListeners();
-        musicID = AudioEngine::play2d(GameConstants::getLevelAssetPath("LEVEL_MUSIC"), false);
-        AudioEngine::setVolume(musicID, GameConstants::getLevelStats("LEVEL_MUSIC_VOLUME"));
+        Audio::startLvlMusic();
 }
 
 void Level::startCount() {
@@ -209,9 +208,8 @@ void Level::update(float dt)
         spawnBoss();
         GameController::startBossFight = true;
         gameUI->removeProgressBar();
-        AudioEngine::stop(musicID);
-        bossMusicID = AudioEngine::play2d(GameConstants::getLevelAssetPath("BOSS_MUSIC"), false);
-        AudioEngine::setVolume(bossMusicID, 0.03);
+        AudioEngine::stop(Audio::lvlMusicID);
+        Audio::startBossMusic();
 
         this->unschedule(enemyType3SpawnPointer);
     }
@@ -402,9 +400,8 @@ void Level::levelFinished()
 {
     Scene* scene = LevelFinish::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
-    
+    Audio::uncacheLvlMusic();
     AudioEngine::stopAll();
-    AudioEngine::end();
     Director::getInstance()->replaceScene(scene);
 }
 
@@ -412,9 +409,8 @@ void Level::gameOver()
 {
     Scene* scene = GameOver::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
-
+    Audio::uncacheLvlMusic();
     AudioEngine::stopAll();
-    AudioEngine::end();
     Director::getInstance()->replaceScene(scene);
 }
 

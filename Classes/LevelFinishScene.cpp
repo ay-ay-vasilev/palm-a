@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "MainMenuScene.h"
 #include "LevelScene.h"
+#include "Audio.h"
 
 USING_NS_CC;
 
@@ -38,12 +39,13 @@ bool LevelFinish::init() {
     menu->alignItemsVerticallyWithPadding(10 * (float)RESOLUTION_VARIABLE);
 
     this->addChild(menu, 1);
+    Audio::uncacheLvlMusic();
 
     return true;
 }
 void LevelFinish::GoToNextLevel(cocos2d::Ref* pSender) {
-    GameConstants::setLevelTest("2");
     
+    GameConstants::setLevelTest("2");
     auto scene = Level::createScene();
     Director::getInstance()->replaceScene(scene);
 }

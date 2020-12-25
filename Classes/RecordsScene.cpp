@@ -37,8 +37,6 @@ bool RecordsScene::init() {
     return true;
 }
 void RecordsScene::GoToMainMenu(cocos2d::Ref* pSender) {
-    AudioEngine::stopAll();
-    AudioEngine::end();
     auto scene = MainMenu::createScene();
     Director::getInstance()->replaceScene(scene);
 }

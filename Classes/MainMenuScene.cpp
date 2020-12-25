@@ -4,6 +4,7 @@
 #include "RecordsScene.h"
 #include "AudioEngine.h"
 #include "LevelScene.h"
+#include "Audio.h"
 #include <cstring>
 
 USING_NS_CC;
@@ -24,8 +25,8 @@ bool MainMenu::init()
     auto visibleSize = director->getVisibleSize();
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
-    musicID = AudioEngine::play2d("audio/music/main_menu.mp3", false);
-    AudioEngine::setVolume(musicID, 0.08);
+
+    
 
     auto title = Sprite::create();
     char str[200] = { 0 };
@@ -68,7 +69,7 @@ bool MainMenu::init()
         origin.y + visibleSize.height / 3));
     menu->alignItemsVerticallyWithPadding(10 * RESOLUTION_VARIABLE);
     this->addChild(menu, 1);
-
+    Audio::startMenuTheme();
     return true;
 }
 
@@ -78,10 +79,8 @@ void MainMenu::GoToNewGameScene(cocos2d::Ref* pSender) {
 }
 
 void MainMenu::ContinueGame(cocos2d::Ref* pSender) {
-    AudioEngine::stopAll();
-    AudioEngine::end();
-    // SOMEHOW GET CURRENT LEVEL
-    //GameConstants::initConstants(LEVEL);
+    AudioEngine::stop(Audio::mainMenuThemeID);
+    Audio::setMenuThemePlay(false);
     auto scene = Level::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }

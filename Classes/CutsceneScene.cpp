@@ -2,6 +2,7 @@
 #include "LevelScene.h"
 #include "Definitions.h"
 #include "AudioEngine.h"
+#include "Audio.h"
 
 USING_NS_CC;
 
@@ -24,10 +25,7 @@ bool Cutscene::init()
     Vec2 origin = director->getVisibleOrigin();
     director->setProjection(Director::Projection::_2D);
     i = 1;
-    AudioEngine::stopAll();
-    AudioEngine::end();
-    musicID = AudioEngine::play2d("audio/music/cutscene_theme.mp3", true);
-    AudioEngine::setVolume(musicID, 0.06);
+    musicID = AudioEngine::play2d(Audio::getCutsceneMusic(), true, Audio::volMusic);
 
     MenuItemLabel* skipItem = MenuItemLabel::create(Label::createWithTTF("Skip", "fonts/PixelForce.ttf", 23), CC_CALLBACK_1(Cutscene::GoToLevelScene, this));
     skipItem->setAnchorPoint({ 1, 1 });
@@ -57,8 +55,7 @@ void Cutscene::GoToLevelScene2 (float dt){
 }
 
 void Cutscene::finish() {
-    AudioEngine::stopAll();
-    AudioEngine::end();
+    AudioEngine::stop(musicID);
     auto scene = Level::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }

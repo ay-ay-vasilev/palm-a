@@ -78,7 +78,8 @@
             "cutscene" : {
                 "spriteSheet": "res/levels/1/cutscene/%i.plist",
                 "sprite": "%i.png",
-                "static": "res/levels/1/cutscene/%i_test.png"
+                "static": "res/levels/1/cutscene/%i_test.png",
+                "cutsceneMusic":"audio/music/cutscene_theme.mp3"
             },
             "level" : {
                 "bossMusic" : "audio/music/level1BossFight.mp3",
@@ -139,7 +140,8 @@
             "cutscene" : {
                 "spriteSheet": "res/levels/1/cutscene/%i.plist",
                 "sprite": "%i.png",
-                "static": "res/levels/1/cutscene/%i_test.png"
+                "static": "res/levels/1/cutscene/%i_test.png",
+                "cutsceneMusic":"audio/music/cutscene_theme.mp3"
             },
             "level" : {
                 "bossMusic" : "audio/music/level1BossFight.mp3",
@@ -181,7 +183,8 @@
                 },
                 "attackSecond": {
                     "start": "attack_second/start/%i.png",
-                    "attack": "attack_second/attack/%i.png",
+                    "leftRight": "attack_second/left_right/%i.png",
+                    "rightLeft": "attack_second/right_left/%i.png",
                     "end": "attack_second/end/%i.png"
                 },
                 "idleBody": {

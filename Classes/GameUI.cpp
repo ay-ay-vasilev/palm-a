@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "AudioEngine.h"
 #include "MainMenuScene.h"
+#include "Audio.h"
 #include "GameConstants.h"
 USING_NS_CC;
 
@@ -200,16 +201,10 @@ void GameUI::pauseButtonCallback(Ref* pSender)
 }
 
 void GameUI::goToMainMenu(Ref* pSender)
-{
+{   
+    AudioEngine::stop(Audio::bossMusicID);
     Scene* scene = MainMenu::createScene();
     TransitionFade* transition = TransitionFade::create(TRANSITION_TIME, scene);
-
-    AudioEngine::stopAll();
-    AudioEngine::end();
-
-    auto menuMusicID = AudioEngine::play2d("audio/music/main_menu.mp3", false);
-    AudioEngine::setVolume(menuMusicID, 0.1);
-
     Director::getInstance()->startAnimation();
 
     Director::getInstance()->replaceScene(scene);
