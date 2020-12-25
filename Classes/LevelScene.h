@@ -21,6 +21,9 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+
+    static Level* singleton;
+    static Level* getInstance();
     
     // implement the "static create()" method manually
     CREATE_FUNC(Level);
@@ -40,8 +43,13 @@ public:
     int musicID;
     int bossMusicID;
 
+    void spawnLaserRay(Level1Boss* boss);
+    bool bossUICreated;
+
     cocos2d::SEL_SCHEDULE enemyType3SpawnPointer;
     cocos2d::SEL_SCHEDULE playerProjectilesPointer;
+
+    Level1Boss* getBoss();
 
 private:
     cocos2d::PhysicsWorld *sceneWorld;
@@ -67,7 +75,6 @@ private:
     void spawnEnemyOnTiming(float dt);
     void spawnLaser(Level1Boss* boss);
     void spawnLaserRay(float dt, EnemyType3* ray);
-    void spawnLaserRay(Level1Boss* boss);
     void spawnBoss();
     void spawnDefaultProjectile(int n);
     void spawnLaserProjectile(int n);

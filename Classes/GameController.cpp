@@ -10,8 +10,9 @@ Vector<EnemyType2*> GameController::type2Enemies;
 Vector<Node*> GameController::laserArr;
 Vector<EnemyType3*> GameController::type3Enemies;
 Vector<RayProjectile*> GameController::laserRays;
-Level1Boss* GameController::boss;
+
 bool GameController::bossFightIsOn;
+bool GameController::startBossFight;
 
 std::vector<int> GameController::shootingTimings;
 std::vector<int> GameController::enemySpawnTimings;
@@ -289,6 +290,7 @@ void GameController::getJsonData()
     }
     fin.close();
     bossFightIsOn = false;
+    startBossFight = false;
 }
 void GameController::updateRotationType3(Vec2 playerPos)
 {
@@ -339,7 +341,6 @@ Level1Boss* GameController::createLevel1Boss()
 
     if (_boss)
     {
-        boss = _boss;
         return _boss;
     }
     return NULL;
@@ -350,58 +351,128 @@ void GameController::bossMovement()
     //state 1 = dropping after creation
     //state 2 = moving left to right
     //state 3 = moving right to left
+    Level1Boss* boss;
     if (bossFightIsOn)
     {
+        boss = Level::getInstance()->getBoss();
+        // can be changed according to diff
+        boss->setSpeed(1);
+        boss->setRayTurningSpeed(1);
 
+        auto firstPhaseRepeats = 1;
 
-        auto bossSpeed = 1;
-        if (boss->getState() == 2)
+        switch (boss->getPhase())
         {
-            boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
-            if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * RESOLUTION_VARIABLE)
+        case 1:
+            if (!Level::getInstance()->getBoss()->firstAttackStarted) {
+                Level::getInstance()->getBoss()->firstAttackStarted = true;
+                auto spawnRay = CallFunc::create([boss]() {Level::getInstance()->spawnLaserRay(boss); });
+                auto changePhase = CallFunc::create([boss](){ boss->setPhase(2); });
+                auto startAnimation = CallFunc::create([boss](){ boss->startFirstAttack(); });
+                auto delay = DelayTime::create(GameConstants::getBossAnimationData("FIRST_ATTACK_START_NUM_OF_FRAMES") * GameConstants::getBossAnimationData("FIRST_ATTACK_START_SPEED"));
+                auto sequence = Sequence::create(startAnimation,delay,spawnRay,changePhase,NULL);
+                boss->runAction(sequence);
+            }
+            break;
+        case 2:
+            boss->moveRight();
+            if (boss->getPosition().x >= visibleSize.width - boss->getContentSize().width * RESOLUTION_VARIABLE / 2)
             {
-                boss->setState(3);
-                boss->setPhase(boss->getPhase() + 1);
-                if (boss->getPhase() == 2)
+                boss->setPhase(3);
+                boss->setState(boss->getState() + 1);
+                if (boss->getState() == firstPhaseRepeats)
                 {
-                    boss->setState(4);
-                    boss->endFirstAttack(boss);
+                    boss->setPhase(6);
+                    boss->setState(0);
                 }
             }
-            boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
-        }
-        if (boss->getState() == 3)
-        {
-            boss->setPosition(Vec2(boss->getPosition().x - bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
-            if (boss->getPosition().x <= boss->getContentSize().width * RESOLUTION_VARIABLE)
+            boss->updateRay();
+            break;
+        case 3:
+            boss->moveLeft();
+            if (boss->getPosition().x <= boss->getContentSize().width * RESOLUTION_VARIABLE / 2)
             {
-                boss->setState(2);
-                boss->setPhase(boss->getPhase() + 1);
-                if (boss->getPhase() == 2)
+                boss->setPhase(2);
+                boss->setState(boss->getState() + 1);
+                if (boss->getState() == firstPhaseRepeats)
                 {
-                    boss->setState(4);
-                    boss->endFirstAttack(boss);
+                    boss->setPhase(6);
+                    boss->setState(0);
                 }
             }
-            boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
-        }
-        if (boss->getState() == 4)
-        {
+            boss->updateRay();
+            break;
+        case 6:
+            if (!boss->firstAttackEnded)
+            {
+                boss->firstAttackEnded = true;
+                boss->removeRay();
+                boss->endFirstAttack();
+                if (boss->getPosition().x > visibleSize.width / 2) {
+                    boss->setPhase(5);
+                }
+                else
+                {
+                    boss->setPhase(4);
+                }
+            }
+            break;
+        case 4:
             if (boss->getPosition().x < visibleSize.width / 2)
             {
-                boss->setPosition(Vec2(boss->getPosition().x + bossSpeed * RESOLUTION_VARIABLE, boss->getPosition().y));
+                boss->moveRight();
             }
             else
             {
-                boss->getRay()->setRotation(boss->getRay()->getRotation() + 1);
-                if (boss->getRay()->getRotation() > 180) boss->setState(5);
+                if (!Level::getInstance()->getBoss()->secondAttackStarted)
+                {
+                    Level::getInstance()->getBoss()->secondAttackStarted = true;
+                    
+                    boss->startSecondAttack();
+                    auto delay = DelayTime::create(GameConstants::getBossAnimationData("SECOND_ATTACK_START_NUM_OF_FRAMES") * GameConstants::getBossAnimationData("SECOND_ATTACK_START_SPEED"));
+                    auto changePhase = CallFunc::create([boss]() {boss->setPhase(7); });
+                    auto spawnRay = CallFunc::create([boss]() {Level::getInstance()->spawnLaserRay(boss); });
+                    auto sequence = Sequence::create(delay, spawnRay, changePhase, NULL);
+                    boss->runAction(sequence);
+                }
             }
-            boss->getRay()->setPosition(Vec2(boss->getPosition().x, boss->getPosition().y + boss->getRay()->getContentSize().width / 5));
-        }
-        if (boss->getState() == 5)
-        {
-            boss->getRay()->setRotation(boss->getRay()->getRotation() - 1);
-            if (boss->getRay()->getRotation() < 0) boss->setState(4);
+            break;
+        case 7:
+            boss->turnRayRight();
+            if (boss->getRay()->getRotation() > 180)
+            {
+                boss->setPhase(8);
+                boss->lookLeft();
+            }
+            break;
+        case 5:
+            if (boss->getPosition().x > visibleSize.width / 2)
+            {
+                boss->moveLeft();
+            }
+            else 
+            {
+                if (!Level::getInstance()->getBoss()->secondAttackStarted)
+                {
+                    Level::getInstance()->getBoss()->secondAttackStarted = true;
+
+                    boss->startSecondAttack();
+                    auto delay = DelayTime::create(GameConstants::getBossAnimationData("SECOND_ATTACK_START_NUM_OF_FRAMES") * GameConstants::getBossAnimationData("SECOND_ATTACK_START_SPEED"));
+                    auto changePhase = CallFunc::create([boss]() {boss->setPhase(7); });
+                    auto spawnRay = CallFunc::create([boss]() {Level::getInstance()->spawnLaserRay(boss); });
+                    auto sequence = Sequence::create(delay, spawnRay, changePhase, NULL);
+                    boss->runAction(sequence);
+                }
+            }
+            break;
+        case 8:
+            boss->turnRayLeft();
+            if (boss->getRay()->getRotation() < 0)
+            {
+                boss->setPhase(7);
+                boss->lookRight();
+            }
+            break;
         }
     }
 }

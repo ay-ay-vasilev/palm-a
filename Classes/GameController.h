@@ -18,7 +18,6 @@ public:
     static Vector<EnemyType1*> type1Enemies;
     static Vector<EnemyType2*> type2Enemies;
     static Vector<EnemyType3*> type3Enemies;
-    static Level1Boss* boss;
 
     static Vector<Node*> enemyProjectiles;
     static Vector<Node*> laserArr;
@@ -56,9 +55,9 @@ public:
     static Level1Boss* createLevel1Boss();
     static void bossMovement();
     static bool bossFightIsOn;
+    static bool startBossFight;
 private:
     
-
 };
 
 #endif
