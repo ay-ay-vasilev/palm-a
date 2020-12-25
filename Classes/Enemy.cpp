@@ -5,6 +5,24 @@
 #include "Util.h"
 USING_NS_CC;
 
+void Enemy::setSpawnPoint(float _spawnPoint)
+{
+	Enemy::spawnPoint = _spawnPoint;
+}
+float Enemy::getSpawnPoint()
+{
+	return Enemy::spawnPoint;
+}
+PhysicsBody* Enemy::getBody()
+{
+	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
+
+	physicsBody->setDynamic(false);
+	physicsBody->setCollisionBitmask(REGULAR_ENEMY_MASK);
+	physicsBody->setContactTestBitmask(true);
+	return physicsBody;
+}
+
 EnemyType1::EnemyType1() {}
 EnemyType1::~EnemyType1()
 {
@@ -31,23 +49,6 @@ EnemyType1* EnemyType1::create() {
 	CC_SAFE_RELEASE(enemy->idleAnimateRight);
 	CC_SAFE_DELETE(enemy);
 	return NULL;
-}
-cocos2d::PhysicsBody* EnemyType1::getBody()
-{
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-
-	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(REGULAR_ENEMY_MASK);
-	physicsBody->setContactTestBitmask(true);
-	return physicsBody;
-}
-void EnemyType1::setSpawnPoint(float _spawnPoint)
-{
-	EnemyType1::spawnPoint = _spawnPoint;
-}
-float EnemyType1::getSpawnPoint()
-{
-	return EnemyType1::spawnPoint;
 }
 void EnemyType1::facePlayer(int dir)
 {
@@ -91,23 +92,6 @@ EnemyType2* EnemyType2::create()
 	CC_SAFE_RELEASE(enemy->idleAnimateRight);
 	CC_SAFE_DELETE(enemy);
 	return NULL;
-}
-cocos2d::PhysicsBody* EnemyType2::getBody()
-{
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-
-	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(LASER_ENEMY_MASK);
-	physicsBody->setContactTestBitmask(true);
-	return physicsBody;
-}
-void EnemyType2::setSpawnPoint(float _spawnPoint)
-{
-	EnemyType2::spawnPoint = _spawnPoint;
-}
-float EnemyType2::getSpawnPoint()
-{
-	return EnemyType2::spawnPoint;
 }
 void EnemyType2::facePlayer(int dir)
 {
@@ -159,24 +143,6 @@ EnemyType3* EnemyType3::create()
 	CC_SAFE_RELEASE(enemy->idleAnimate);
 	return NULL;
 }
-cocos2d::PhysicsBody* EnemyType3::getBody()
-{
-	auto physicsBody = PhysicsBody::createBox(this->getContentSize(), PHYSICSBODY_MATERIAL_DEFAULT);
-
-	physicsBody->setDynamic(false);
-	physicsBody->setCollisionBitmask(TURRET_ENEMY_MASK);
-	physicsBody->setContactTestBitmask(true);
-	return physicsBody;
-}
-void EnemyType3::setSpawnPoint(int _spawnPoint)
-{
-	EnemyType3::spawnPoint = _spawnPoint;
-}
-int EnemyType3::getSpawnPoint()
-{
-	return EnemyType3::spawnPoint;
-}
-
 void EnemyType3::setBoolRotate(bool b)
 {
 	rotation = b;
