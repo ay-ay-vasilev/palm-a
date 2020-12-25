@@ -45,7 +45,7 @@ void Player::initPlayer(std::string playerType)
 {
 	GameConstants::loadPlayer(playerType);
 	Player::loadAnimations();
-	Player::hp = GameConstants::getPlayerStats("START_HP");
+	Player::hp = GameConstants::getPlayerStats("START_HP") / GameConstants::getDifficultyModifier();
 	Player::shoots = GameConstants::getPlayerStats("SHOOTS");
 	Player::additionalJumps = GameConstants::getPlayerStats("ADDITIONAL_JUMPS");
 	Player::dashIFrames = GameConstants::getPlayerStats("DASH_I_FRAMES");
@@ -316,7 +316,7 @@ bool Player::damageHP(int dmg)
 		this->runAction(damageTint);
 		giveIFrames(damageIFrames, DMG_IFRAMES);
 
-		Player::hp = Player::hp - dmg;
+		Player::hp = Player::hp - (dmg * GameConstants::getDifficultyModifier());
 
 		return true;
 	}	

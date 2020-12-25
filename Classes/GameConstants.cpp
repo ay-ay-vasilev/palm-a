@@ -23,10 +23,21 @@ std::map<std::string, float> GameConstants::cutsceneAnimationData = {};
 
 std::map<std::string, std::string> GameConstants::sfxPaths = {};
 
+float GameConstants::difficultyModifier = EASY;
+
 float GameConstants::resolution = 2;
 std::string GameConstants::playerTypeTest = "turret";
 std::string GameConstants::levelTest = "1";
 
+float GameConstants::getDifficultyModifier()
+{
+	return difficultyModifier;
+}
+
+void GameConstants::setDifficultyModifier(const float difficulty)
+{
+	difficultyModifier = difficulty;
+}
 
 std::string GameConstants::getPlayerType()
 {

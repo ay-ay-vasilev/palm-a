@@ -8,6 +8,9 @@
 class GameConstants {
 
 private:
+
+	static float difficultyModifier;
+
 	static std::map<std::string, std::string> playerAssetPaths;
 	static std::map<std::string, float> playerAnimationData;
 	static std::map<std::string, float> playerStats;
@@ -66,6 +69,9 @@ public:
 
 	static void setSfxPath(const std::string& key, const std::string& dataName);
 	
+	static float getDifficultyModifier();
+	static void setDifficultyModifier(const float difficulty);
+
 	static std::string getPlayerAssetPath(const std::string& key);
 	static float getPlayerAnimationData(const std::string& key);
 	static float getPlayerStats(const std::string& key);	

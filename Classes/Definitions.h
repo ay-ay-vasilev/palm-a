@@ -8,6 +8,11 @@
 #define NOT_MULT_BY_RESOLUTION false
 #define DMG_IFRAMES 0
 #define DASH_IFRAMES 1
+
+#define EASY 1
+#define MEDIUM 2
+#define HARD 3
+
 #define PI 3.14159265
 // Collision masks
 #define PLAYER_MASK 1

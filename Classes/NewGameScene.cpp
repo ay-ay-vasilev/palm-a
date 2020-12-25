@@ -59,7 +59,8 @@ bool NewGame::init() {
 }
 
 void NewGame::GoToCutsceneEasy(cocos2d::Ref* pSender) {
-    GameConstants::setPlayerType("turret");
+    GameConstants::setPlayerType("jetpack");
+    GameConstants::setDifficultyModifier(EASY);
 
     auto scene = Cutscene::createScene();
     Director::getInstance()->replaceScene(scene);
@@ -67,13 +68,15 @@ void NewGame::GoToCutsceneEasy(cocos2d::Ref* pSender) {
 
 void NewGame::GoToCutsceneMedium(cocos2d::Ref* pSender) {
     GameConstants::setPlayerType("jetpack");
+    GameConstants::setDifficultyModifier(MEDIUM);
 
     auto scene = Cutscene::createScene();
     Director::getInstance()->replaceScene(scene);
 }
 
 void NewGame::GoToCutsceneHard(cocos2d::Ref* pSender) {
-    GameConstants::setPlayerType("unarmed");
+    GameConstants::setPlayerType("jetpack");
+    GameConstants::setDifficultyModifier(HARD);
 
     auto scene = Cutscene::createScene();
     Director::getInstance()->replaceScene(scene);
