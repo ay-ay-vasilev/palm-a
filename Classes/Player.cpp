@@ -52,9 +52,11 @@ void Player::initPlayer(std::string playerType)
 	Player::dashes = GameConstants::getPlayerStats("DASHES");
 	Player::dashCooldown = GameConstants::getPlayerStats("DASH_COOLDOWN");
 
+	dashInvincibility = false;
+	dmgInvincibility = false;
+
 	isOnGround = true;
 	moving = false;
-	invincible = false;
 	vertForce = 0;
 	direction = DIRECTION_LEFT;
 
@@ -70,9 +72,14 @@ void Player::initPlayer(std::string playerType)
 	jetpackParticles->stopSystem();
 }
 
-void Player::removeInvincibility(float dt)
+void Player::removeDmgInvincibility(float dt)
 {
-	invincible = false;
+	dmgInvincibility = false;
+}
+
+void Player::removeDashInvincibility(float dt)
+{
+	dashInvincibility = false;
 }
 
 void Player::replenishDash(float dt)
@@ -80,19 +87,52 @@ void Player::replenishDash(float dt)
 	dashes = GameConstants::getPlayerStats("DASHES");
 }
 
-void Player::giveIFrames(float duration)
+void Player::giveIFrames(float duration, int type)
 {
-	invincible = true;
-	this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::removeInvincibility), duration);
+	if (type == DMG_IFRAMES)
+	{
+		dmgInvincibility = true;
+		this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::removeDmgInvincibility), duration);
+	}
+	if (type == DASH_IFRAMES)
+	{
+		dashInvincibility = true;
+		this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::removeDashInvincibility), duration);
+	}
 }
 
 void Player::dash()
 {
 	if (dashes > 0)
 	{
+		auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
+		particles->setAnchorPoint(Vec2(0.5, 0.5));
+		particles->setPosition(Vec2(this->getContentSize().width / 2, this->getContentSize().height / 2));
+		particles->setEmitterMode(ParticleSystem::Mode::RADIUS);
+		particles->setTotalParticles(10);
+		particles->setLife(0.05);
+		//particles->setLifeVar(0.2);
+		particles->setDuration(0.1);
+		particles->setAngleVar(180);
+		particles->setStartRadius(20);
+		particles->setEndRadius(60);
+		particles->setStartColor(Color4F::WHITE);
+		particles->setEndColor(Color4F(0, 180, 180, 255));
+		particles->setStartSize(15);
+		particles->setEndSize(5);
+		this->addChild(particles);
+
 		dashes--;
 		SFXController::playerDash();
 		vertForce = std::max(0.0f, vertForce);
+
+		auto fadeIn = FadeIn::create(dashIFrames / 2);
+		auto fadeOut = FadeOut::create(dashIFrames / 2);
+		auto dashSeq = Sequence::create(fadeOut, fadeIn, nullptr);
+		giveIFrames(dashIFrames, DASH_IFRAMES);
+
+		this->runAction(dashSeq);
+		
 		dashed = true;
 		this->scheduleOnce(static_cast<cocos2d::SEL_SCHEDULE>(&Player::replenishDash), dashCooldown);
 	}
@@ -158,7 +198,6 @@ void Player::run(int directionParam)
 		{
 			playAnimation(flyLeftAnimate, flyRightAnimate);
 		}
-			
 	}
 }
 
@@ -186,31 +225,6 @@ void Player::update()
 
 	if (dashed)
 	{
-		auto particles = ParticleSystemQuad::create(GameConstants::getProjectileAssetPath("PLAYER_PARTICLES"));
-		particles->setAnchorPoint(Vec2(0.5, 0.5));
-		particles->setPosition(Vec2(this->getContentSize().width/2, this->getContentSize().height / 2));
-		particles->setEmitterMode(ParticleSystem::Mode::RADIUS);
-		particles->setTotalParticles(10);
-		particles->setLife(0.05);
-		//particles->setLifeVar(0.2);
-		particles->setDuration(0.1);
-		particles->setAngleVar(180);
-		particles->setStartRadius(20);
-		particles->setEndRadius(60);
-		particles->setStartColor(Color4F::WHITE);
-		particles->setEndColor(Color4F(0, 180, 180, 255));
-		particles->setStartSize(15);
-		particles->setEndSize(5);
-		this->addChild(particles);
-		
-		auto fadeIn = FadeIn::create(0.1f);
-		auto fadeOut = FadeOut::create(0.1f);
-		auto dashSeq = Sequence::create(fadeOut, fadeIn, nullptr);
-		giveIFrames(0.2f);
-
-		this->runAction(dashSeq);
-
-
 		auto newPosX = this->getPositionX();
 		if (direction == DIRECTION_LEFT)
 		{
@@ -281,40 +295,40 @@ bool Player::canShoot()
 	return Player::shoots;
 }
 
+int Player::getDirection()
+{
+	return Player::direction;
+}
+
 int Player::getHP()
 {
 	return Player::hp;
 }
 bool Player::damageHP(int dmg)
 {
-	if (dmg > 0 && !invincible)
+	if (dmg > 0 && !dmgInvincibility && !dashInvincibility)
 	{
 		SFXController::playerDmg();
 
-		auto fadeIn = FadeIn::create(damageIFrames/8.0f);
-		auto fadeOut = FadeOut::create(damageIFrames/8.0f);
-		auto redTint = TintTo::create(damageIFrames/2.0f, 255, 0, 0);
-		auto normalTint = TintTo::create(damageIFrames/2.0f, 255, 255, 255);
-
+		auto fadeIn = FadeIn::create(0.1f);
+		auto fadeOut = FadeOut::create(0.1f);
+		Vector<FiniteTimeAction*> fadeOutIn;
 		
-		Vector<FiniteTimeAction*> test;
-		test.pushBack(fadeOut);
-		test.pushBack(fadeIn);
-		test.pushBack(fadeOut);
-		test.pushBack(fadeIn);
-		test.pushBack(fadeOut);
-		test.pushBack(fadeIn);
-		test.pushBack(fadeOut);
-		test.pushBack(fadeIn);
+		auto redTint = TintTo::create(0.2f, 255, 0, 0);
+		auto normalTint = TintTo::create(0.2f, 255, 255, 255);
 
-		Spawn *newTest = Spawn::create(test);
+		for (int i = 0; i < damageIFrames / 0.2f; i++)
+		{
+			fadeOutIn.pushBack(fadeOut);
+			fadeOutIn.pushBack(fadeIn);
+		}
 
-		auto damageFade = Sequence::create(test);
+		auto damageFade = Sequence::create(fadeOutIn);
 		auto damageTint = Sequence::create(redTint, normalTint, nullptr);
 
 		this->runAction(damageFade);
 		this->runAction(damageTint);
-		giveIFrames(damageIFrames);
+		giveIFrames(damageIFrames, DMG_IFRAMES);
 
 		Player::hp = Player::hp - dmg;
 

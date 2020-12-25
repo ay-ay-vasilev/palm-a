@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Projectiles.h"
+#include <stack>
 
 USING_NS_CC;
 
@@ -31,12 +32,12 @@ public:
 	void run(int directionParam);
 	void idle();
 	void update();
-	void giveIFrames(float duration);
-
+	
 	cocos2d::PhysicsBody* getBody();
 
 	int hp;
 	int getHP();
+	int getDirection();
 	bool canShoot();
 	bool damageHP(int dmg);
 private:
@@ -55,9 +56,15 @@ private:
 
 	float dashCooldown;
 	int dashes;
+	
+	bool dmgInvincibility;
+	bool dashInvincibility;
+	
+	void removeDmgInvincibility(float dt);
+	void removeDashInvincibility(float dt);
+	
+	void giveIFrames(float duration, int type);
 
-	bool invincible;
-	void removeInvincibility(float dt);
 	void replenishDash(float dt);
 
 	void playAnimation(Animate* leftAnimation, Animate* rightAnimation);

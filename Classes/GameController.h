@@ -30,7 +30,7 @@ public:
     static EnemyType3* spawnEnemyType3();
 
     static DefaultProjectile* spawnEnemyProjectile(Vec2 pos, Vec2 tar);
-    static PlayerProjectile* spawnPlayerProjectile(Vec2 pos);
+    static PlayerProjectile* spawnPlayerProjectile(Player* player);
     static LaserProjectile* spawnLaser(Vec2 pos, Vec2 tar);
     static RayProjectile* spawnLaserRay(Vec2 tar);
 

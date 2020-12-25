@@ -1,7 +1,7 @@
 {
     "debug": {
         "mask": false,
-        "resolution": 3,
+        "resolution": 2,
         "playerType": "turret",
         "level": "2"
     },
@@ -21,7 +21,7 @@
             "dashes": 1,
             "dashCooldown": 2.0,
             "dashIFrames": 0.2,
-            "dmgIFrames": 1.6 
+            "dmgIFrames": 2.0 
         },
         "jetpack": {
             "speed": 4,
@@ -38,7 +38,7 @@
             "dashes": 2,
             "dashCooldown": 2.0,
             "dashIFrames": 0.2,
-            "dmgIFrames": 1.6
+            "dmgIFrames": 2.0
         },
         "turret": {
             "speed": 4,
@@ -55,7 +55,7 @@
             "dashes": 3,
             "dashCooldown": 2.0,
             "dashIFrames": 0.2,
-            "dmgIFrames": 1.6
+            "dmgIFrames": 2.0
         }
     },
     "projectile": {

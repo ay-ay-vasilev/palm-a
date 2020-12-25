@@ -6,6 +6,8 @@
 #define DIRECTION_RIGHT 1
 #define MULT_BY_RESOLUTION true
 #define NOT_MULT_BY_RESOLUTION false
+#define DMG_IFRAMES 0
+#define DASH_IFRAMES 1
 #define PI 3.14159265
 // Collision masks
 #define PLAYER_MASK 1

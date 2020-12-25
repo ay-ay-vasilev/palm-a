@@ -758,12 +758,12 @@ void Level::spawnPlayerProjectile(float dt)
         auto visibleSize = Director::getInstance()->getVisibleSize();
         //creating
         PlayerProjectile* projectile;
-        projectile = GameController::spawnPlayerProjectile(player->getPosition());
+        projectile = GameController::spawnPlayerProjectile(player);
         projectile->setScale(RESOLUTION_VARIABLE);
         this->addChild(projectile, PROJECTILE_LAYER);
         //moving and deleting
-        auto distance = visibleSize.height - player->getPosition().y + projectile->getContentSize().height;
-        auto destination = Vec2(player->getPosition().x, distance + player->getPosition().y);
+        auto distance = visibleSize.height - projectile->getPosition().y + projectile->getContentSize().height;
+        auto destination = Vec2(projectile->getPosition().x, distance + projectile->getPosition().y);
         auto moveAction = MoveTo::create(distance / GameConstants::getProjectileStats("PLAYER_SPEED"), destination);
         auto callBack = CallFunc::create([this, projectile]() {this->removeProjectile(projectile); });
         auto sequence = Sequence::create(moveAction, callBack, NULL);
