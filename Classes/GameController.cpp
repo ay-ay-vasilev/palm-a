@@ -360,6 +360,7 @@ void GameController::bossMovement()
         boss->setRayTurningSpeed(1);
 
         auto firstPhaseRepeats = 1;
+        auto secondPhaseRepeats = 3;
 
         switch (boss->getPhase())
         {
@@ -443,6 +444,12 @@ void GameController::bossMovement()
             {
                 boss->setPhase(8);
                 boss->lookLeft();
+                boss->setState(boss->getState() + 1);
+            }
+            if (boss->getState() == secondPhaseRepeats)
+            {
+                boss->removeRay();
+                boss->setPhase(9);
             }
             break;
         case 5:
@@ -471,6 +478,26 @@ void GameController::bossMovement()
             {
                 boss->setPhase(7);
                 boss->lookRight();
+                boss->setState(boss->getState() + 1);
+            }
+            if (boss->getState() == secondPhaseRepeats)
+            {
+                boss->removeRay();
+                boss->setPhase(9);
+            }
+            break;
+        case 9:
+            
+            if (!Level::getInstance()->getBoss()->secondAttackEnded)
+            {
+                Level::getInstance()->getBoss()->firstAttackStarted = false;
+                boss->endSecondAttack();
+                boss->setState(0);
+                auto delay = DelayTime::create(GameConstants::getBossAnimationData("SECOND_ATTACK_END_NUM_OF_FRAMES") * GameConstants::getBossAnimationData("SECOND_ATTACK_END_SPEED"));
+                auto changePhase = CallFunc::create([boss]() {boss->setPhase(1); });
+                auto sequence = Sequence::create(delay, changePhase, NULL);
+
+                boss->runAction(sequence);
             }
             break;
         }

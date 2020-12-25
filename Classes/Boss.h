@@ -65,6 +65,7 @@ public:
 	bool firstAttackEnded;
 
 	bool secondAttackStarted;
+	bool secondAttackEnded;
 
 	int lookDirection;
 private:

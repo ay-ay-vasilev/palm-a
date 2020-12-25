@@ -33,6 +33,7 @@ Level1Boss* Level1Boss::create()
 		boss->firstAttackStarted = false;
 		boss->firstAttackEnded = false;
 		boss->secondAttackStarted = false;
+		boss->secondAttackEnded = false;
 		boss->lookDirection = 1;
 		boss->setState(0);
 		boss->setPhase(1);
@@ -263,4 +264,25 @@ void Level1Boss::lookLeft()
 void Level1Boss::lookRight()
 {
 	playAnimation(this->secondAttack_rightLeft);
+}
+void Level1Boss::endSecondAttack()
+{
+	this->model->stopActionByTag(ANIMATION_TAG);
+
+	this->loadAnimations(this);
+
+	auto endAnimation = this->secondAttack_end;
+	auto bodyAnimation = RepeatForever::create(this->bodyIdleAnimation);
+
+	auto eyeAnimation = RepeatForever::create(this->eyeIdleAnimation);
+	auto delay = DelayTime::create(GameConstants::getBossAnimationData("SECOND_ATTACK_END_NUM_OF_FRAMES") * GameConstants::getBossAnimationData("SECOND_ATTACK_END_SPEED"));
+
+	auto bodySequence = Sequence::create(endAnimation, bodyAnimation, NULL);
+	auto eyeSequence = Sequence::create(delay, eyeAnimation, NULL);
+
+	bodySequence->setTag(ANIMATION_TAG);
+	eyeSequence->setTag(ANIMATION_TAG);
+
+	this->model->runAction(bodySequence);
+	this->eye->runAction(eyeSequence);
 }
