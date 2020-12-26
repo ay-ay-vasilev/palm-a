@@ -383,6 +383,7 @@ void GameController::bossMovement()
                 boss->setState(boss->getState() + 1);
                 if (boss->getState() == firstPhaseRepeats)
                 {
+                    boss->firstAttackEnded = false;
                     boss->setPhase(6);
                     boss->setState(0);
                 }
@@ -397,6 +398,7 @@ void GameController::bossMovement()
                 boss->setState(boss->getState() + 1);
                 if (boss->getState() == firstPhaseRepeats)
                 {
+                    boss->firstAttackEnded = false;
                     boss->setPhase(6);
                     boss->setState(0);
                 }
@@ -409,6 +411,7 @@ void GameController::bossMovement()
                 boss->firstAttackEnded = true;
                 boss->removeRay();
                 boss->endFirstAttack();
+                Level::getInstance()->getBoss()->secondAttackStarted = false;
                 if (boss->getPosition().x > visibleSize.width / 2) {
                     boss->setPhase(5);
                 }

@@ -27,6 +27,7 @@ Level1Boss* Level1Boss::create()
 			boss->eye->setAnchorPoint(Vec2(0, 0));
 		}
 		Level1Boss::loadAnimations(boss);
+		boss->playAnimation(boss->bodyIdleAnimation, boss->eyeIdleAnimation);
 		boss->addChild(boss->model);
 		boss->addChild(boss->eye);
 		boss->init();
@@ -165,8 +166,6 @@ void Level1Boss::loadAnimations(Level1Boss* boss)
 	boss->secondAttack_leftRight->retain();
 	boss->secondAttack_rightLeft->retain();
 	boss->secondAttack_end->retain();
-
-	boss->playAnimation(boss->bodyIdleAnimation,boss->eyeIdleAnimation);
 }
 cocos2d::Animate* Level1Boss::createAnimation(cocos2d::SpriteFrameCache* spriteCache, std::string numOfFrames, std::string animSpeed, std::string assetName)
 {
@@ -215,6 +214,7 @@ void Level1Boss::startFirstAttack()
 {
 	this->model->stopActionByTag(ANIMATION_TAG);
 	this->eye->stopActionByTag(ANIMATION_TAG);
+	this->eye->setOpacity(0);
 
 	auto startAnimation = this->firstAttack_start;
 
@@ -236,9 +236,10 @@ void Level1Boss::endFirstAttack()
 
 	auto eyeAnimation = RepeatForever::create(this->eyeIdleAnimation);
 	auto delay = DelayTime::create(GameConstants::getBossAnimationData("FIRST_ATTACK_END_NUM_OF_FRAMES")*GameConstants::getBossAnimationData("FIRST_ATTACK_END_SPEED"));
-	
+	auto eyeOpacity = CallFunc::create([this]() {this->eye->setOpacity(100); });
+
 	auto bodySequence = Sequence::create(endAnimation, bodyAnimation, NULL);
-	auto eyeSequence = Sequence::create(delay, eyeAnimation, NULL);
+	auto eyeSequence = Sequence::create(delay,eyeOpacity, eyeAnimation, NULL);
 
 	bodySequence->setTag(ANIMATION_TAG);
 	eyeSequence->setTag(ANIMATION_TAG);
@@ -250,7 +251,7 @@ void Level1Boss::startSecondAttack()
 {
 	this->model->stopActionByTag(ANIMATION_TAG);
 	this->eye->stopActionByTag(ANIMATION_TAG);
-
+	this->eye->setOpacity(0);
 	auto startAnimation = this->secondAttack_start;
 
 	startAnimation->setTag(ANIMATION_TAG);
@@ -273,12 +274,13 @@ void Level1Boss::endSecondAttack()
 
 	auto endAnimation = this->secondAttack_end;
 	auto bodyAnimation = RepeatForever::create(this->bodyIdleAnimation);
+	auto eyeOpacity = CallFunc::create([this]() {this->eye->setOpacity(100); });
 
 	auto eyeAnimation = RepeatForever::create(this->eyeIdleAnimation);
 	auto delay = DelayTime::create(GameConstants::getBossAnimationData("SECOND_ATTACK_END_NUM_OF_FRAMES") * GameConstants::getBossAnimationData("SECOND_ATTACK_END_SPEED"));
 
 	auto bodySequence = Sequence::create(endAnimation, bodyAnimation, NULL);
-	auto eyeSequence = Sequence::create(delay, eyeAnimation, NULL);
+	auto eyeSequence = Sequence::create(delay, eyeOpacity, eyeAnimation, NULL);
 
 	bodySequence->setTag(ANIMATION_TAG);
 	eyeSequence->setTag(ANIMATION_TAG);
